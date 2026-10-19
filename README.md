@@ -1,79 +1,263 @@
-# Senior Data Scientist: a private document agent
+# docagent: a private document agent
 
-Resourcly reads industrial manufacturers' technical documents. This challenge is a small version of
-that work. We care about how you solve it as much as about what you hand in.
+A chat agent for industrial technical documents. It runs entirely on your own machine, with no
+internet access after setup. You give it text, a photo, a PDF or several files at once, and it works
+out what to do with them on its own:
 
-## Time
+| You send | The agent does |
+|---|---|
+| A question, or a photo of a damaged part | Says **what is wrong and what to do**, answered from the NTSB Materials Laboratory reports in `data/reports/`, with citations |
+| A technical drawing (PDF or picture) | Returns a **JSON file listing every value on the drawing**, with what each value belongs to and what it means |
+| Many drawings at once (or a `.zip`) | Processes them as a **bulk batch** in the background, one result per file |
 
-4 hours of focused work. We are not timing you. If you run short, hand in less and say what you
-dropped and why.
+Every request is **traced**: a technical person can later look up what the agent did, which models
+it called, how long each step took and what it produced. An **evaluation harness** measures each
+part (routing, report answers, drawing reading) and the whole system, and compares a new agent
+version against an old one.
 
-## Data
+---
 
-- `data/drawings/`: 11 technical drawings (PDF),
-  [CTC-01](https://www.nist.gov/document/nist-cad-model-ctc-01),
-  [CTC-02](https://www.nist.gov/document/nist-cad-model-ctc-02),
-  [CTC-03](https://www.nist.gov/document/nist-cad-model-ctc-03),
-  [CTC-04](https://www.nist.gov/document/nist-cad-model-ctc-04),
-  [CTC-05](https://www.nist.gov/document/nist-cad-model-ctc-05),
-  [FTC-06](https://www.nist.gov/document/nist-cad-model-ftc-06),
-  [FTC-07](https://www.nist.gov/document/nist-cad-model-ftc-07),
-  [FTC-08](https://www.nist.gov/document/nist-cad-model-ftc-08),
-  [FTC-09](https://www.nist.gov/document/nist-cad-model-ftc-09),
-  [FTC-10](https://www.nist.gov/document/nist-cad-model-ftc-10),
-  [FTC-11](https://www.nist.gov/document/nist-cad-model-ftc-11).
-- `data/reports/`: 3 PDF documents with more description, NTSB Materials Laboratory Factual Reports
-  [16-006](https://data.ntsb.gov/Docket/Document/docBLOB?ID=40454212&FileExtension=.PDF&FileName=Materials+Laboratory+Factual+Report+16-006-Master.PDF),
-  [18-061](https://piperowner.org/wp-content/uploads/2020/06/NTSBMaterialsTest.pdf),
-  [24-013](https://data.ntsb.gov/Docket/Document/docBLOB?ID=17072191&FileExtension=pdf&FileName=Materials%20Laboratory%20Factual%20Report%2024-013-Rel.pdf).
+## How it works (one minute)
 
-## Task
+```
+            ┌──────────────┐
+ request ──▶│    router    │  decides per attachment: report question / photo, or drawing
+            └──────┬───────┘
+         ┌─────────┴──────────┐
+         ▼                    ▼
+ ┌───────────────┐    ┌──────────────────┐
+ │  report QA    │    │ drawing → JSON   │
+ │ hybrid search │    │ find annotations,│
+ │ (bge-m3 +     │    │ read each one    │
+ │  Qdrant) +VLM │    │ with the VLM     │
+ └───────┬───────┘    └────────┬─────────┘
+         └──────────┬──────────┘
+                    ▼
+        response + trace in SQLite (store/traces.db)
+```
 
-Write an agent a user can chat with, plus the assessment and tracking around it.
+- **VLM:** Qwen2.5-VL 7B, served locally by **Ollama** (laptop) or **vLLM** (GPU server / Colab).
+- **Embeddings:** BAAI/bge-m3 (dense + sparse) on CPU.
+- **Vector store:** Qdrant, embedded in `store/` (or a Qdrant server at scale).
+- **UI:** Gradio, bound to `127.0.0.1` only. Gradio analytics are off.
 
-1. **Input.** The user sends text, a picture, or text plus a picture (images or PDFs).
-2. **A picture.** The agent says what is wrong and what to do, based on the documents in
-   `data/reports/`.
-3. **A technical drawing**, like those in `data/drawings/`. Instead of explaining, the agent returns a
-   JSON file with every value on the drawing. For each value: what it belongs to on the drawing and
-   what it means.
-4. **Automatic.** The agent decides which case applies. The user never says what they want.
-5. **Bulk upload.** The user can upload many drawings at once.
-6. **Private.** All data stays in the system: no internet access, no data leakage.
-7. **Scale.** There are only 14 documents here, for simplicity. Assume more than a million, all very
-   alike. The system must still work.
-8. **Tracking.** A technical person, not the user, can see how the agent performed: for every request,
-   what it did and what it called. Stored, and easy to access.
-9. **Validation.** Code that measures how well the agent works, for each important part (for example:
-   choosing the case, reading a drawing, answering from the reports) and for the whole system. It is
-   incremental: plug in a new version of the agent, or of one part, run it on a chosen number of test
-   cases, and see whether it got better or worse. No interface needed.
+---
 
-## How you work
+## 1. Setup (once)
 
-We want to see how you get there, not only where you end up.
+**You need:** Python 3.11, [Ollama](https://ollama.com) installed and running, and about 10 GB of free disk.
+macOS or Linux.
 
-- **Git.** Work in a git repository from the first hour. Commit as you go, with messages that say why.
-  Do not squash.
-- **`NOTES.md`.** Keep it as you work, not at the end: what you tried, what failed, what you measured,
-  and why you chose what you did.
-- **AI assistants** are allowed for building the system and its datasets, and they may see these
-  documents (assume a corporate subscription). Include their session logs in `ai_logs/`. The system
-  you hand in must still run fully in-house.
-- **No GPU?** Colab and Kaggle notebooks give you one for free.
+```bash
+# 1. Python environment and the docagent package
+python3.11 -m venv .venv
+.venv/bin/pip install -r requirements.txt     # pinned, tested versions
+.venv/bin/pip install -e .                    # installs the `docagent` command
 
-## What to send back
+# 2. Models. This is the only step that uses the internet.
+.venv/bin/python scripts/download_models.py   # bge-m3 embedding model (~2.3 GB)
+scripts/setup_ollama.sh                       # Qwen2.5-VL 7B + a 16k-context variant "qwen2.5vl-16k"
 
-The git repository, containing:
+# 3. Index the reports (drawings are never indexed; they are processed when uploaded)
+.venv/bin/docagent ingest data/reports
+.venv/bin/docagent status                     # check what is in the index
+```
 
-- the code, with a README on how to set up and run each part: the chat, a bulk upload, looking up a
-  request, and validating a new agent version;
-- your evaluation data and results;
-- the JSON output for the 11 drawings;
-- `NOTES.md` and `ai_logs/`;
-- one page on how your design handles privacy and scale.
+The first ingest takes about 15 minutes on a laptop, mostly because the VLM writes a description of
+each of the ~50 figures in the reports. Later runs skip files that have not changed.
 
-## The review call
+From here on the system runs offline: the config sets `HF_HUB_OFFLINE` and `TRANSFORMERS_OFFLINE`,
+and every model is served from this machine.
 
-1 to 2 hours. You run it in front of us, then we go through your code, your notes and your numbers with
-you. Be ready to explain every decision. "The assistant wrote it" is not an answer.
+> **Tip:** to avoid typing `.venv/bin/` each time, run `source .venv/bin/activate` first.
+
+---
+
+## 2. Chat
+
+```bash
+.venv/bin/python app/chat.py          # then open http://127.0.0.1:7860
+```
+
+Type a question, attach files, or both. You never have to tell it what you want. Try:
+
+- **Text:** *"Why did the left wing main spar fail?"* gives an answer with citations to report pages.
+- **Photo:** attach a picture of a fractured part, with or without a question. It explains what is
+  wrong and what to do.
+- **Drawing:** attach `data/drawings/nist_ctc_01_asme1_rd.pdf`. You get a JSON file to download, also
+  saved under `outputs/requests/<request_id>/`.
+- **Several drawings with no question, or a `.zip`:** these start a background batch. The reply shows
+  a batch id and its progress, and offers a zip of all results when the batch is done. Closing the tab
+  does not stop the batch. Send `status <batch_id>` to check on it again.
+
+Every reply ends with its **request id**, which you need to look the request up later (section 4).
+
+The same thing works without the UI:
+
+```bash
+.venv/bin/docagent ask "Why did the left wing main spar fail?"
+.venv/bin/docagent ask -f data/drawings/nist_ctc_01_asme1_rd.pdf
+.venv/bin/docagent ask "what is wrong here?" -f photo.jpg --json   # full response object
+```
+
+---
+
+## 3. Bulk upload
+
+```bash
+.venv/bin/docagent bulk data/drawings --out outputs   # a folder: each file routed and processed
+.venv/bin/docagent bulk uploads.zip                   # a zip, unpacked safely
+```
+
+- Each file becomes **its own request**, so one corrupt file fails only that file.
+- The run prints a **batch id** (`bulk-YYYYMMDD-...`). Use it to check the batch or collect its results:
+
+```bash
+.venv/bin/docagent batch bulk-20261018-...                # per file: status, route, output, first error
+.venv/bin/docagent batch bulk-20261018-... --zip out.zip  # every result + batch_summary.json
+.venv/bin/docagent bulk --resume bulk-20261018-...        # after a crash or failures: runs only what is not done
+```
+
+- A drawing already processed with the same file, agent version and config is **reused**, not run
+  again. Add `--force` to process it again.
+- Uploaded files are stored by content in `store/uploads/`, so moving or deleting the originals does not
+  break a retry or a resume.
+
+> **One process at a time:** the embedded vector store allows a single process. If the chat app is
+> running, a bulk run that contains photos or questions cannot open the store, but drawing-only bulk
+> runs work fine. To run both at once, start a Qdrant server and set `store.qdrant_url` in the config.
+
+---
+
+## 4. Looking up a request
+
+Every request (from chat, `ask`, `bulk` or an eval run) is stored in **`store/traces.db`** (SQLite).
+For each request it holds the status, the route chosen for each file, every step and model call with
+timings and token counts, the output files and any error with its traceback.
+
+```bash
+# find requests
+.venv/bin/docagent requests                               # latest requests: status, time, LLM calls, tokens
+.venv/bin/docagent requests --status failed --since 2h    # also: partial, interrupted, running, queued
+.venv/bin/docagent requests --batch bulk-20261018-...     # everything in one bulk or eval run
+.venv/bin/docagent requests --file nist_ctc_01            # every request that included this file
+
+# inspect one
+.venv/bin/docagent trace d59f9bbac916                     # what it did and called, step by step
+.venv/bin/docagent trace last --llm                       # every model call of the most recent request
+
+# re-run
+.venv/bin/docagent retry d59f9bbac916                     # new attempt; finished parts are reused
+```
+
+Results are plain files in `outputs/requests/<request_id>/`: one JSON per drawing, or `answer.json` for
+a report answer. Log lines in `store/logs/agent.jsonl` carry the same ids.
+
+To browse the database in a web page (local, offline):
+
+```bash
+pip install datasette && datasette store/traces.db
+```
+
+---
+
+## 5. Validating a new agent version
+
+**An agent version is a config file.** `configs/default.yaml` holds every setting: models, context
+length, retrieval top-k, drawing method and so on. To make a new version, copy it, change what you want
+to test, and run the evaluation suites on both versions.
+
+### The suites
+
+| Suite | What it measures |
+|---|---|
+| `router` | Is each attachment sent to the right pipeline? |
+| `qa_text` | Answers to text questions about the reports |
+| `qa_image` | Answers to a photo, with or without a question (including out-of-scope pictures) |
+| `drawing` | Values read from drawings: accuracy against hand labels, plus agreement with a reference run |
+| `e2e` | The whole agent on mixed requests |
+
+Each suite has a **dev** and a **test** split. The datasets are in `eval/datasets/`.
+
+### Compare a new version with the current one
+
+```bash
+# 1. score the current version
+python -m eval qa_text --label baseline
+
+# 2. make a new version
+cp configs/default.yaml configs/v2.yaml     # then edit configs/v2.yaml
+
+# 3. score the new version and compare it with the baseline
+python -m eval qa_text --config configs/v2.yaml --label v2 \
+    --compare eval/results/<timestamp>_qa_text_baseline.json
+```
+
+`--compare` prints the change in each metric, the cases that **broke** and the cases that were
+**fixed**, and the change in cost and latency. It warns if the two runs used different datasets or
+cases.
+
+To change a single setting without making a new file:
+
+```bash
+python -m eval drawing --set drawing.method=tiles --label tiles \
+    --compare eval/results/<timestamp>_drawing_geo.json
+```
+
+### Useful options
+
+```bash
+python -m eval router --split test --n 20 --seed 1    # 20 held-out cases, reproducible sample
+python -m eval qa_text --ids q10 t05                  # specific cases only
+python -m eval e2e --n 5 --fresh                      # --fresh: bypass the model cache for real latency and tokens
+python -m eval <suite> --help                         # all options
+```
+
+Each run writes `eval/results/<timestamp>_<suite>_<label>.json`, containing the config hash, model,
+dataset hash, case ids, the scores, the cost and every case. The run also prints a
+`docagent requests --batch eval-...` command so you can open the trace of each case.
+
+> **Caching:** model replies are cached on disk for each prompt, so re-running an accuracy comparison
+> is fast and free. If you compare latency or tokens, use `--fresh` on both runs. If you put a new model
+> behind the same `llm.model` name, the old cached replies would be replayed, so change the name or use
+> `--fresh`.
+
+---
+
+## Running on a GPU (optional)
+
+The same code runs with vLLM instead of Ollama. You only switch the config:
+
+```bash
+export DOCAGENT_CONFIG=configs/colab_vllm.yaml     # or pass --config to each command
+```
+
+The simplest way is to open `notebooks/colab_vllm.ipynb` in Colab and run it from top to bottom. In
+production, the same vLLM server would run on-premises with no outbound network.
+
+---
+
+## Project layout
+
+```
+app/chat.py              Gradio chat UI
+src/docagent/
+  agent.py router.py     request → route each attachment → response
+  pipelines/             report_qa (answers from the reports) · drawing (drawing → JSON)
+  ingest/                report PDFs → text chunks + figure crops → Qdrant
+  retriever.py store.py embeddings.py   hybrid search (bge-m3 dense + sparse, RRF)
+  llm.py                 OpenAI-compatible VLM client (Ollama / vLLM) with a disk cache
+  trace.py               requests / tasks / spans in SQLite
+  batch.py uploads.py    bulk batches, resume, safe zip handling
+  cli.py                 the `docagent` command
+eval/                    `python -m eval <suite>`: suites, datasets, results
+configs/                 agent versions (default = Ollama on a laptop, colab_vllm = GPU)
+data/                    11 NIST drawings, 3 NTSB reports
+outputs/                 results per request
+store/                   index, uploads, cache, traces (not in git)
+```
+
+## More detail
+
+- `USAGE.md`: every command and option, including retry rules, zip safety limits and the drawing eval.
+- `NOTES.md`: what was tried, what was measured, and why each choice was made.
