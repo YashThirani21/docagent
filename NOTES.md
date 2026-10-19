@@ -113,3 +113,6 @@ Latency: ~40-60 s per answer on the M4 (generation over ~4.5-6k prompt tokens wi
 1. Added some configs, LLM integration for vLLM
 2. Added vLLM scripts
 3. Drawing pipeline modification 
+
+## Next commit:
+1. Added a test set for text QA to run on Colab and see results
