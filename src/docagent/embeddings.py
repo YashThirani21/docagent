@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import logging
+import threading
 from dataclasses import dataclass
 
 from .config import EmbeddingCfg
@@ -24,6 +25,7 @@ class Embedder:
         log.info("loading embedder %s on %s", cfg.model, cfg.device)
         self.model = BGEM3FlagModel(cfg.model, use_fp16=cfg.device == "cuda", devices=cfg.device)
         self.tokenizer = self.model.tokenizer
+        self._lock = threading.Lock()
         self._self_check()
 
     def _self_check(self) -> None:
@@ -42,8 +44,9 @@ class Embedder:
         return len(self.tokenizer.encode(text, add_special_tokens=False))
 
     def embed(self, texts: list[str]) -> list[Embedded]:
-        out = self.model.encode(texts, batch_size=self.cfg.batch_size, max_length=1024,
-                                return_dense=True, return_sparse=True)
+        with self._lock:                  # one model, many request threads (eval, bulk, chat)
+            out = self.model.encode(texts, batch_size=self.cfg.batch_size, max_length=1024,
+                                    return_dense=True, return_sparse=True)
         res = []
         for dense, lex in zip(out["dense_vecs"], out["lexical_weights"]):
             idx = [int(k) for k in lex]
