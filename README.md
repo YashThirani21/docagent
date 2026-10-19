@@ -224,16 +224,38 @@ dataset hash, case ids, the scores, the cost and every case. The run also prints
 
 ---
 
+## Running from a notebook
+
+Two notebooks run the whole flow (setup, model server, ingest, chat, questions, trace lookup) from top
+to bottom:
+
+| Notebook | Where | What it does |
+|---|---|---|
+| `notebooks/local_notebook.ipynb` | Your machine | Detects the hardware and picks the matching setup: **NVIDIA GPU** → vLLM; **Apple Silicon Mac** → Ollama on Metal; **CPU only** → Ollama on CPU. Chat on `127.0.0.1` only. |
+| `notebooks/colab_notebook.ipynb` | Google Colab (GPU runtime) | Unpacks the project from Drive, restores `store/` from a Drive backup if there is one, starts vLLM, and saves the store and results back to Drive. |
+
+On a local machine, open the notebook with the `.venv` kernel. On a Mac, install Ollama first
+(`brew install ollama` or the installer from ollama.com). The notebook starts Ollama and pulls the model
+if needed.
+
 ## Running on a GPU (optional)
 
-The same code runs with vLLM instead of Ollama. You only switch the config:
+The same code runs with vLLM instead of Ollama. You only switch the config. **The config's `llm.model`
+must equal the name vLLM serves (`SERVED`)**, or every model call fails with a 404 "model does not
+exist" error:
+
+| Config | Start vLLM with | Weights |
+|---|---|---|
+| `configs/colab_vllm_awq.yaml` | `MODEL=Qwen/Qwen2.5-VL-7B-Instruct-AWQ QUANT=awq DTYPE=half SERVED=qwen2.5-vl-7b-awq bash scripts/start_vllm.sh` | 4-bit AWQ (fits a 16 GB T4) |
+| `configs/colab_vllm.yaml` | `bash scripts/start_vllm.sh` (serves `qwen2.5-vl-7b`) | bf16 on GPUs with ≥ 20 GB, AWQ below |
 
 ```bash
-export DOCAGENT_CONFIG=configs/colab_vllm.yaml     # or pass --config to each command
+export DOCAGENT_CONFIG=configs/colab_vllm_awq.yaml   # or pass --config to each command
 ```
 
-The simplest way is to open `notebooks/colab_vllm.ipynb` in Colab and run it from top to bottom. In
-production, the same vLLM server would run on-premises with no outbound network.
+Both notebooks read the served name from the config, so they can't get out of sync. If you start vLLM
+again with a different config, stop the old server first (`pkill -f vllm.entrypoints`): it keeps port
+8000. In production, the same vLLM server would run on-premises with no outbound network.
 
 ---
 
@@ -251,7 +273,9 @@ src/docagent/
   batch.py uploads.py    bulk batches, resume, safe zip handling
   cli.py                 the `docagent` command
 eval/                    `python -m eval <suite>`: suites, datasets, results
-configs/                 agent versions (default = Ollama on a laptop, colab_vllm = GPU)
+configs/                 agent versions (default = Ollama on a laptop, colab_vllm / colab_vllm_awq = GPU)
+notebooks/               local_notebook (any machine), colab_notebook (Colab), playground
+scripts/                 model download, Ollama setup, vLLM start
 data/                    11 NIST drawings, 3 NTSB reports
 outputs/                 results per request
 store/                   index, uploads, cache, traces (not in git)
