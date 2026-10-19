@@ -31,6 +31,8 @@ log = logging.getLogger(__name__)
 HEADER_RE = re.compile(r"(Page No\.\s*\d+|Pg\s+\d+\s+of\s+\d+|^\s*NATIONAL TRANSPORTATION SAFETY BOARD\s*$)", re.I)
 CAPTION_RE = re.compile(r"^\s*Figure\s+(\d+)\s*[.:]", re.I)
 BLANK_RE = re.compile(r"intentionally left blank", re.I)
+SUBSECTION_RE = re.compile(r"^\s*(\d{1,2})\.\s+([A-Z][A-Za-z0-9 ,/&()-]{3,80})$")
+REG_RE = re.compile(r"\bN\d{1,5}[A-Z]{0,2}\b")
 SECTION_RE = re.compile(r"^\s*([A-H])\.\s+([A-Z][A-Z ,&/-]{3,})")
 FIG_REF_RE = re.compile(r"\bfig(?:ure)?s?\.?\s+((?:\d+[\s,]*(?:and|through|-|–)?\s*)+)", re.I)
 
@@ -63,6 +65,11 @@ class _DocMeta:
     extra: dict = field(default_factory=dict)
 
     @property
+    def registration(self) -> str | None:
+        m = REG_RE.search(self.vehicle or "")
+        return m.group(0) if m else None
+
+    @property
     def header(self) -> str:
         parts = [f"NTSB Materials Laboratory Factual Report {self.report_no or self.doc_id}"]
         parts += [p for p in (self.vehicle, self.location, self.date) if p]
@@ -81,6 +88,15 @@ def _meta(doc: pymupdf.Document, doc_id: str) -> _DocMeta:
         location=grab(r"(?:Place|Location)\s*:?\s*\n?\s*:?\s*([^\n]+)"),
         date=grab(r"\nDate\s*:?\s*\n?\s*:?\s*([^\n]+)"),
     )
+
+
+def _subject(heading: str, meta: _DocMeta) -> str:
+    """'1. Accident Airplane Main Wing Spars' -> '... (N106ER)': name the aircraft explicitly so that
+    'N106ER' in a question matches the right paragraphs and not every page of a multi-aircraft report."""
+    heading = re.sub(r"\s+", " ", heading).strip()
+    if not REG_RE.search(heading) and "accident" in heading.lower() and meta.registration:
+        heading += f" ({meta.registration})"
+    return heading
 
 
 def _blocks(page: pymupdf.Page) -> list[_Block]:
@@ -145,9 +161,13 @@ class _CaptionCache:
 
 
 class ReportIngestor:
-    def __init__(self, cfg: Config, describe_figures: bool = True):
+    def __init__(self, cfg: Config, describe_figures: bool = True, reuse_descriptions: bool = True):
         self.cfg = cfg
         self.describe_figures = describe_figures
+        # re-ingesting (e.g. after a chunking change) keeps the figure descriptions already in the index,
+        # so the comparison isolates the change and costs no VLM calls
+        self.reuse_descriptions = reuse_descriptions
+        self._reuse: dict[str, str] = {}
         self.embedder = get_embedder(cfg.embedding)
         self.store = VectorStore(cfg, dim=self.embedder.dim)
         self.vlm = VLM(cfg.llm)
@@ -167,6 +187,7 @@ class ReportIngestor:
         if not force and self.store.has_document(sha):
             log.info("skip %s (already ingested)", path.name)
             return "skipped"
+        self._reuse = self.store.figure_descriptions(doc_id) if self.reuse_descriptions else {}
         self.store.delete_document(doc_id)            # replaces an older version of the same doc
         chunks = self.parse(path, sha)
         vectors = self.embedder.embed([c.embed_text for c in chunks])
@@ -183,16 +204,21 @@ class ReportIngestor:
         text_chunks: list[Chunk] = []
         fig_chunks: list[Chunk] = []
         section: str | None = None
+        subject: str | None = None       # numbered subsection: which aircraft / part the text is about
 
         for pno, page in enumerate(doc, start=1):
             blocks = _blocks(page)
             captions = [b for b in blocks if CAPTION_RE.match(b.text)]
             stats = page_stats(page)
             chart_like = not captions and stats.vector_paths > 40 and stats.chars < 600
-            runs: list[tuple[str | None, list[str]]] = []      # body text grouped by section
+            runs: list[tuple[str | None, str | None, list[str]]] = []   # body text by section+subject
             for b in blocks:
                 if m := SECTION_RE.match(b.text):
                     section = f"{m.group(1)}. {m.group(2).strip().title()}"
+                    subject = None
+                if (m := SUBSECTION_RE.match(b.text)) and not captions:
+                    subject = _subject(b.text, meta)
+                    continue
                 if b in captions:
                     continue
                 # on figure pages, short blocks are labels printed on the figure, not body text
@@ -200,18 +226,20 @@ class ReportIngestor:
                     continue
                 if len(b.text) < 40 and not SECTION_RE.match(b.text) or BLANK_RE.search(b.text):
                     continue
-                if not runs or runs[-1][0] != section:
-                    runs.append((section, []))
-                runs[-1][1].append(b.text)
+                if not runs or runs[-1][:2] != (section, subject):
+                    runs.append((section, subject, []))
+                runs[-1][2].append(b.text)
 
             i = 0
-            for run_section, texts in runs:
+            for run_section, run_subject, texts in runs:
                 for txt in _split_tokens(texts, self.cfg.embedding.max_chunk_tokens,
                                          self.embedder.count_tokens):
+                    about = f"\nAbout: {run_subject}" if run_subject else ""
                     text_chunks.append(Chunk(
                         chunk_id=f"{doc_id}:p{pno}:t{i}", doc_id=doc_id, doc_sha256=sha, page=pno,
-                        kind="text", text=txt, section=run_section, figure_refs=_figure_refs(txt),
-                        embed_text=f"{meta.header}\nSection: {run_section or '-'}\n{txt}"))
+                        kind="text", text=txt, section=run_section, subject=run_subject,
+                        figure_refs=_figure_refs(txt),
+                        embed_text=f"{meta.header}\nSection: {run_section or '-'}{about}\n{txt}"))
                     i += 1
 
             regions = self._figure_regions(page, blocks, captions, chart_like)
@@ -223,7 +251,12 @@ class ReportIngestor:
         for fc in fig_chunks:
             if fc.figure_no is None:
                 continue
-            citing = [t.text for t in text_chunks if fc.figure_no in t.figure_refs]
+            citing_chunks = [t for t in text_chunks if fc.figure_no in t.figure_refs]
+            citing = [t.text for t in citing_chunks]
+            subjects = [t.subject for t in citing_chunks if t.subject]
+            if subjects:                      # a figure is about what the text citing it is about
+                fc.subject = max(set(subjects), key=subjects.count)
+                fc.embed_text += f"\nAbout: {fc.subject}"
             if citing:
                 ctx = " ".join(citing)[:1500]
                 fc.text += f"\nReport text citing this figure: {ctx}"
@@ -256,8 +289,9 @@ class ReportIngestor:
         img_path = out_dir / name
         img.save(img_path)
 
-        description = ""
-        if self.describe_figures:
+        cid = f"{doc_id}:p{pno}:fig{fig_no if fig_no is not None else 'chart'}"
+        description = self._reuse.get(cid, "")
+        if self.describe_figures and not description:
             png = img_path.read_bytes()
             key = self.cache.key(png, self.cfg.llm.model)
             description = self.cache.get(key) or ""
@@ -269,7 +303,6 @@ class ReportIngestor:
 
         # text = the report's own words (evidence); description = VLM words (findability only)
         text = f"{caption}\nLabels: {'; '.join(labels[:40]) or '-'}"
-        cid = f"{doc_id}:p{pno}:fig{fig_no if fig_no is not None else 'chart'}"
         return Chunk(chunk_id=cid, doc_id=doc_id, doc_sha256=sha, page=pno, kind="figure", text=text,
                      description=description or None,
                      embed_text=f"{meta.header}\nSection: {section or '-'}\n{text}\nVisual description: {description or '-'}",

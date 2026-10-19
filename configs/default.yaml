@@ -29,6 +29,7 @@ retrieval:
   dense_k: 30
   sparse_k: 30
   top_k: 8
+  min_text: 4              # report paragraphs guaranteed in context
   max_context_figures: 2   # figure crops sent to the VLM alongside retrieved text
 
 drawing:

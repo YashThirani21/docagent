@@ -31,7 +31,8 @@ def _files(paths: list[str]) -> list[Path]:
 
 def cmd_ingest(args, cfg):
     from .ingest.reports import ReportIngestor
-    res = ReportIngestor(cfg, describe_figures=not args.no_figures).ingest_paths(args.paths, force=args.force)
+    res = ReportIngestor(cfg, describe_figures=not args.no_figures,
+                         reuse_descriptions=not args.refresh_descriptions).ingest_paths(args.paths, force=args.force)
     for name, status in res.items():
         print(f"{name}: {status}")
 
@@ -113,6 +114,8 @@ def main(argv: list[str] | None = None):
     p.add_argument("paths", nargs="+")
     p.add_argument("--force", action="store_true", help="re-ingest even if unchanged")
     p.add_argument("--no-figures", action="store_true", help="skip VLM figure descriptions (fast)")
+    p.add_argument("--refresh-descriptions", action="store_true",
+                   help="re-describe figures with the current VLM instead of reusing those in the index")
     p.set_defaults(fn=cmd_ingest)
 
     p = sub.add_parser("ask", help="one request: text and/or files")
