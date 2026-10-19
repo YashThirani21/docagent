@@ -87,6 +87,17 @@ and every model is served from this machine.
 
 > **Tip:** to avoid typing `.venv/bin/` each time, run `source .venv/bin/activate` first.
 
+> **On an NVIDIA GPU machine (vLLM),** don't use `requirements.txt`. It pins torch for the Mac, and vLLM needs
+> its own version. Install with the GPU constraints, i.e. the exact versions of a working Colab run (Python 3.13+):
+>
+> ```bash
+> pip install vllm==0.31.0 -e . -c requirements-gpu.txt
+> ```
+>
+> Then follow [Running on a GPU](#running-on-a-gpu-optional) for the model server. The two environments differ
+> in a few packages (for example pymupdf 1.28 on the Mac vs 2.0 on the GPU), so each eval run records its
+> package versions and `--compare` warns when they differ.
+
 ---
 
 ## 2. Chat
@@ -282,7 +293,7 @@ src/docagent/
   cli.py                 the `docagent` command
 eval/                    `python -m eval <suite>`: suites, datasets, results
 configs/                 agent versions (default = Ollama on a laptop, colab_vllm / colab_vllm_awq = GPU)
-notebooks/               local_notebook (any machine), colab_notebook (Colab), playground
+notebooks/               local_notebook (any machine), colab_notebook (Colab)
 scripts/                 model download, Ollama setup, vLLM start
 data/                    11 NIST drawings, 3 NTSB reports
 outputs/                 results per request

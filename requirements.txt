@@ -1,0 +1,38 @@
+# Direct dependencies, pinned to the versions this was built and tested with (Python 3.11, macOS arm64).
+# Install:  pip install -r requirements.txt && pip install -e .
+# Not Python: Ollama (https://ollama.com) serving qwen2.5vl - see scripts/setup_ollama.sh
+
+# PDF / images
+pymupdf==1.28.2
+pillow==12.3.0
+
+# config + contracts
+pydantic==2.14.1
+PyYAML==6.0.3
+
+# VLM client (OpenAI-compatible API: Ollama locally, vLLM on GPU)
+openai==3.32.0
+
+# embeddings (bge-m3 dense + sparse) - CPU; do not use MPS, see NOTES.md
+FlagEmbedding==1.4.2
+torch==2.14.1
+transformers==5.20.1
+numpy==2.4.6
+
+# drawings, picture route: text-box detection + frames/leaders (offline, models bundled in the wheel)
+rapidocr-onnxruntime==1.4.4; python_version < "3.13"   # Python 3.13 (Colab): rapidocr 3.x (newer bundled models)
+rapidocr==3.10.0; python_version >= "3.13"
+onnxruntime==1.31.0; python_version >= "3.13"
+opencv-python-headless==5.0.0.93
+
+# vector store (embedded mode, or a Qdrant server via store.qdrant_url)
+qdrant-client==1.19.1
+
+# chat UI
+gradio==6.30.0
+
+# notebook
+jupyter==1.1.1
+ipykernel==7.4.0
+nbformat==5.11.1
+pandas==3.0.6
