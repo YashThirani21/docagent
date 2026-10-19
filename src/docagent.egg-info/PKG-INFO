@@ -1,0 +1,16 @@
+Metadata-Version: 2.4
+Name: docagent
+Version: 0.1.0
+Summary: Private document agent: report QA + drawing extraction, fully local
+Requires-Python: >=3.11
+Requires-Dist: pymupdf>=1.24
+Requires-Dist: pillow
+Requires-Dist: pydantic>=2
+Requires-Dist: pyyaml
+Requires-Dist: openai>=1.40
+Requires-Dist: qdrant-client>=1.12
+Requires-Dist: FlagEmbedding>=1.3
+Requires-Dist: gradio>=4
+Provides-Extra: notebook
+Requires-Dist: jupyter; extra == "notebook"
+Requires-Dist: ipykernel; extra == "notebook"

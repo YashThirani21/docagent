@@ -1,0 +1,40 @@
+# All components run locally. Swap Ollama for vLLM by changing llm.base_url / llm.model.
+privacy:
+  offline: true            # forces HF_HUB_OFFLINE / TRANSFORMERS_OFFLINE at runtime
+
+llm:
+  base_url: http://localhost:11434/v1   # Ollama's OpenAI-compatible endpoint (vLLM: http://host:8000/v1)
+  model: qwen2.5vl-16k          # = qwen2.5vl:7b with num_ctx 16384 (scripts/setup_ollama.sh)
+  num_ctx: 16384           # Ollama silently truncates beyond this - keep it explicit
+  temperature: 0.0
+  timeout_s: 600
+  cache_dir: store/cache/vlm   # temperature-0 responses cached on disk (dev/eval re-runs are free)
+
+embedding:
+  model: BAAI/bge-m3
+  device: cpu              # cpu | cuda. NOT mps: batched bge-m3 on MPS returns corrupted vectors (NOTES.md)
+  batch_size: 8
+  max_chunk_tokens: 350
+
+store:
+  qdrant_path: store/qdrant          # local embedded mode; set qdrant_url instead to use a server
+  qdrant_url: null
+  collection: reports_bge-m3_v1      # embedder name in the collection name: never mix vector spaces
+  image_dir: store/images
+  cache_dir: store/cache
+
+retrieval:
+  dense_k: 30
+  sparse_k: 30
+  top_k: 8
+  max_context_figures: 2   # figure crops sent to the VLM alongside retrieved text
+
+drawing:
+  tile_dpi: 200
+  grid: [2, 2]             # columns x rows
+  overlap: 0.12
+  overview_dpi: 100
+  dedup_distance_pt: 25    # same text within this distance (PDF points) across tiles = same value
+
+router:
+  classify_max_side: 768   # image size used for VLM-based classification
