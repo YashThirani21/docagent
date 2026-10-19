@@ -1,0 +1,59 @@
+# Same agent as configs/colab_vllm.yaml, served with AWQ 4-bit weights instead of bf16 - to measure the
+# quantisation trade-off (speed vs accuracy) with the eval suites. Only the llm section differs.
+# Start the server with:
+#   MODEL=Qwen/Qwen2.5-VL-7B-Instruct-AWQ QUANT=awq DTYPE=half SERVED=qwen2.5-vl-7b-awq bash scripts/start_vllm.sh
+# The report index (figure descriptions) is the one built with bf16: only the answering model changes.
+privacy:
+  offline: true
+
+llm:
+  backend: vllm
+  max_concurrency: 4        # parallel calls; vLLM batches them on the GPU
+  base_url: http://localhost:8000/v1
+  model: qwen2.5-vl-7b-awq  # = SERVED in scripts/start_vllm.sh; own name -> own cache key and eval record
+  num_ctx: 16384            # informational; vLLM's limit is --max-model-len
+  temperature: 0.0
+  timeout_s: 600
+  cache_dir: store/cache/vlm_vllm_awq   # never replay bf16 replies under AWQ
+
+embedding:
+  model: BAAI/bge-m3
+  device: cuda
+  batch_size: 16
+  max_chunk_tokens: 350
+
+store:
+  qdrant_path: store/qdrant
+  qdrant_url: null
+  collection: reports_bge-m3_v1_bf16desc
+  image_dir: store/images
+  cache_dir: store/cache
+  output_dir: outputs/requests
+  upload_dir: store/uploads
+
+retrieval:
+  dense_k: 30
+  sparse_k: 30
+  top_k: 8
+  min_text: 4
+  max_context_figures: 2
+
+drawing:
+  method: geometry
+  tile_dpi: 200
+  grid: [2, 2]
+  overlap: 0.12
+  overview_dpi: 100
+  dedup_distance_pt: 25
+
+router:
+  classify_max_side: 768
+
+batch:
+  workers: 2
+  chat_min_files: 2
+
+trace:
+  enabled: true
+  db_path: store/traces.db
+  log_path: store/logs/agent.jsonl
