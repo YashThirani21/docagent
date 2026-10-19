@@ -6,3 +6,4 @@ store/
 .DS_Store
 notebooks/
 experiments/
+eval/results/

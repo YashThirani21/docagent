@@ -35,7 +35,7 @@ Profiled every page of the 14 PDFs with PyMuPDF (text chars, raster images, vect
 - Annotations are blue; part geometry is black/purple. Not yet exploited (see Next steps).
 
 
-## 2. Model and infrastructure choices
+## Model and infrastructure choices
 
 - **VLM: qwen2.5vl:7b via Ollama** (runs on the 16 GB M4, ~6 GB). One model for figure description,
   photo observation, drawing reading, routing fallback and answer generation. Called through the
@@ -59,7 +59,7 @@ Router, Trace etc)
 - `ingest/reports.py`: Ingesting pdfs from data/ with pymupdf, chunking and populating Qdrant
 
 
-## 3. Bugs found and fixed (measured)
+## Bugs found and fixed (measured)
 
 - **Batched bge-m3 on Apple MPS returns corrupted vectors.** After the first ingestion only 19 of 94
   stored dense vectors were unique; a batch of 16 chunks produced 2 distinct vectors; dense scores were
@@ -77,7 +77,7 @@ Router, Trace etc)
   mode"; its guess ("fatigue") steered both search and answer. Removed: the VLM now reports visible
   features only and the reports do the diagnosing.
 
-## 4. Drawing extraction iterations
+## Drawing extraction iterations
 
 | version | approach | CTC-01 (1 sheet) | observation |
 |---|---|---|---|
@@ -89,7 +89,7 @@ Router, Trace etc)
 
 Timing estimate for all 30 sheets on the laptop: ~90 min. On a GPU with vLLM batching: minutes.
 
-## 5. Report QA spot checks (no eval set yet)
+## Report QA spot checks (no eval set yet)
 
 | question | result |
 |---|---|
@@ -247,7 +247,7 @@ is the source of truth.
   duplicates, `bulk --resume <batch_id>`. The `tasks` columns for this (status, attempts, output_path,
   heartbeat_at) exist now.
 
-### 9.1 Retry, bulk resume, lookup by file
+### Retry, bulk resume, lookup by file
 
 **Need.** A failure must not lose finished work: a drawing that failed (or a process killed mid-batch) should
 cost only what was not done yet, and a 10^6-file bulk upload has to be restartable without redoing the done part.
@@ -291,7 +291,7 @@ Real run (Ollama, laptop): CTC-01 + a corrupt PDF -> `partial` (CTC-01's 26 call
 0.7 s); `docagent retry` -> CTC-01 `reused` (0 model calls, not even a replay; 0.0 s), the corrupt PDF fails again
 with the same error. On a cold cache CTC-01 is ~26 fresh VLM calls (minutes on the laptop) that the retry skips.
 
-### 9.2 Bulk from the chat, uploads, zips
+### Bulk from the chat, uploads, zips
 
 **Need.** Bulk upload must not depend on the browser or on where files came from: a chat upload of many drawings
 can take an hour (minutes per drawing on the laptop), tabs get closed, Gradio deletes its temp files, users move
@@ -354,3 +354,288 @@ copies of user data with their own lifetime and need the same retention / access
 **Scale.** One drawing = ~50-150 `llm.call` spans; a million drawings = ~10^8 span rows. Then: Postgres with
 spans partitioned by day, retention on spans (keep requests/tasks), or spans to a columnar store. Requests and
 tasks stay small enough for one table.
+
+## Evaluation design
+
+**Goal.** Req: code that measures each important part and the whole system, incrementally - plug in a
+new version of the agent or of one part, run it on a chosen number of cases, see better or worse. No interface.
+
+**Reality** Creating a golden dataset by ourselves is not practical especially with drawings. We are just going to have to get AI to generate QA sets, routing decisions, and use imperfect drawings as ground truth to compare with. Some are already there for refining
+
+| brief says | mechanism |
+|---|---|
+| "each important part" | suites `router`, `qa_text`, `qa_image`, `drawing` - one per decision the agent makes |
+| "and for the whole system" | suite `e2e`: `Agent.handle` on mixed requests, no gold inputs anywhere |
+| "plug in a new version of the agent, or of one part" | config = version (`--config`), or one knob changed with `--set drawing.method=tiles`; the record stores config hash, overrides and `Agent.versions` |
+| "a chosen number of test cases" | `--n N --seed S` (deterministic sample), `--ids`, `--split dev\|test\|all` |
+| "whether it got better or worse" | `--compare <earlier results file>`: metric deltas, **per-case flips**, latency/token deltas, warnings when datasets/splits differ |
+| "no interface needed" | one CLI: `python -m eval <suite> ...`, results as JSON in `eval/results/` |
+
+**Each part suite isolates its part with gold inputs.** The drawing suite feeds known drawings straight to the
+extractor (router bypassed), the QA suites call `ReportQA.run` directly, the router suite only routes. A new
+router version can't make the drawing numbers move, so a change is attributed to the part that changed. `e2e`
+is the only place errors compound; comparing `router accuracy x component pass-rate` with the e2e success rate
+shows where e2e losses come from.
+
+**Dev / test split.** The 20 QA questions were used to tune (the q10 / q14 / q19 fixes in section 6), and the two
+labelled drawings to build the geometry method - their scores are optimistic. They are `dev`. New cases written
+afterwards are `test`: not looked at while changing the agent, reported separately. Default `--split dev`, so
+tuning loops don't touch `test` by accident. Router: cases derived from the 14 original PDFs (which the rules
+were written against) and 3 of the 6 text questions are dev, all generated pictures / single pages are test.
+
+**Flips over averages.** With 10-35 cases one case is 3-10 points; an average can stay flat while two cases swap.
+`--compare` lists newly failing / newly passing cases (for drawings: per ground-truth value), which is what a
+reviewer acts on.
+
+**Latency needs `--fresh`.** Temperature-0 replies replay from the VLM cache, so a re-run is fast and spends no
+tokens - fine for accuracy comparisons (same prompts, same replies), meaningless for latency and cost. `--fresh`
+points `llm.cache_dir` at an empty temp dir for the run. Cost and latency come from the trace database (every
+eval case is a traced request under batch `eval-<suite>-<label>-<ts>`): p50/p95 latency, fresh tokens, cached calls.
+
+**How labels were made, and their limits.**
+- router: generated from the source files by `eval/build_router_set.py` (rendered sheets with rotation / blur /
+  JPEG / perspective / crop / photo-like, report pages, figure crops, charts, text questions). The label comes
+  from where the case was made, so no hand labelling and no label noise. Limit: all synthetic; `real/` takes phone
+  photos.
+- qa_text test (15) and qa_image (20): drafted by the AI assistant from the report text; every `must` fact and page
+  checked programmatically against the PDF text. **Not reviewed by a human** (user decision, 2026-10-18): the
+  qa_text test split (t01-t15) is used as drafted, so a wrong expected answer would count against the agent;
+  the qa_image cases were not reviewed either. The 10 picture + question cases added later (iq01-iq10: diagnosis,
+  lookup, refusal, wrong_aircraft; 5 dev / 5 test) are agent-generated and not human-reviewed either (user decision,
+  2026-10-18); their `must` facts were checked against the stated pages, and wrong_aircraft `must_not` values were
+  checked to be the *other* aircraft's values in the report. Expected wrong_aircraft behaviour: answer for the aircraft
+  the question names (a picture can't show a registration), never the pictured one's value. Every qa_image case has
+  `input: image | image+text`; the suite reports all metrics per input type and per kind. Frozen as of 2026-10-18 -
+  sha256 `qa_text.jsonl` ebac121c9489..., `qa_image/cases.jsonl` 1fda89c8d252... (every run records the dataset
+  hash, so a later edit shows in `--compare`).
+  Weak spots seen on a read-through: t03 / t10 check bare numbers ("23", "80.0") that can match by accident;
+  some qa_image facts are single vague words ("heat", "grain"). Limit: qa_image cases
+  are the reports' own figures (caption cropped off, augmented) - in-distribution; a real user's photo of a new
+  part is harder. No out-of-scope photos could be made offline (folder + README for real ones).
+- drawing test (CTC-03, FTC-11): drafted from the rendered sheets and text layer - not from the extractor's output,
+  so the test isn't contaminated - and `verified: false` until the user checks the overlays.
+- `belongs_to`: the lenient metric accepts any keyword from a list ("hole" passes for any hole). Added
+  `belongs_primary` (the GT's main feature word must appear). A location-based check (does the leader point at the
+  right feature?) isn't possible: the output JSON stores where the annotation is, not where its leader ends.
+
+**Drawings: a reference run next to the hand labels** (user decision). Only 2 drawings have verified hand labels,
+so the L4 run `geo-l4-fix4` (11 drawing JSONs, vLLM bf16, geometry method; copied to
+`eval/datasets/drawings/reference/geo-l4-fix4/` with PROVENANCE.md, since experiments/ is gitignored) is the baseline
+for all 11. `python -m eval drawing` reports both: **accuracy** on the verified sheets (CTC-01, FTC-07; the drafted
+CTC-03 / FTC-11 labels shown separately as draft labels, not in the headline, until verified) and **agreement** with
+fix4 on every drawing, with the same matcher: agree_recall / agree_precision / numbers_agree / type_agree / gdt_agree /
+datums_agree / belongs_to_agree, per value dropped vs reference / new vs reference / changed reading; `--compare` flips
+include reference values reproduced or dropped. Agreement measures *change relative to fix4, not correctness*: fix4
+has mistakes, and a version that fixes one shows lower agreement - so it is never read without the accuracy next to
+it. The picture route is compared with fix4's own picture-route outputs where they exist (CTC-01, FTC-07), else with
+its PDF outputs (flagged). e2e drawings without hand labels (CTC-02, a photo of FTC-09 sheet 1, CTC-05) pass on
+agreement >= 0.7. Checks: fix4 scored against itself = 1.0 on every agreement metric; a copy with 2 values dropped and
+1 number changed shows exactly 2 "dropped vs reference" (2 flips) and 1 "changed reading (numbers)"; fix4's accuracy
+on CTC-01 + FTC-07 reproduces its original results files exactly (PDF 0.900 / 0.892 recall / precision, JPG 0.643 / 0.807).
+
+**Sizes.** router 80 (17 dev / 63 test, 5.4 MB of pictures), qa_text 35 (20 / 15), qa_image 30 (15 / 15: 17 picture only, 13 picture + question),
+drawing 4 labelled drawings (2 / 2; 30 + 12 required values in the new ones) + the fix4 reference on all 11
+(515 reference values excluding title block / notes), e2e 21 (9 / 12).
+
+**First real numbers** (Mac, Ollama qwen2.5vl 4-bit - not comparable to the L4 runs; tiny samples, a smoke check of
+the harness, not a result): router test n=15: accuracy 0.93, 0 drawings sent to QA, 1 report figure page (photo
+look) sent to the drawing pipeline; rules decided 2/15, the VLM 13/15 at ~11 s each. qa_text test n=3: 3/3 pass.
+Seen on the way: report 24-013's PDF goes to the VLM tier - its first page is a near-empty cover, the rules only
+look at page 1.
+
+**Status.** Done (verified with a stubbed model: every suite end to end, `--compare` deltas + flips incl. a forced
+flip, `--set` changes the config hash, `--fresh` replays nothing, old results files compare where metrics match):
+harness, five suites, router / qa_image generators, qa_text test split, drawing test GT (unverified).
+Planned: user check of drawing GT and the QA test set (then frozen), real phone photos, L4 numbers per suite.
+
+## Routing rules (summary)
+
+Source: `src/docagent/router.py` (version `rules+vlm-v1`), called per attachment from `Agent.handle`.
+Principle: cheap deterministic rules first, the VLM only when the rules can't decide. Every decision
+records `route`, `tier` (rule | vlm), `confidence` and a `reason` in the trace.
+
+**Two possible routes:** `report_qa` (answer from the NTSB reports) or `drawing` (extract values to JSON).
+
+**1. Request level**
+- No attachment (text only) -> `report_qa`, confidence 1.0.
+- Otherwise each attachment is routed on its own (one task each, so one bad file fails only itself).
+- Same file bytes + same router/drawing/model versions + same config -> the earlier result is reused,
+  no routing (idempotency key).
+- Chat only: a zip, or >= 2 files with no question, becomes a background batch (`batch.chat_min_files`);
+  each file is then still routed individually.
+
+**2. PDFs: rules on page 1** (`pdf.page_stats`)
+- Drawing score, 0-4, one point each:
+  - >= 2 distinct drawing keywords in the text (ASME Y14, UNLESS OTHERWISE SPECIFIED, TOLERANC, UNIT(S):,
+    SCALE, SHEET, DWG, REV X, Ø, ±, PMI, DATUM)
+  - landscape page
+  - > 300 vector paths
+  - < 10% of the page covered by raster images
+- Prose = > 1500 characters of text on a portrait page.
+- score >= 3 and not prose -> `drawing`, confidence 0.6 + 0.1 x score.
+- prose, or (score <= 1 and > 30% image coverage) -> `report_qa`, confidence 0.8.
+- Anything else -> undecided -> VLM on page 1 rendered at 80 dpi.
+
+**3. Images (PNG/JPG, ...)** -> always the VLM (no rules for pixels).
+
+**4. VLM classifier** (image downscaled to `router.classify_max_side` = 768 px)
+- Classes: technical_drawing, photo_of_part, document_page, chart_or_plot, other.
+- `technical_drawing` (including a photo or screenshot of one) -> `drawing`; every other class -> `report_qa`.
+- Confidence and reason come from the model.
+
+**5. Other file types** -> `report_qa`, confidence 0.3, treated as context for a question.
+
+**After routing**
+- Each `drawing` attachment -> its own JSON file in `outputs/requests/<request_id>/`.
+- All `report_qa` attachments are pooled (up to 3 pages rendered per PDF) with the text into one answer.
+
+**Known limits / measurements**
+- Only page 1 is inspected: report 24-013 has a near-empty cover, so it falls through to the VLM tier.
+- Router eval (Mac, Ollama 4-bit, test n=15): accuracy 0.93, 0 drawings sent to QA, 1 report figure page
+  (looks like a photo) sent to the drawing pipeline; rules decided 2/15, VLM 13/15 at ~11 s each.
+
+## Chat front end (summary)
+
+Source: `app/chat.py` (~110 lines). Run: `.venv/bin/python app/chat.py` -> http://127.0.0.1:7860.
+
+**Why Gradio**
+- `gr.ChatInterface(multimodal=True)` gives a chat window with text + multi-file upload in a few lines:
+  the brief needs text, pictures, PDFs and many files at once, and asks for an agent, not a web product.
+- Pure Python, same process as the agent: no separate frontend build, no API layer, no JS. The UI is a thin
+  shell; all logic stays in `Agent`, `BatchRunner` and the trace DB, shared with the CLI and the eval.
+- Generators stream: `respond` can `yield` several times, so a long batch shows live progress.
+- `gr.File` returns the drawing JSON / results zip as downloads directly in the reply.
+- Runs fully local: bound to `127.0.0.1`, `share=False` (no public Gradio tunnel), `GRADIO_ANALYTICS_ENABLED=False`
+  (no telemetry calls). Fits requirement 6 (private).
+- Alternatives considered: Streamlit (reruns the whole script on each interaction, awkward for chat + background
+  jobs), FastAPI + custom frontend (more work, nothing gained for a demo). Gradio is a demo UI: for production,
+  the same `Agent` sits behind an API with auth.
+
+**What else the chat uses**
+- `docagent.agent.Agent` - one shared instance (router, both pipelines, tracer, VLM client).
+- `docagent.batch.BatchRunner` - bounded thread pool (`batch.workers`) for background batches.
+- `docagent.render.render_markdown` - turns a `Response` into the reply text (answer, diagnosis, what to do,
+  sources, drawing summary, request id). Same renderer as the CLI.
+- `docagent.trace.install_log_file` - JSON-lines log with request/task/span ids.
+
+**How a message is handled** (`respond`)
+1. `status <batch_id>` with no files -> stream that batch's progress again (from the DB).
+2. A zip, or >= `batch.chat_min_files` (2) files with no question -> **background batch**:
+   files copied to `store/uploads/<sha256><ext>` (Gradio's temp files can disappear), `runner.start` queues one
+   request per file, the reply shows the batch id at once, then `watch` polls the trace DB every 1 s and updates
+   the message; when finished it attaches a results zip. A question sent with a batch is ignored (said in the reply).
+3. Anything else (text only, one file, or files + a question) -> `agent.ask(...)` in the request, one combined
+   reply, drawing JSONs offered as downloads.
+- The chat never decides the route itself: inside `Agent`, `Router` decides per attachment (rules, then VLM;
+  see "Routing rules"). The user never says what they want (requirement 4).
+- "Force re-run" checkbox: ignore earlier results for the same file + version + config (otherwise reused;
+  model calls still replay from the VLM cache).
+
+**Bulk without depending on the browser**
+- The batch runs in the app process, not in the browser: closing the tab only stops *watching*.
+  `watch` only reads the DB, so stopping it touches nothing.
+- Every file is enqueued as a `queued` request before processing, so the DB always has the full picture.
+- On app start: requests left `running` by a crashed process are marked `interrupted`, and unfinished `chat-`
+  batches resume (queued / interrupted files only; failed files are not retried automatically -> `docagent bulk --resume`).
+- Same batch code as `docagent bulk` on the CLI: one implementation, two entry points.
+
+**Tracking / logging behind the chat**
+- Every chat message is a traced request in `store/traces.db` (SQLite, WAL): `requests` -> `tasks` (one per
+  attachment: route, tier, confidence, reason, output) -> `spans` (router, qa.retrieve, llm.call, drawing steps,
+  with tokens and latency). Chat batches get a `chat-...` batch id.
+- The request id is shown under every reply; a technical person looks it up with `docagent trace <request_id>`,
+  `docagent requests`, or `docagent batch <batch_id>` - the chat user never sees the internals.
+- Log lines go to `store/logs/agent.jsonl` with the same ids, so a log line joins to its trace.
+
+**Limits**
+- One app process: embedded Qdrant takes a file lock, so the chat and a CLI `bulk` with report-QA files can't
+  run at the same time (fix: Qdrant server via `store.qdrant_url`).
+- No authentication or per-user separation: fine on localhost, not for a shared deployment.
+
+## Chunking and retrieval of the reports (summary)
+
+Source: `src/docagent/ingest/reports.py` (ingestion), `retriever.py` (search), `pipelines/report_qa.py`
+(how chunks reach the prompt). Run once: `docagent ingest data/reports`.
+
+### Ingestion overview
+- Per PDF: sha256 -> skip if already in the index (`has_document`), else delete the old version of that doc and
+  re-ingest. Chunk ids are deterministic (`<doc>:p<page>:t<n>`, `<doc>:p<page>:fig<N>`), so re-ingesting overwrites.
+- Document metadata from the first 3 pages by regex: report number, vehicle (-> registration), location, date.
+  Becomes one **header line** prepended to every chunk's `embed_text`, e.g.
+  `NTSB Materials Laboratory Factual Report 18-061 | <vehicle> | <place> | <date>`.
+- Every chunk has two texts: `text` (shown to the model / user, the report's own words) and `embed_text`
+  (header + section + subject + text [+ description], what gets embedded). Both chunk kinds go into the same
+  Qdrant collection with the same bge-m3 dense + sparse vectors.
+
+### Text chunks
+1. **Blocks**: PyMuPDF text blocks per page, whitespace normalised, sorted top to bottom. Page headers/footers
+   dropped ("Page No. X", "Pg X of Y", "NATIONAL TRANSPORTATION SAFETY BOARD").
+2. **Structure tracking** (carried across pages):
+   - Section: lettered headings `A. ...` -> `section` ("A. Background").
+   - Subject: numbered subsections `1. Accident Airplane Main Wing Spars` -> `subject`. If the heading says
+     "accident" but names no aircraft, the report's registration is appended ("... (N106ER)"). This is the fix
+     for multi-aircraft report 18-061 (answers mixed up N104ER / N106ER).
+3. **Filtering**: skip captions, skip short blocks (< 200 chars) on figure / chart pages (those are labels
+   printed on the figure, not body text), skip blocks < 40 chars and "intentionally left blank".
+4. **Runs**: consecutive blocks with the same (section, subject) form a run. A chunk never mixes two subjects.
+5. **Size**: greedy merge of paragraphs within a run up to `embedding.max_chunk_tokens` = 350 bge-m3 tokens;
+   a paragraph longer than that is split on sentence ends (`.` / `;`). No overlap between chunks - the
+   "next paragraph" step at retrieval time covers findings that continue in the next chunk.
+6. **Figure references**: `figure_refs` = figure numbers the text cites ("Figure 5", "Figures 3 and 4",
+   "Figures 2 through 6").
+7. `embed_text` = header + `Section: ...` + `About: <subject>` + text.
+
+### Figure chunks
+1. **Why not extract images**: a figure is many small raster tiles plus vector arrows and labels, so the
+   embedded images are useless one by one. Instead the page region is **rendered as a reader sees it**.
+2. **Region**: one per `Figure N.` caption, from the previous caption (or below the page header, y = 95 pt)
+   down to this caption, full page width. Rendered at 150 dpi, saved to `store/images/<doc>/figN_pP.png`.
+3. **Chart pages**: a page with no caption, > 40 vector paths and < 600 chars (18-061 pp.37-40, load-extension
+   plots) becomes one whole-page "chart" chunk (`figure_no = None`).
+4. **Labels**: short text blocks inside the region (text printed on the figure: arrows, "RC-1", ...).
+5. **VLM description** (`fig-v1` prompt): 3-6 factual sentences on component, view and visible conditions.
+   Cached by (image hash, model, prompt version); on re-ingestion descriptions already in the index are reused,
+   so a chunking change costs no VLM calls.
+6. **Linking back to the text**: body chunks citing figure N are attached to it:
+   - their most common `subject` becomes the figure's subject (a figure is about what cites it);
+   - up to 1500 chars of the citing text are appended ("Report text citing this figure: ...").
+7. `text` = caption + labels (+ citing text). `description` is kept separately. `embed_text` = header + section +
+   caption + labels + `Visual description: ...` + subject + citing text.
+8. **Rule: the VLM description is for finding the figure only, never evidence.** It once said "fatigue" (beach
+   marks) where the report concluded bending overstress, and the answer followed it. So it is embedded, but
+   never shown to the answer model.
+
+### Retrieval (`HybridRetriever.search`, version `hybrid-rrf-v3-textfirst-reg-focus-next`)
+1. **Query**: user text + per user picture the VLM's *observations* (component + visible features, no
+   failure-mode guess - the guess biased retrieval). No text and no picture -> "What failed and why?".
+2. **Two hybrid searches** in the one collection, each dense (top 30) + sparse (top 30) fused with RRF in Qdrant:
+   one over all chunks, one filtered to `kind = text`. Pool = both, k x 2 each (top_k = 8), deduplicated,
+   sorted by score.
+3. **Other-aircraft filter**: if the question names a registration (N106ER), chunks whose `subject` names a
+   different one are dropped.
+4. **Report focus**: if a term in the question (place, registration, report no., type) matches the header of
+   exactly one report (whole word), only that report is kept.
+5. **Text first**: at least `min_text` = 4 text chunks; figures fill the rest but at most half of the k slots;
+   text comes before figures. (Figure captions used to outrank the paragraphs that hold the findings.)
+6. **Next paragraph**: each of the top 3 text hits pulls in the chunk after it (next on the page, else first
+   on the next page), inserted right after it (`via = linked`).
+7. **Linked figures**: figures cited by the top 3 text hits (up to 2 each) are added from the store
+   (`via = linked`, score 0), same other-aircraft filter.
+
+### In the answer prompt (`ReportQA.generate`)
+- Sources numbered `[n] report <doc>, page P, <text | Figure N>, section ..., about: <subject>` + evidence text.
+- For figure chunks the evidence is **caption + labels only**: the citing paragraphs are cut off
+  (`evidence_text`), since those paragraphs are separate sources and showing them twice steered answers and let
+  a figure "back" a number that is really on a text page. The VLM description is not shown.
+- Up to `max_context_figures` = 2 figure crops are sent as images (after the user's own pictures), each tied to
+  its source number.
+- After generation, `verify_citations` drops citations of other aircraft, adds the source that contains each
+  distinctive number in the answer, and adds the paragraph the answer is nearly quoting.
+
+### Known limits
+- Regexes for headers, captions, sections and subsections are tuned to the NTSB layout; a new document family
+  needs its own parser (or a layout model).
+- Tables are flattened into text blocks; table structure is lost.
+- 350-token chunks with no overlap rely on the next-paragraph step for findings that span chunks.
+- Report focus and the aircraft filter are string matches on headers/registrations; at 10^6 similar documents
+  they become metadata filters (doc type, vehicle, part) in Qdrant rather than post-filtering.
