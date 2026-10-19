@@ -10,7 +10,7 @@ import time
 from pathlib import Path
 from typing import TypeVar
 
-from openai import OpenAI
+from openai import APIConnectionError, APIError, OpenAI
 from PIL import Image
 from pydantic import BaseModel, ValidationError
 
@@ -36,11 +36,36 @@ def fit_image(img: Image.Image, max_side: int, multiple: int = 28) -> Image.Imag
     return img if (w, h) == img.size else img.resize((w, h), Image.LANCZOS)
 
 
+_checked_servers: set[tuple[str, str]] = set()   # (base_url, model) already checked in this process
+
+
+def check_model_served(client: OpenAI, base_url: str, model: str) -> None:
+    """Fail at start, not on the first call deep in a request, when the server does not offer the config's
+    llm.model (vLLM: --served-model-name / SERVED; Ollama: the model tag). A server that is not up yet only
+    warns: cached replies (eval re-runs) need no server."""
+    if (base_url, model) in _checked_servers:
+        return
+    try:
+        served = [m.id for m in client.with_options(timeout=5, max_retries=0).models.list()]
+    except APIConnectionError:      # also covers timeouts
+        log.warning("model server %s not reachable: calls not in the cache will fail until it is up", base_url)
+        return
+    except APIError as e:
+        log.warning("could not list the models at %s (%s): model name not checked", base_url, e)
+        return
+    _checked_servers.add((base_url, model))
+    if model not in served and f"{model}:latest" not in served:   # Ollama lists untagged models as :latest
+        raise RuntimeError(
+            f"config asks for llm.model={model!r} but {base_url} serves {served}. Start the server with that name "
+            f"(vLLM: DOCAGENT_CONFIG=<config> bash scripts/start_vllm.sh) or use the config that matches it.")
+
+
 class VLM:
     def __init__(self, cfg: LLMCfg, cache_dir: str | Path | None = None):
         self.cfg = cfg
         self.client = OpenAI(base_url=cfg.base_url, api_key="local", timeout=cfg.timeout_s,
                              max_retries=cfg.max_retries)   # transient only; bad output is not retried here
+        check_model_served(self.client, cfg.base_url, cfg.model)
         # Deterministic calls (temperature 0) are cached on disk: re-runs of eval/dev cost nothing.
         cache_dir = cache_dir or cfg.cache_dir
         self.cache_dir = (PROJECT_ROOT / cache_dir) if cache_dir else None

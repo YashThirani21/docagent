@@ -5,10 +5,27 @@
 # Override with MODEL=..., QUANT=awq|none, DTYPE=half|bfloat16, GPU_UTIL=0.80, MAX_LEN=16384,
 # SERVED=<name the config's llm.model uses> (e.g. qwen2.5-vl-7b-awq: own name -> own cache, own eval record).
 # GPU_UTIL leaves the rest of the GPU for the bge-m3 embedder (device: cuda).
+# With CONFIG=<yaml> (or DOCAGENT_CONFIG) the served name is the config's llm.model, so the two always match;
+# a name ending in -awq also selects the AWQ weights:
+#   DOCAGENT_CONFIG=configs/colab_vllm_awq.yaml bash scripts/start_vllm.sh
 set -euo pipefail
+CONFIG="${CONFIG:-${DOCAGENT_CONFIG:-}}"
+if [ -n "$CONFIG" ]; then
+  [ -f "$CONFIG" ] || CONFIG="$(dirname "$0")/../$CONFIG"      # relative to the project, like the CLI
+  read -r CFG_BACKEND CFG_MODEL < <(python -c 'import sys, yaml; l = yaml.safe_load(open(sys.argv[1]))["llm"]; print(l.get("backend", "ollama"), l["model"])' "$CONFIG")
+  if [ "$CFG_BACKEND" != "vllm" ]; then
+    echo "$CONFIG uses backend '$CFG_BACKEND', not vllm: nothing to start here (Ollama: scripts/setup_ollama.sh)"; exit 1
+  fi
+  if [ -n "${SERVED:-}" ] && [ "$SERVED" != "$CFG_MODEL" ]; then
+    echo "SERVED=$SERVED but $CONFIG asks for llm.model=$CFG_MODEL: every request would get a 404"; exit 1
+  fi
+  SERVED="$CFG_MODEL"
+fi
 MEM_MB=$(nvidia-smi --query-gpu=memory.total --format=csv,noheader,nounits | head -1)
 CC=$(nvidia-smi --query-gpu=compute_cap --format=csv,noheader | head -1 | tr -d .)
-if [ "$MEM_MB" -ge 20000 ] && [ "$CC" -ge 80 ]; then
+if [[ "${SERVED:-}" == *-awq ]]; then
+  DEF_MODEL=Qwen/Qwen2.5-VL-7B-Instruct-AWQ; DEF_QUANT=awq; DEF_DTYPE=half; DEF_UTIL=0.80   # the name promises AWQ
+elif [ "$MEM_MB" -ge 20000 ] && [ "$CC" -ge 80 ]; then
   DEF_MODEL=Qwen/Qwen2.5-VL-7B-Instruct; DEF_QUANT=none; DEF_DTYPE=bfloat16; DEF_UTIL=0.85
 else
   DEF_MODEL=Qwen/Qwen2.5-VL-7B-Instruct-AWQ; DEF_QUANT=awq; DEF_DTYPE=half; DEF_UTIL=0.80
@@ -17,7 +34,7 @@ MODEL="${MODEL:-$DEF_MODEL}"; QUANT="${QUANT:-$DEF_QUANT}"; DTYPE="${DTYPE:-$DEF
 GPU_UTIL="${GPU_UTIL:-$DEF_UTIL}"; MAX_LEN="${MAX_LEN:-16384}"; LOG="${LOG:-vllm.log}"
 SERVED="${SERVED:-qwen2.5-vl-7b}"
 QUANT_ARGS=(); [ "$QUANT" != "none" ] && QUANT_ARGS=(--quantization "$QUANT")
-echo "GPU ${MEM_MB} MB, compute ${CC}: serving $MODEL (quant=$QUANT dtype=$DTYPE util=$GPU_UTIL)"
+echo "GPU ${MEM_MB} MB, compute ${CC}: serving $MODEL as $SERVED (quant=$QUANT dtype=$DTYPE util=$GPU_UTIL)"
 
 nohup python -m vllm.entrypoints.openai.api_server \
   --model "$MODEL" "${QUANT_ARGS[@]}" \

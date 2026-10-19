@@ -43,6 +43,22 @@ version against an old one.
 
 ---
 
+## Running from a notebook
+
+Two notebooks run the whole flow (setup, model server, ingest, chat, questions, trace lookup) from top
+to bottom:
+
+| Notebook | Where | What it does |
+|---|---|---|
+| `notebooks/local_notebook.ipynb` | Your machine | Detects the hardware and picks the matching setup: **NVIDIA GPU** → vLLM; **Apple Silicon Mac** → Ollama on Metal; **CPU only** → Ollama on CPU. Chat on `127.0.0.1` only. |
+| `notebooks/colab_notebook.ipynb` | Google Colab (GPU runtime) | Unpacks the project from Drive, restores `store/` from a Drive backup if there is one, starts vLLM, and saves the store and results back to Drive. |
+
+On a local machine, open the notebook with the `.venv` kernel. On a Mac, install Ollama first
+(`brew install ollama` or the installer from ollama.com). The notebook starts Ollama and pulls the model
+if needed.
+
+---
+
 ## 1. Setup (once)
 
 **You need:** Python 3.11, [Ollama](https://ollama.com) installed and running, and about 10 GB of free disk.
@@ -224,36 +240,28 @@ dataset hash, case ids, the scores, the cost and every case. The run also prints
 
 ---
 
-## Running from a notebook
-
-Two notebooks run the whole flow (setup, model server, ingest, chat, questions, trace lookup) from top
-to bottom:
-
-| Notebook | Where | What it does |
-|---|---|---|
-| `notebooks/local_notebook.ipynb` | Your machine | Detects the hardware and picks the matching setup: **NVIDIA GPU** → vLLM; **Apple Silicon Mac** → Ollama on Metal; **CPU only** → Ollama on CPU. Chat on `127.0.0.1` only. |
-| `notebooks/colab_notebook.ipynb` | Google Colab (GPU runtime) | Unpacks the project from Drive, restores `store/` from a Drive backup if there is one, starts vLLM, and saves the store and results back to Drive. |
-
-On a local machine, open the notebook with the `.venv` kernel. On a Mac, install Ollama first
-(`brew install ollama` or the installer from ollama.com). The notebook starts Ollama and pulls the model
-if needed.
-
 ## Running on a GPU (optional)
 
 The same code runs with vLLM instead of Ollama. You only switch the config. **The config's `llm.model`
 must equal the name vLLM serves (`SERVED`)**, or every model call fails with a 404 "model does not
 exist" error:
 
-| Config | Start vLLM with | Weights |
+| Config | Serves | Weights |
 |---|---|---|
-| `configs/colab_vllm_awq.yaml` | `MODEL=Qwen/Qwen2.5-VL-7B-Instruct-AWQ QUANT=awq DTYPE=half SERVED=qwen2.5-vl-7b-awq bash scripts/start_vllm.sh` | 4-bit AWQ (fits a 16 GB T4) |
-| `configs/colab_vllm.yaml` | `bash scripts/start_vllm.sh` (serves `qwen2.5-vl-7b`) | bf16 on GPUs with ≥ 20 GB, AWQ below |
+| `configs/colab_vllm_awq.yaml` | `qwen2.5-vl-7b-awq` | 4-bit AWQ on any GPU (fits a 16 GB T4) |
+| `configs/colab_vllm.yaml` | `qwen2.5-vl-7b` | bf16 on GPUs with ≥ 20 GB, AWQ below |
+
+Set the config once, and the start script and the agent both read it:
 
 ```bash
-export DOCAGENT_CONFIG=configs/colab_vllm_awq.yaml   # or pass --config to each command
+export DOCAGENT_CONFIG=configs/colab_vllm_awq.yaml   # the CLI, chat and eval read it (or pass --config)
+bash scripts/start_vllm.sh                           # serves the config's llm.model, with the matching weights
 ```
 
-Both notebooks read the served name from the config, so they can't get out of sync. If you start vLLM
+The script refuses to start if an explicit `SERVED=` disagrees with the config. The agent also checks at
+startup that the server offers the configured model and stops with a clear message if it doesn't. If the
+server isn't up yet, it only logs a warning, because replies already in the cache still work. Both
+notebooks read the served name from the config as well. If you start vLLM
 again with a different config, stop the old server first (`pkill -f vllm.entrypoints`): it keeps port
 8000. In production, the same vLLM server would run on-premises with no outbound network.
 
