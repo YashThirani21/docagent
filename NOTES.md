@@ -181,3 +181,9 @@ symbol classifier (0 -> 1.0 on CTC-01), frame-part joining + empty-read fallback
 - GD&T symbols on AutoCAD frames: 0.61 (CTC-01: 1.0). Rarely used symbols (cylindricity, runout,
   concentricity) have no examples here and are unvalidated.
 - belongs_to is the weakest output and the metric is lenient.
+
+## Next steps
+- Tracing - separating request level, task level, span level
+- Plan: For now, SQLite based. Postgres can happen later
+- Eval Harness - components: Router, qa_text, qa_image, drawing pdf, drawing image, e2e
+- Dataset generation? Router should be easy, qa_text we already have some, qa_image and drawings will take work
