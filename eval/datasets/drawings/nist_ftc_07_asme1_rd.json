@@ -1,0 +1,783 @@
+{
+ "drawing_id": "nist_ftc_07_asme1_rd",
+ "source_file": "nist_ftc_07_asme1_rd.pdf",
+ "units": "inches",
+ "title_block": {
+  "title": "PMI Fully-Toleranced Test Case 7 - View A",
+  "revision": "D",
+  "drawing_number": "nist_ftc_07_asme1_rd"
+ },
+ "n_notes": 6,
+ "values": [
+  {
+   "page": 1,
+   "raw_text": "Ø.250 +.003 -.000",
+   "type": "diameter",
+   "nominal": 0.25,
+   "tol_plus": 0.003,
+   "tol_minus": 0,
+   "belongs": [
+    "hole"
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "↧.30 ±.02",
+   "type": "dimension",
+   "nominal": 0.3,
+   "tol_plus": 0.02,
+   "tol_minus": -0.02,
+   "belongs": [
+    "hole",
+    "depth"
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "⌖ Ø.020Ⓟ.425 A B",
+   "type": "gdt_frame",
+   "nominal": 0.02,
+   "characteristic": "position",
+   "datums": [
+    "A",
+    "B"
+   ],
+   "belongs": [
+    "hole"
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "C",
+   "type": "datum_feature",
+   "belongs": [
+    "hole"
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "4X Ø.250 +.003 -.001",
+   "type": "diameter",
+   "quantity": 4,
+   "nominal": 0.25,
+   "tol_plus": 0.003,
+   "tol_minus": -0.001,
+   "belongs": [
+    "hole",
+    "boss"
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "↧.30 ±.02",
+   "type": "dimension",
+   "nominal": 0.3,
+   "tol_plus": 0.02,
+   "tol_minus": -0.02,
+   "belongs": [
+    "hole",
+    "depth",
+    "boss"
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "⌖ Ø.023Ⓟ.150 D B C",
+   "type": "gdt_frame",
+   "nominal": 0.023,
+   "characteristic": "position",
+   "datums": [
+    "D",
+    "B",
+    "C"
+   ],
+   "belongs": [
+    "hole",
+    "boss"
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "2X Ø.250 +.003 -.000",
+   "type": "diameter",
+   "quantity": 2,
+   "nominal": 0.25,
+   "tol_plus": 0.003,
+   "tol_minus": 0,
+   "belongs": [
+    "hole"
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "↧.30 ±.02",
+   "type": "dimension",
+   "nominal": 0.3,
+   "tol_plus": 0.02,
+   "tol_minus": -0.02,
+   "belongs": [
+    "hole",
+    "depth"
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "⌖ Ø.023Ⓟ.425 A B C",
+   "type": "gdt_frame",
+   "nominal": 0.023,
+   "characteristic": "position",
+   "datums": [
+    "A",
+    "B",
+    "C"
+   ],
+   "belongs": [
+    "hole"
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "Ø.250 +.003 -.000",
+   "type": "diameter",
+   "nominal": 0.25,
+   "tol_plus": 0.003,
+   "tol_minus": 0,
+   "belongs": [
+    "hole"
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "↧.30 ±.02",
+   "type": "dimension",
+   "nominal": 0.3,
+   "tol_plus": 0.02,
+   "tol_minus": -0.02,
+   "belongs": [
+    "hole",
+    "depth"
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "⊥ Ø.015Ⓟ.425 A",
+   "type": "gdt_frame",
+   "nominal": 0.015,
+   "characteristic": "perpendicularity",
+   "datums": [
+    "A"
+   ],
+   "belongs": [
+    "hole"
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "B",
+   "type": "datum_feature",
+   "belongs": [
+    "hole"
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "⌓ .015",
+   "type": "gdt_frame",
+   "nominal": 0.015,
+   "characteristic": "profile of a surface",
+   "datums": [],
+   "belongs": [
+    "surface",
+    "rim",
+    "flange",
+    "top",
+    "wall",
+    "face",
+    "groove"
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "2 SURFACES F1.1 AND F1.2",
+   "type": "other",
+   "belongs": [
+    "surface",
+    "rim",
+    "flange",
+    "top",
+    "wall",
+    "face"
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "A",
+   "type": "datum_feature",
+   "belongs": [
+    "surface",
+    "rim",
+    "flange",
+    "top",
+    "face"
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "F1.1",
+   "type": "other",
+   "optional": true
+  },
+  {
+   "page": 1,
+   "raw_text": "F1.2",
+   "type": "other",
+   "optional": true
+  },
+  {
+   "page": 2,
+   "raw_text": "4X Ø.281 +.006 -.001",
+   "type": "diameter",
+   "quantity": 4,
+   "nominal": 0.281,
+   "tol_plus": 0.006,
+   "tol_minus": -0.001,
+   "belongs": [
+    "hole",
+    "corner",
+    "counterbore",
+    "flange"
+   ]
+  },
+  {
+   "page": 2,
+   "raw_text": "⌴Ø.438 ±.010",
+   "type": "diameter",
+   "nominal": 0.438,
+   "tol_plus": 0.01,
+   "tol_minus": -0.01,
+   "belongs": [
+    "hole",
+    "counterbore",
+    "corner",
+    "flange"
+   ]
+  },
+  {
+   "page": 2,
+   "raw_text": "↧.30 ±.02",
+   "type": "dimension",
+   "nominal": 0.3,
+   "tol_plus": 0.02,
+   "tol_minus": -0.02,
+   "belongs": [
+    "hole",
+    "counterbore",
+    "depth",
+    "corner"
+   ]
+  },
+  {
+   "page": 2,
+   "raw_text": "⌖ Ø.06Ⓜ E B C",
+   "type": "gdt_frame",
+   "nominal": 0.06,
+   "characteristic": "position",
+   "datums": [
+    "E",
+    "B",
+    "C"
+   ],
+   "belongs": [
+    "hole",
+    "corner",
+    "flange"
+   ]
+  },
+  {
+   "page": 2,
+   "raw_text": "Ø.02Ⓜ E B C",
+   "type": "gdt_frame",
+   "nominal": 0.02,
+   "characteristic": "position",
+   "datums": [
+    "E",
+    "B",
+    "C"
+   ],
+   "belongs": [
+    "hole",
+    "corner",
+    "flange"
+   ]
+  },
+  {
+   "page": 2,
+   "raw_text": ".04 A B C",
+   "type": "gdt_frame",
+   "nominal": 0.04,
+   "characteristic": "profile of a surface",
+   "datums": [
+    "A",
+    "B",
+    "C"
+   ],
+   "belongs": [
+    "boss",
+    "pad",
+    "surface",
+    "coplanar",
+    "face",
+    "top"
+   ]
+  },
+  {
+   "page": 2,
+   "raw_text": ".01 A",
+   "type": "gdt_frame",
+   "nominal": 0.01,
+   "characteristic": "profile of a surface",
+   "datums": [
+    "A"
+   ],
+   "belongs": [
+    "boss",
+    "pad",
+    "surface",
+    "coplanar",
+    "face",
+    "top"
+   ]
+  },
+  {
+   "page": 2,
+   "raw_text": "4 COPLANAR SURFACES",
+   "type": "other",
+   "belongs": [
+    "boss",
+    "pad",
+    "surface",
+    "coplanar",
+    "face",
+    "top"
+   ]
+  },
+  {
+   "page": 2,
+   "raw_text": "D",
+   "type": "datum_feature",
+   "belongs": [
+    "boss",
+    "pad",
+    "surface",
+    "coplanar",
+    "face",
+    "top"
+   ]
+  },
+  {
+   "page": 2,
+   "raw_text": "▱ .01 / Ø1.00",
+   "type": "gdt_frame",
+   "nominal": 0.01,
+   "characteristic": "flatness",
+   "datums": [],
+   "belongs": [
+    "floor",
+    "bottom",
+    "surface",
+    "cavity",
+    "face",
+    "inner"
+   ]
+  },
+  {
+   "page": 2,
+   "raw_text": "// .03 A",
+   "type": "gdt_frame",
+   "nominal": 0.03,
+   "characteristic": "parallelism",
+   "datums": [
+    "A"
+   ],
+   "belongs": [
+    "floor",
+    "bottom",
+    "surface",
+    "cavity",
+    "face",
+    "inner"
+   ]
+  },
+  {
+   "page": 2,
+   "raw_text": "⌓ .06 A B C",
+   "type": "gdt_frame",
+   "nominal": 0.06,
+   "characteristic": "profile of a surface",
+   "datums": [
+    "A",
+    "B",
+    "C"
+   ],
+   "belongs": [
+    "floor",
+    "bottom",
+    "surface",
+    "cavity",
+    "face",
+    "inner"
+   ]
+  },
+  {
+   "page": 2,
+   "raw_text": "2X Ø.594 +.012 -.002",
+   "type": "diameter",
+   "quantity": 2,
+   "nominal": 0.594,
+   "tol_plus": 0.012,
+   "tol_minus": -0.002,
+   "belongs": [
+    "hole"
+   ]
+  },
+  {
+   "page": 2,
+   "raw_text": "⌖ Ø.040Ⓜ Ø.045 MAX A B C",
+   "type": "gdt_frame",
+   "nominal": 0.04,
+   "characteristic": "position",
+   "datums": [
+    "A",
+    "B",
+    "C"
+   ],
+   "belongs": [
+    "hole"
+   ]
+  },
+  {
+   "page": 2,
+   "raw_text": "4X Ø.173 +.005 -.001",
+   "type": "diameter",
+   "quantity": 4,
+   "nominal": 0.173,
+   "tol_plus": 0.005,
+   "tol_minus": -0.001,
+   "belongs": [
+    "hole"
+   ]
+  },
+  {
+   "page": 2,
+   "raw_text": "⌖ Ø.060 A B C",
+   "type": "gdt_frame",
+   "nominal": 0.06,
+   "characteristic": "position",
+   "datums": [
+    "A",
+    "B",
+    "C"
+   ],
+   "belongs": [
+    "hole"
+   ]
+  },
+  {
+   "page": 2,
+   "raw_text": "Ø.015 A",
+   "type": "gdt_frame",
+   "nominal": 0.015,
+   "characteristic": "position",
+   "datums": [
+    "A"
+   ],
+   "belongs": [
+    "hole"
+   ]
+  },
+  {
+   "page": 2,
+   "raw_text": "3X Ø.875 ±.020 ST",
+   "type": "diameter",
+   "quantity": 3,
+   "nominal": 0.875,
+   "tol_plus": 0.02,
+   "tol_minus": -0.02,
+   "belongs": [
+    "hole"
+   ]
+  },
+  {
+   "page": 2,
+   "raw_text": "3X Ø.875 ±.010",
+   "type": "diameter",
+   "quantity": 3,
+   "nominal": 0.875,
+   "tol_plus": 0.01,
+   "tol_minus": -0.01,
+   "belongs": [
+    "hole"
+   ]
+  },
+  {
+   "page": 2,
+   "raw_text": "⌖ Ø.050 ST A B C",
+   "type": "gdt_frame",
+   "nominal": 0.05,
+   "characteristic": "position",
+   "datums": [
+    "A",
+    "B",
+    "C"
+   ],
+   "belongs": [
+    "hole"
+   ]
+  },
+  {
+   "page": 2,
+   "raw_text": "D",
+   "type": "other",
+   "optional": true
+  },
+  {
+   "page": 3,
+   "raw_text": "2X Ø.594 +.012 -.002",
+   "type": "diameter",
+   "quantity": 2,
+   "nominal": 0.594,
+   "tol_plus": 0.012,
+   "tol_minus": -0.002,
+   "belongs": [
+    "hole"
+   ]
+  },
+  {
+   "page": 3,
+   "raw_text": "⌖ Ø.040Ⓜ Ø.045 MAX A B C",
+   "type": "gdt_frame",
+   "nominal": 0.04,
+   "characteristic": "position",
+   "datums": [
+    "A",
+    "B",
+    "C"
+   ],
+   "belongs": [
+    "hole"
+   ]
+  },
+  {
+   "page": 3,
+   "raw_text": ".070 A B C",
+   "type": "gdt_frame",
+   "nominal": 0.07,
+   "characteristic": "profile of a surface",
+   "datums": [
+    "A",
+    "B",
+    "C"
+   ],
+   "belongs": [
+    "surface",
+    "bottom",
+    "face",
+    "base",
+    "top"
+   ]
+  },
+  {
+   "page": 3,
+   "raw_text": ".015 A",
+   "type": "gdt_frame",
+   "nominal": 0.015,
+   "characteristic": "profile of a surface",
+   "datums": [
+    "A"
+   ],
+   "belongs": [
+    "surface",
+    "bottom",
+    "face",
+    "base",
+    "top"
+   ]
+  },
+  {
+   "page": 3,
+   "raw_text": "SIM REQT",
+   "type": "other",
+   "belongs": [
+    "surface",
+    "bottom",
+    "face",
+    "base",
+    "top"
+   ]
+  },
+  {
+   "page": 3,
+   "raw_text": ".070 A B C",
+   "type": "gdt_frame",
+   "nominal": 0.07,
+   "characteristic": "profile of a surface",
+   "datums": [
+    "A",
+    "B",
+    "C"
+   ],
+   "belongs": [
+    "pad",
+    "boss",
+    "surface",
+    "coplanar",
+    "foot",
+    "face"
+   ]
+  },
+  {
+   "page": 3,
+   "raw_text": ".015 A",
+   "type": "gdt_frame",
+   "nominal": 0.015,
+   "characteristic": "profile of a surface",
+   "datums": [
+    "A"
+   ],
+   "belongs": [
+    "pad",
+    "boss",
+    "surface",
+    "coplanar",
+    "foot",
+    "face"
+   ]
+  },
+  {
+   "page": 3,
+   "raw_text": "4 COPLANAR SURFACES",
+   "type": "other",
+   "belongs": [
+    "pad",
+    "boss",
+    "surface",
+    "coplanar",
+    "foot",
+    "face"
+   ]
+  },
+  {
+   "page": 3,
+   "raw_text": "SIM REQT",
+   "type": "other",
+   "belongs": [
+    "pad",
+    "boss",
+    "surface",
+    "coplanar",
+    "foot",
+    "face"
+   ]
+  },
+  {
+   "page": 3,
+   "raw_text": "E",
+   "type": "datum_feature",
+   "belongs": [
+    "pad",
+    "boss",
+    "surface",
+    "coplanar",
+    "foot",
+    "face"
+   ]
+  },
+  {
+   "page": 4,
+   "raw_text": "R.012 - .022",
+   "type": "radius",
+   "lower": 0.012,
+   "upper": 0.022,
+   "belongs": [
+    "groove",
+    "radi",
+    "fillet",
+    "corner",
+    "edge"
+   ]
+  },
+  {
+   "page": 4,
+   "raw_text": "INNER AND OUTER RADII OF ENTIRE GROOVE",
+   "type": "other",
+   "belongs": [
+    "groove",
+    "radi",
+    "fillet"
+   ]
+  },
+  {
+   "page": 4,
+   "raw_text": ".030 A B C",
+   "type": "gdt_frame",
+   "nominal": 0.03,
+   "characteristic": "profile of a surface",
+   "datums": [
+    "A",
+    "B",
+    "C"
+   ],
+   "belongs": [
+    "groove",
+    "wall"
+   ]
+  },
+  {
+   "page": 4,
+   "raw_text": ".005 A B C",
+   "type": "gdt_frame",
+   "nominal": 0.005,
+   "characteristic": "profile of a surface",
+   "datums": [
+    "A",
+    "B",
+    "C"
+   ],
+   "belongs": [
+    "groove",
+    "wall"
+   ]
+  },
+  {
+   "page": 4,
+   "raw_text": "INNER AND OUTER WALL OF ENTIRE GROOVE",
+   "type": "other",
+   "belongs": [
+    "groove",
+    "wall"
+   ]
+  },
+  {
+   "page": 4,
+   "raw_text": "⌓ .006 A B C",
+   "type": "gdt_frame",
+   "nominal": 0.006,
+   "characteristic": "profile of a surface",
+   "datums": [
+    "A",
+    "B",
+    "C"
+   ],
+   "belongs": [
+    "edge",
+    "fillet",
+    "round",
+    "corner",
+    "rim",
+    "surface",
+    "groove",
+    "wall"
+   ]
+  }
+ ]
+}

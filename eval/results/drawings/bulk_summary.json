@@ -1,0 +1,112 @@
+[
+  {
+    "file": "nist_ctc_01_asme1_rd.pdf",
+    "request_id": "6125a940b3c7",
+    "routes": "drawing",
+    "values": 38,
+    "outputs": [
+      "outputs/drawings/nist_ctc_01_asme1_rd.json"
+    ],
+    "errors": []
+  },
+  {
+    "file": "nist_ctc_03_asme1_rc.pdf",
+    "request_id": "a83b770deee1",
+    "routes": "drawing",
+    "values": 52,
+    "outputs": [
+      "outputs/drawings/nist_ctc_03_asme1_rc.json"
+    ],
+    "errors": []
+  },
+  {
+    "file": "nist_ctc_02_asme1_rc.pdf",
+    "request_id": "f8475d80e4e5",
+    "routes": "drawing",
+    "values": 94,
+    "outputs": [
+      "outputs/drawings/nist_ctc_02_asme1_rc.json"
+    ],
+    "errors": []
+  },
+  {
+    "file": "nist_ctc_04_asme1_rd.pdf",
+    "request_id": "0663f3cdcd3d",
+    "routes": "drawing",
+    "values": 41,
+    "outputs": [
+      "outputs/drawings/nist_ctc_04_asme1_rd.json"
+    ],
+    "errors": []
+  },
+  {
+    "file": "nist_ctc_05_asme1_rd.pdf",
+    "request_id": "94d030789558",
+    "routes": "drawing",
+    "values": 34,
+    "outputs": [
+      "outputs/drawings/nist_ctc_05_asme1_rd.json"
+    ],
+    "errors": []
+  },
+  {
+    "file": "nist_ftc_06_asme1_rd.pdf",
+    "request_id": "24ab21e81634",
+    "routes": "drawing",
+    "values": 113,
+    "outputs": [
+      "outputs/drawings/nist_ftc_06_asme1_rd.json"
+    ],
+    "errors": []
+  },
+  {
+    "file": "nist_ftc_07_asme1_rd.pdf",
+    "request_id": "f395c94a994e",
+    "routes": "drawing",
+    "values": 105,
+    "outputs": [
+      "outputs/drawings/nist_ftc_07_asme1_rd.json"
+    ],
+    "errors": []
+  },
+  {
+    "file": "nist_ftc_08_asme1_rc.pdf",
+    "request_id": "4789f70568ff",
+    "routes": "drawing",
+    "values": 137,
+    "outputs": [
+      "outputs/drawings/nist_ftc_08_asme1_rc.json"
+    ],
+    "errors": []
+  },
+  {
+    "file": "nist_ftc_09_asme1_rd.pdf",
+    "request_id": "8c3fcd3c9c7f",
+    "routes": "drawing",
+    "values": 143,
+    "outputs": [
+      "outputs/drawings/nist_ftc_09_asme1_rd.json"
+    ],
+    "errors": []
+  },
+  {
+    "file": "nist_ftc_11_asme1_rb.pdf",
+    "request_id": "35c91f3ecfd8",
+    "routes": "drawing",
+    "values": 43,
+    "outputs": [
+      "outputs/drawings/nist_ftc_11_asme1_rb.json"
+    ],
+    "errors": []
+  },
+  {
+    "file": "nist_ftc_10_asme1_rb.pdf",
+    "request_id": "10e0a35716c0",
+    "routes": "drawing",
+    "values": 194,
+    "outputs": [
+      "outputs/drawings/nist_ftc_10_asme1_rb.json"
+    ],
+    "errors": []
+  }
+]

@@ -34,6 +34,7 @@ retrieval:
   max_context_figures: 2
 
 drawing:
+  method: geometry         # geometry (annotation candidates; PDF + pictures) | tiles (legacy)
   tile_dpi: 200
   grid: [2, 2]
   overlap: 0.12

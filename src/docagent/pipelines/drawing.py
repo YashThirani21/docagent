@@ -137,13 +137,20 @@ def parse_numbers(raw: str) -> dict:
     elif len(nums) >= 3 and not re.search(r"\b[A-Z]\b", s):    # nominal +upper -lower (stacked)
         a, b = float(nums[1]), float(nums[2])
         out["tol_plus"], out["tol_minus"] = max(a, b), min(a, b)
+    elif len(nums) == 2 and nums[1][0] in "+-" and not re.search(r"\b[A-Z]\b", s):
+        t = float(nums[1])                                    # unilateral: the other side is 0
+        out["tol_plus"], out["tol_minus"] = (t, 0.0) if t > 0 else (0.0, t)
     return out
 
 
 def parse_frame(raw: str) -> dict:
     """Feature control frame: tolerance value, datum letters, modifiers."""
     s = raw.translate(_NORM)
-    out: dict = {"datums": re.findall(r"(?<![A-Z])([A-H])(?![A-Z])", s.upper())}
+    nums_at = [m.end() for m in re.finditer(r"\d*\.\d+|\d+", s)]
+    tail = s[nums_at[-1]:] if nums_at else s
+    tail = re.sub(r"MAX|MIN|\bST\b|\(?[MLPSF]\)|Ⓜ|Ⓛ|Ⓟ|Ⓢ|Ⓕ|^\s*[MLP](?=\s)", " ", tail.upper())
+    letters = [ch for ch in tail if "A" <= ch <= "Z" and ch not in "IOQ"]
+    out: dict = {"datums": letters or re.findall(r"(?<![A-Z])([A-H])(?![A-Z])", s.upper())}
     if m := re.search(r"(\d*\.\d+|\d+)", s):
         out["nominal"] = float(m.group(1))
     out["modifiers"] = [v for k, v in _MODIFIERS.items() if k in s.upper() or k in s]
@@ -286,6 +293,9 @@ def _units(text: str, values: list[DrawingValue], vlm_guess: str | None) -> str 
         return "inches"
     if re.search(r"Y14\.5M", text):                          # the M edition = metric
         return "millimeters"
+    leading_zero = sum(bool(re.search(r"(^|[^\d.])0\.\d", v.raw_text)) for v in dims)
+    if dims and leading_zero and not leading_dot:            # ASME: metric writes 0.75, inch writes .75
+        return "millimeters"
     if vlm_guess and vlm_guess.lower().startswith(("mm", "milli")):
         return "millimeters"
     if vlm_guess and vlm_guess.lower().startswith("inch"):
@@ -296,8 +306,23 @@ def _units(text: str, values: list[DrawingValue], vlm_guess: str | None) -> str 
 # ------------------------------------------------------------------ extractor
 
 
+class _KV(BaseModel):
+    key: str
+    value: str
+
+
+class _TitleBlockRead(BaseModel):
+    fields: list[_KV]
+
+
+TITLE_PROMPT = """This is the lower-right corner of an engineering drawing sheet. If it contains a title block,
+list its fields as key/value pairs (e.g. title, drawing_number, revision, scale, sheet, material, units).
+If there is no title block, return no fields."""
+
+
 class DrawingExtractor:
     version = "drawing-read-locate-v2"
+    geometry_version = "drawing-geometry-v1"
 
     def __init__(self, cfg: Config, vlm: VLM | None = None):
         self.cfg = cfg
@@ -306,6 +331,103 @@ class DrawingExtractor:
 
     def extract(self, att: Attachment | str | Path) -> DrawingExtraction:
         att = att if isinstance(att, Attachment) else Attachment.from_path(att)
+        if self.dc.method == "geometry":
+            return self._extract_geometry(att)
+        return self._extract_tiles(att)
+
+    # ------------------------------------------------------------ geometry method (default)
+    def _extract_geometry(self, att: Attachment) -> DrawingExtraction:
+        from .drawing_geometry import GeometryReader, datum_check, load_image
+        drawing_id = doc_id_from_path(att.path)
+        doc = pymupdf.open(att.path) if att.is_pdf else None
+        sheets = [(p, None) for p in doc] if doc else [(None, load_image(att.path))]
+        full_text = "\n".join(p.get_text() for p in doc) if doc else ""
+        title_block, notes = _title_block(full_text), _notes(full_text)
+        known = {norm(t) for t in list(title_block.values()) + notes}
+        reader = GeometryReader(self.cfg, self.vlm, parse_numbers, parse_frame, _retype, _characteristic, norm)
+        values: list[DrawingValue] = []
+        pages: list[DrawingPage] = []
+        read_notes: list[str] = []
+        raster_used = not att.is_pdf
+        for pno, (page, image) in enumerate(sheets, start=1):
+            cands, crop = reader.sheet_candidates(page, image, pno, known)
+            view = None
+            if page is not None and (m := re.search(r"View\s+([A-Z0-9]+(?:\s*\(of \d+\))?)", page.get_text())):
+                view = f"View {m.group(1)}"
+            if not cands:                                  # nothing detected: legacy tile reading
+                log.info("%s sheet %d: no annotation candidates, falling back to tiles", drawing_id, pno)
+                src = _PageSource(page=page) if page is not None else _PageSource(image=image)
+                vals, _, sheet = self._sheet(drawing_id, pno, src, title_block, notes)
+                values += vals
+                pages.append(DrawingPage(page=pno, view=view or sheet.view, description=sheet.part_description))
+                continue
+            raster_used |= crop.page is None
+            log.info("%s sheet %d: %d candidates (%s)", drawing_id, pno, len(cands), cands[0].source)
+            vals, nts = reader.read_sheet(drawing_id, pno, cands, crop)
+            for i, v in enumerate(vals, start=1):
+                v.id = f"{drawing_id}-p{pno}-v{i:03d}"
+            self._fill_belongs_to(vals, page, image if crop.page is None else None, crop)
+            values += vals
+            read_notes += nts
+            pages.append(DrawingPage(page=pno, view=view, description=f"{len(cands)} annotation callouts"))
+        if not notes and read_notes:                       # pictures: notes come from the reading
+            notes = list(dict.fromkeys(read_notes))
+        if len(title_block) < 2:
+            title_block.update(self._title_block_vlm(sheets[0]))
+        units = _units(full_text + "\n" + "\n".join(notes), values, None)
+        for v in values:
+            if v.type == "angle":
+                v.unit = "degrees"
+            elif v.type not in ("note", "title_block", "datum_feature", "datum_target", "other"):
+                v.unit = units
+            v.meaning = explain(v)
+        datum_check(values)
+        values += self._text_values(drawing_id, title_block, notes)
+        if doc:
+            doc.close()
+        return DrawingExtraction(
+            drawing_id=drawing_id, source_file=Path(att.path).name, source_sha256=att.sha256, units=units,
+            coord_units="px" if raster_used else "pt", title_block=title_block, notes=notes, pages=pages,
+            values=values, unmatched_text_tokens=[], extractor_version=self.geometry_version)
+
+    def _fill_belongs_to(self, vals: list[DrawingValue], page, image, crop) -> None:
+        """Where the leader-end crop gave nothing useful (no leader, or one generic word), ask once per
+        sheet with numbered marks on the whole sheet (the v2 'locate' call) - only for those values."""
+        weak = [v for v in vals if v.type not in ("note", "title_block")
+                and (v.belongs_to.startswith("not determined") or len(v.belongs_to.split()) <= 1)]
+        if not weak or not vals:
+            return
+        if page is not None:
+            src = _PageSource(page=page)
+        else:
+            src = _PageSource(image=crop.image)
+        probes = [v.model_copy() for v in vals]
+        try:
+            self._locate(src, probes)
+        except Exception as e:
+            log.warning("sheet locate failed: %s", e)
+            return
+        for v, pr in zip(vals, probes):
+            if v in weak and pr.belongs_to and not pr.belongs_to.startswith("not determined"):
+                generic = v.belongs_to if not v.belongs_to.startswith("not determined") else ""
+                v.belongs_to = pr.belongs_to + (f" ({generic.lower()})" if generic else "")
+                v.checks.append("belongs_to from sheet-level marks (no usable leader-end reading)")
+
+    def _title_block_vlm(self, sheet) -> dict[str, str]:
+        """Generic fallback when the regexes find no title block (pictures, other templates)."""
+        page, image = sheet
+        img = render(page, 150) if page is not None else image
+        w, h = img.size
+        crop = img.crop((int(w * 0.5), int(h * 0.7), w, h))
+        try:
+            tb = self.vlm.structured(TITLE_PROMPT, _TitleBlockRead, images=[fit_image(crop, 1100)], max_tokens=300)
+        except Exception as e:
+            log.warning("title block read failed: %s", e)
+            return {}
+        return {f.key.strip().lower().replace(" ", "_"): f.value.strip() for f in tb.fields if f.value.strip()}
+
+    # ------------------------------------------------------------ tile method (legacy / fallback)
+    def _extract_tiles(self, att: Attachment) -> DrawingExtraction:
         drawing_id = doc_id_from_path(att.path)
         doc = pymupdf.open(att.path) if att.is_pdf else None
         sources = ([_PageSource(page=p) for p in doc] if doc

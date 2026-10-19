@@ -1,0 +1,268 @@
+{
+ "drawing_id": "nist_ctc_01_asme1_rd",
+ "source_file": "nist_ctc_01_asme1_rd.pdf",
+ "units": "millimeters",
+ "title_block": {
+  "title": "PMI Complex Test Case 1",
+  "revision": "D",
+  "drawing_number": "nist_ctc_01_asme1_rd"
+ },
+ "n_notes": 0,
+ "values": [
+  {
+   "page": 1,
+   "raw_text": "Ø35.2 Ø34.8",
+   "type": "diameter",
+   "lower": 34.8,
+   "upper": 35.2,
+   "belongs": [
+    "hole",
+    "boss",
+    "bore"
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "▱ 0.2",
+   "type": "gdt_frame",
+   "nominal": 0.2,
+   "characteristic": "flatness",
+   "datums": [],
+   "belongs": [
+    "surface",
+    "face",
+    "floor",
+    "bottom",
+    "wall",
+    "top",
+    "side"
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "A",
+   "type": "datum_feature",
+   "belongs": [
+    "surface",
+    "face",
+    "floor",
+    "bottom",
+    "wall",
+    "top",
+    "side"
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "⌖ 0.75 A B C",
+   "type": "gdt_frame",
+   "nominal": 0.75,
+   "characteristic": "position",
+   "datums": [
+    "A",
+    "B",
+    "C"
+   ],
+   "belongs": [
+    "slot",
+    "tab",
+    "notch",
+    "width",
+    "feature"
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "B",
+   "type": "datum_feature",
+   "belongs": [
+    "hole",
+    "bore",
+    "cylind"
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "⌓ 0.5 A",
+   "type": "gdt_frame",
+   "nominal": 0.5,
+   "characteristic": "profile of a surface",
+   "datums": [
+    "A"
+   ],
+   "belongs": [
+    "hex",
+    "boss",
+    "nut"
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "Ø25 ±0.15",
+   "type": "diameter",
+   "nominal": 25,
+   "tol_plus": 0.15,
+   "tol_minus": -0.15,
+   "belongs": [
+    "hole"
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "Ø34.8 - 35.2",
+   "type": "diameter",
+   "lower": 34.8,
+   "upper": 35.2,
+   "belongs": [
+    "hole",
+    "bore",
+    "boss"
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "Ø35 0 -0.2",
+   "type": "diameter",
+   "nominal": 35,
+   "tol_plus": 0,
+   "tol_minus": -0.2,
+   "belongs": [
+    "boss",
+    "cylind",
+    "lobe",
+    "end",
+    "round",
+    "diameter"
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "Ø20 +0.05 -0.10",
+   "type": "diameter",
+   "nominal": 20,
+   "tol_plus": 0.05,
+   "tol_minus": -0.1,
+   "belongs": [
+    "hole"
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "Ø20 +0.10 -0.05",
+   "type": "diameter",
+   "nominal": 20,
+   "tol_plus": 0.1,
+   "tol_minus": -0.05,
+   "belongs": [
+    "hole"
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "60° ±0.5°",
+   "type": "angle",
+   "nominal": 60,
+   "tol_plus": 0.5,
+   "tol_minus": -0.5,
+   "belongs": [
+    "angle",
+    "face",
+    "notch",
+    "chamfer",
+    "edge",
+    "surface",
+    "v"
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "⊥ 1.5 A",
+   "type": "gdt_frame",
+   "nominal": 1.5,
+   "characteristic": "perpendicularity",
+   "datums": [
+    "A"
+   ],
+   "belongs": [
+    "surface",
+    "face",
+    "floor",
+    "bottom",
+    "wall",
+    "top",
+    "side"
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "C",
+   "type": "datum_feature",
+   "belongs": [
+    "hole",
+    "bore"
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "⌓ 1.25 A B C",
+   "type": "gdt_frame",
+   "nominal": 1.25,
+   "characteristic": "profile of a surface",
+   "datums": [
+    "A",
+    "B",
+    "C"
+   ],
+   "belongs": [
+    "boss",
+    "cylind",
+    "surface",
+    "lobe",
+    "end"
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "⌖ 0.75 A B C",
+   "type": "gdt_frame",
+   "nominal": 0.75,
+   "characteristic": "position",
+   "datums": [
+    "A",
+    "B",
+    "C"
+   ],
+   "belongs": [
+    "slot"
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "Ø35 +0.2 0",
+   "type": "diameter",
+   "nominal": 35,
+   "tol_plus": 0.2,
+   "tol_minus": 0,
+   "belongs": [
+    "boss",
+    "cylind",
+    "lobe",
+    "end",
+    "round",
+    "diameter"
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "A",
+   "type": "other",
+   "optional": true
+  },
+  {
+   "page": 1,
+   "raw_text": "B",
+   "type": "other",
+   "optional": true
+  }
+ ]
+}

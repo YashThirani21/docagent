@@ -116,3 +116,68 @@ Latency: ~40-60 s per answer on the M4 (generation over ~4.5-6k prompt tokens wi
 
 ## Next commit:
 1. Added a test set for text QA to run on Colab and see results
+
+## Drawing extraction: geometry first (PDF + pictures)
+
+**Why.** The tile reader let a 7B VLM find, place and read annotations on overlapping tiles: high
+recall but ~half the entries junk (duplicates from overlaps, frames split into letters, prompt examples
+copied), GD&T symbols 0% right, positions approximate.
+
+**Ground truth + eval** (`eval/datasets/drawings/`, `eval/run_drawings.py`): CTC-01 (1 sheet, isometric,
+metric, 17 values) and FTC-07 (4 sheets, AutoCAD export with a real text layer, 53 values), labelled from
+the rendered sheets (FTC-07 strings checked against its text layer). One-to-one matching by normalised
+text / identical numbers per sheet. `belongs_to` is scored by keyword lists per value - lenient (any
+"hole" answer passes for a hole); treat it as a coarse signal.
+
+**Pipeline** (`drawing.method: geometry`):
+1. *Find annotations* - `drawing_annotations.py`. Vector route: annotation layer chosen automatically
+   (OCG layer name, else the colour whose paths look most like glyphs + frames); text from glyph outlines
+   or the text layer (per-character boxes); frames = rectangles/quads; leaders = segments (or thin filled
+   polygons) that start at a callout and end away from it, followed through polylines. Grouping:
+   glyphs -> words -> frames absorb words inside their real (rotated) polygon -> nearby groups merge into a
+   callout unless both already have their own leader. Picture route: RapidOCR detector boxes on 3x3
+   tiles, OpenCV contours for frames and Hough segments for leaders, same grouping.
+2. *Read each callout once* - crop rotated to horizontal text, one short VLM call (no literal examples in
+   the prompt: the 7B model copied them into every answer - precision 0.22 in the first try).
+3. *GD&T symbol without the VLM* - `gdt_symbols.py`: the VLM could not recognise symbols even on clean
+   horizontal crops. Frame cells = straight-sided contour holes, first cell un-sheared (isometric frames are
+   parallelograms), symbol classified by topology (4 enclosed regions = position, 4-corner outline =
+   flatness, closed half-circle = profile of a surface, perpendicular lines = perpendicularity, ...).
+4. *Datum boxes* - box interior un-sheared, letter recognised by RapidOCR at 4 rotations (VLM fallback).
+5. *Code*: frame rows rebuilt from fragments ('0.75' + 'A B C', projected zones, MAX), stacked tolerances
+   and limit dimensions merged (lower/upper limits added to the schema), text-layer digits override the
+   reading, unread text-layer word annotations added, implausible readings dropped.
+6. *belongs_to*: a crop around the leader end (red circle) named by the VLM; where that gives nothing
+   useful, one sheet-level numbered-marks call fills in. Confidence = checks passed (text layer agrees,
+   numbers parsed, symbol from geometry, leader found, datums defined on the drawing), listed per value.
+
+**Findings on the way**
+- All 11 PDFs are portrait pages with /Rotate 270: PyMuPDF returns paths AND text-layer boxes unrotated.
+  The tile pipeline used unrotated text-layer boxes against rotated tiles (wrong hints on FTC-07).
+- AutoCAD (FTC-07) draws wide lines as thin filled polygons, arrowheads as small fills, frames as lines
+  (not quads), and stores text as real text on diagonal lines whose axis-aligned boxes overlap - each
+  needed its own handling (thin-polygon segments, per-character boxes, quad-true containment).
+- A revision letter "D" in the known title-block text hid datum "D"; part shading fills looked like
+  coordinate-triad marks. Both fixed (min length for known text; triads = small saturated strokes only).
+
+**Results on the ground-truth sheets** (70 required values; local Ollama 4-bit for geometry, L4 bf16 for
+the baseline - the geometry method on the L4 should do at least as well):
+
+| method | recall | precision | numbers | type | GD&T symbol | datums | belongs_to | title/notes/units |
+|---|---|---|---|---|---|---|---|---|
+| tiles v2 (baseline, L4) | 0.73 | 0.45 | 0.80 | 0.73 | 0.00 | 0.81 | 0.58 | 1.0 / 1.0 / 1.0 |
+| geometry, PDF route | 0.89 | 0.87 | 1.00 | 0.91 | 0.71 | 0.89 | 0.75 | 1.0 / 1.0 / 1.0 |
+| geometry, picture route (JPG) | see below | | | | | | | |
+
+Iterations (geo-v1..v8 in eval/results/): example-copying fixed (precision 0.22 -> 0.78), deskewed crops,
+symbol classifier (0 -> 1.0 on CTC-01), frame-part joining + empty-read fallback (FTC-07 recall 0.72 ->
+0.87), datum boxes via un-shear + OCR, sheet-level belongs_to fallback (0.37 -> 0.75).
+
+**Remaining risks / dataset-specific assumptions**
+- Tuned on 2 labelled drawings; the other 9 were only checked by overlay (`tmp/annot_overlays/`).
+- Vector route assumes annotations are separable by layer or colour (true for all 11, typical for CAD
+  exports); otherwise the picture route is used. Title-block regexes are NIST-specific (generic VLM
+  fallback when they find nothing).
+- GD&T symbols on AutoCAD frames: 0.61 (CTC-01: 1.0). Rarely used symbols (cylindricity, runout,
+  concentricity) have no examples here and are unvalidated.
+- belongs_to is the weakest output and the metric is lenient.

@@ -33,6 +33,7 @@ retrieval:
   max_context_figures: 2   # figure crops sent to the VLM alongside retrieved text
 
 drawing:
+  method: geometry         # geometry (annotation candidates; PDF + pictures) | tiles (legacy)
   tile_dpi: 200
   grid: [2, 2]             # columns x rows
   overlap: 0.12

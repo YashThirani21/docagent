@@ -1,0 +1,759 @@
+{
+ "run": {
+  "label": "geo-v7",
+  "method": "geometry",
+  "as_images": false,
+  "pred_dir": null,
+  "config": null,
+  "seconds": [
+   18.4,
+   44.6
+  ]
+ },
+ "summary": {
+  "recall": 0.886,
+  "precision": 0.87,
+  "numbers": 1.0,
+  "type": 0.91,
+  "gdt_symbol": 0.708,
+  "datums": 0.893,
+  "belongs_to": 0.369,
+  "title_block": 1.0,
+  "notes": 1.0,
+  "units": 1.0,
+  "n_pred": 77,
+  "n_gt_required": 70
+ },
+ "drawings": [
+  {
+   "drawing": "nist_ctc_01_asme1_rd",
+   "n_pred": 19,
+   "n_gt_required": 17,
+   "recall": 0.882,
+   "precision": 0.895,
+   "numbers": 1.0,
+   "type": 0.882,
+   "gdt_symbol": 1.0,
+   "datums": 0.833,
+   "belongs_to": 0.2,
+   "title_block": 1.0,
+   "notes": true,
+   "units": true,
+   "missed": [
+    "A (p1)",
+    "B (p1)"
+   ],
+   "extra": [
+    "H (p1)",
+    "1B (p1)"
+   ],
+   "pairs": [
+    {
+     "pred": "Ø25 ±0.15",
+     "gt": "Ø25 ±0.15",
+     "page": 1,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "Face"
+    },
+    {
+     "pred": "φ20+0.10-0.05",
+     "gt": "Ø20 +0.10 -0.05",
+     "page": 1,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "Hole"
+    },
+    {
+     "pred": "φ20+0.05-0.10",
+     "gt": "Ø20 +0.05 -0.10",
+     "page": 1,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "Hole"
+    },
+    {
+     "pred": "Ø34.8 - 35.2",
+     "gt": "Ø34.8 - 35.2",
+     "page": 1,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "not determined (no leader found)"
+    },
+    {
+     "pred": "60° ±0.5°",
+     "gt": "60° ±0.5°",
+     "page": 1,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "not determined (no leader found)"
+    },
+    {
+     "pred": "Φ35 0 -0.2",
+     "gt": "Ø35 0 -0.2",
+     "page": 1,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "not determined (no leader found)"
+    },
+    {
+     "pred": "0.75 ABC",
+     "gt": "⌖ 0.75 A B C",
+     "page": 1,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": "position",
+     "gt_char": "position",
+     "belongs_to": "Face"
+    },
+    {
+     "pred": "0.75 A B C",
+     "gt": "⌖ 0.75 A B C",
+     "page": 1,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": "position",
+     "gt_char": "position",
+     "belongs_to": "not determined (no leader found)"
+    },
+    {
+     "pred": "1.5A",
+     "gt": "⊥ 1.5 A",
+     "page": 1,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": "perpendicularity",
+     "gt_char": "perpendicularity",
+     "belongs_to": "hole"
+    },
+    {
+     "pred": "C",
+     "gt": "C",
+     "page": 1,
+     "numbers": null,
+     "type_ok": true,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "not determined (no leader found)"
+    },
+    {
+     "pred": "B",
+     "gt": "B",
+     "page": 1,
+     "numbers": null,
+     "type_ok": false,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "not determined (no leader found)"
+    },
+    {
+     "pred": "A",
+     "gt": "A",
+     "page": 1,
+     "numbers": null,
+     "type_ok": false,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "not determined"
+    },
+    {
+     "pred": "0.2",
+     "gt": "▱ 0.2",
+     "page": 1,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": "flatness",
+     "gt_char": "flatness",
+     "belongs_to": "Face"
+    },
+    {
+     "pred": "0.5 A",
+     "gt": "⌓ 0.5 A",
+     "page": 1,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": "profile of a surface",
+     "gt_char": "profile of a surface",
+     "belongs_to": "Face"
+    },
+    {
+     "pred": "Ø35.2-34.8",
+     "gt": "Ø35.2 Ø34.8",
+     "page": 1,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "not determined (no leader found)"
+    },
+    {
+     "pred": "Φ35+0.2",
+     "gt": "Ø35 +0.2 0",
+     "page": 1,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "not determined (no leader found)"
+    },
+    {
+     "pred": "1.25 A-B",
+     "gt": "⌓ 1.25 A B C",
+     "page": 1,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": "profile of a surface",
+     "gt_char": "profile of a surface",
+     "belongs_to": "Face"
+    }
+   ]
+  },
+  {
+   "drawing": "nist_ftc_07_asme1_rd",
+   "n_pred": 58,
+   "n_gt_required": 53,
+   "recall": 0.887,
+   "precision": 0.862,
+   "numbers": 1.0,
+   "type": 0.92,
+   "gdt_symbol": 0.609,
+   "datums": 0.913,
+   "belongs_to": 0.426,
+   "title_block": 1.0,
+   "notes": true,
+   "units": true,
+   "missed": [
+    "⌖ Ø.023Ⓟ.150 D B C (p1)",
+    "4 COPLANAR SURFACES (p2)",
+    "SIM REQT (p3)",
+    "4 COPLANAR SURFACES (p3)",
+    "INNER AND OUTER RADII OF ENTIRE GROOVE (p4)",
+    "INNER AND OUTER WALL OF ENTIRE GROOVE (p4)"
+   ],
+   "extra": [
+    "B (p1)",
+    ".150 (p1)",
+    "C (p1)",
+    "D (p1)",
+    "2 SURFACES (p1)",
+    ".425 -.000 (p1)",
+    "B (p4)",
+    "C (p4)"
+   ],
+   "pairs": [
+    {
+     "pred": "R.012 -.022",
+     "gt": "R.012 - .022",
+     "page": 4,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "Face"
+    },
+    {
+     "pred": ".005 A B C",
+     "gt": ".005 A B C",
+     "page": 4,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": "profile of a surface",
+     "gt_char": "profile of a surface",
+     "belongs_to": "groove"
+    },
+    {
+     "pred": ".030 A B C",
+     "gt": ".030 A B C",
+     "page": 4,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": "profile of a surface",
+     "gt_char": "profile of a surface",
+     "belongs_to": "groove"
+    },
+    {
+     "pred": "SIM REQT",
+     "gt": "SIM REQT",
+     "page": 3,
+     "numbers": null,
+     "type_ok": true,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "Face"
+    },
+    {
+     "pred": ".015 A",
+     "gt": ".015 A",
+     "page": 3,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": "profile of a surface",
+     "gt_char": "profile of a surface",
+     "belongs_to": "Face"
+    },
+    {
+     "pred": ".070 A B C",
+     "gt": ".070 A B C",
+     "page": 3,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": "profile of a surface",
+     "gt_char": "profile of a surface",
+     "belongs_to": "Face"
+    },
+    {
+     "pred": "E",
+     "gt": "E",
+     "page": 3,
+     "numbers": null,
+     "type_ok": true,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "hole"
+    },
+    {
+     "pred": ".015 A",
+     "gt": ".015 A",
+     "page": 3,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": "profile of a surface",
+     "gt_char": "profile of a surface",
+     "belongs_to": "hole"
+    },
+    {
+     "pred": ".070 A B C",
+     "gt": ".070 A B C",
+     "page": 3,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": "profile of a surface",
+     "gt_char": "profile of a surface",
+     "belongs_to": "hole"
+    },
+    {
+     "pred": "2X Ø.594+.012-.002",
+     "gt": "2X Ø.594 +.012 -.002",
+     "page": 3,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "not determined (no leader found)"
+    },
+    {
+     "pred": ".30 ±.02",
+     "gt": "↧.30 ±.02",
+     "page": 2,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "Face"
+    },
+    {
+     "pred": ".06 E B C",
+     "gt": "⌖ Ø.06Ⓜ E B C",
+     "page": 2,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": "perpendicularity",
+     "gt_char": "position",
+     "belongs_to": "Face"
+    },
+    {
+     "pred": "4X Ø.281 +.006 -.001",
+     "gt": "4X Ø.281 +.006 -.001",
+     "page": 2,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "Face"
+    },
+    {
+     "pred": "D",
+     "gt": "D",
+     "page": 2,
+     "numbers": null,
+     "type_ok": false,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "hole"
+    },
+    {
+     "pred": ".01 A",
+     "gt": ".01 A",
+     "page": 2,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": "cylindricity",
+     "gt_char": "profile of a surface",
+     "belongs_to": "hole"
+    },
+    {
+     "pred": ".04 A B C",
+     "gt": ".04 A B C",
+     "page": 2,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": "profile of a surface",
+     "gt_char": "profile of a surface",
+     "belongs_to": "hole"
+    },
+    {
+     "pred": "2X Ø.594+.012-.002",
+     "gt": "2X Ø.594 +.012 -.002",
+     "page": 2,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "not determined (no leader found)"
+    },
+    {
+     "pred": ".015 A",
+     "gt": "Ø.015 A",
+     "page": 2,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": "position",
+     "gt_char": "position",
+     "belongs_to": "Face"
+    },
+    {
+     "pred": ".060 A B C",
+     "gt": "⌖ Ø.060 A B C",
+     "page": 2,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": "position",
+     "gt_char": "position",
+     "belongs_to": "Face"
+    },
+    {
+     "pred": "4X Ø.173 +.005; -.001",
+     "gt": "4X Ø.173 +.005 -.001",
+     "page": 2,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "Face"
+    },
+    {
+     "pred": "Ø.050 ST A B C",
+     "gt": "⌖ Ø.050 ST A B C",
+     "page": 2,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": "position",
+     "gt_char": "position",
+     "belongs_to": "hole"
+    },
+    {
+     "pred": "3X Ø.875 ±.010",
+     "gt": "3X Ø.875 ±.010",
+     "page": 2,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "hole"
+    },
+    {
+     "pred": "D",
+     "gt": "D",
+     "page": 2,
+     "numbers": null,
+     "type_ok": true,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "not determined (no leader found)"
+    },
+    {
+     "pred": ".06 A B C",
+     "gt": "⌓ .06 A B C",
+     "page": 2,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": "flatness",
+     "gt_char": "profile of a surface",
+     "belongs_to": "Face"
+    },
+    {
+     "pred": ".01 / Ø1.00",
+     "gt": "▱ .01 / Ø1.00",
+     "page": 2,
+     "numbers": true,
+     "type_ok": false,
+     "pred_char": null,
+     "gt_char": "flatness",
+     "belongs_to": "Face"
+    },
+    {
+     "pred": ".30±.02",
+     "gt": "↧.30 ±.02",
+     "page": 1,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "not determined (no leader found)"
+    },
+    {
+     "pred": "2X Ø.250+.003 -.000",
+     "gt": "2X Ø.250 +.003 -.000",
+     "page": 1,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "not determined (no leader found)"
+    },
+    {
+     "pred": "C",
+     "gt": "C",
+     "page": 1,
+     "numbers": null,
+     "type_ok": true,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "Face"
+    },
+    {
+     "pred": "F1.1",
+     "gt": "F1.1",
+     "page": 1,
+     "numbers": null,
+     "type_ok": true,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "Face"
+    },
+    {
+     "pred": "A",
+     "gt": "A",
+     "page": 1,
+     "numbers": null,
+     "type_ok": true,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "Face"
+    },
+    {
+     "pred": ".015",
+     "gt": "⌓ .015",
+     "page": 1,
+     "numbers": true,
+     "type_ok": false,
+     "pred_char": null,
+     "gt_char": "profile of a surface",
+     "belongs_to": "Face"
+    },
+    {
+     "pred": "B",
+     "gt": "B",
+     "page": 1,
+     "numbers": null,
+     "type_ok": true,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "hole"
+    },
+    {
+     "pred": "F1.2",
+     "gt": "F1.2",
+     "page": 1,
+     "numbers": null,
+     "type_ok": false,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "hole"
+    },
+    {
+     "pred": "4X Ø.250 +.003 -.001",
+     "gt": "4X Ø.250 +.003 -.001",
+     "page": 1,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "hole"
+    },
+    {
+     "pred": ".30±.02",
+     "gt": "↧.30 ±.02",
+     "page": 1,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "hole"
+    },
+    {
+     "pred": "Ø.040M Ø.045 MAX A B C",
+     "gt": "⌖ Ø.040Ⓜ Ø.045 MAX A B C",
+     "page": 3,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": "position",
+     "gt_char": "position",
+     "belongs_to": "not determined (no leader found)"
+    },
+    {
+     "pred": "Ø.040M Ø.045 MAX A B C",
+     "gt": "⌖ Ø.040Ⓜ Ø.045 MAX A B C",
+     "page": 2,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": "position",
+     "gt_char": "position",
+     "belongs_to": "not determined (no leader found)"
+    },
+    {
+     "pred": "Ø.023P.425 A B C",
+     "gt": "⌖ Ø.023Ⓟ.425 A B C",
+     "page": 1,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": "flatness",
+     "gt_char": "position",
+     "belongs_to": "not determined (no leader found)"
+    },
+    {
+     "pred": "vØ.438 ±.010",
+     "gt": "⌴Ø.438 ±.010",
+     "page": 2,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "Face"
+    },
+    {
+     "pred": "Ø.015P .425A",
+     "gt": "⊥ Ø.015Ⓟ.425 A",
+     "page": 1,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": "total runout",
+     "gt_char": "perpendicularity",
+     "belongs_to": "hole"
+    },
+    {
+     "pred": "x.30±.02",
+     "gt": "↧.30 ±.02",
+     "page": 1,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "Face"
+    },
+    {
+     "pred": "x.30 ±.02",
+     "gt": "↧.30 ±.02",
+     "page": 1,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "hole"
+    },
+    {
+     "pred": "3X Ø.875 ±.020",
+     "gt": "3X Ø.875 ±.020 ST",
+     "page": 2,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "hole"
+    },
+    {
+     "pred": ".006 A",
+     "gt": "⌓ .006 A B C",
+     "page": 4,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": "profile of a surface",
+     "gt_char": "profile of a surface",
+     "belongs_to": "Face"
+    },
+    {
+     "pred": ".02",
+     "gt": "Ø.02Ⓜ E B C",
+     "page": 2,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": "perpendicularity",
+     "gt_char": "position",
+     "belongs_to": "Face"
+    },
+    {
+     "pred": ".03 A",
+     "gt": "// .03 A",
+     "page": 2,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": "parallelism",
+     "gt_char": "parallelism",
+     "belongs_to": "Face"
+    },
+    {
+     "pred": "Ø.250+.003",
+     "gt": "Ø.250 +.003 -.000",
+     "page": 1,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "Face"
+    },
+    {
+     "pred": "Ø.250+.003",
+     "gt": "Ø.250 +.003 -.000",
+     "page": 1,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "hole"
+    },
+    {
+     "pred": "F1.1 AND F1.2",
+     "gt": "2 SURFACES F1.1 AND F1.2",
+     "page": 1,
+     "numbers": null,
+     "type_ok": true,
+     "pred_char": null,
+     "gt_char": null,
+     "belongs_to": "Face"
+    },
+    {
+     "pred": "Ø.020P A B",
+     "gt": "⌖ Ø.020Ⓟ.425 A B",
+     "page": 1,
+     "numbers": true,
+     "type_ok": true,
+     "pred_char": "angularity",
+     "gt_char": "position",
+     "belongs_to": "Face"
+    }
+   ]
+  }
+ ]
+}

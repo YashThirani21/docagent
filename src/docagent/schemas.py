@@ -127,6 +127,8 @@ class DrawingValue(BaseModel):
     unit: str | None = None
     tol_plus: float | None = None
     tol_minus: float | None = None
+    lower_limit: float | None = None           # acceptable range (from limits "34.8 - 35.2" or nominal+tolerance)
+    upper_limit: float | None = None
     characteristic: str | None = None          # GD&T: position, flatness, profile of a surface, ...
     datums: list[str] = []
     modifiers: list[str] = []                  # MMC, LMC, basic, statistical, ...
@@ -135,6 +137,7 @@ class DrawingValue(BaseModel):
     bbox: list[float] | None = None            # [x0,y0,x1,y1] page coordinates (see coord_units)
     source: Literal["vlm", "text_layer", "vlm+text_layer"]
     confidence: float = 0.5
+    checks: list[str] = []                     # which consistency checks passed / failed (explains confidence)
 
 
 class DrawingPage(BaseModel):

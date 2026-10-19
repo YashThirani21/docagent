@@ -45,10 +45,12 @@ class RetrievalCfg(BaseModel):
     dense_k: int = 30
     sparse_k: int = 30
     top_k: int = 8
+    min_text: int = 4               # report paragraphs guaranteed in context (figures fill the rest)
     max_context_figures: int = 2
 
 
 class DrawingCfg(BaseModel):
+    method: str = "tiles"          # geometry (annotation candidates from vectors / pixels) | tiles (legacy)
     tile_dpi: int = 200
     grid: tuple[int, int] = (2, 2)
     overlap: float = 0.12
