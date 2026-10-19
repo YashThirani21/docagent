@@ -6,6 +6,7 @@ Flow: (pictures -> VLM observations) -> retrieval query -> hybrid search (+ link
 from __future__ import annotations
 
 import logging
+import re
 
 from PIL import Image
 from pydantic import BaseModel, Field
@@ -26,9 +27,12 @@ class ImageObservation(BaseModel):
 
 
 class _Generated(BaseModel):
+    user_reports_problem: bool = Field(description="true only if the user shows or describes a damaged/failed/"
+                                                   "malfunctioning part and wants to know what is wrong or what "
+                                                   "to do; false for factual questions about the reports")
     answer: str
-    diagnosis: str = Field(description="What is wrong, if the user shows/describes a problem; else ''")
-    recommended_actions: list[str] = Field(description="What to do; [] if not applicable")
+    diagnosis: str = Field(description="What is wrong - ONLY if user_reports_problem, else ''")
+    recommended_actions: list[str] = Field(description="What to do - ONLY if user_reports_problem, else []")
     cited_sources: list[int] = Field(description="Numbers of the sources the answer relies on")
     grounded: bool = Field(description="true only if the sources actually support the answer")
 
@@ -41,14 +45,22 @@ actually see; do not infer the cause of failure."""
 SYSTEM = """You are a materials-failure assistant for aircraft components. You answer ONLY from the numbered
 sources, which are excerpts and figures from NTSB Materials Laboratory Factual Reports.
 Rules:
-- Every factual claim must come from the sources; cite them by number in cited_sources.
-- The report's conclusions (e.g. "consistent with bending overstress", "fatigue cracking") are
-  authoritative. Never contradict them or substitute a different failure mode.
-- Several aircraft/parts can appear in one report: keep registration numbers and parts straight.
-- If the user provided a picture, compare it with similar cases in the sources: say what is wrong
-  (diagnosis) and what to do (recommended_actions). The reports state findings, not instructions, so
-  recommendations must follow from the findings (e.g. fatigue at a bolt hole -> inspect that location on
-  similar parts) - say they are inferred from the report findings.
+- Every factual claim must come from the sources; cite every source you use by number in cited_sources.
+- The report's findings (e.g. "consistent with bending overstress", "fatigue") are authoritative. Never
+  contradict them or substitute a different failure mode. If the sources describe several failure modes
+  for the part asked about (e.g. overstress AND fatigue cracks), report all of them.
+- These are factual laboratory reports. They do not state accident causes or "probable cause". Never
+  present a component finding as the cause of an accident, and never attribute a determination to the NTSB
+  that the sources do not state.
+- Each source says which aircraft/part it is "about". Answer for the aircraft/part the user names. If the
+  sources only give the value for a different one, say the reports do not give it for the one asked.
+  Never tell the user their question is wrong.
+- For "why" questions, give only the facts the sources state; if they do not state the reason, say so.
+  Do not add your own explanations.
+- Factual question -> answer it directly; diagnosis '' and recommended_actions [].
+  User shows or describes a problem (e.g. sends a photo of a damaged part) -> also give the diagnosis
+  and recommended_actions. The reports state findings, not instructions, so recommendations must follow
+  from the findings (e.g. fatigue at a bolt hole -> inspect that location on similar parts).
 - If the sources do not cover the question, set grounded=false and say so plainly. Do not guess.
 - Be concise and specific: part names, failure modes, locations, measurements, report numbers."""
 
@@ -59,12 +71,13 @@ def _format_sources(items: list[RetrievedItem]) -> str:
         c = it.chunk
         tag = f"Figure {c.figure_no}" if c.kind == "figure" and c.figure_no else c.kind
         lines.append(f"[{n}] report {c.doc_id}, page {c.page}, {tag}"
-                     f"{', section ' + c.section if c.section else ''}\n{c.text}")
+                     f"{', section ' + c.section if c.section else ''}"
+                     f"{', about: ' + c.subject if c.subject else ''}\n{c.text}")
     return "\n\n".join(lines)
 
 
 class ReportQA:
-    version = "report-qa-v1"
+    version = "report-qa-v2"
 
     def __init__(self, cfg: Config, retriever: HybridRetriever | None = None, vlm: VLM | None = None):
         self.cfg = cfg
@@ -98,14 +111,25 @@ class ReportQA:
         user_note = (f"The first {len(user_images)} image(s) are the user's picture(s). "
                      f"Observations of them: " + " | ".join(o.model_dump_json() for o in observations)
                      if user_images else "The user sent no picture.")
-        prompt = (f"SOURCES:\n{_format_sources(items)}\n\n{user_note}{fig_note}\n\n"
+        scope = ""
+        if question and CAUSE_RE.search(question):          # lab reports never state accident causes
+            scope = ("\n\nNOTE: The user asks for the cause of an accident. The sources are laboratory factual "
+                     "reports and do not state accident causes. Start your answer by saying the reports do not "
+                     "state the cause of the accident, then summarise what the report found about the examined "
+                     "component. Do not write 'probable cause' or 'determined by'.")
+        prompt = (f"SOURCES:\n{_format_sources(items)}\n\n{user_note}{fig_note}{scope}\n\n"
                   f"USER REQUEST: {question or '(no text - the user only sent the picture)'}")
         out = self.vlm.structured(prompt, _Generated, images=images, system=SYSTEM)
 
         valid = [n for n in out.cited_sources if 1 <= n <= len(items)]   # drop hallucinated source ids
-        cites = [_cite(items[n - 1]) for n in dict.fromkeys(valid)]
+        problem = bool(user_images) or out.user_reports_problem
+        diagnosis = out.diagnosis if problem else ""                      # no filler on factual questions
+        actions = out.recommended_actions if problem else []
+        answer_text = " ".join([out.answer, diagnosis, *actions])
+        cited = verify_citations(answer_text, items, [n - 1 for n in dict.fromkeys(valid)], question)
+        cites = _dedupe([_cite(items[i]) for i in cited])
         return ReportAnswer(
-            answer=out.answer, diagnosis=out.diagnosis or None, recommended_actions=out.recommended_actions,
+            answer=out.answer, diagnosis=diagnosis or None, recommended_actions=actions,
             citations=cites, grounded=out.grounded and bool(cites),
             image_observations=[o.model_dump_json() for o in observations],
             retrieved=[_cite(it) for it in items])
@@ -118,6 +142,54 @@ class ReportQA:
         log.info("retrieval query: %s", query[:300])
         items = self.retrieve(query)
         return self.generate(text, items, images, observations)
+
+
+CAUSE_RE = re.compile(r"probable cause|cause of (the|this) (accident|crash|incident)|why did .* crash", re.I)
+_NUM_RE = re.compile(r"\d+(?:\.\d+)?")
+_ID_RE = re.compile(r"\b(?:[A-Z]{1,2}-\d{1,2}|N\d{1,5}[A-Z]{0,2}|\d{4}-T\d{1,4})\b")
+
+
+def _nums(text: str) -> set[str]:
+    text = re.sub(r"(?<=\d),(?=\d{3})", "", text)                      # 7,690.6 -> 7690.6
+    # distinctive numbers only: decimals or 3+ digits (not "1", "2", figure numbers)
+    return {n for n in _NUM_RE.findall(text) if "." in n or len(n) >= 3}
+
+
+def verify_citations(answer: str, items: list[RetrievedItem], cited: list[int], question: str | None) -> list[int]:
+    """Make citations follow the evidence, not the model's habit of citing whatever it saw.
+
+    1. Drop cited sources about a different aircraft than the one(s) the question names.
+    2. Every distinctive number in the answer must be backed by a cited source; if none of the cited
+       sources contains it, add the highest-ranked retrieved source that does (e.g. a table page).
+    3. If the answer has distinctive numbers/IDs, drop cited sources that contain none of them,
+       unless that would leave no citation.
+    """
+    from ..retriever import registrations
+    wanted = registrations(question)
+    texts = [re.sub(r"(?<=\d),(?=\d{3})", "", it.chunk.text) for it in items]
+    keep = [i for i in cited if not (wanted and registrations(items[i].chunk.subject)
+                                     and not registrations(items[i].chunk.subject) & wanted)]
+    nums = _nums(answer)
+    ids = set(_ID_RE.findall(answer))
+    for n in sorted(nums):
+        if not any(n in texts[i] for i in keep):
+            backer = next((i for i in range(len(items)) if n in texts[i] and i not in keep), None)
+            if backer is not None:
+                keep.append(backer)
+    if nums or ids:
+        anchored = [i for i in keep if any(a in texts[i] for a in nums | ids)]
+        keep = anchored or keep
+    return keep
+
+
+def _dedupe(cites: list[Citation]) -> list[Citation]:
+    seen, out = set(), []
+    for c in cites:
+        key = (c.doc_id, c.page, c.figure_no)
+        if key not in seen:
+            seen.add(key)
+            out.append(c)
+    return out
 
 
 def _cite(it: RetrievedItem) -> Citation:
