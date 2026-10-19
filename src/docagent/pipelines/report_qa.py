@@ -62,7 +62,21 @@ Rules:
   and recommended_actions. The reports state findings, not instructions, so recommendations must follow
   from the findings (e.g. fatigue at a bolt hole -> inspect that location on similar parts).
 - If the sources do not cover the question, set grounded=false and say so plainly. Do not guess.
+- Be complete: when asked what was found, include every relevant finding from all sources (findings
+  about one part are often spread over several pages), and give identifiers exactly (registration,
+  report number, hole/bolt IDs, measurements with units).
 - Be concise and specific: part names, failure modes, locations, measurements, report numbers."""
+
+
+CITING_MARK = "\nReport text citing this figure:"
+
+
+def evidence_text(it: RetrievedItem) -> str:
+    """What a source itself says. Figure chunks also carry the paragraphs that cite them (useful for
+    retrieval), but those paragraphs are separate sources: showing them twice steered answers (q16) and
+    let a figure 'back' a number that is really on a text page (q06)."""
+    t = it.chunk.text
+    return t.split(CITING_MARK, 1)[0] if it.chunk.kind == "figure" else t
 
 
 def _format_sources(items: list[RetrievedItem]) -> str:
@@ -72,12 +86,12 @@ def _format_sources(items: list[RetrievedItem]) -> str:
         tag = f"Figure {c.figure_no}" if c.kind == "figure" and c.figure_no else c.kind
         lines.append(f"[{n}] report {c.doc_id}, page {c.page}, {tag}"
                      f"{', section ' + c.section if c.section else ''}"
-                     f"{', about: ' + c.subject if c.subject else ''}\n{c.text}")
+                     f"{', about: ' + c.subject if c.subject else ''}\n{evidence_text(it)}")
     return "\n\n".join(lines)
 
 
 class ReportQA:
-    version = "report-qa-v2"
+    version = "report-qa-v3"
 
     def __init__(self, cfg: Config, retriever: HybridRetriever | None = None, vlm: VLM | None = None):
         self.cfg = cfg
@@ -166,7 +180,7 @@ def verify_citations(answer: str, items: list[RetrievedItem], cited: list[int], 
     """
     from ..retriever import registrations
     wanted = registrations(question)
-    texts = [re.sub(r"(?<=\d),(?=\d{3})", "", it.chunk.text) for it in items]
+    texts = [re.sub(r"(?<=\d),(?=\d{3})", "", evidence_text(it)) for it in items]
     keep = [i for i in cited if not (wanted and registrations(items[i].chunk.subject)
                                      and not registrations(items[i].chunk.subject) & wanted)]
     nums = _nums(answer)
@@ -179,7 +193,19 @@ def verify_citations(answer: str, items: list[RetrievedItem], cited: list[int], 
     if nums or ids:
         anchored = [i for i in keep if any(a in texts[i] for a in nums | ids)]
         keep = anchored or keep
+    # wording: the paragraph the answer is (nearly) quoting must be cited (q01 quoted p.3, cited figures)
+    ans_tri = _trigrams(answer)
+    overlap = [len(ans_tri & _trigrams(t)) for t in texts]
+    best = max(range(len(items)), key=lambda i: overlap[i], default=None)
+    if best is not None and best not in keep and overlap[best] >= 3 \
+            and overlap[best] > max((overlap[i] for i in keep), default=0):
+        keep.append(best)
     return keep
+
+
+def _trigrams(text: str) -> set[tuple[str, ...]]:
+    w = re.findall(r"[a-z0-9.%-]+", text.lower())
+    return {tuple(w[i:i + 3]) for i in range(len(w) - 2)}
 
 
 def _dedupe(cites: list[Citation]) -> list[Citation]:

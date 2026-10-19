@@ -94,6 +94,18 @@ class VectorStore:
         ]))
         return [Chunk(**h.payload) for h in hits]
 
+    def get(self, chunk_ids: list[str]) -> list[Chunk]:
+        pts = self.client.retrieve(self.collection, ids=[point_id(c) for c in chunk_ids], with_payload=True)
+        return [Chunk(**p.payload) for p in pts]
+
+    def figure_descriptions(self, doc_id: str) -> dict[str, str]:
+        """chunk_id -> VLM description of a document's figures already in the index."""
+        hits, _ = self.client.scroll(self.collection, limit=1000, with_payload=["chunk_id", "description"],
+                                     scroll_filter=qm.Filter(must=[
+                                         qm.FieldCondition(key="doc_id", match=qm.MatchValue(value=doc_id)),
+                                         qm.FieldCondition(key="kind", match=qm.MatchValue(value="figure"))]))
+        return {h.payload["chunk_id"]: h.payload["description"] for h in hits if h.payload.get("description")}
+
     def count(self) -> int:
         return self.client.count(self.collection).count
 

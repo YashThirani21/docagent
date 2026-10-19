@@ -77,6 +77,7 @@ class Chunk(BaseModel):
     text: str                          # what the user sees / the LLM reads
     embed_text: str                    # text + context header, what gets embedded
     section: str | None = None
+    subject: str | None = None         # what this text is about, e.g. "2. Airplane N104ER Left Main Wing Spar"
     figure_no: int | None = None       # for figure chunks
     figure_refs: list[int] = []        # for text chunks: figures this text mentions
     image_path: str | None = None      # figure crop on disk
