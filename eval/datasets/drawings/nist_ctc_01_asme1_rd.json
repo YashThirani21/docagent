@@ -1,6 +1,8 @@
 {
  "drawing_id": "nist_ctc_01_asme1_rd",
  "source_file": "nist_ctc_01_asme1_rd.pdf",
+ "split": "dev",
+ "verified": true,
  "units": "millimeters",
  "title_block": {
   "title": "PMI Complex Test Case 1",

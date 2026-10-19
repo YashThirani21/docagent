@@ -24,6 +24,7 @@ class LLMCfg(BaseModel):
     temperature: float = 0.0
     timeout_s: int = 600
     cache_dir: str | None = "store/cache/vlm"   # disk cache for temperature-0 calls; null disables
+    max_retries: int = 2                        # transient errors (connection, 5xx, timeout) retried with backoff
 
 
 class EmbeddingCfg(BaseModel):
@@ -39,6 +40,8 @@ class StoreCfg(BaseModel):
     collection: str = "reports_bge-m3_v1"
     image_dir: str = "store/images"
     cache_dir: str = "store/cache"
+    output_dir: str = "outputs/requests"     # per-request result files (drawing JSON, answer.json)
+    upload_dir: str = "store/uploads"        # submitted files, content-addressed: <sha256><ext>
 
 
 class RetrievalCfg(BaseModel):
@@ -62,6 +65,20 @@ class RouterCfg(BaseModel):
     classify_max_side: int = 768
 
 
+class BatchCfg(BaseModel):
+    workers: int = 2                         # files processed at once (bulk default, chat background batches)
+    chat_min_files: int = 2                  # chat: this many attachments and no question -> a background batch
+    max_zip_members: int = 5000              # zip uploads: more members -> rejected
+    max_zip_bytes: int = 4 * 1024 ** 3       # total uncompressed size -> rejected beyond this
+    max_member_bytes: int = 512 * 1024 ** 2  # one member larger than this -> skipped
+
+
+class TraceCfg(BaseModel):
+    enabled: bool = True
+    db_path: str = "store/traces.db"            # requests / tasks / spans (NOTES.md section 9)
+    log_path: str | None = "store/logs/agent.jsonl"   # JSON-lines log stamped with trace ids
+
+
 class Config(BaseModel):
     privacy: PrivacyCfg = PrivacyCfg()
     llm: LLMCfg = LLMCfg()
@@ -70,6 +87,8 @@ class Config(BaseModel):
     retrieval: RetrievalCfg = RetrievalCfg()
     drawing: DrawingCfg = DrawingCfg()
     router: RouterCfg = RouterCfg()
+    batch: BatchCfg = BatchCfg()
+    trace: TraceCfg = TraceCfg()
 
     def path(self, p: str) -> Path:
         """Resolve a config path relative to the project root."""

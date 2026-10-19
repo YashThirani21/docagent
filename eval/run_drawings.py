@@ -1,12 +1,12 @@
 """Score drawing extraction against hand-labelled ground truth (eval/datasets/drawings/*.json).
 
-  # score JSONs that already exist (e.g. the bulk run downloaded from Colab)
-  python -m eval.run_drawings --pred-dir eval/results/drawings --label baseline-tiles
+  python -m eval drawing --split all --label geo                 # run the extractor on the GT drawings, score
+  python -m eval drawing --as-images --label geo-jpg             # picture route (each sheet as a JPG)
+  python -m eval drawing --set drawing.method=tiles --label tiles
+  python -m eval drawing --pred-dir outputs/drawings             # score JSONs that already exist
+  python -m eval.run_drawings ...                                # old entry point (--run is now the default)
 
-  # run the extractor on the ground-truth drawings, then score
-  python -m eval.run_drawings --run --config configs/colab_vllm.yaml --method geometry --label geo
-  python -m eval.run_drawings --run --method geometry --as-images --label geo-jpg   # picture route
-  python -m eval.run_drawings --pred-dir ... --compare eval/results/<earlier>_drawings_*.json
+The scorer lives here; the runner is eval/suites/drawing.py + eval/core.py (NOTES.md section 10).
 
 Matching: per sheet, every predicted value is paired one-to-one with the most similar ground-truth value
 (similarity of the printed text after normalising symbols, or identical numbers). Title-block and note
@@ -19,23 +19,18 @@ Metrics
   type          matched values with the right coarse type (dimension-like / frame / datum / other)
   gdt_symbol    matched frames with the right geometric characteristic
   datums        matched frames with the right datum letters
-  belongs_to    matched values whose belongs_to names an acceptable feature (labelled keywords)
+  belongs_to    matched values whose belongs_to names an acceptable feature (labelled keywords; lenient)
+  belongs_primary  stricter: the GT's main feature word (`feature`, else the first keyword) is named
   title/notes/units  document-level fields (PDF route)
 """
 from __future__ import annotations
 
-import argparse
 import difflib
-import json
 import re
-import tempfile
-import time
-from pathlib import Path
 
-from docagent.config import PROJECT_ROOT, load_config
+from docagent.config import PROJECT_ROOT
 
 GT_DIR = PROJECT_ROOT / "eval" / "datasets" / "drawings"
-RESULTS = PROJECT_ROOT / "eval" / "results"
 DOC_TYPES = {"title_block", "note"}
 _SYM = str.maketrans({"Φ": "Ø", "⌀": "Ø", "ø": "Ø", "−": "-", "–": "-", "×": "X", "x": "X"})
 
@@ -121,7 +116,7 @@ def score_drawing(pred: dict, gt: dict) -> dict:
     pairs = match(preds, gts)
     req = [j for j, g in enumerate(gts) if not g.get("optional")]
     matched_g = {j for _, j in pairs}
-    rows, num, typ, sym, dat, bel = [], [], [], [], [], []
+    rows, num, typ, sym, dat, bel, bel_p = [], [], [], [], [], [], []
     for i, j in pairs:
         p, g = preds[i], gts[j]
         n_ok = numbers_ok(p, g)
@@ -134,6 +129,7 @@ def score_drawing(pred: dict, gt: dict) -> dict:
         if g.get("belongs"):
             b = (p.get("belongs_to") or "").lower()
             bel.append(any(k in b for k in g["belongs"]))
+            bel_p.append((g.get("feature") or g["belongs"][0]) in b)     # stricter: the main feature word
         rows.append({"pred": p["raw_text"], "gt": g["raw_text"], "page": g["page"], "numbers": n_ok,
                      "type_ok": typ[-1], "pred_char": p.get("characteristic"), "gt_char": g.get("characteristic"),
                      "belongs_to": p.get("belongs_to")})
@@ -148,14 +144,18 @@ def score_drawing(pred: dict, gt: dict) -> dict:
         "drawing": gt["drawing_id"], "n_pred": len(preds), "n_gt_required": len(req),
         "recall": rate([j in matched_g for j in req]), "precision": rate([True] * len(pairs) + [False] * len(extra)),
         "numbers": rate(num), "type": rate(typ), "gdt_symbol": rate(sym), "datums": rate(dat), "belongs_to": rate(bel),
+        "belongs_primary": rate(bel_p),
         "title_block": rate(tb_ok), "notes": len(pred.get("notes", [])) == gt.get("n_notes"),
         "units": pred.get("units") == gt.get("units"),
         "missed": missed, "extra": extra, "pairs": rows,
+        # per required ground-truth value: found or not - what `--compare` flips are computed over
+        "found": {f"{gt['drawing_id']}#{j + 1} {gts[j]['raw_text']} (p{gts[j]['page']})": j in matched_g for j in req},
     }
 
 
 def aggregate(per: list[dict]) -> dict:
-    keys = ["recall", "precision", "numbers", "type", "gdt_symbol", "datums", "belongs_to", "title_block"]
+    keys = ["recall", "precision", "numbers", "type", "gdt_symbol", "datums", "belongs_to", "belongs_primary",
+            "title_block"]
     out = {}
     for k in keys:      # micro-average weighted by the counts behind each rate
         w = {"recall": "n_gt_required", "precision": "n_pred"}.get(k)
@@ -169,92 +169,96 @@ def aggregate(per: list[dict]) -> dict:
     return out
 
 
-def run_extractor(cfg, method: str, as_images: bool, out_dir: Path, gts: list[dict]) -> dict[str, dict]:
-    from docagent.pipelines.drawing import DrawingExtractor
-    from docagent.schemas import Attachment
-    cfg.drawing.method = method
-    ex = DrawingExtractor(cfg)
-    preds = {}
-    for gt in gts:
-        pdf = PROJECT_ROOT / "data" / "drawings" / gt["source_file"]
-        t0 = time.time()
-        if not as_images:
-            d = ex.extract(Attachment.from_path(pdf)).model_dump(mode="json")
-        else:                                  # picture route: each sheet as a 200 dpi JPG
-            import pymupdf
-            from docagent.pdf import render
-            tmp = Path(tempfile.mkdtemp(prefix="drw_jpg_"))
-            d = None
-            with pymupdf.open(pdf) as doc:
-                for pno, page in enumerate(doc, start=1):
-                    jpg = tmp / f"{gt['drawing_id']}_p{pno}.jpg"
-                    render(page, 200).save(jpg, quality=90)
-                    part = ex.extract(Attachment.from_path(jpg)).model_dump(mode="json")
-                    for v in part["values"]:
-                        v["page"] = pno
-                    if d is None:
-                        d = part
-                        d["drawing_id"] = gt["drawing_id"]
-                    else:
-                        d["values"] += part["values"]
-                        d["notes"] += part["notes"]
-                        d["pages"] += part["pages"]
-        d["_seconds"] = round(time.time() - t0, 1)
-        (out_dir / f"{gt['drawing_id']}.json").write_text(json.dumps(d, indent=1, ensure_ascii=False))
-        preds[gt["drawing_id"]] = d
-    return preds
 
+# ---------------------------------------------------------------- agreement with a reference run
+
+AGREE_KEYS = ("agree_recall", "agree_precision", "numbers_agree", "type_agree", "gdt_agree", "datums_agree",
+              "belongs_to_agree")
+
+
+def agreement(pred: dict, ref: dict, pages: list[int] | None = None) -> dict:
+    """How far a run reproduces a reference run (model outputs, not labels) - same matcher as against ground
+    truth. Measures change, not correctness. pages: restrict both sides to these sheets (a photo of one sheet).
+    Per-value diffs: dropped (reference value not reproduced), new (not in the reference), changed (paired, but
+    the reading differs: text, numbers, type, GD&T characteristic, datums or belongs_to)."""
+    def keep(vs):
+        return [v for v in vs if v["type"] not in DOC_TYPES and (pages is None or v["page"] in pages)]
+    preds, refs = keep(pred["values"]), keep(ref["values"])
+    pairs = match(preds, refs)
+    n_num = n_typ = n_gdt = n_dat = n_bel = 0
+    c_num = c_typ = c_gdt = c_dat = c_bel = 0
+    changed, reproduced = [], {}
+    for i, j in pairs:
+        p, r = preds[i], refs[j]
+        what = []
+        if core(p["raw_text"]) != core(r["raw_text"]):
+            what.append("text")
+        ok = numbers_ok(p, r)
+        if ok is not None:
+            n_num += 1
+            c_num += ok
+            what += [] if ok else ["numbers"]
+        n_typ += 1
+        c_typ += p["type"] == r["type"]
+        what += [] if p["type"] == r["type"] else ["type"]
+        if "gdt_frame" in (p["type"], r["type"]):
+            n_gdt += 1
+            n_dat += 1
+            g = (p.get("characteristic") or "") == (r.get("characteristic") or "")
+            d = sorted(p.get("datums") or []) == sorted(r.get("datums") or [])
+            c_gdt += g
+            c_dat += d
+            what += ([] if g else ["characteristic"]) + ([] if d else ["datums"])
+        n_bel += 1
+        b = _bel(p) == _bel(r)
+        c_bel += b
+        what += [] if b else ["belongs_to"]
+        if what:
+            changed.append({"ref": r["raw_text"], "new": p["raw_text"], "page": r["page"], "what": what,
+                            **({"ref_belongs_to": r.get("belongs_to"), "new_belongs_to": p.get("belongs_to")}
+                               if "belongs_to" in what else {})})
+    matched_r = {j for _, j in pairs}
+    for j, r in enumerate(refs):
+        reproduced[f"{ref['drawing_id']}#ref{j + 1} {r['raw_text']} (p{r['page']})"] = j in matched_r
+    rate = lambda c, n: round(c / n, 3) if n else None
+    return {
+        "n_pred": len(preds), "n_ref": len(refs), "n_paired": len(pairs),
+        "agree_recall": rate(len(pairs), len(refs)), "agree_precision": rate(len(pairs), len(preds)),
+        "numbers_agree": rate(c_num, n_num), "type_agree": rate(c_typ, n_typ), "gdt_agree": rate(c_gdt, n_gdt),
+        "datums_agree": rate(c_dat, n_dat), "belongs_to_agree": rate(c_bel, n_bel),
+        "counts": {"num": [c_num, n_num], "typ": [c_typ, n_typ], "gdt": [c_gdt, n_gdt], "dat": [c_dat, n_dat],
+                   "bel": [c_bel, n_bel]},
+        "dropped": [f"{refs[j]['raw_text']} (p{refs[j]['page']})" for j in range(len(refs)) if j not in matched_r],
+        "new": [f"{preds[i]['raw_text']} (p{preds[i]['page']})" for i in range(len(preds))
+                if i not in {a for a, _ in pairs}],
+        "changed": changed, "reproduced": reproduced,
+    }
+
+
+def _bel(v: dict) -> str:
+    return re.sub(r"\s+", " ", (v.get("belongs_to") or "").strip().lower())
+
+
+def aggregate_agreement(per: list[dict]) -> dict:
+    """Micro-average over drawings from the raw counts."""
+    if not per:
+        return {}
+    tot = lambda f: sum(f(a) for a in per)
+    r = lambda c, n: round(c / n, 3) if n else None
+    out = {"agree_recall": r(tot(lambda a: a["n_paired"]), tot(lambda a: a["n_ref"])),
+           "agree_precision": r(tot(lambda a: a["n_paired"]), tot(lambda a: a["n_pred"]))}
+    for key, k in (("numbers_agree", "num"), ("type_agree", "typ"), ("gdt_agree", "gdt"), ("datums_agree", "dat"),
+                   ("belongs_to_agree", "bel")):
+        out[key] = r(tot(lambda a: a["counts"][k][0]), tot(lambda a: a["counts"][k][1]))
+    out.update(ref_values=tot(lambda a: a["n_ref"]), dropped_vs_reference=tot(lambda a: len(a["dropped"])),
+               new_vs_reference=tot(lambda a: len(a["new"])), changed_reading=tot(lambda a: len(a["changed"])))
+    return out
 
 def main(argv=None):
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--pred-dir", help="score existing <drawing_id>.json files in this folder")
-    ap.add_argument("--run", action="store_true", help="run the extractor on the ground-truth drawings")
-    ap.add_argument("--config", default=None)
-    ap.add_argument("--method", default=None, help="geometry | tiles (default: from config)")
-    ap.add_argument("--as-images", action="store_true", help="feed each sheet as a JPG (picture route)")
-    ap.add_argument("--ids", nargs="*", default=None, help="subset of drawing ids")
-    ap.add_argument("--label", default="")
-    ap.add_argument("--compare", default=None)
-    ap.add_argument("--verbose", action="store_true", help="print missed / extra values")
-    args = ap.parse_args(argv)
-
-    gts = [json.loads(p.read_text()) for p in sorted(GT_DIR.glob("*.json"))]
-    if args.ids:
-        gts = [g for g in gts if any(i in g["drawing_id"] for i in args.ids)]
-    stamp = time.strftime("%Y%m%d-%H%M%S")
-    cfg = load_config(args.config)
-    if args.run:
-        method = args.method or cfg.drawing.method
-        out_dir = RESULTS / "drawing_runs" / f"{stamp}_{args.label or method}{'_jpg' if args.as_images else ''}"
-        out_dir.mkdir(parents=True, exist_ok=True)
-        preds = run_extractor(cfg, method, args.as_images, out_dir, gts)
-    else:
-        pdir = Path(args.pred_dir)
-        preds = {g["drawing_id"]: json.loads((pdir / f"{g['drawing_id']}.json").read_text()) for g in gts}
-
-    per = [score_drawing(preds[g["drawing_id"]], g) for g in gts]
-    summary = aggregate(per)
-    cols = ["recall", "precision", "numbers", "type", "gdt_symbol", "datums", "belongs_to", "title_block", "notes", "units"]
-    print(f"\n{'drawing':24} {'pred':>4} {'gt':>3} " + " ".join(f"{c[:9]:>9}" for c in cols))
-    for d in per + [dict(summary, drawing="ALL")]:
-        print(f"{d['drawing']:24} {d['n_pred']:>4} {d['n_gt_required']:>3} "
-              + " ".join(f"{'-' if d[c] is None else (('✓' if d[c] else '✗') if isinstance(d[c], bool) else d[c]):>9}" for c in cols))
-    if args.verbose:
-        for d in per:
-            print(f"\n{d['drawing']} missed: {d['missed']}\n  extra: {d['extra'][:40]}")
-    secs = [p.get("_seconds") for p in preds.values() if p.get("_seconds") is not None]
-    out = RESULTS / f"{stamp}_drawings_{args.label or 'run'}.json"
-    out.write_text(json.dumps({"run": {"label": args.label, "method": args.method, "as_images": args.as_images,
-                                       "pred_dir": args.pred_dir, "config": args.config, "seconds": secs},
-                               "summary": summary, "drawings": per}, indent=1, ensure_ascii=False))
-    print("\nsummary:", json.dumps(summary))
-    print("results:", out.relative_to(PROJECT_ROOT))
-    if args.compare:
-        prev = json.loads(Path(args.compare).read_text())["summary"]
-        print(f"\ncompared with {args.compare}:")
-        for k, v in summary.items():
-            if isinstance(v, (int, float)) and isinstance(prev.get(k), (int, float)) and v != prev[k]:
-                print(f"  {k:12} {prev[k]} -> {v}")
+    """Kept for the old command line: same as `python -m eval drawing` (--pred-dir, --method, --as-images work)."""
+    from eval.core import run_suite
+    from eval.suites import drawing
+    run_suite(drawing, argv, drawing.add_args)
 
 
 if __name__ == "__main__":

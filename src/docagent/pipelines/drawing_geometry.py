@@ -24,6 +24,7 @@ from pydantic import BaseModel, Field
 from ..llm import VLM, fit_image
 from ..pdf import render
 from ..schemas import DrawingValue, ValueType
+from .. import trace
 from .drawing_annotations import Candidate, RasterFrontEnd, VectorFrontEnd, load_image
 from .gdt_symbols import datum_letter, frame_symbols
 
@@ -86,6 +87,66 @@ face, slot, boss, edge, groove, pad or fillet) and where it is on the part.
 {hint}"""
 
 
+READ_MAX_TOKENS = 300            # a callout read needs < ~250 tokens; the bf16 model can loop on one value
+MAX_ITEMS_PER_CALLOUT = 10       # a callout holds a handful of values; more means a loop or a mis-grouping
+
+
+def _norm_item(t: str) -> str:
+    return re.sub(r"\s+", "", t.translate(str.maketrans({"Φ": "Ø", "⌀": "Ø", "ø": "Ø", "φ": "Ø", "−": "-", "–": "-"}))).upper()
+
+
+def _dedupe_items(items: list["_Item"]) -> list["_Item"]:
+    """One crop = one callout: the same printed text twice in one reading is a repetition loop, not two
+    values (legitimate repeats like '4X' callouts are separate callouts with their own crop)."""
+    seen, out = set(), []
+    for it in items:
+        k = _norm_item(it.raw_text)
+        if k and k not in seen:
+            seen.add(k)
+            out.append(it)
+    return out
+
+
+def _join_letters(items: list["_Item"]) -> list["_Item"]:
+    """Frame rows returned one compartment per item ('Ø.020P .425', 'A', 'B', 'C'):
+    - a lone modifier letter (Ⓜ Ⓛ Ⓟ Ⓢ Ⓕ Ⓣ Ⓤ read as M/L/P/S/F/T/U) belongs to the value before it;
+    - a run of single datum letters right after a frame-like row without datum letters belongs to that row
+      ('A', 'B', 'C'); a lone letter there stays a datum feature symbol;
+    - other runs of single letters form one 'A B C' group (_join_frame_parts may attach it later).
+    A single letter after a row that already ended in datum letters is a datum feature symbol and stays."""
+    single = re.compile(r"^\s*([A-H])\s*$")
+    modifier = re.compile(r"^\s*\(?([MLPSFTU])\)?\s*$")
+
+    def frame_like(t: str) -> bool:
+        return bool(re.search(r"\d", t)) and "±" not in t and not re.search(r"\d+\s*X\b", t) \
+            and not re.search(r"[+\-]\s*\d*\.\d+\s*$", t) and not re.search(r"\b[A-H]\s*$", t)
+
+    out: list[_Item] = []
+    extending = False                     # out[-1] is receiving datum letters in this pass
+    for i, it in enumerate(items):
+        t = it.raw_text.strip()
+        prev = out[-1] if out else None
+        nxt = items[i + 1].raw_text if i + 1 < len(items) else ""
+        if prev and modifier.match(t) and re.search(r"\d", prev.raw_text) and not extending:
+            out[-1] = _Item(raw_text=f"{prev.raw_text} {t.strip('()')}", type=prev.type, characteristic=prev.characteristic)
+            continue
+        if prev and single.match(t):
+            # only a RUN of letters ('A','B','C') joins a frame-like row: one lone letter next to a bare
+            # tolerance is usually a datum feature symbol in the same callout (L4 fix1: lost A/B/C on FTC-07)
+            if extending or (frame_like(prev.raw_text) and single.match(nxt)):
+                kind = "datum_feature" if prev.type == "datum_feature" and not re.search(r"\d", prev.raw_text) else "gdt_frame"
+                out[-1] = _Item(raw_text=f"{prev.raw_text.strip()} {t}", type=kind, characteristic=prev.characteristic)
+                extending = True
+                continue
+            if single.match(prev.raw_text) and prev.type == "datum_feature" and len(out) > 1:
+                out[-1] = _Item(raw_text=f"{prev.raw_text.strip()} {t}", type="datum_feature", characteristic="none")
+                extending = True
+                continue
+        extending = False
+        out.append(it)
+    return out
+
+
 def _num_set(s: str) -> list[float]:
     return [float(n) for n in re.findall(r"\d*\.\d+|\d+", s)]
 
@@ -139,16 +200,16 @@ class GeometryReader:
         def run(job):
             kind, ci, extra, img, prompt, schema = job
             try:
-                res = self.vlm.structured(prompt, schema, images=[img], max_tokens=600 if kind == "read" else 60)
+                res = self.vlm.structured(prompt, schema, images=[img], max_tokens=READ_MAX_TOKENS if kind == "read" else 60)
                 if kind == "read" and not res.items:          # occasional empty answer: retry without hints
                     res = self.vlm.structured(READ_PROMPT.format(hints="") + "\nThere IS an annotation in this crop.",
-                                              schema, images=[img], max_tokens=600)
+                                              schema, images=[img], max_tokens=READ_MAX_TOKENS)
                 return res
             except Exception as e:
                 log.warning("%s call failed (%s p%d cand %d): %s", kind, drawing_id, pno, ci, e)
                 return None
         with ThreadPoolExecutor(max_workers=max(1, self.cfg.llm.max_concurrency)) as ex:
-            results = list(ex.map(run, jobs))
+            results = list(ex.map(trace.wrap(run), jobs))   # keeps llm.call spans under this sheet
 
         symbols: dict[int, list[str]] = {}
         features: dict[int, str] = {}
@@ -167,7 +228,7 @@ class GeometryReader:
                 features[ci] = res.feature.strip()
 
         values: list[DrawingValue] = []
-        notes: list[str] = []
+        notes: list[tuple[float, float, str]] = []           # (x0, y0, text) - sorted into reading order below
         for ci, c in enumerate(cands):
             r = reads.get(ci)
             if (not r or not r.items) and c.exact_text:   # model gave nothing: the text layer is exact
@@ -175,7 +236,21 @@ class GeometryReader:
             if not r:
                 continue
             rows = sym_rows.get(ci, [])
-            items = self._merge_fragments(_split_joined([it for it in r.items if it.raw_text.strip()]))
+            items = _join_letters(_split_joined([it for it in r.items if it.raw_text.strip()]))
+            items = _dedupe_items(self._merge_fragments(items))[:MAX_ITEMS_PER_CALLOUT]
+            if c.exact_text:                                   # word annotations: the text layer is exact
+                phrases = _word_phrases(c.exact_text)
+                pn = [_norm_item(ph) for ph in phrases]
+                kept, at = [], None
+                for it in items:
+                    if _is_wordy(it.raw_text) and any(_norm_item(it.raw_text) in q for q in pn):
+                        at = len(kept) if at is None else at       # remember where the words were
+                        continue
+                    kept.append(it)
+                at = len(kept) if at is None else at
+                items = kept[:at] + [_Item(raw_text=ph, type="other", characteristic="none") for ph in phrases] + kept[at:]
+            # (fix3 tried keeping short "notes" on callouts with leaders as values on pictures: reverted - picture
+            #  leader detection also attaches border lines, so title-block lines became values; precision 0.81 -> 0.59)
             items += _unread_words(c.exact_text, items)        # text-layer word annotations the model skipped
             items = self._coalesce_frames(items, len(rows))
             n_frames = sum(1 for it in items if self.retype(it.raw_text, it.type) == "gdt_frame")
@@ -184,8 +259,13 @@ class GeometryReader:
             for it in items:
                 if not _plausible(it):
                     continue
+                if re.fullmatch(r"\s*\d{1,2}\.\s*", it.raw_text):   # a general-note number on its own ('2.')
+                    notes.append((c.box[0], c.box[1], it.raw_text.strip()))
+                    continue
                 if it.type == "note" or (len(it.raw_text) > 80 and it.type == "other"):
-                    notes.append(re.sub(r"\s+", " ", it.raw_text).strip())
+                    t = re.sub(r"\s+", " ", it.raw_text).strip()
+                    if t.lower() not in ("none", "n/a", "-"):
+                        notes.append((c.box[0], c.box[1], t))
                     continue
                 v = self._value(drawing_id, pno, c, it, features.get(ci))
                 if v.type == "gdt_frame":
@@ -200,7 +280,11 @@ class GeometryReader:
                         v.checks.append("symbol: from reading only (not verified)")
                 values.append(v)
         values = self._limit_pairs(values)
-        return values, notes
+        width = crop.page.rect.width if crop.page is not None else crop.image.size[0]
+        col = max(1.0, width / 4)                             # notes blocks are columns: column first, then top-down
+        heights = sorted(c.box[3] - c.box[1] for c in cands) or [10.0]
+        line = max(1.0, heights[len(heights) // 2] * 0.6)     # same text line = same row bucket ('2.' then its text)
+        return values, [t for *_, t in sorted(notes, key=lambda n: (int(n[0] // col), int(n[1] // line), n[0]))]
 
     # ------------------------------------------------------------ helpers
     @staticmethod
@@ -229,8 +313,10 @@ class GeometryReader:
             it = items[i]
             already = it.type == "gdt_frame"
             nxt = items[i + 1] if i + 1 < len(items) else None
-            if not already and used < n_rows and tol_re.match(it.raw_text) and "±" not in it.raw_text:
-                if nxt and datums_re.match(nxt.raw_text):
+            if not already and used < n_rows and tol_re.match(it.raw_text) and "±" not in it.raw_text \
+                    and not _is_wordy(it.raw_text):              # '4 COPLANAR SURFACES' is not a tolerance
+                has_datums = bool(re.search(r"\b[A-H]\s*$", it.raw_text))
+                if nxt and datums_re.match(nxt.raw_text) and not (has_datums and len(nxt.raw_text.strip()) == 1):
                     out.append(_Item(raw_text=f"{it.raw_text} {nxt.raw_text}", type="gdt_frame", characteristic="none"))
                     used += 1
                     i += 2
@@ -341,6 +427,32 @@ class GeometryReader:
         return DrawingValue(id="", page=pno, raw_text=raw, type=vtype, belongs_to=belongs, meaning="",
                             bbox=[round(x, 1) for x in c.box], source="vlm+text_layer" if c.exact_text else "vlm",
                             confidence=round(min(conf, 0.99), 2), checks=checks, **fields)
+
+
+_TAGS = re.compile(r"^(SIM(ULTANEOUS)?\.?\s+REQ(UIREMEN)?T\.?|SEP(ARATE)?\.?\s+REQ(UIREMEN)?T\.?|ALL\s+AROUND|ALL\s+OVER)$", re.I)
+
+
+def _is_wordy(t: str) -> bool:
+    """A word annotation line ('4 COPLANAR', 'F1.1 AND F1.2'), not a value: has a real word, no Ø/±/tolerance."""
+    return bool(re.search(r"[A-Z]{3,}", t.upper())) and not re.search(r"[Ø⌀Φ±]|\d\s*[+\-]\s*\.?\d", t)
+
+
+def _word_phrases(exact: list[str]) -> list[str]:
+    """Text-layer word lines of one callout joined into phrases (the layer splits wrapped lines:
+    'INNER AND OUTER RADII' + 'OF ENTIRE GROOVE'). Standard GD&T tags (SIM REQT, SEP REQT, ALL AROUND)
+    are always phrases of their own."""
+    out, cur = [], []
+    for t in list(exact) + [""]:
+        t = re.sub(r"\s+", " ", t).strip()
+        if t and _is_wordy(t) and not _TAGS.match(t):
+            cur.append(t)
+            continue
+        if cur:
+            out.append(" ".join(cur))
+            cur = []
+        if t and _TAGS.match(t):
+            out.append(t)
+    return list(dict.fromkeys(out))
 
 
 def _unread_words(exact: list[str], items: list[_Item]) -> list[_Item]:

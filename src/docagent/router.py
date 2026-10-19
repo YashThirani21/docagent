@@ -20,6 +20,7 @@ from .config import Config
 from .llm import VLM, fit_image
 from .pdf import page_stats, render
 from .schemas import Attachment, Request, Route, RouteDecision
+from .trace import span
 
 log = logging.getLogger(__name__)
 
@@ -67,6 +68,12 @@ class Router:
                              reason=f"unsupported type {att.mime}; treated as context for a question")
 
     def _pdf_rules(self, att: Attachment) -> RouteDecision | None:
+        with span("router.rules", attachment=att.name) as sp:
+            d = self._pdf_rules_inner(att)
+            sp.set(decided=d.route.value if d else None, reason=d.reason if d else "undecided -> vlm")
+            return d
+
+    def _pdf_rules_inner(self, att: Attachment) -> RouteDecision | None:
         with pymupdf.open(att.path) as doc:
             s = page_stats(doc[0])
         hits = len(set(m.group(0).upper() for m in DRAWING_TEXT_RE.finditer(s.text)))
@@ -83,8 +90,10 @@ class Router:
         return None
 
     def _vlm(self, att: Attachment, img: Image.Image) -> RouteDecision:
-        k = self.vlm.structured(CLASSIFY_PROMPT, _Kind,
-                                images=[fit_image(img, self.cfg.router.classify_max_side)])
+        with span("router.vlm", attachment=att.name) as sp:
+            k = self.vlm.structured(CLASSIFY_PROMPT, _Kind,
+                                    images=[fit_image(img, self.cfg.router.classify_max_side)])
+            sp.set(kind=k.kind, confidence=k.confidence)
         route = Route.DRAWING if k.kind == "technical_drawing" else Route.REPORT_QA
         return RouteDecision(route=route, attachment=att.path, confidence=k.confidence, tier="vlm",
                              reason=f"{k.kind}: {k.reason}")

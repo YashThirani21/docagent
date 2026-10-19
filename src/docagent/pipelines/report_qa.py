@@ -15,6 +15,7 @@ from ..config import Config
 from ..llm import VLM, fit_image
 from ..retriever import HybridRetriever
 from ..schemas import Citation, ReportAnswer, RetrievedItem
+from ..trace import span
 
 log = logging.getLogger(__name__)
 
@@ -133,14 +134,19 @@ class ReportQA:
                      "component. Do not write 'probable cause' or 'determined by'.")
         prompt = (f"SOURCES:\n{_format_sources(items)}\n\n{user_note}{fig_note}{scope}\n\n"
                   f"USER REQUEST: {question or '(no text - the user only sent the picture)'}")
-        out = self.vlm.structured(prompt, _Generated, images=images, system=SYSTEM)
+        with span("qa.generate", n_sources=len(items), n_images=len(images), n_user_images=len(user_images),
+                  cause_question=bool(scope)) as sp:
+            out = self.vlm.structured(prompt, _Generated, images=images, system=SYSTEM)
+            sp.set(model_cited=out.cited_sources, grounded=out.grounded, user_reports_problem=out.user_reports_problem)
 
         valid = [n for n in out.cited_sources if 1 <= n <= len(items)]   # drop hallucinated source ids
         problem = bool(user_images) or out.user_reports_problem
         diagnosis = out.diagnosis if problem else ""                      # no filler on factual questions
         actions = out.recommended_actions if problem else []
         answer_text = " ".join([out.answer, diagnosis, *actions])
-        cited = verify_citations(answer_text, items, [n - 1 for n in dict.fromkeys(valid)], question)
+        with span("qa.verify_citations", model_cited=[n - 1 for n in dict.fromkeys(valid)]) as sp:
+            cited = verify_citations(answer_text, items, [n - 1 for n in dict.fromkeys(valid)], question)
+            sp.set(kept=cited)                                # indices into the sources: diff = what code changed
         cites = _dedupe([_cite(items[i]) for i in cited])
         return ReportAnswer(
             answer=out.answer, diagnosis=diagnosis or None, recommended_actions=actions,
@@ -151,10 +157,19 @@ class ReportQA:
     # ------------------------------------------------------------ end to end
     def run(self, text: str | None, images: list[Image.Image] | None = None) -> ReportAnswer:
         images = images or []
-        observations = [self.observe(im) for im in images]
+        observations = []
+        for im in images:
+            with span("qa.observe", size=list(im.size)) as sp:
+                observations.append(self.observe(im))
+                sp.set(component=observations[-1].component)
         query = self.build_query(text, observations)
         log.info("retrieval query: %s", query[:300])
-        items = self.retrieve(query)
+        with span("qa.retrieve", query=query[:1000], retriever=self.retriever.version) as sp:
+            items = self.retrieve(query)
+            sp.set(n_items=len(items), items=[f"{it.chunk.doc_id} p{it.chunk.page} {it.chunk.kind}"
+                                              f"{' fig' + str(it.chunk.figure_no) if it.chunk.figure_no else ''}"
+                                              f" {it.via} {it.score:.3f}" for it in items],
+                   chunk_ids=[it.chunk.chunk_id for it in items])
         return self.generate(text, items, images, observations)
 
 

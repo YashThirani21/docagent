@@ -1,0 +1,630 @@
+{
+ "drawing_id": "nist_ctc_03_asme1_rc",
+ "source_file": "nist_ctc_03_asme1_rc.pdf",
+ "split": "test",
+ "verified": false,
+ "labelled_by": "AI assistant from the rendered sheet (150/300 dpi) and text layer; not from extractor output",
+ "bbox_note": "bbox = approximate location of the annotation in PDF points of the displayed (rotated) sheet; review only, not scored",
+ "units": "inches",
+ "title_block": {
+  "title": "PMI Complex Test Case 3",
+  "revision": "C",
+  "drawing_number": "nist_ctc_03_asme1_rc"
+ },
+ "n_notes": 1,
+ "values": [
+  {
+   "page": 1,
+   "raw_text": "2X Ø.438 ±.005",
+   "type": "diameter",
+   "quantity": 2,
+   "nominal": 0.438,
+   "tol_plus": 0.005,
+   "tol_minus": -0.005,
+   "belongs": [
+    "hole",
+    "tab",
+    "flange"
+   ],
+   "bbox": [
+    206.4,
+    69.6,
+    259.2,
+    103.2
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "⌖ Ø.05Ⓜ A BⓂ CⓂ",
+   "type": "gdt_frame",
+   "nominal": 0.05,
+   "characteristic": "position",
+   "datums": [
+    "A",
+    "B",
+    "C"
+   ],
+   "modifiers": [
+    "MMC"
+   ],
+   "belongs": [
+    "hole",
+    "tab",
+    "flange"
+   ],
+   "bbox": [
+    170.4,
+    57.6,
+    259.2,
+    120.0
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "Ø2.00 ±.01",
+   "type": "diameter",
+   "nominal": 2.0,
+   "tol_plus": 0.01,
+   "tol_minus": -0.01,
+   "belongs": [
+    "hole",
+    "bore",
+    "opening"
+   ],
+   "bbox": [
+    403.2,
+    163.2,
+    439.2,
+    187.2
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "⌖ Ø.06 D B C",
+   "type": "gdt_frame",
+   "nominal": 0.06,
+   "characteristic": "position",
+   "datums": [
+    "D",
+    "B",
+    "C"
+   ],
+   "belongs": [
+    "hole",
+    "bore",
+    "opening"
+   ],
+   "bbox": [
+    386.4,
+    160.8,
+    448.8,
+    208.8
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "(.750)",
+   "type": "dimension",
+   "nominal": 0.75,
+   "belongs": [
+    "slot",
+    "spacing",
+    "distance",
+    "width"
+   ],
+   "bbox": [
+    225.6,
+    194.4,
+    247.2,
+    216.0
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "⌓ .03 A B C",
+   "type": "gdt_frame",
+   "nominal": 0.03,
+   "characteristic": "profile of a surface",
+   "datums": [
+    "A",
+    "B",
+    "C"
+   ],
+   "belongs": [
+    "surface",
+    "face",
+    "web",
+    "wall",
+    "plate",
+    "side"
+   ],
+   "bbox": [
+    175.2,
+    240.0,
+    242.4,
+    280.8
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "D",
+   "type": "datum_feature",
+   "belongs": [
+    "surface",
+    "face",
+    "web",
+    "wall",
+    "plate",
+    "side"
+   ],
+   "bbox": [
+    179.0,
+    266.4,
+    196.8,
+    279.4
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "4X Ø.625 ±.005",
+   "type": "diameter",
+   "quantity": 4,
+   "nominal": 0.625,
+   "tol_plus": 0.005,
+   "tol_minus": -0.005,
+   "belongs": [
+    "hole",
+    "switch",
+    "mounting"
+   ],
+   "bbox": [
+    147.8,
+    283.2,
+    199.2,
+    316.8
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "⌖ Ø.05Ⓜ D B C",
+   "type": "gdt_frame",
+   "nominal": 0.05,
+   "characteristic": "position",
+   "datums": [
+    "D",
+    "B",
+    "C"
+   ],
+   "modifiers": [
+    "MMC"
+   ],
+   "belongs": [
+    "hole",
+    "switch",
+    "mounting"
+   ],
+   "bbox": [
+    147.8,
+    292.8,
+    218.4,
+    343.2
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "SWITCH MOUNTING LOCATIONS",
+   "type": "other",
+   "belongs": [
+    "hole",
+    "switch",
+    "mounting"
+   ],
+   "bbox": [
+    146.4,
+    307.2,
+    216.0,
+    352.8
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "⌓ .01",
+   "type": "gdt_frame",
+   "nominal": 0.01,
+   "characteristic": "profile of a surface",
+   "datums": [],
+   "belongs": [
+    "surface",
+    "coplanar",
+    "flange",
+    "face"
+   ],
+   "bbox": [
+    633.6,
+    247.2,
+    674.4,
+    268.8
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "A",
+   "type": "datum_feature",
+   "belongs": [
+    "surface",
+    "coplanar",
+    "flange",
+    "face"
+   ],
+   "bbox": [
+    616.8,
+    259.2,
+    633.6,
+    272.6
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "2 COPLANAR SURFACES",
+   "type": "other",
+   "belongs": [
+    "surface",
+    "coplanar",
+    "flange",
+    "face"
+   ],
+   "bbox": [
+    633.6,
+    264.0,
+    693.6,
+    295.2
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "C",
+   "type": "datum_feature",
+   "belongs": [
+    "hole",
+    "flange",
+    "tab"
+   ],
+   "bbox": [
+    612.0,
+    316.8,
+    624.0,
+    331.2
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "Ø.438 ±.005",
+   "type": "diameter",
+   "nominal": 0.438,
+   "tol_plus": 0.005,
+   "tol_minus": -0.005,
+   "belongs": [
+    "hole",
+    "flange",
+    "tab"
+   ],
+   "bbox": [
+    626.4,
+    309.6,
+    669.6,
+    338.4
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "⌖ Ø.02 A B",
+   "type": "gdt_frame",
+   "nominal": 0.02,
+   "characteristic": "position",
+   "datums": [
+    "A",
+    "B"
+   ],
+   "belongs": [
+    "hole",
+    "flange",
+    "tab"
+   ],
+   "bbox": [
+    626.4,
+    319.2,
+    679.2,
+    360.0
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "Ø1.065 ±.003",
+   "type": "diameter",
+   "nominal": 1.065,
+   "tol_plus": 0.003,
+   "tol_minus": -0.003,
+   "belongs": [
+    "hole",
+    "bore",
+    "flange"
+   ],
+   "bbox": [
+    228.0,
+    388.8,
+    276.0,
+    420.0
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "⊥ Ø.01 E",
+   "type": "gdt_frame",
+   "nominal": 0.01,
+   "characteristic": "perpendicularity",
+   "datums": [
+    "E"
+   ],
+   "belongs": [
+    "hole",
+    "bore",
+    "flange"
+   ],
+   "bbox": [
+    220.8,
+    398.4,
+    268.8,
+    434.4
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "F",
+   "type": "datum_feature",
+   "belongs": [
+    "hole",
+    "bore",
+    "flange"
+   ],
+   "bbox": [
+    221.8,
+    432.0,
+    237.6,
+    448.8
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "∠ .04 A",
+   "type": "gdt_frame",
+   "nominal": 0.04,
+   "characteristic": "angularity",
+   "datums": [
+    "A"
+   ],
+   "belongs": [
+    "surface",
+    "flange",
+    "face",
+    "tab",
+    "bend"
+   ],
+   "bbox": [
+    240.0,
+    436.8,
+    273.6,
+    492.0
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "▱ .005 / .25 X .25",
+   "type": "gdt_frame",
+   "nominal": 0.005,
+   "characteristic": "flatness",
+   "datums": [],
+   "belongs": [
+    "surface",
+    "flange",
+    "face",
+    "tab"
+   ],
+   "bbox": [
+    247.2,
+    456.0,
+    304.8,
+    542.4
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "⌓ .06 A B C",
+   "type": "gdt_frame",
+   "nominal": 0.06,
+   "characteristic": "profile of a surface",
+   "datums": [
+    "A",
+    "B",
+    "C"
+   ],
+   "belongs": [
+    "surface",
+    "flange",
+    "face",
+    "tab",
+    "edge"
+   ],
+   "bbox": [
+    285.6,
+    472.8,
+    336.0,
+    547.2
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "E",
+   "type": "datum_feature",
+   "belongs": [
+    "surface",
+    "flange",
+    "face",
+    "tab",
+    "edge"
+   ],
+   "bbox": [
+    321.6,
+    513.6,
+    338.4,
+    532.8
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "Ø.438 ±.005",
+   "type": "diameter",
+   "nominal": 0.438,
+   "tol_plus": 0.005,
+   "tol_minus": -0.005,
+   "belongs": [
+    "hole",
+    "flange",
+    "tab"
+   ],
+   "bbox": [
+    624.0,
+    420.0,
+    667.2,
+    451.2
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "⊥ Ø.01 A",
+   "type": "gdt_frame",
+   "nominal": 0.01,
+   "characteristic": "perpendicularity",
+   "datums": [
+    "A"
+   ],
+   "belongs": [
+    "hole",
+    "flange",
+    "tab"
+   ],
+   "bbox": [
+    624.0,
+    429.6,
+    669.6,
+    470.4
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "B",
+   "type": "datum_feature",
+   "belongs": [
+    "hole",
+    "flange",
+    "tab"
+   ],
+   "bbox": [
+    613.4,
+    432.0,
+    624.0,
+    448.8
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "4X .82 ±.06",
+   "type": "dimension",
+   "quantity": 4,
+   "nominal": 0.82,
+   "tol_plus": 0.06,
+   "tol_minus": -0.06,
+   "belongs": [
+    "distance",
+    "edge",
+    "flange",
+    "bend",
+    "length",
+    "tab",
+    "notch"
+   ],
+   "bbox": [
+    552.0,
+    460.8,
+    595.2,
+    492.0
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "Ø1.500 ±.005",
+   "type": "diameter",
+   "nominal": 1.5,
+   "tol_plus": 0.005,
+   "tol_minus": -0.005,
+   "belongs": [
+    "hole",
+    "bore",
+    "opening"
+   ],
+   "bbox": [
+    504.0,
+    482.4,
+    549.6,
+    511.2
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "⌖ Ø.08 D B C",
+   "type": "gdt_frame",
+   "nominal": 0.08,
+   "characteristic": "position",
+   "datums": [
+    "D",
+    "B",
+    "C"
+   ],
+   "belongs": [
+    "hole",
+    "bore",
+    "opening"
+   ],
+   "bbox": [
+    504.0,
+    489.6,
+    566.4,
+    537.6
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "⌖ .03 D B C",
+   "type": "gdt_frame",
+   "nominal": 0.03,
+   "characteristic": "position",
+   "datums": [
+    "D",
+    "B",
+    "C"
+   ],
+   "belongs": [
+    "hole",
+    "slot",
+    "width",
+    "feature",
+    "opening"
+   ],
+   "bbox": [
+    469.4,
+    501.6,
+    525.6,
+    544.8
+   ]
+  }
+ ]
+}

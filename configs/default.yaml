@@ -24,6 +24,8 @@ store:
   collection: reports_bge-m3_v1      # embedder name in the collection name: never mix vector spaces
   image_dir: store/images
   cache_dir: store/cache
+  output_dir: outputs/requests       # <request_id>/<drawing_id>.json, answer.json - referenced by tasks.output_path
+  upload_dir: store/uploads          # submitted files by content (<sha256><ext>): retry/resume never need the original
 
 retrieval:
   dense_k: 30
@@ -42,3 +44,12 @@ drawing:
 
 router:
   classify_max_side: 768   # image size used for VLM-based classification
+
+batch:
+  workers: 2               # files at once (bulk, chat batches); x llm.max_concurrency <= server slots
+  chat_min_files: 2        # chat message with >= this many files and no question -> background batch
+
+trace:
+  enabled: true
+  db_path: store/traces.db           # requests / tasks / spans: `docagent trace <id>`, `docagent requests`
+  log_path: store/logs/agent.jsonl   # JSON-lines log with request/task/span ids

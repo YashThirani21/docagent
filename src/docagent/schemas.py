@@ -22,15 +22,20 @@ def sha256_file(path: str | Path) -> str:
 # ---------------------------------------------------------------- inputs
 
 class Attachment(BaseModel):
-    path: str
+    path: str                                 # where the bytes are (the upload store for submitted files)
     mime: str
     sha256: str
+    name: str = ""                            # original file name: display, drawing id, --file lookup
+
+    def model_post_init(self, _ctx) -> None:
+        self.name = self.name or Path(self.path).name
 
     @classmethod
-    def from_path(cls, path: str | Path) -> "Attachment":
+    def from_path(cls, path: str | Path, name: str | None = None) -> "Attachment":
         path = Path(path)
-        mime = mimetypes.guess_type(path.name)[0] or "application/octet-stream"
-        return cls(path=str(path), mime=mime, sha256=sha256_file(path))
+        name = name or path.name
+        mime = mimetypes.guess_type(name)[0] or "application/octet-stream"
+        return cls(path=str(path), mime=mime, sha256=sha256_file(path), name=name)
 
     @property
     def is_pdf(self) -> bool:
@@ -168,3 +173,6 @@ class Response(BaseModel):
     report_answer: ReportAnswer | None = None
     drawings: list[DrawingExtraction] = []
     errors: list[str] = []
+    outputs: list[str] = []                 # result files: drawing JSONs (new or reused), answer.json
+    notes: list[str] = []                   # not errors: e.g. zip members skipped (hidden files, unsupported)
+    reused: dict[str, str] = {}             # drawing_id -> request that produced the reused result

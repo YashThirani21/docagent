@@ -1,0 +1,304 @@
+{
+ "drawing_id": "nist_ftc_11_asme1_rb",
+ "source_file": "nist_ftc_11_asme1_rb.pdf",
+ "split": "test",
+ "verified": false,
+ "labelled_by": "AI assistant from the rendered sheet (150/300 dpi) and text layer; not from extractor output",
+ "bbox_note": "bbox = approximate location of the annotation in PDF points of the displayed (rotated) sheet; review only, not scored",
+ "units": "millimeters",
+ "title_block": {
+  "title": "PMI Fully-Toleranced Test Case 11 - View A",
+  "revision": "B",
+  "drawing_number": "nist_ftc_11_asme1_rb"
+ },
+ "n_notes": 5,
+ "values": [
+  {
+   "page": 1,
+   "raw_text": "Ø63 ±0.5 AVG (O.D.)",
+   "type": "diameter",
+   "nominal": 63,
+   "tol_plus": 0.5,
+   "tol_minus": -0.5,
+   "belongs": [
+    "outer",
+    "outside",
+    "o.d",
+    "rim",
+    "edge",
+    "periphery"
+   ],
+   "bbox": [
+    393.6,
+    134.4,
+    477.6,
+    187.2
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "Ø32 ±0.3 AVG (I.D.)",
+   "type": "diameter",
+   "nominal": 32,
+   "tol_plus": 0.3,
+   "tol_minus": -0.3,
+   "belongs": [
+    "inner",
+    "inside",
+    "i.d",
+    "hole",
+    "bore",
+    "center"
+   ],
+   "bbox": [
+    396.0,
+    175.2,
+    475.2,
+    223.2
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "○ 1.2Ⓕ",
+   "type": "gdt_frame",
+   "nominal": 1.2,
+   "characteristic": "circularity",
+   "datums": [],
+   "modifiers": [
+    "free state"
+   ],
+   "belongs": [
+    "inner",
+    "inside",
+    "i.d",
+    "hole",
+    "bore",
+    "center"
+   ],
+   "bbox": [
+    413.8,
+    196.8,
+    457.0,
+    233.8
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "B",
+   "type": "datum_feature",
+   "belongs": [
+    "inner",
+    "inside",
+    "i.d",
+    "hole",
+    "bore",
+    "center"
+   ],
+   "bbox": [
+    509.8,
+    143.0,
+    522.2,
+    162.2
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "↗ 1.2Ⓕ A B",
+   "type": "gdt_frame",
+   "nominal": 1.2,
+   "characteristic": "circular runout",
+   "datums": [
+    "A",
+    "B"
+   ],
+   "modifiers": [
+    "free state"
+   ],
+   "belongs": [
+    "outer",
+    "outside",
+    "o.d",
+    "rim",
+    "edge",
+    "periphery",
+    "surface"
+   ],
+   "bbox": [
+    164.6,
+    387.8,
+    244.8,
+    434.4
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "2X R1.5 ±0.04",
+   "type": "radius",
+   "quantity": 2,
+   "nominal": 1.5,
+   "tol_plus": 0.04,
+   "tol_minus": -0.04,
+   "belongs": [
+    "edge",
+    "round",
+    "fillet",
+    "corner",
+    "radi",
+    "rim",
+    "groove"
+   ],
+   "bbox": [
+    605.8,
+    428.6,
+    662.4,
+    466.6
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "(197.9)",
+   "type": "dimension",
+   "nominal": 197.9,
+   "belongs": [
+    "outer",
+    "perimeter",
+    "circumference",
+    "rim",
+    "edge",
+    "periphery"
+   ],
+   "bbox": [
+    424.8,
+    503.0,
+    457.0,
+    524.2
+   ]
+  },
+  {
+   "page": 1,
+   "raw_text": "B",
+   "type": "other",
+   "optional": true,
+   "note": "view direction label 'B' (black), not an annotation",
+   "bbox": [
+    571.2,
+    229.4,
+    583.2,
+    242.4
+   ]
+  },
+  {
+   "page": 2,
+   "raw_text": "2X R0.1 MAX",
+   "type": "radius",
+   "quantity": 2,
+   "nominal": 0.1,
+   "belongs": [
+    "groove",
+    "fillet",
+    "corner",
+    "radi",
+    "edge"
+   ],
+   "bbox": [
+    139.2,
+    246.2,
+    212.2,
+    259.7
+   ]
+  },
+  {
+   "page": 2,
+   "raw_text": "⌓ 0.3Ⓕ A B",
+   "type": "gdt_frame",
+   "nominal": 0.3,
+   "characteristic": "profile of a surface",
+   "datums": [
+    "A",
+    "B"
+   ],
+   "modifiers": [
+    "free state"
+   ],
+   "belongs": [
+    "groove",
+    "surface",
+    "bottom",
+    "floor",
+    "face",
+    "recess"
+   ],
+   "bbox": [
+    374.4,
+    227.0,
+    471.4,
+    244.3
+   ]
+  },
+  {
+   "page": 2,
+   "raw_text": "1.93 ±0.08",
+   "type": "dimension",
+   "nominal": 1.93,
+   "tol_plus": 0.08,
+   "tol_minus": -0.08,
+   "belongs": [
+    "thick",
+    "height",
+    "rim",
+    "plate",
+    "part",
+    "lip",
+    "step"
+   ],
+   "bbox": [
+    566.4,
+    268.8,
+    622.6,
+    281.3
+   ]
+  },
+  {
+   "page": 2,
+   "raw_text": "▱ 0.3Ⓕ",
+   "type": "gdt_frame",
+   "nominal": 0.3,
+   "characteristic": "flatness",
+   "datums": [],
+   "modifiers": [
+    "free state"
+   ],
+   "belongs": [
+    "bottom",
+    "surface",
+    "face",
+    "base",
+    "underside"
+   ],
+   "bbox": [
+    328.3,
+    336.5,
+    388.8,
+    353.3
+   ]
+  },
+  {
+   "page": 2,
+   "raw_text": "A",
+   "type": "datum_feature",
+   "belongs": [
+    "bottom",
+    "surface",
+    "face",
+    "base",
+    "underside"
+   ],
+   "bbox": [
+    333.1,
+    370.1,
+    349.9,
+    386.9
+   ]
+  }
+ ]
+}

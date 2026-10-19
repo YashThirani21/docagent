@@ -24,10 +24,15 @@ def render_markdown(resp: Response) -> str:
                 for c in a.citations))
     for d in resp.drawings:
         types = Counter(v.type for v in d.values)
+        reused = f" _Reused result from request {resp.reused[d.drawing_id]} (same file, same agent version)._" \
+            if d.drawing_id in resp.reused else ""
         parts.append(f"**Drawing `{d.drawing_id}`**: {len(d.values)} values extracted "
-                     f"({', '.join(f'{n} {t}' for t, n in types.most_common())}); units: {d.units or 'unknown'}.")
+                     f"({', '.join(f'{n} {t}' for t, n in types.most_common())}); units: {d.units or 'unknown'}."
+                     + reused)
     if resp.errors:
         parts.append("**Errors:** " + "; ".join(resp.errors))
+    if resp.notes:
+        parts.append("_Notes: " + "; ".join(resp.notes) + "_")
     parts.append(f"<sub>request {resp.request_id} · routes: "
                  + ", ".join(f"{r.route.value} ({r.tier})" for r in resp.routes) + "</sub>")
     return "\n\n".join(parts)

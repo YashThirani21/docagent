@@ -30,6 +30,8 @@ from ..config import Config
 from ..llm import VLM, fit_image
 from ..pdf import doc_id_from_path, render
 from ..schemas import Attachment, DrawingExtraction, DrawingPage, DrawingValue, ValueType
+from .. import trace
+from ..trace import span
 
 log = logging.getLogger(__name__)
 
@@ -331,14 +333,16 @@ class DrawingExtractor:
 
     def extract(self, att: Attachment | str | Path) -> DrawingExtraction:
         att = att if isinstance(att, Attachment) else Attachment.from_path(att)
-        if self.dc.method == "geometry":
-            return self._extract_geometry(att)
-        return self._extract_tiles(att)
+        with span("drawing.extract", method=self.dc.method, file=att.name) as sp:
+            d = self._extract_geometry(att) if self.dc.method == "geometry" else self._extract_tiles(att)
+            sp.set(drawing_id=d.drawing_id, n_values=len(d.values), n_pages=len(d.pages), units=d.units,
+                   coord_units=d.coord_units, extractor_version=d.extractor_version)
+            return d
 
     # ------------------------------------------------------------ geometry method (default)
     def _extract_geometry(self, att: Attachment) -> DrawingExtraction:
         from .drawing_geometry import GeometryReader, datum_check, load_image
-        drawing_id = doc_id_from_path(att.path)
+        drawing_id = doc_id_from_path(att.name)   # original name, not the store path
         doc = pymupdf.open(att.path) if att.is_pdf else None
         sheets = [(p, None) for p in doc] if doc else [(None, load_image(att.path))]
         full_text = "\n".join(p.get_text() for p in doc) if doc else ""
@@ -350,27 +354,40 @@ class DrawingExtractor:
         read_notes: list[str] = []
         raster_used = not att.is_pdf
         for pno, (page, image) in enumerate(sheets, start=1):
-            cands, crop = reader.sheet_candidates(page, image, pno, known)
-            view = None
-            if page is not None and (m := re.search(r"View\s+([A-Z0-9]+(?:\s*\(of \d+\))?)", page.get_text())):
-                view = f"View {m.group(1)}"
-            if not cands:                                  # nothing detected: legacy tile reading
-                log.info("%s sheet %d: no annotation candidates, falling back to tiles", drawing_id, pno)
-                src = _PageSource(page=page) if page is not None else _PageSource(image=image)
-                vals, _, sheet = self._sheet(drawing_id, pno, src, title_block, notes)
+            with span("drawing.sheet", page=pno):
+                with span("drawing.find_annotations", page=pno) as sp:
+                    cands, crop = reader.sheet_candidates(page, image, pno, known)
+                    sp.set(n_candidates=len(cands), source=cands[0].source if cands else None)
+                view = None
+                if page is not None and (m := re.search(r"View\s+([A-Z0-9]+(?:\s*\(of \d+\))?)", page.get_text())):
+                    view = f"View {m.group(1)}"
+                if not cands:                                  # nothing detected: legacy tile reading
+                    log.info("%s sheet %d: no annotation candidates, falling back to tiles", drawing_id, pno)
+                    src = _PageSource(page=page) if page is not None else _PageSource(image=image)
+                    vals, _, sheet = self._sheet(drawing_id, pno, src, title_block, notes)
+                    values += vals
+                    pages.append(DrawingPage(page=pno, view=view or sheet.view, description=sheet.part_description))
+                    continue
+                raster_used |= crop.page is None
+                log.info("%s sheet %d: %d candidates (%s)", drawing_id, pno, len(cands), cands[0].source)
+                with span("drawing.read_callouts", page=pno, n_candidates=len(cands)) as sp:
+                    vals, nts = reader.read_sheet(drawing_id, pno, cands, crop)
+                    sp.set(n_values=len(vals), n_notes=len(nts))
+                for i, v in enumerate(vals, start=1):
+                    v.id = f"{drawing_id}-p{pno}-v{i:03d}"
+                self._fill_belongs_to(vals, page, image if crop.page is None else None, crop)
                 values += vals
-                pages.append(DrawingPage(page=pno, view=view or sheet.view, description=sheet.part_description))
-                continue
-            raster_used |= crop.page is None
-            log.info("%s sheet %d: %d candidates (%s)", drawing_id, pno, len(cands), cands[0].source)
-            vals, nts = reader.read_sheet(drawing_id, pno, cands, crop)
-            for i, v in enumerate(vals, start=1):
-                v.id = f"{drawing_id}-p{pno}-v{i:03d}"
-            self._fill_belongs_to(vals, page, image if crop.page is None else None, crop)
-            values += vals
-            read_notes += nts
-            pages.append(DrawingPage(page=pno, view=view, description=f"{len(cands)} annotation callouts"))
-        if not notes and read_notes:                       # pictures: notes come from the reading
+                read_notes += nts
+                pages.append(DrawingPage(page=pno, view=view, description=f"{len(cands)} annotation callouts"))
+        if not full_text.strip() and read_notes:           # pictures: no text layer, use the reading instead
+            read_text = "\n".join(dict.fromkeys(read_notes))  # in reading order (column, then top-down)
+            title_block = _title_block(read_text)
+            notes = _notes(read_text)                     # numbered general notes under a NOTES header
+            if not notes and not re.search(r"^\s*NOTES?\b", read_text, re.I | re.M):
+                used = {norm(t) for t in title_block.values()}
+                notes = [t for t in dict.fromkeys(read_notes)         # no header: keep what is not title block
+                         if len(t) > 3 and not any(u and u in norm(t) for u in used) and not _title_block(t)]
+        elif not notes and read_notes:
             notes = list(dict.fromkeys(read_notes))
         if len(title_block) < 2:
             title_block.update(self._title_block_vlm(sheets[0]))
@@ -386,7 +403,7 @@ class DrawingExtractor:
         if doc:
             doc.close()
         return DrawingExtraction(
-            drawing_id=drawing_id, source_file=Path(att.path).name, source_sha256=att.sha256, units=units,
+            drawing_id=drawing_id, source_file=att.name, source_sha256=att.sha256, units=units,
             coord_units="px" if raster_used else "pt", title_block=title_block, notes=notes, pages=pages,
             values=values, unmatched_text_tokens=[], extractor_version=self.geometry_version)
 
@@ -403,7 +420,8 @@ class DrawingExtractor:
             src = _PageSource(image=crop.image)
         probes = [v.model_copy() for v in vals]
         try:
-            self._locate(src, probes)
+            with span("drawing.belongs_to_sheet", n_values=len(vals), n_weak=len(weak)):
+                self._locate(src, probes)
         except Exception as e:
             log.warning("sheet locate failed: %s", e)
             return
@@ -420,7 +438,8 @@ class DrawingExtractor:
         w, h = img.size
         crop = img.crop((int(w * 0.5), int(h * 0.7), w, h))
         try:
-            tb = self.vlm.structured(TITLE_PROMPT, _TitleBlockRead, images=[fit_image(crop, 1100)], max_tokens=300)
+            with span("drawing.title_block_vlm"):
+                tb = self.vlm.structured(TITLE_PROMPT, _TitleBlockRead, images=[fit_image(crop, 1100)], max_tokens=300)
         except Exception as e:
             log.warning("title block read failed: %s", e)
             return {}
@@ -428,7 +447,7 @@ class DrawingExtractor:
 
     # ------------------------------------------------------------ tile method (legacy / fallback)
     def _extract_tiles(self, att: Attachment) -> DrawingExtraction:
-        drawing_id = doc_id_from_path(att.path)
+        drawing_id = doc_id_from_path(att.name)   # original name, not the store path
         doc = pymupdf.open(att.path) if att.is_pdf else None
         sources = ([_PageSource(page=p) for p in doc] if doc
                    else [_PageSource(image=Image.open(att.path).convert("RGB"))])
@@ -461,7 +480,7 @@ class DrawingExtractor:
             doc.close()
 
         return DrawingExtraction(
-            drawing_id=drawing_id, source_file=Path(att.path).name, source_sha256=att.sha256, units=units,
+            drawing_id=drawing_id, source_file=att.name, source_sha256=att.sha256, units=units,
             coord_units="pt" if att.is_pdf else "px", title_block=title_block, notes=notes, pages=pages,
             values=values, unmatched_text_tokens=unmatched, extractor_version=self.version)
 
@@ -475,11 +494,14 @@ class DrawingExtractor:
         ann_ids = {id(ln) for ln in ann_lines}
         skip_text = known | {norm(ln.text) for ln in lines if id(ln) not in ann_ids}
 
-        vals = self._dedupe(self._read_tiles(pno, src, ann_lines, skip_text, bool(title_block or notes)))
+        with span("drawing.read_tiles", page=pno) as sp:
+            vals = self._dedupe(self._read_tiles(pno, src, ann_lines, skip_text, bool(title_block or notes)))
+            sp.set(n_values=len(vals))
         unmatched = self._reconcile(vals, ann_lines, pno)
         for i, v in enumerate(vals, start=1):
             v.id = f"{drawing_id}-p{pno}-v{i:03d}"
-        sheet = self._locate(src, vals)
+        with span("drawing.locate", page=pno, n_values=len(vals)):
+            sheet = self._locate(src, vals)
         return vals, unmatched, sheet
 
     def _tiles(self, w: float, h: float) -> list[tuple[float, float, float, float]]:
@@ -505,7 +527,7 @@ class DrawingExtractor:
 
         # VLM calls in parallel: vLLM batches them on the GPU; Ollama with one slot simply queues them
         with ThreadPoolExecutor(max_workers=self.cfg.llm.max_concurrency) as ex:
-            futures = [ex.submit(read, j) for j in jobs]
+            futures = [trace.submit(ex, read, j) for j in jobs]
         for ti, ((clip, img, _), fut) in enumerate(zip(jobs, futures), start=1):
             try:
                 res = fut.result()

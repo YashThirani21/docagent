@@ -1,0 +1,80 @@
+{"id": "drw-pdf-ctc_01", "expected": "drawing", "made": "original drawing PDF", "split": "dev", "file": "data/drawings/nist_ctc_01_asme1_rd.pdf"}
+{"id": "drw-pdf-ctc_02", "expected": "drawing", "made": "original drawing PDF", "split": "dev", "file": "data/drawings/nist_ctc_02_asme1_rc.pdf"}
+{"id": "drw-pdf-ctc_03", "expected": "drawing", "made": "original drawing PDF", "split": "dev", "file": "data/drawings/nist_ctc_03_asme1_rc.pdf"}
+{"id": "drw-pdf-ctc_04", "expected": "drawing", "made": "original drawing PDF", "split": "dev", "file": "data/drawings/nist_ctc_04_asme1_rd.pdf"}
+{"id": "drw-pdf-ctc_05", "expected": "drawing", "made": "original drawing PDF", "split": "dev", "file": "data/drawings/nist_ctc_05_asme1_rd.pdf"}
+{"id": "drw-pdf-ftc_06", "expected": "drawing", "made": "original drawing PDF", "split": "dev", "file": "data/drawings/nist_ftc_06_asme1_rd.pdf"}
+{"id": "drw-pdf-ftc_07", "expected": "drawing", "made": "original drawing PDF", "split": "dev", "file": "data/drawings/nist_ftc_07_asme1_rd.pdf"}
+{"id": "drw-pdf-ftc_08", "expected": "drawing", "made": "original drawing PDF", "split": "dev", "file": "data/drawings/nist_ftc_08_asme1_rc.pdf"}
+{"id": "drw-pdf-ftc_09", "expected": "drawing", "made": "original drawing PDF", "split": "dev", "file": "data/drawings/nist_ftc_09_asme1_rd.pdf"}
+{"id": "drw-pdf-ftc_10", "expected": "drawing", "made": "original drawing PDF", "split": "dev", "file": "data/drawings/nist_ftc_10_asme1_rb.pdf"}
+{"id": "drw-pdf-ftc_11", "expected": "drawing", "made": "original drawing PDF", "split": "dev", "file": "data/drawings/nist_ftc_11_asme1_rb.pdf"}
+{"id": "drw-img-ctc_01-s1", "expected": "drawing", "made": "sheet 1 rendered, clean", "split": "test", "file": "eval/datasets/router/files/drw_ctc_01_s1_clean.jpg"}
+{"id": "drw-img-ctc_02-s1", "expected": "drawing", "made": "sheet 1 rendered, rotate", "split": "test", "file": "eval/datasets/router/files/drw_ctc_02_s1_rotate.jpg"}
+{"id": "drw-img-ctc_02-s2", "expected": "drawing", "made": "sheet 2 rendered, blur", "split": "test", "file": "eval/datasets/router/files/drw_ctc_02_s2_blur.jpg"}
+{"id": "drw-page-ctc_02-s2", "expected": "drawing", "made": "sheet 2 as a 1-page PDF", "split": "test", "file": "eval/datasets/router/files/drw_ctc_02_s2.pdf"}
+{"id": "drw-img-ctc_03-s1", "expected": "drawing", "made": "sheet 1 rendered, jpeg", "split": "test", "file": "eval/datasets/router/files/drw_ctc_03_s1_jpeg.jpg"}
+{"id": "drw-img-ctc_04-s1", "expected": "drawing", "made": "sheet 1 rendered, perspective", "split": "test", "file": "eval/datasets/router/files/drw_ctc_04_s1_perspective.jpg"}
+{"id": "drw-img-ctc_05-s1", "expected": "drawing", "made": "sheet 1 rendered, crop", "split": "test", "file": "eval/datasets/router/files/drw_ctc_05_s1_crop.jpg"}
+{"id": "drw-img-ctc_05-s2", "expected": "drawing", "made": "sheet 2 rendered, photo", "split": "test", "file": "eval/datasets/router/files/drw_ctc_05_s2_photo.jpg"}
+{"id": "drw-page-ctc_05-s2", "expected": "drawing", "made": "sheet 2 as a 1-page PDF", "split": "test", "file": "eval/datasets/router/files/drw_ctc_05_s2.pdf"}
+{"id": "drw-img-ftc_06-s1", "expected": "drawing", "made": "sheet 1 rendered, clean", "split": "test", "file": "eval/datasets/router/files/drw_ftc_06_s1_clean.jpg"}
+{"id": "drw-img-ftc_06-s2", "expected": "drawing", "made": "sheet 2 rendered, rotate", "split": "test", "file": "eval/datasets/router/files/drw_ftc_06_s2_rotate.jpg"}
+{"id": "drw-page-ftc_06-s2", "expected": "drawing", "made": "sheet 2 as a 1-page PDF", "split": "test", "file": "eval/datasets/router/files/drw_ftc_06_s2.pdf"}
+{"id": "drw-img-ftc_07-s1", "expected": "drawing", "made": "sheet 1 rendered, blur", "split": "test", "file": "eval/datasets/router/files/drw_ftc_07_s1_blur.jpg"}
+{"id": "drw-img-ftc_07-s2", "expected": "drawing", "made": "sheet 2 rendered, jpeg", "split": "test", "file": "eval/datasets/router/files/drw_ftc_07_s2_jpeg.jpg"}
+{"id": "drw-page-ftc_07-s2", "expected": "drawing", "made": "sheet 2 as a 1-page PDF", "split": "test", "file": "eval/datasets/router/files/drw_ftc_07_s2.pdf"}
+{"id": "drw-img-ftc_08-s1", "expected": "drawing", "made": "sheet 1 rendered, perspective", "split": "test", "file": "eval/datasets/router/files/drw_ftc_08_s1_perspective.jpg"}
+{"id": "drw-img-ftc_08-s2", "expected": "drawing", "made": "sheet 2 rendered, crop", "split": "test", "file": "eval/datasets/router/files/drw_ftc_08_s2_crop.jpg"}
+{"id": "drw-page-ftc_08-s2", "expected": "drawing", "made": "sheet 2 as a 1-page PDF", "split": "test", "file": "eval/datasets/router/files/drw_ftc_08_s2.pdf"}
+{"id": "drw-img-ftc_09-s1", "expected": "drawing", "made": "sheet 1 rendered, photo", "split": "test", "file": "eval/datasets/router/files/drw_ftc_09_s1_photo.jpg"}
+{"id": "drw-img-ftc_09-s2", "expected": "drawing", "made": "sheet 2 rendered, clean", "split": "test", "file": "eval/datasets/router/files/drw_ftc_09_s2_clean.jpg"}
+{"id": "drw-page-ftc_09-s2", "expected": "drawing", "made": "sheet 2 as a 1-page PDF", "split": "test", "file": "eval/datasets/router/files/drw_ftc_09_s2.pdf"}
+{"id": "drw-img-ftc_10-s1", "expected": "drawing", "made": "sheet 1 rendered, rotate", "split": "test", "file": "eval/datasets/router/files/drw_ftc_10_s1_rotate.jpg"}
+{"id": "drw-img-ftc_10-s2", "expected": "drawing", "made": "sheet 2 rendered, blur", "split": "test", "file": "eval/datasets/router/files/drw_ftc_10_s2_blur.jpg"}
+{"id": "drw-page-ftc_10-s2", "expected": "drawing", "made": "sheet 2 as a 1-page PDF", "split": "test", "file": "eval/datasets/router/files/drw_ftc_10_s2.pdf"}
+{"id": "drw-img-ftc_11-s1", "expected": "drawing", "made": "sheet 1 rendered, jpeg", "split": "test", "file": "eval/datasets/router/files/drw_ftc_11_s1_jpeg.jpg"}
+{"id": "drw-img-ftc_11-s2", "expected": "drawing", "made": "sheet 2 rendered, perspective", "split": "test", "file": "eval/datasets/router/files/drw_ftc_11_s2_perspective.jpg"}
+{"id": "drw-page-ftc_11-s2", "expected": "drawing", "made": "sheet 2 as a 1-page PDF", "split": "test", "file": "eval/datasets/router/files/drw_ftc_11_s2.pdf"}
+{"id": "rep-pdf-16-006", "expected": "report_qa", "made": "original report PDF", "split": "dev", "file": "data/reports/ntsb_16-006.pdf"}
+{"id": "rep-pdf-18-061", "expected": "report_qa", "made": "original report PDF", "split": "dev", "file": "data/reports/ntsb_18-061.pdf"}
+{"id": "rep-pdf-24-013", "expected": "report_qa", "made": "original report PDF", "split": "dev", "file": "data/reports/ntsb_24-013.pdf"}
+{"id": "rep-img-16-006-p1", "expected": "report_qa", "made": "report text page as a picture, jpeg", "split": "test", "file": "eval/datasets/router/files/rep_16-006_p1_jpeg.jpg"}
+{"id": "rep-page-16-006-p1", "expected": "report_qa", "made": "report text page as a 1-page PDF", "split": "test", "file": "eval/datasets/router/files/rep_16-006_p1.pdf"}
+{"id": "rep-img-16-006-p3", "expected": "report_qa", "made": "report text page as a picture, photo", "split": "test", "file": "eval/datasets/router/files/rep_16-006_p3_photo.jpg"}
+{"id": "rep-page-16-006-p3", "expected": "report_qa", "made": "report text page as a 1-page PDF", "split": "test", "file": "eval/datasets/router/files/rep_16-006_p3.pdf"}
+{"id": "rep-img-16-006-p7", "expected": "report_qa", "made": "report figure page as a picture, photo", "split": "test", "file": "eval/datasets/router/files/rep_16-006_p7_photo.jpg"}
+{"id": "rep-img-16-006-p12", "expected": "report_qa", "made": "report figure page as a picture, clean", "split": "test", "file": "eval/datasets/router/files/rep_16-006_p12_clean.jpg"}
+{"id": "rep-img-18-061-p2", "expected": "report_qa", "made": "report text page as a picture, rotate", "split": "test", "file": "eval/datasets/router/files/rep_18-061_p2_rotate.jpg"}
+{"id": "rep-page-18-061-p2", "expected": "report_qa", "made": "report text page as a 1-page PDF", "split": "test", "file": "eval/datasets/router/files/rep_18-061_p2.pdf"}
+{"id": "rep-img-18-061-p6", "expected": "report_qa", "made": "report text page as a picture, jpeg", "split": "test", "file": "eval/datasets/router/files/rep_18-061_p6_jpeg.jpg"}
+{"id": "rep-page-18-061-p6", "expected": "report_qa", "made": "report text page as a 1-page PDF", "split": "test", "file": "eval/datasets/router/files/rep_18-061_p6.pdf"}
+{"id": "rep-img-18-061-p14", "expected": "report_qa", "made": "report figure page as a picture, photo", "split": "test", "file": "eval/datasets/router/files/rep_18-061_p14_photo.jpg"}
+{"id": "rep-img-18-061-p25", "expected": "report_qa", "made": "report figure page as a picture, jpeg", "split": "test", "file": "eval/datasets/router/files/rep_18-061_p25_jpeg.jpg"}
+{"id": "rep-img-24-013-p3", "expected": "report_qa", "made": "report text page as a picture, clean", "split": "test", "file": "eval/datasets/router/files/rep_24-013_p3_clean.jpg"}
+{"id": "rep-page-24-013-p3", "expected": "report_qa", "made": "report text page as a 1-page PDF", "split": "test", "file": "eval/datasets/router/files/rep_24-013_p3.pdf"}
+{"id": "rep-img-24-013-p4", "expected": "report_qa", "made": "report figure page as a picture, rotate", "split": "test", "file": "eval/datasets/router/files/rep_24-013_p4_rotate.jpg"}
+{"id": "rep-page-24-013-p4", "expected": "report_qa", "made": "report figure page as a 1-page PDF", "split": "test", "file": "eval/datasets/router/files/rep_24-013_p4.pdf"}
+{"id": "fig-16-006-f3", "expected": "report_qa", "made": "report figure without caption, crop", "split": "test", "file": "eval/datasets/router/files/fig_16-006_f3_crop.jpg"}
+{"id": "fig-16-006-f7", "expected": "report_qa", "made": "report figure without caption, crop", "split": "test", "file": "eval/datasets/router/files/fig_16-006_f7_crop.jpg"}
+{"id": "fig-16-006-f12", "expected": "report_qa", "made": "report figure without caption, photo", "split": "test", "file": "eval/datasets/router/files/fig_16-006_f12_photo.jpg"}
+{"id": "fig-18-061-f2", "expected": "report_qa", "made": "report figure without caption, jpeg", "split": "test", "file": "eval/datasets/router/files/fig_18-061_f2_jpeg.jpg"}
+{"id": "fig-18-061-f5", "expected": "report_qa", "made": "report figure without caption, clean", "split": "test", "file": "eval/datasets/router/files/fig_18-061_f5_clean.jpg"}
+{"id": "fig-18-061-f6", "expected": "report_qa", "made": "report figure without caption, blur", "split": "test", "file": "eval/datasets/router/files/fig_18-061_f6_blur.jpg"}
+{"id": "fig-18-061-f8", "expected": "report_qa", "made": "report figure without caption, clean", "split": "test", "file": "eval/datasets/router/files/fig_18-061_f8_clean.jpg"}
+{"id": "fig-18-061-f13", "expected": "report_qa", "made": "report figure without caption, clean", "split": "test", "file": "eval/datasets/router/files/fig_18-061_f13_clean.jpg"}
+{"id": "fig-18-061-f15", "expected": "report_qa", "made": "report figure without caption, crop", "split": "test", "file": "eval/datasets/router/files/fig_18-061_f15_crop.jpg"}
+{"id": "fig-18-061-f19", "expected": "report_qa", "made": "report figure without caption, crop", "split": "test", "file": "eval/datasets/router/files/fig_18-061_f19_crop.jpg"}
+{"id": "fig-18-061-f23", "expected": "report_qa", "made": "report figure without caption, jpeg", "split": "test", "file": "eval/datasets/router/files/fig_18-061_f23_jpeg.jpg"}
+{"id": "fig-24-013-f2", "expected": "report_qa", "made": "report figure without caption, photo", "split": "test", "file": "eval/datasets/router/files/fig_24-013_f2_photo.jpg"}
+{"id": "fig-24-013-f3", "expected": "report_qa", "made": "report figure without caption, jpeg", "split": "test", "file": "eval/datasets/router/files/fig_24-013_f3_jpeg.jpg"}
+{"id": "fig-24-013-f4", "expected": "report_qa", "made": "report figure without caption, photo", "split": "test", "file": "eval/datasets/router/files/fig_24-013_f4_photo.jpg"}
+{"id": "chart-18-061-p37", "expected": "report_qa", "made": "load-extension chart page as a picture", "split": "test", "file": "eval/datasets/router/files/chart_18-061_p37.jpg"}
+{"id": "chart-18-061-p39", "expected": "report_qa", "made": "load-extension chart page as a picture", "split": "test", "file": "eval/datasets/router/files/chart_18-061_p39.jpg"}
+{"id": "chart-18-061-p38-pdf", "expected": "report_qa", "made": "chart page as a 1-page PDF", "split": "test", "file": "eval/datasets/router/files/chart_18-061_p38.pdf"}
+{"id": "text-01", "expected": "report_qa", "made": "text only", "split": "dev", "text": "What caused the throttle arm to fracture?"}
+{"id": "text-02", "expected": "report_qa", "made": "text only", "split": "dev", "text": "Which bolts had the lowest loosening torque on the right spar?"}
+{"id": "text-03", "expected": "report_qa", "made": "text only", "split": "dev", "text": "Is there a drawing of the spar attachment?"}
+{"id": "text-04", "expected": "report_qa", "made": "text only", "split": "test", "text": "What is the tolerance on a 2024-T3511 extrusion?"}
+{"id": "text-05", "expected": "report_qa", "made": "text only", "split": "test", "text": "hello"}
+{"id": "text-06", "expected": "report_qa", "made": "text only", "split": "test", "text": "Summarise report 16-006."}

@@ -15,6 +15,7 @@ from PIL import Image
 from pydantic import BaseModel, ValidationError
 
 from .config import PROJECT_ROOT, LLMCfg
+from .trace import record_llm_call, span
 
 log = logging.getLogger(__name__)
 T = TypeVar("T", bound=BaseModel)
@@ -38,7 +39,8 @@ def fit_image(img: Image.Image, max_side: int, multiple: int = 28) -> Image.Imag
 class VLM:
     def __init__(self, cfg: LLMCfg, cache_dir: str | Path | None = None):
         self.cfg = cfg
-        self.client = OpenAI(base_url=cfg.base_url, api_key="local", timeout=cfg.timeout_s)
+        self.client = OpenAI(base_url=cfg.base_url, api_key="local", timeout=cfg.timeout_s,
+                             max_retries=cfg.max_retries)   # transient only; bad output is not retried here
         # Deterministic calls (temperature 0) are cached on disk: re-runs of eval/dev cost nothing.
         cache_dir = cache_dir or cfg.cache_dir
         self.cache_dir = (PROJECT_ROOT / cache_dir) if cache_dir else None
@@ -69,23 +71,53 @@ class VLM:
         if json_schema:
             kwargs["response_format"] = {"type": "json_schema",
                                          "json_schema": {"name": "output", "schema": json_schema}}
+        key = self._cache_key(kwargs)
         cache_file = None
         if self.cache_dir and self.cfg.temperature == 0:
-            cache_file = self.cache_dir / f"{self._cache_key(kwargs)}.txt"
-            if cache_file.exists():
-                return cache_file.read_text(), "stop"
-        t0 = time.perf_counter()
-        resp = self.client.chat.completions.create(**kwargs)
-        u = resp.usage
-        finish = resp.choices[0].finish_reason or "stop"
-        log.info("vlm call %.1fs prompt_tokens=%s completion_tokens=%s images=%d finish=%s",
-                 time.perf_counter() - t0, getattr(u, "prompt_tokens", None),
-                 getattr(u, "completion_tokens", None), len(images or []), finish)
-        text = resp.choices[0].message.content or ""
-        if cache_file and finish == "stop":
-            cache_file.parent.mkdir(parents=True, exist_ok=True)
-            cache_file.write_text(text)
+            cache_file = self.cache_dir / f"{key}.json"
+        with span("llm.call", model=self.cfg.model, n_images=len(images or []), prompt_hash=key,
+                  schema=(json_schema or {}).get("title"), max_tokens=max_tokens) as sp:
+            hit = self._cache_read(cache_file)
+            if hit is not None:
+                u = hit.get("usage") or {}
+                # orig_*: what the call cost when it was generated - informational, never summed as spend
+                sp.set(cache_hit=True, orig_prompt_tokens=u.get("prompt_tokens"),
+                       orig_completion_tokens=u.get("completion_tokens"), orig_latency_s=hit.get("latency_s"),
+                       finish_reason=hit.get("finish", "stop"))
+                record_llm_call(None, None, cache_hit=True)
+                return hit["text"], "stop"
+            t0 = time.perf_counter()
+            resp = self.client.chat.completions.create(**kwargs)
+            latency = time.perf_counter() - t0
+            u = resp.usage
+            usage = {"prompt_tokens": getattr(u, "prompt_tokens", None),
+                     "completion_tokens": getattr(u, "completion_tokens", None)}
+            finish = resp.choices[0].finish_reason or "stop"
+            log.info("vlm call %.1fs prompt_tokens=%s completion_tokens=%s images=%d finish=%s",
+                     latency, usage["prompt_tokens"], usage["completion_tokens"], len(images or []), finish)
+            sp.set(cache_hit=False, latency_s=round(latency, 3), finish_reason=finish, **usage)
+            record_llm_call(usage["prompt_tokens"], usage["completion_tokens"], cache_hit=False)
+            text = resp.choices[0].message.content or ""
+            if cache_file and finish == "stop":
+                # usage stored with the reply: cached replays still report what the call originally cost
+                cache_file.parent.mkdir(parents=True, exist_ok=True)
+                tmp = cache_file.with_suffix(".tmp")
+                tmp.write_text(json.dumps({"text": text, "usage": usage, "latency_s": round(latency, 3),
+                                           "finish": finish}))
+                tmp.replace(cache_file)                         # atomic: no half-written cache entries
         return text, finish
+
+    @staticmethod
+    def _cache_read(cache_file: Path | None) -> dict | None:
+        """{text, usage, latency_s, finish} or None. Legacy entries are plain .txt (usage unknown)."""
+        if cache_file is None:
+            return None
+        if cache_file.exists():
+            return json.loads(cache_file.read_text())
+        legacy = cache_file.with_suffix(".txt")
+        if legacy.exists():
+            return {"text": legacy.read_text(), "usage": None, "latency_s": None, "finish": "stop"}
+        return None
 
     def chat(self, prompt: str, images: list[Image.Image] | None = None, system: str | None = None,
              json_schema: dict | None = None, max_tokens: int | None = None) -> str:

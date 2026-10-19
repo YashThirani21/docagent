@@ -1,6 +1,8 @@
 {
  "drawing_id": "nist_ftc_07_asme1_rd",
  "source_file": "nist_ftc_07_asme1_rd.pdf",
+ "split": "dev",
+ "verified": true,
  "units": "inches",
  "title_block": {
   "title": "PMI Fully-Toleranced Test Case 7 - View A",
