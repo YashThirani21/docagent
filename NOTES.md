@@ -108,3 +108,8 @@ Latency: ~40-60 s per answer on the M4 (generation over ~4.5-6k prompt tokens wi
 3. QA: per-chunk aircraft/part metadata (not just the doc header) so N104ER vs N106ER is separable;
    restrict context to the best-matching report when one clearly dominates.
 4. Tracing (per-request spans) and bulk run of all 11 drawings.
+
+## Next commit:
+1. Added some configs, LLM integration for vLLM
+2. Added vLLM scripts
+3. Drawing pipeline modification 

@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import logging
 import re
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -370,16 +371,26 @@ class DrawingExtractor:
         w, h = src.size
         out: list[DrawingValue] = []
         skip = " (already captured from the PDF text)" if has_text_blocks else ""
-        for ti, clip in enumerate(self._tiles(w, h), start=1):
+        jobs = []
+        for clip in self._tiles(w, h):        # render sequentially (PyMuPDF pages are not thread-safe)
             hints = [ln.text for ln in ann_lines if _inside(ln.bbox, clip)]
             img = fit_image(src.render(clip, self.dc.tile_dpi), 1400)
-            sx, sy = (clip[2] - clip[0]) / img.width, (clip[3] - clip[1]) / img.height
             prompt = READ_PROMPT.format(skip=skip, hints="; ".join(hints) or "(none - read from the image)")
+            jobs.append((clip, img, prompt))
+
+        def read(job):
+            return self.vlm.structured(job[2], _TileRead, images=[job[1]], max_tokens=3000)
+
+        # VLM calls in parallel: vLLM batches them on the GPU; Ollama with one slot simply queues them
+        with ThreadPoolExecutor(max_workers=self.cfg.llm.max_concurrency) as ex:
+            futures = [ex.submit(read, j) for j in jobs]
+        for ti, ((clip, img, _), fut) in enumerate(zip(jobs, futures), start=1):
             try:
-                res = self.vlm.structured(prompt, _TileRead, images=[img], max_tokens=3000)
+                res = fut.result()
             except Exception as e:
                 log.warning("tile %d sheet %d failed: %s", ti, pno, e)
                 continue
+            sx, sy = (clip[2] - clip[0]) / img.width, (clip[3] - clip[1]) / img.height
             for a in res.annotations:
                 raw = a.raw_text.strip()
                 if not raw or norm(raw) in skip_text:

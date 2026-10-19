@@ -16,6 +16,8 @@ class PrivacyCfg(BaseModel):
 
 
 class LLMCfg(BaseModel):
+    backend: str = "ollama"                     # ollama | vllm (both OpenAI-compatible)
+    max_concurrency: int = 1                    # parallel VLM calls; >1 pays off with vLLM
     base_url: str = "http://localhost:11434/v1"
     model: str = "qwen2.5vl:7b"
     num_ctx: int = 16384
@@ -74,7 +76,10 @@ class Config(BaseModel):
 
 
 def load_config(path: str | Path | None = None) -> Config:
-    path = Path(path) if path else DEFAULT_CONFIG
+    """Explicit path > $DOCAGENT_CONFIG > configs/default.yaml (so CLI, chat app and notebooks agree)."""
+    path = Path(path or os.environ.get("DOCAGENT_CONFIG") or DEFAULT_CONFIG)
+    if not path.is_absolute() and not path.exists():
+        path = PROJECT_ROOT / path
     cfg = Config(**(yaml.safe_load(path.read_text()) or {}))
     if cfg.privacy.offline:
         # Models are downloaded once by scripts/download_models.py; afterwards nothing may call out.

@@ -1,0 +1,43 @@
+# Colab / any NVIDIA GPU (T4: AWQ 4-bit, L4+: bf16 - chosen by scripts/start_vllm.sh). bge-m3 on CUDA.
+# Start the server first: scripts/start_vllm.sh   (stands in for an in-house GPU server; see NOTES.md)
+privacy:
+  offline: true
+
+llm:
+  backend: vllm
+  max_concurrency: 4        # parallel calls; vLLM batches them on the GPU
+  base_url: http://localhost:8000/v1
+  model: qwen2.5-vl-7b      # --served-model-name in scripts/start_vllm.sh
+  num_ctx: 16384            # informational; vLLM's limit is --max-model-len
+  temperature: 0.0
+  timeout_s: 600
+  cache_dir: store/cache/vlm_vllm   # separate cache: different weights than the Ollama model
+
+embedding:
+  model: BAAI/bge-m3
+  device: cuda
+  batch_size: 16
+  max_chunk_tokens: 350
+
+store:
+  qdrant_path: store/qdrant
+  qdrant_url: null
+  collection: reports_bge-m3_v1_bf16desc
+  image_dir: store/images
+  cache_dir: store/cache
+
+retrieval:
+  dense_k: 30
+  sparse_k: 30
+  top_k: 8
+  max_context_figures: 2
+
+drawing:
+  tile_dpi: 200
+  grid: [2, 2]
+  overlap: 0.12
+  overview_dpi: 100
+  dedup_distance_pt: 25
+
+router:
+  classify_max_side: 768

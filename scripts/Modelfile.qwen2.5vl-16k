@@ -1,0 +1,5 @@
+# Ollama's OpenAI-compatible endpoint ignores per-request num_ctx and defaults to 4096 tokens,
+# silently truncating long prompts. Bake the context length into a model variant instead.
+FROM qwen2.5vl:7b
+PARAMETER num_ctx 16384
+PARAMETER temperature 0

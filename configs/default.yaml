@@ -3,6 +3,8 @@ privacy:
   offline: true            # forces HF_HUB_OFFLINE / TRANSFORMERS_OFFLINE at runtime
 
 llm:
+  backend: ollama
+  max_concurrency: 1      # Ollama on a laptop: 1 slot
   base_url: http://localhost:11434/v1   # Ollama's OpenAI-compatible endpoint (vLLM: http://host:8000/v1)
   model: qwen2.5vl-16k          # = qwen2.5vl:7b with num_ctx 16384 (scripts/setup_ollama.sh)
   num_ctx: 16384           # Ollama silently truncates beyond this - keep it explicit
