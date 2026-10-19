@@ -12,10 +12,12 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import platform
 import random
 import statistics
 import tempfile
 import time
+from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
 
 import yaml
@@ -23,6 +25,21 @@ import yaml
 from docagent.config import PROJECT_ROOT, Config, load_config
 
 RESULTS = PROJECT_ROOT / "eval" / "results"
+# Packages whose version can change results without any change to the agent (Mac and Colab differ, e.g. pymupdf).
+ENV_PACKAGES = ("pymupdf", "torch", "transformers", "FlagEmbedding", "numpy", "pillow", "opencv-python-headless",
+                "openai", "vllm")
+
+
+def run_env() -> dict[str, str | None]:
+    """Python, platform and the versions of ENV_PACKAGES (None = not installed) for the run record."""
+    env: dict[str, str | None] = {"python": platform.python_version(),
+                                  "platform": f"{platform.system()}-{platform.machine()}"}
+    for name in ENV_PACKAGES:
+        try:
+            env[name] = version(name)
+        except PackageNotFoundError:
+            env[name] = None
+    return env
 
 
 # ---------------------------------------------------------------- arguments and config
@@ -183,7 +200,7 @@ def run_suite(suite, argv=None, extra_args=None) -> Path:
         "model": ctx.cfg.llm.model, "dataset": [str(Path(p).relative_to(PROJECT_ROOT)) for p in _paths(suite)],
         "dataset_hash": file_hash(_paths(suite)), "split": args.split, "seed": args.seed, "n": len(rows),
         "case_ids": [r["id"] for r in rows], "fresh": args.fresh, "batch_id": ctx.batch_id,
-        "wall_s": round(time.time() - t0, 1),
+        "wall_s": round(time.time() - t0, 1), "env": run_env(),
     }
     if hasattr(suite, "print_rows"):
         suite.print_rows(rows, args)
@@ -223,6 +240,10 @@ def compare(cur: dict, prev: dict, prev_name: str, outcomes_fn=None) -> dict:
     if pr.get("case_ids") is not None and set(pr["case_ids"]) != set(cr["case_ids"]):
         warn.append(f"different cases ({len(set(pr['case_ids']) & set(cr['case_ids']))} in common): "
                     "flips only over common cases, averages not comparable")
+    if pr.get("env") and pr["env"] != cr["env"]:
+        diff = {k: f"{pr['env'].get(k)} -> {cr['env'].get(k)}" for k in sorted(set(pr["env"]) | set(cr["env"]))
+                if pr["env"].get(k) != cr["env"].get(k)}
+        warn.append(f"different environment, may explain changes: {diff}")
     if not pr.get("suite"):
         warn.append("earlier file is from the old eval scripts: no run record, comparing what matches")
     for w in warn:
