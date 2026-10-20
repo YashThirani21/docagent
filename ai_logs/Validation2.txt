@@ -1,0 +1,1473 @@
+▗ ▗   ▖ ▖  Claude Code v2.1.302
+           Opus 5.5 · Claude Team
+ ▘▘   ▝▝   ~/Desktop/Empty/senior-data-scientist
+
+
+❯ Given where the project stands, these are my main focus areas now:            
+  1. Logging and storage of trace - what to persist from time to time? How to   
+  avoid lost progress when failing?                                             
+  2. Bulk uploads of files - how do we do this?                                 
+  3. How to deploy this for demo? Any docker?                                   
+  4. How to eval router, qa text, image, drawing, e2e?                          
+  - what are your recommendations on each? Regarding 1, I think we need to      
+  store status, routerdecision, start_time, end_time etc as part of the         
+  Job/Request whose status/fields keep evolving as the request continues to     
+  execute, and it should be saved from time to time, and persisted in SQL       
+  somehow. Can we use logging too? THink about how to log things like token     
+  use, time taken etc, and how to add some sort of failure recovery.            
+
+⏺ I'll look at the project first so the recommendations fit what's actually
+  there.
+
+  Searched for 1 pattern, ran 5 shell commands (ctrl+o to expand)
+
+⏺ I read the code first. Two things to fix before anything else:
+
+  - Your project has no git history. git rev-parse resolves to
+    /Users/yashthirani, your home directory, and that repo has no commits. The
+    brief says "commit as you go… do not squash", and reviewers will check. Run
+    git init inside senior-data-scientist/ and commit now. If you can, rebuild
+    the history in a few honest commits that follow the sections in NOTES.md.
+  - There's no ai_logs/ folder yet. It's a required deliverable.
+
+  ---
+
+  1. Tracing, persistence and failure recovery
+
+  Your Job-row idea is right. Use SQLite for it, and treat logs as a secondary 
+  record. SQLite needs no extra service, keeps the data in-house, and runs in
+  WAL mode so the bulk threads can write at once. The same schema moves to
+  Postgres at scale. Use three tables:
+
+  table: requests
+  one row per: user request
+  key fields: id, batch_id, status (queued/running/succeeded/partial/failed),
+  text, created/started/ended_at, agent versions + config hash + git sha, token
+   totals, LLM call count, cache hits, error
+  how it's written: updated at each change of state
+  ────────────────────────────────────────
+  table: tasks
+  one row per: attachment, which is the unit you retry
+  key fields: request_id, path, sha256, route, tier, confidence, reason, status,
+
+  stage, attempts, output_path, error and traceback, heartbeat_at
+  how it's written: updated at each stage boundary
+  ────────────────────────────────────────
+  table: spans
+  one row per: step
+  key fields: span_id, parent_id, request_id, task_id, name (router.rules,
+  router.vlm, drawing.find_annotations, drawing.read_callout, qa.retrieve,
+  qa.generate, llm.call), start, end, status, attrs JSON
+  how it's written: row added when the step opens, closed when it ends
+
+  - Write on every event, not on a timer. Each change of state is a tiny
+    transaction, so a crash loses at most the step that was running. A span row
+    added at open time means a crash leaves a visible running span that shows
+    where it died.
+  - Record tokens and timing in one place. VLM._complete (src/docagent/llm.py)
+    already logs time, tokens, image count and finish reason. Send the same
+    values to the current span, plus cache_hit, the model, and the prompt hash,
+    which is also the cache filename. That filename is your link to the full
+    prompt and raw reply, so you don't store prompts twice.
+  - Store usage in the VLM cache. Save {text, usage, latency} as JSON instead of
+    plain text. Otherwise every cached re-run, which is most eval runs, reports
+    0 tokens and 0 s, and your cost and latency numbers are wrong.
+  - Pass the current request and span through contextvars. Gotcha:
+    ThreadPoolExecutor does not copy contextvars to worker threads. Wrap
+    submissions with contextvars.copy_context().run, both in bulk and in the
+    parallel drawing reads, or spans lose their parent.
+  - Logging: keep Python logging for the human-readable story. Add a
+    logging.Filter that stamps request_id/task_id from the contextvar and writes
+    JSON lines to a file. Don't parse logs for metrics. SQL is the source of
+    truth; logs are for debugging.
+  - Make lookups easy: add docagent trace <request_id> to print the span tree
+    with durations and tokens, and docagent requests --status failed --since 1h.
+    For a free UI in the demo, run datasette store/traces.db. It works offline
+    and lets the reviewer browse and filter rows.
+  - Why not Opik or Langfuse: the cloud versions break the privacy rule.
+    Self-hosting them means several containers for something you can write in
+    about 150 lines and explain line by line. Name them as the production option
+    in your design page.
+
+  Failure recovery:
+  - Within a task, it mostly works already. The temperature-0 VLM cache acts as
+    a checkpoint: a re-run after a crash replays the finished calls for free
+    (your fix2 run took 7 minutes because of it). Say this in the review; don't
+    build per-stage checkpoints.
+  - Across tasks: mark a task succeeded only after its output is written
+    atomically (write to a temp file, then os.replace). On startup, mark running
+    tasks with a stale heartbeat as interrupted and re-queue them.
+  - Retries: retry transient errors (connection refused, timeouts from vLLM or
+    Ollama) with backoff; the openai client's max_retries covers this. Don't
+    retry deterministic failures like parse errors. Record them and move on.
+  - Idempotency key: sha256 + extractor version + config hash. If a succeeded
+    output already exists, skip the file. With a million near-identical files,
+    this also removes exact duplicates.
+
+  2. Bulk upload
+
+  You already have most of it: docagent bulk uses a thread pool, one bad file
+  doesn't kill the run, and a summary JSON is written. What's missing is
+  durability, so build bulk on the tasks table:
+
+  1. submit: expand folders and zips, hash each file, skip duplicates, insert
+     queued tasks under a batch_id.
+  2. A worker loop claims queued tasks: route, extract, write the output, mark
+     done.
+  3. status <batch_id> and bulk --resume <batch_id> re-run anything not
+     succeeded.
+
+  For the demo, keep it as one command that does submit and run together. The
+  split is your scale story: N workers on N GPUs pull from a queue (Postgres
+  SELECT … FOR UPDATE SKIP LOCKED or Redis). Don't add Celery.
+
+  In the chat, several drawings shouldn't block one Gradio call for minutes.
+  Submit them as a batch, stream progress lines from a generator, and offer a
+  zip of the JSON files at the end. Keep workers × llm.max_concurrency ≤ 
+  max-num-seqs, as USAGE.md already says.
+
+  3. Deploying for the demo
+
+  Docker on a Mac can't use the Metal GPU, so Ollama inside Docker runs on CPU 
+  only and is too slow for a live demo. So:
+
+  - Live demo: run natively on the Mac with Ollama. Pre-run the bulk job and the
+    evals so the results exist. Live, show one question, one photo and one
+    drawing, including at least one uncached run so you're honest about latency.
+    Time CTC-01 on the Mac beforehand.
+  - Docker, as the in-house deployment story: use docker-compose with:
+    - app: Gradio and CLI, CPU torch, models mounted as a volume,
+      HF_HUB_OFFLINE=1.
+    - qdrant server: you need it anyway, because embedded Qdrant allows only one
+      process, so chat, bulk and eval can't run together.
+    - vllm: the GPU service, under a gpu profile.
+    - An internal network with internal: true, so the containers have no
+      outbound access. That backs up your privacy claim with config, not just
+      words.
+  - Give Docker at most about an hour, and only hand in a compose file you've
+    actually run. They'll ask.
+
+  4. Evaluation
+
+  One harness for every part: python -m eval.run 
+  <router|qa_text|qa_image|drawing|e2e> --config configs/vX.yaml --n 20 --seed 0
+  --compare <previous>.
+  - Each result file records the config hash, component versions, git sha, and
+    per-case results.
+  - Pull latency and tokens from the trace DB by tagging eval runs with a
+    run_id, so cost is measured for free.
+  - Report per-case flips (newly failing, newly passing) next to the deltas.
+    With n=20, flips tell you more than averages.
+
+  part: Router
+  dataset: Labels come from the source, so no labelling: 11 drawing PDFs, report
+
+  PDFs, drawing pages as JPG with augmentations (rotation, blur, JPEG,
+  perspective), a few phone photos of a printed or on-screen drawing (10
+  minutes, real-world), report figure crops as part photos, the 18-061 load
+  charts, text-only questions
+  metrics: Accuracy, confusion matrix, accuracy and coverage per tier (rule vs
+  VLM). Weight drawing→QA errors as severe, since the whole output format is
+  wrong
+  ────────────────────────────────────────
+  part: QA text
+  dataset: Keep your must/must-not fact scorer. It's deterministic and better
+  than a 7B judge. Split off a held-out test set: you tuned on all 20 (q10, q14
+   and q19 were fixed one by one), so the 0.95 is a dev score. Write about 15
+  new questions now and don't tune on them
+  metrics: Pass, facts, page recall@k (separates retrieval from generation
+  failures), refusal, filler
+  ────────────────────────────────────────
+  part: QA image
+  dataset: Report figure crops with the caption cut off, augmented so the image
+  isn't a pixel match. Expected: doc, figure, diagnosis facts, forbidden claims
+   (e.g. "corrosion" on 24-013 Fig. 3). Add a few out-of-scope photos that
+  should get a refusal
+  metrics: Report and figure hit@k, diagnosis facts, actions grounded, rate of
+  invented observations. Say clearly that this data is drawn from the corpus
+  itself
+  ────────────────────────────────────────
+  part: Drawing
+  dataset: You have 2 labelled drawings, both used for tuning. Label 1–2 more
+  (e.g. CTC-02 or FTC-06) as a held-out test. That fixes the biggest weakness
+  in your numbers
+  metrics: Keep the current metrics. Either make belongs_to stricter (score
+  against a region or feature id) or flag it as lenient in the results
+  ────────────────────────────────────────
+  part: E2E
+  dataset: Reuse the component cases plus mixed ones (text + drawing, several
+  attachments, photo + question), all run through Agent.handle with no gold
+  routing, scored by whichever component scorer fits the output
+  metrics: Task success, p50/p95 latency, tokens per request, error rate.
+  Compare
+  the E2E score with router accuracy × component score to see where to invest
+
+  Decide what text + drawing should return before you write those cases. Right
+  now agent.py skips QA when drawings are present.
+
+  ---
+
+  Suggested order: git now → SQLite tracer and tasks table (covers requirement
+  8, makes bulk resumable, and adds cost metrics to evals) → bulk on top of it →
+  router, image-QA and E2E evals with --compare → Docker last, either tested or
+  left out.
+
+  Want me to start with the tracer? It would be trace.py with the schema, the
+  span context manager and the contextvar wiring, hooks in
+  llm.py/agent.py/router.py, and the docagent trace command.
+
+✻ Sautéed for 1m 57s · done 7:30 AM
+
+❯ Forget git for now. I want to start with the tracing and tables. First fork   
+  an agent outlining exactly why we are doing what we are doing, then write     
+  code to build it so that this chat remains clear.                             
+
+⏺ fork(Design rationale + tracing build)
+  ⎿  Backgrounded agent (↓ to manage · ctrl+o to expand)
+
+⏺ I started a background agent for this. It works in two steps, in order:
+
+  1. Why first: it adds a section 9 to NOTES.md, in the same style as the rest,
+     explaining the reason for each decision. That covers:
+     - why SQLite, and what each of the requests/tasks/spans tables is for;
+     - why rows are written at every status change instead of on a timer;
+     - why token counts are kept in the cache, plus the thread-context gotcha;
+     - logs for reading vs. SQL for querying;
+     - how a crashed run recovers, and why not Opik or Langfuse.
+
+     It will also mark what's built now and what's planned (bulk resume comes
+     later).
+  2. Then the code:
+     - a new src/docagent/trace.py;
+     - token and timing capture in llm.py, with usage saved in the cache;
+     - spans in the agent, router, drawing and QA pipelines;
+     - JSON-lines logs tagged with the request id;
+     - docagent trace <id> and docagent requests commands, and a batch id on
+       each bulk run;
+     - a short tracing section in USAGE.md.
+
+     It will test this with a stubbed VLM. If Ollama is running, it will also do
+     one real request and trace it.
+
+  It won't touch git. I'll pass on a short summary when it finishes: what
+  changed, what was tested and how, and anything left for you to decide.
+
+✻ Sautéed for 38s · done 3:25 PM
+
+⏺ Agent "Design rationale + tracing build" finished · 8m 37s
+
+⏺ Tracing is built, and the reasoning is in a new section 9 of NOTES.md. It
+  worked on one real request through Ollama and on a set of tests with a stubbed
+  model. The drawing pipeline and the two eval scripts have not been run
+  against the real model yet. Nothing was done in git.
+
+  What you get
+  - Three tables in store/traces.db: requests, tasks (one per attachment) and
+    spans (one per step, nested). Each row is updated whenever its status
+    changes. The tracer lives in src/docagent/trace.py, and an error inside it
+    can't crash the agent.
+  - Tokens, timing and cache hits on every model call, cached or not. The cache
+    now stores token usage too, so a cached re-run reports the same totals as
+    the original run. Old cache entries still load.
+  - Two new commands: docagent requests lists requests, filtered by status, time
+    window or batch. docagent trace <id | prefix | last> prints the step tree.
+    A bulk run puts its requests under one batch id, and each eval run does the
+    same with its label.
+  - Logs go to a JSON-lines file, each line stamped with the request, task and
+    step ids.
+  - Crash recovery: if the process dies, the request is marked interrupted when
+    the app next starts. A request where some attachments failed is marked
+    partial, with the traceback saved on the failed attachment.
+
+  Real request (docagent ask "what alloy was the throttle arm?", then docagent 
+  trace last):
+  request d59f9bbac916  succeeded  46.3s
+    llm:      1 calls (0 cached), tokens 4138 in / 98 out
+    report_qa  46.28s
+      qa.retrieve  0.17s
+      qa.generate  34.70s
+        llm.call x1  34.67s  tokens 4138/98
+      qa.verify_citations  0.00s
+  That trace exposed 11 s unaccounted for: the first request loads the embedder
+  and the index. That now shows as its own qa.load_index step.
+
+  Tests with the stubbed model:
+  - The CTC-01 drawing made 26 model calls across 4 threads, and every call
+    stayed attached to its parent step.
+  - A second run made no new calls and reported the same token totals.
+  - A forced crash on one of two drawings left the request partial.
+  - A request left running from before was marked interrupted.
+  - An unreachable model server marked the request failed.
+
+  Changes from what I described earlier
+  - A request is counted as stuck when its latest step is more than 15 minutes
+    old. There's no separate heartbeat column on requests.
+  - There's an extra summary column on requests: routes, value counts, answer
+    and errors.
+  - tasks.output_path, atomic output writes and skip-if-already-done are not in
+    yet. They belong with the bulk resume work.
+
+  Three decisions for you, with my suggestions
+  1. Should a router failure on one file (e.g. a corrupt PDF) fail only that 
+     file? Today it fails the whole request. I'd fail only that file, because it
+     matters for bulk: one bad upload shouldn't sink a batch.
+  2. Should request token totals include cached calls? They do now, so
+     comparisons between eval runs stay stable. I'd keep that and add an "actual
+     spend" figure that counts only the calls that weren't cached.
+  3. Should Colab runs bring their traces back? scripts/colab_experiment.py
+     doesn't copy traces.db into the experiment folder yet. I'd add it. It's a
+     one-line change, and it lets you show the L4 traces in the review.
+
+  If you agree with all three, I'll make the changes and then start on bulk
+  resume.
+
+✻ Cooked for 9m 23s · done 3:34 PM
+
+※ recap: You're adding tracing, bulk upload, a demo deployment and evals to the document agent, and the SQLite tracing layer is now built and tested. Next, answer my three questions (router failures, token totals, Colab traces) so I can finish it and start bulk resume. (disable recaps in /config)
+
+❯ 1. Yes it should not affect other requests in the bulk 2. If the LLM did not  
+  generate its response afresh then we should not imply that the token totals   
+  increased 3. Yes. Before starting on bulk, link it back to my original        
+  requirements.                                                                 
+  ⎿  Resuming agent a582787
+
+⏺ I've passed your three decisions to the same background agent. It will make
+  them, test each one, and update the notes. In the meantime, here is how the
+  tracing work so far maps to what you asked for.
+
+  Your requirements for focus area 1
+
+  You asked for: A Job/Request record whose status and fields change as the
+  request runs
+  Where it is now: A requests row per request (status, versions, config hash,
+  totals, summary, error) and a tasks row per attachment
+  Status: Done
+  ────────────────────────────────────────
+  You asked for: Store the router decision
+  Where it is now: tasks.route, tier, confidence and reason, plus a router step
+  with its own timing
+  Status: Done
+  ────────────────────────────────────────
+  You asked for: start_time / end_time
+  Where it is now: started_at, ended_at and latency_ms on requests, tasks and
+  steps
+  Status: Done
+  ────────────────────────────────────────
+  You asked for: Saved from time to time, in SQL
+  Where it is now: SQLite at store/traces.db. Rows are written at every status
+  change rather than on a timer, so a crash loses at most the step that was
+  running
+  Status: Done, by a different method than you suggested
+  ────────────────────────────────────────
+  You asked for: Can we use logging too?
+  Where it is now: Yes, but only for reading: a JSON-lines log stamped with the
+  request, task and step ids. SQL holds the data you query
+  Status: Done
+  ────────────────────────────────────────
+  You asked for: Token use and time taken
+  Where it is now: Every model call records its tokens, latency, cache hit and
+  finish reason, and the request adds them up. Cached replays won't count as
+  new tokens once your decision 2 is in
+  Status: Done, fix in progress
+  ────────────────────────────────────────
+  You asked for: Avoid losing progress on failure
+  Where it is now: Done: the response cache acts as a checkpoint inside a file,
+  so a re-run after a crash replays finished model calls for free. A process
+  that dies leaves its request marked interrupted. One failed file leaves the
+  request partial, and decision 1 extends that to routing failures. Missing:
+  automatically resuming a batch. Nothing re-queues unfinished files yet,
+  tasks.output_path isn't filled in, and output files aren't written atomically
+  Status: Partly done. The missing half is the bulk step
+
+  The brief's requirements
+
+  - 8, tracking: done. For every request, a technical person can see what the
+    agent did (the step tree) and what it called (each model call, with tokens
+    and latency). It is stored in SQLite and you look it up with docagent trace 
+    <id> or docagent requests --status failed.
+  - 9, validation: started. Eval runs are traced under their label, so latency
+    and token cost can go into the version comparisons later.
+  - 6, privacy: the traces are a local file next to the data, with no outside
+    service. The trace database also holds the users' text, so give it the same
+    retention and access rules as the documents. This belongs on your one-page
+    privacy and scale write-up.
+  - 7, scale: the same tables move to Postgres. The steps table is the one that
+    grows fast (about 26 model calls per drawing, a few billion rows at a
+    million documents). Partition it by date, or keep the detailed steps for a
+    sample of requests. This is already argued in NOTES.md section 9.
+  - 5, bulk upload: the groundwork is in place: batch ids, per-file status, and
+    failure isolation once decision 1 lands. Bulk work next turns that into
+    resume plus skipping files already processed.
+
+  I'll send you the agent's results when it reports back. Then we can start on
+  bulk, which closes the remaining gap in the recovery requirement.
+
+✻ Baked for 29s · done 3:41 PM
+
+⏺ Agent "Design rationale + tracing build" finished · 2m 51s
+
+⏺ All three changes are in, and each was tested with the model stubbed out.
+  Nothing was re-run against the real model, and nothing was done in git.
+
+  1. One bad file no longer fails the others.
+     - Within a request: each attachment is now routed and processed separately,
+       so a failure marks only that attachment, with its error and traceback
+       saved. The request ends partial if anything came out and failed only if
+       nothing did.
+     - Test: one good drawing plus a corrupt PDF, a corrupt PNG and an image
+       whose classification fails gave partial: three failed attachments, one
+       succeeded.
+     - Bulk: I ran the real docagent bulk on two good and two corrupt files with
+       four workers. The good ones succeeded and wrote their JSON; the corrupt
+       ones failed on their own. Requests running side by side don't share any
+       state, so they can't affect each other.
+  2. Tokens count only responses the model actually generated.
+     - A reply served from the cache now only increases the cache-hit count. It
+       adds no calls and no tokens.
+     - The original token count is kept on that call's step under separate field
+       names, and nothing adds those up as spend.
+     - Test: the first CTC-01 run recorded 26 calls and 2600 in / 260 out
+       tokens. The cached re-run recorded 0 calls, 0 tokens and 26 cache hits.
+     - docagent trace adds a line like "26 replayed from cache (no spend;
+       originally 2600 in / 260 out)".
+  3. Colab runs bring their traces back.
+     - At the end of each experiment, scripts/colab_experiment.py now copies
+       traces.db and the JSON-lines log into the experiment folder. It uses
+       SQLite's backup function, which a plain file copy would miss when recent
+       writes haven't been flushed yet.
+     - Test: with 3.6 MB of unflushed writes, the copy matched the live database
+       exactly: 13 requests, 14 attachments, 234 steps.
+
+  NOTES.md section 9 and USAGE.md describe all three.
+
+  Still open:
+  - Cost per eval case: the evals have no figure for this yet. If you want one,
+    it would be built from the fresh plus original token counts and labelled
+    clearly, so it isn't mistaken for actual spend.
+  - Bulk step:
+    - re-queuing unfinished files (bulk --resume);
+    - writing output files atomically;
+    - skipping files already processed (same file, extractor version and
+      config);
+    - recording each attachment's output path, which isn't filled in yet.
+
+  Before you take this to the review, run one real drawing on the Mac or the L4
+  and check its trace. So far only a text question has gone through the real
+  model.
+
+  Shall I start the bulk step?
+
+✻ Crunched for 3m 18s · done 3:44 PM
+
+❯ /export                                                                       
+  ⎿  Conversation exported to: /Users/yashthirani/Desktop/Empty/senior-data-scie
+     ntist/logging_bulk_eval.txt
+
+※ recap: You're adding tracing and failure recovery to the document agent, and the SQLite tables plus your three changes are done and tested with a stubbed model. Next, tell me whether to start the bulk-upload resume step. (disable recaps in /config)
+
+❯ How is the id found to look up the trace for?                                 
+
+  Searched for 1 pattern (ctrl+o to expand)
+
+⏺ Every request gets a 12-character id when it's created (e.g. d59f9bbac916).
+  There are four ways to get hold of it:
+
+  1. The person who made the request sees it. In both the chat and docagent ask,
+     the reply ends with a small request d59f9bbac916 · routes: … line
+     (src/docagent/render.py:31). A user can paste that id when reporting a
+     problem.
+  2. A technical person can list recent requests and pick one. docagent requests
+     shows the id, time, status, duration, tokens, routes and the question
+     text. It can be filtered:
+  docagent requests --status failed --since 1h
+  docagent requests --batch bulk-20261018-143000-a1b2
+     A bulk run prints its batch id at the start and end, and also writes it to
+     bulk_summary.json next to each file's request id.
+  3. There are shortcuts.
+     - docagent trace last opens the newest request.
+     - A unique prefix also works: docagent trace d59f.
+  4. The id shows up in other places too.
+     - Each line of the JSON-lines log carries the request id, so you can grep
+       the log for an error and get the id.
+     - Drawing JSON from the chat is saved under outputs/chat/<request_id>/.
+     - You can query SQLite or Datasette directly.
+
+  One gap: you can't search by file name yet. For a drawing upload the question
+  text is empty, so the requests list shows only the route, not which drawing it
+  was. The file path is stored on the attachment row in the database, but no
+  command filters on it. That matters for bulk: "show me what happened to
+  ctc_03.pdf." I'd add a --file <name> filter that matches the attachment path,
+  and show the file name in the list. It's small, and it fits in the bulk step.
+  Shall I include it there?
+
+✻ Baked for 13s · done 3:56 PM
+
+※ recap: We're building tracing, bulk upload, deployment and evals for your document agent; tracing is done and tested, though only with a stubbed model and one real text question. Next, just say go to start the bulk step, including a filter to look up requests by file name. (disable recaps in /config)
+
+❯ Based on the current system, retrying an unsuccessful request only creates a  
+  new fresh request having lost the intermediate progress right? Is that        
+  fixable?                                                                      
+
+⏺ Partly. A retry does create a new request with a new id, but most of the
+  expensive work isn't lost.
+
+  What survives: the model response cache. Every model call that finished
+  normally is saved to disk, keyed by a hash of the model, prompt and images.
+  With temperature 0, the retry sends exactly the same calls, so the finished
+  ones are replayed for free. Only the call that failed, and any calls that
+  never ran, go to the model again. The non-model steps (rendering, vector
+  geometry, OCR, symbol classification) run again, but they take seconds next to
+  minutes of model time. This was tested: the cached re-run of CTC-01 made 0
+  calls to the model.
+
+  The cache doesn't help in four cases:
+  - a reply that was cut off at the token limit is never cached, so it runs
+    again;
+  - the cache only works at temperature 0;
+  - a prompt containing anything that changes between runs, such as a timestamp
+    or request id, would miss every time. I haven't checked the prompts for
+    this;
+  - after a config or prompt change you're running a new version, and missing
+    the cache is correct.
+
+  What is lost:
+  1. The link between attempts. The new request has no connection to the failed
+     one, so the history reads as two unrelated requests.
+  2. Which attachments already succeeded. A retry re-processes every attachment,
+     including the ones that worked. Thanks to the cache that costs little, but
+     the old outputs aren't reused and the user gets a fresh response for
+     everything.
+  3. Steps that don't call the model. Loading the index and running OCR repeat.
+     That's minor.
+
+  Yes, it's fixable, and it's mostly the same machinery as bulk resume:
+  - docagent retry <request_id> creates a new request with a retry_of link and
+    an attempt number. Each attempt stays its own trace instead of being written
+    over, so you can see why attempt 1 failed and how attempt 2 went.
+  - Reuse finished attachments: an attachment that succeeded and whose output
+    file exists is copied into the new request as reused. Only failed or
+    interrupted attachments run again, and their finished model calls still come
+    from the cache. This needs each attachment's output path saved and output
+    files written atomically. Both are already on the bulk list.
+  - Batch resume is the same thing for every request in a batch that isn't
+    succeeded: bulk --resume <batch_id>.
+  - No extra step-by-step checkpoints. The cache already covers the expensive
+    part. Saving the results of each pipeline stage would add complexity to save
+    seconds.
+
+  I'd build retry and bulk resume together as the next step, along with the
+  --file lookup.
+
+✻ Cogitated for 19s · done 4:44 PM
+
+❯ Ok, build it, and explain the need and effect summary in bullets.             
+  ⎿  Resuming agent a582787
+
+⏺ The same background agent is now building this:
+
+  - saving each attachment's output path, with output files written in one step
+    so a crash can't leave a half-written file;
+  - linking a retry to the attempt it replaces, with an attempt number;
+  - docagent retry, which reuses the attachments that already succeeded and
+    re-runs only the failed ones;
+  - bulk --resume, plus plain bulk skipping files already processed;
+  - the --file lookup;
+  - a check of the prompts for anything that would stop the cache matching on a
+    retry.
+
+  It will test each case with the model stubbed out, including a crash in the
+  middle of a batch and a config change, which should reuse nothing. When it
+  finishes, I'll send you the summary as bullets: why each piece is needed, and
+  what changes for you, with the model calls and time measured before and after.
+
+✻ Baked for 21s · done 4:46 PM
+⏺ Agent "Design rationale + tracing build" finished · 13m 39s
+
+⏺ Retry, bulk resume and lookup by file name are built. All six test scenarios
+  pass with the model stubbed out, and one real retry ran against Ollama. All
+  CTC-01 model calls were already cached before that real run, so it shows
+  results being reused, not the model calls a retry saves. Nothing was done in
+  git.
+
+  Why each piece is needed
+  - Recording each file's result: a file counts as done only after its result
+    file has been written completely. Results go to
+    outputs/requests/<request_id>/ whether they come from the chat, ask or bulk.
+    Without this, a crash mid-write could leave a broken file that a later
+    retry treats as finished.
+  - A fingerprint per file (file hash + pipeline version + model + config): a
+    retry or re-run needs to know which earlier results are still valid. A
+    result made with an older config or model is never reused.
+  - docagent retry, with each attempt linked to the one before: a failure should
+    cost only the unfinished work, and you can still see why attempt 1 failed.
+  - bulk --resume: every file in a batch is recorded as queued before processing
+    starts, so after a crash the run can tell finished, interrupted and
+    never-started files apart.
+  - requests --file: a drawing upload has no question text, so its file name is
+    the only way to find it.
+
+  What changes for you (call counts from the stubbed tests)
+  - Retrying a request where one of two drawings failed:
+    - Attempt 1 made 55 model calls and ended partial.
+    - Attempt 2 made 0 model calls and ended succeeded. The drawing that worked
+      was reused as it was. The failed one replayed its 29 finished calls from
+      the cache.
+  - A bulk run of 4 files, killed partway through file 3: bulk --resume
+    processed only files 3 and 4. File 3 replayed its 5 finished calls and made
+    only the remaining 19.
+  - Running the same bulk again: all 4 files were skipped as already done. No
+    new requests, no model calls, 0.2 s.
+  - After a config change: nothing is reused, and the output says so.
+  - A file that changed or disappeared since the original request: you get a
+    clear error, e.g. "file changed since the request (sha256 675698e729f7 ->
+    ed6278994d5a)".
+  - Lookup: requests --file lists every attempt for a file, and trace shows the
+    chain of attempts. In the real run, attempt 2 reused CTC-01 and ended
+    partial again only because the deliberately corrupt PDF is still corrupt.
+  - Prompts are deterministic: I'd asked the agent to check that nothing in the
+    prompts changes between runs, since that would make every retry miss the
+    cache. Nothing does. Two runs in fresh processes made 74 calls the first
+    time and 0 the second.
+
+  Changes from the plan
+  - Four extra database columns, all needed for resume:
+    - the request's attachment list, so a crash before any file starts can still
+      be resumed;
+    - the process id and host, so a crashed process is noticed immediately
+      instead of after 15 minutes;
+    - a link from a reused result to the attempt that originally made it.
+  - Reuse works across all requests, not just the attempts of one request.
+  - Answers from the reports are never reused, because one answer covers the
+    question and all its pictures together.
+  - Results always go to outputs/requests/. ask --out now only writes an extra
+    copy.
+  - retry --force re-runs everything and reuses nothing.
+  - Changing where traces are stored doesn't count as a config change, so it
+    doesn't make old results invalid.
+
+  Two decisions for you, with my suggestions
+  1. Old result folders are never deleted, so outputs/requests/ will keep
+     growing. I'd leave cleanup out for now and mention a retention policy in
+     the privacy and scale write-up, since these folders hold user data.
+  2. Should ask and the chat reuse finished results for an identical file? Right
+     now only retry, resume and bulk do. I'd say yes for drawings, since
+     uploading the same drawing twice shouldn't cost a second extraction, and
+     it's a small change. The catch is that a demo with a repeated upload would
+     return instantly, so say that out loud in the review.
+
+  Still untested: a real drawing run with model calls that aren't already
+  cached. Do that on the Mac or the L4 before the review.
+
+✻ Baked for 14m 14s · done 5:00 PM
+
+❯ 1 yes 2 yes by default but I would need a flag/argument that allows me to     
+  force a redo even if the same file has been used before. I think after this   
+  we should we done with the retry/logging part of the problem.                 
+  ⎿  Resuming agent a582787
+
+⏺ The background agent is making the last changes:
+
+  1. No cleanup command. I read your "yes" as agreeing with my suggestion: leave
+     the command out, and add a note to NOTES.md that saved results and traces
+     hold user data and need a retention policy. That point also goes on your
+     privacy and scale page. If you actually wanted the cleanup command, say so.
+  2. Reuse is on by default for drawings in ask and the chat. To redo the work
+     anyway:
+     - CLI: use --force. It means "reuse nothing", the same as in bulk and
+       retry.
+     - Chat: tick the new "Force re-run (ignore previous results)" checkbox.
+
+     By default --force won't skip the model response cache, so a forced redo
+     runs the full pipeline but can still replay cached model calls. The help
+     text will say this. The chat reply will also say when a result was reused
+     ("reused result from request X"), so nobody watching the demo mistakes it
+     for a fresh run.
+  3. Wrap-up: one final run of every test scenario so far, NOTES.md and USAGE.md
+     brought in line with the final behaviour, with all the commands listed in
+     one place, and a check that the CLI help reads cleanly.
+
+  When it reports back, I'll send a short summary with pass/fail for each
+  scenario. That closes the retry and logging work.
+
+✻ Baked for 20s · done 5:04 PM
+
+⏺ Agent "Design rationale + tracing build" finished · 5m 52s
+
+⏺ The retry and logging work is done. The final run passed every test scenario
+  with the model stubbed out.
+
+  What changed in this last round
+  - ask and the chat reuse earlier drawing results by default. If the file,
+    agent version and config are the same, the result isn't recomputed. The chat
+    reply says so: "Reused result from request X (same file, same agent 
+    version)." Answers from the reports are always generated fresh.
+  - --force means "reuse no earlier result" everywhere (ask, bulk, retry), and
+    the chat has a "Force re-run (ignore previous results)" checkbox. It doesn't
+    skip the model response cache. To skip that too, use a config with a
+    different llm.cache_dir.
+  - Retention: documented in NOTES.md section 9, with a bullet ready for your
+    privacy and scale page. No cleanup command, as agreed.
+  - Docs: USAGE.md now lists every command in one section: requests (--status,
+    --since, --batch, --file), trace, retry, bulk --resume, --force.
+  - Bug fixed along the way: bulk printed [fail] ? for files that failed
+    routing. It now prints the file name.
+
+  Final test run, all passing
+  - Step tree across worker threads, and the JSON-lines log
+  - Crashed requests marked interrupted
+  - Bad files failing on their own, without stopping the others
+  - Cached calls not counted as tokens spent
+  - Model server down, and tracing switched off
+  - Colab trace copy
+  - Retry reusing finished work: 0 new model calls
+  - Resume after a crash in the middle of a bulk run: only the remaining 2 files
+    processed
+  - A repeated bulk run skipping all files
+  - Config change reusing nothing, and a changed file giving a clear error
+  - --file lookup and the attempt chain
+  - Prompts the same from run to run
+  - Chat reuse and the force checkbox
+  - ask reuse and --force
+
+  Still to do before the review: one real drawing run without the cache, on the
+  Mac or the L4, then a look at its trace. Everything with drawings so far has
+  used either the stubbed model or cached responses. The evals also still have
+  no cost-per-case figure.
+
+  Your other focus areas: bulk upload (area 2) is now mostly covered, through
+  batches, resume, skipping done files and per-file failure. The one thing left
+  is the chat streaming progress for large uploads. That leaves the evals (area
+  4) and Docker (area 3). I'd do the evals next, because the review will go
+  through your numbers, and right now the router, image QA and end-to-end runs
+  have no eval, and the drawing and text QA results come only from the cases you
+  tuned on.
+
+✻ Cogitated for 6m 18s · done 5:10 PM
+
+※ recap: We're preparing your document agent for the review, and the tracing, retry and bulk resume work is finished with all tests passing. Next, run one real drawing without the cache and check its trace, then start on the evals. (disable recaps in /config)
+
+❯ Let's go over the bulk plan once - we now address failed individual requests  
+  in bulk individually instead of retrying the whole bulk which is good. And we 
+  can check status of requests within the batch to retry. Does this take care   
+  of durability? Is streaming progress the only remaining thing?                
+
+  Searched for 1 pattern (ctrl+o to expand)
+
+⏺ Mostly, for bulk runs started from the CLI. For uploads through the chat, no.
+  Streaming progress is the visible part of what's left, but there are gaps
+  underneath it.
+
+  What is durable now (CLI bulk)
+  - The batch is saved before any work starts. Every file is recorded as queued,
+    so after a crash you can tell finished, interrupted and never-started files
+    apart.
+  - A file counts as done only once its output is complete. Outputs are written
+    in a single step, so a half-written file is never treated as done.
+  - A crashed process is noticed straight away (from its process id and host).
+    Its requests become interrupted and can be resumed.
+  - --resume re-runs only unfinished files, and inside each one, finished model
+    calls come back from the cache.
+  - A repeated run skips finished files, and a bad file fails on its own without
+    stopping the others.
+
+  Remaining gaps, most important first
+  1. Uploaded files aren't kept. The database stores paths. Paths in data/ are
+     fine, but the chat's uploads sit in Gradio's temporary folder, which isn't
+     permanent storage. Once those files are cleared, retry and --resume stop
+     with "file missing". The fix is small: when a request is submitted, copy
+     each file into store/uploads/<sha256> and record that path. Identical
+     uploads also get stored once.
+  2. Chat uploads run inside the browser request. If the tab closes, the
+     connection drops or the app restarts mid-batch, the work stops. The user
+     never got a batch id, so the only way to recover is the CLI. Streaming
+     progress alone doesn't fix that, because it still runs inside the same
+     request. The robust shape:
+     - the chat submits the batch and shows its id straight away;
+     - a background thread in the app works through it;
+     - the chat streams progress by reading the batch's status from the
+       database.
+
+     Reloading the page then loses nothing, and the app can pick up unfinished
+     batches when it restarts.
+  3. The embedded vector store allows one process at a time. Running bulk while
+     the chat app is open fails as soon as a file needs the report index (photos
+     or report pages). Drawing-only batches are fine. The fix is the Qdrant
+     server, which is already in the Docker plan. Until then, say this in
+     USAGE.md.
+  4. Missing conveniences:
+     - No zip upload; bulk takes folders only.
+     - No batch summary with counts (you can only list a batch's requests).
+     - No download of all of a batch's results.
+
+     All small, and the summary and download are useful in a demo.
+  5. No protection against two workers picking up the same file. Two processes
+     resuming one batch at once could both process a file. On one machine, the
+     process-id check mostly prevents this. At scale, a worker would mark a file
+     as taken in the database before starting on it (Postgres SELECT … FOR 
+     UPDATE SKIP LOCKED). Put that in the scale write-up; don't build it.
+
+  My recommendation: build 1 and 2, plus the batch summary and download from 4.
+  Document 3 and 5. After that, bulk uploads are durable from both the CLI and
+  the chat, and the progress view comes out of item 2. Shall I send that to the
+  agent?
+
+✻ Cooked for 29s · done 5:22 PM
+
+❯ Build 1,2,4 and verify it does not break anything                             
+  ⎿  Resuming agent a582787
+
+⏺ The background agent is building items 1, 2 and 4:
+
+  1. Upload store. Every file is copied into store/uploads/<sha256> when it's
+     submitted, with its original name kept for display and --file lookups.
+     Retry and resume no longer depend on Gradio's temporary folder.
+  2. Chat batches that survive a closed tab. When you upload several files in
+     the chat:
+     - the chat creates a batch and replies with its id straight away;
+     - a background thread in the app processes it, using the same code as bulk 
+       --resume rather than a second implementation;
+     - the reply streams progress read from the database, and you can enter the
+       batch id later to see progress and get the results again;
+     - when the app restarts, it resumes unfinished batches.
+
+     A single upload works as it does today.
+  3. Bulk conveniences.
+     - Zip input, with checks against files that try to escape the extraction
+       folder and against oversized archives.
+     - A batch summary command: docagent batch <id> gives counts by status and
+       one line per file.
+     - A results download: --zip packs every file's output plus a summary into
+       one zip. The chat offers the same download when a batch finishes.
+
+  Items 3 and 5 go into USAGE.md and NOTES.md as documentation only.
+
+  To make sure nothing breaks, it will:
+  - re-run every earlier test scenario, using a scratch folder rather than your
+    real outputs/ and store/;
+  - test the new pieces, including a deleted original file, a malicious zip, a
+    closed tab and an app restart in the middle of a batch;
+  - confirm single uploads in the chat and ask behave as before;
+  - start the chat app briefly to check it launches cleanly.
+
+  I'll send you pass/fail for each check when it's done.
+
+✻ Baked for 26s · done 5:25 PM
+
+⏺ Agent "Design rationale + tracing build" finished · 14m 5s
+
+⏺ Kept uploads, chat batches that survive a closed tab, zip input and the batch
+  summary with a results zip are all built. Every check passed with the model
+  stubbed out, run in a scratch folder rather than your real outputs/ and
+  store/. Nothing was re-run against the real model.
+
+  What you get
+  - Uploads are kept. Each submitted file is copied once to
+    store/uploads/<sha256>. Retry and resume use that copy, and the original
+    name is kept for display and --file lookups.
+  - One code path for every batch. bulk, --resume, the new docagent batch <id> 
+    [--zip out.zip] and the chat all share the new batch.py.
+  - When the chat creates a batch: when you upload a zip, or 2 or more files
+    without a question.
+    - The batch id appears at once and progress streams from the database.
+    - When it finishes, the chat offers the results zip.
+    - Typing status <batch_id> brings the progress back after you close the tab.
+    - Unfinished batches resume when the app restarts.
+  - Files with a question stay one normal request. The question covers all the
+    pictures together, so splitting them would change the answer.
+  - Zip uploads are checked. Members with paths like ../ or absolute paths are
+    skipped with a note, hidden and unsupported files are skipped too, and
+    archives that are too large or have too many members are refused. Nothing is
+    ever written under a name taken from the archive.
+
+  Checks, all passed
+
+  ┌─────────────────┬───────────────────────────────────────────────────────┐
+  │      check      │                        result                         │
+  ├─────────────────┼───────────────────────────────────────────────────────┤
+  │ Every earlier   │ Still passes. The tests themselves were updated for   │
+  │ test scenario   │ the new paths                                         │
+  ├─────────────────┼───────────────────────────────────────────────────────┤
+  │ Original file   │ Retry and resume still work. An identical file is     │
+  │ deleted after   │ stored once. --file finds it by original name         │
+  │ upload          │                                                       │
+  ├─────────────────┼───────────────────────────────────────────────────────┤
+  │                 │ A normal zip ran its 2 drawings. A malicious one      │
+  │ Zips            │ (../evil.pdf, /abs.pdf, C:/win.pdf, ok.pdf) processed │
+  │                 │  only ok.pdf, and a zip over the member limit was     │
+  │                 │ refused                                               │
+  ├─────────────────┼───────────────────────────────────────────────────────┤
+  │ Chat batch of 3 │ Id back in under 0.01 s, and results byte-identical   │
+  │  drawings       │ to the CLI bulk run                                   │
+  ├─────────────────┼───────────────────────────────────────────────────────┤
+  │ Closed tab, and │ Closing the tab still finished all files. After an    │
+  │  restart        │ app restart in the middle of file 3, only files 3 and │
+  │                 │  4 ran                                                │
+  ├─────────────────┼───────────────────────────────────────────────────────┤
+  │ docagent batch  │ Summary and zip contents correct                      │
+  │ and --zip       │                                                       │
+  ├─────────────────┼───────────────────────────────────────────────────────┤
+  │ Single uploads  │                                                       │
+  │ in the chat and │ Unchanged; reuse and force still work                 │
+  │  ask            │                                                       │
+  ├─────────────────┼───────────────────────────────────────────────────────┤
+  │ App start and   │ The app starts on 127.0.0.1 (HTTP 200), and every     │
+  │ CLI help        │ subcommand's help reads cleanly                       │
+  └─────────────────┴───────────────────────────────────────────────────────┘
+
+  What behaves differently now
+  - Bulk records reused files as requests. Files already done when a batch
+    starts now appear as instant reused requests. You'll see more rows in
+    docagent requests, although bulk still prints "skipped (done)".
+  - Several files with no question run as a background batch in the chat,
+    instead of one request that blocks.
+  - Older results won't be reused. The config fingerprint no longer includes
+    where outputs and uploads are stored or the batch settings, so results made
+    before this change don't match. That only affects the one real request from
+    earlier today.
+
+  Documented, not built:
+  - the vector index allowing one process at a time (it only affects batches
+    with photos or questions);
+  - no protection against two workers taking the same file.
+
+  Decisions for you, with my suggestions
+  1. Keep the defaults: a batch starts at 2 files, and a zip may hold up to
+     5,000 files and 4 GB. They're fine for the demo and easy to change in the
+     config.
+  2. List recent batches in the chat: I'd add a small list of the last few
+     batches with their status. It's cheap, saves anyone keeping track of ids,
+     and makes the demo smoother.
+  3. Retention: the upload store holds user files too, so it's covered by the
+     retention note already in NOTES.md. Nothing to build.
+
+  Before the review, run one real bulk of the 11 drawings without the cache on
+  the L4, then docagent batch <id>. All drawing results so far come from stubbed
+  or cached model calls.
+
+  Shall I add the recent-batches list? After that I'd move on to the evals.
+
+✻ Cogitated for 14m 41s · done 5:39 PM
+
+※ recap: You're making the document agent durable and traceable; tracing, retry and bulk upload (kept uploads, chat batches, zips, results download) are built and pass stubbed tests. Next, decide whether to add the chat's recent-batches list, then move on to the evals. (disable recaps in /config)
+
+❯ I want to move on to evals now. Remember this from the Readme                 
+  Validation. Code that measures how well the agent works, for each important   
+  part (for example:                                                            
+     choosing the case, reading a drawing, answering from the reports) and for  
+  the whole system. It is                                                       
+     incremental: plug in a new version of the agent, or of one part, run it on 
+  a chosen number of test                                                       
+     cases, and see whether it got better or worse. No interface needed.        
+
+  Ran 2 shell commands (ctrl+o to expand)
+
+⏺ Here's the eval plan, built on what exists today: eval/run_qa.py with 20
+  questions and an --n and --compare option, and eval/run_drawings.py with 2
+  labelled drawings.
+
+  What the brief asks, and how the plan meets it
+
+  Brief says: "each important part… and the whole system"
+  Plan: Five suites: router, qa_text, qa_image, drawing, e2e
+  ────────────────────────────────────────
+  Brief says: "plug in a new version of the agent, or of one part"
+  Plan: The config is the version. Each part suite feeds that part correct
+  inputs
+  and bypasses the others: the drawing suite skips the router, the QA suites
+  skip routing. So a new part version is measured on its own. Add --set 
+  drawing.method=tiles for a quick variant without writing a new YAML
+  ────────────────────────────────────────
+  Brief says: "a chosen number of test cases"
+  Plan: --n N --seed S (repeatable sample), --ids …, --split dev|test
+  ────────────────────────────────────────
+  Brief says: "see whether it got better or worse"
+  Plan: --compare <previous run> shows the change in each metric and which cases
+   
+  flipped (newly failing or newly passing). With 20 cases, the flips say more
+  than the averages
+  ────────────────────────────────────────
+  Brief says: "No interface needed"
+  Plan: One command line: python -m eval <suite> --config … --n … --compare …
+
+  Shared harness (eval/core.py)
+
+  - Each result file records the config hash, part versions, model, dataset
+    hash, case ids, seed and label.
+  - Every eval run is traced as a batch, so the summary gets latency p50/p95,
+    fresh tokens and cached calls from the trace database.
+  - --fresh uses an empty model cache. Without it, re-runs replay from the cache
+    and the latency numbers mean nothing. Accuracy comparisons can keep the
+    cache.
+  - The existing run_qa and run_drawings become suites, keeping their scorers
+    and their current command lines.
+
+  Suites
+
+  suite: router
+  dataset: Generated by a script, so no hand labelling (the right answer comes
+  from where each case was made): drawing PDFs, drawing sheets as JPGs
+  (rotated, blurred, compressed, skewed), report PDFs and pages as images,
+  report figure crops as part photos, the 18-061 charts, text-only questions.
+  About 80 cases, plus a folder for real phone photos if you take some
+  metrics: Accuracy, confusion matrix, accuracy and coverage per tier (rule vs
+  model), count of drawings routed to QA (the worst error)
+  ────────────────────────────────────────
+  suite: qa_text
+  dataset: Your 20 questions become dev. About 15 new questions written from the
+
+  report text become a frozen test split
+  metrics: Your current fact and page scorer, unchanged
+  ────────────────────────────────────────
+  suite: qa_image
+  dataset: About 20 report figures cropped without the caption and altered
+  (cropped, rotated, compressed, photo of a screen). Expected report, figure,
+  diagnosis facts and forbidden claims are written from the sentences that cite
+   each figure
+  metrics: Report and figure found (hit@k), diagnosis facts, actions grounded,
+  invented observations
+  ────────────────────────────────────────
+  suite: drawing
+  dataset: Current 2 labelled drawings become dev, plus 2 new ones as a held-out
+
+  test
+  metrics: Current metrics, plus a stricter belongs_to check
+  ────────────────────────────────────────
+  suite: e2e
+  dataset: Cases taken from the other suites plus mixed ones (text + drawing,
+  several files, photo + question), run through Agent.handle with no  correct 
+  inputs fed in
+  metrics: Task success, latency, tokens, error rate, and how much is lost at
+  the
+  router vs inside each part
+
+  Three decisions are yours, because they cost your time or change how the agent
+  behaves:
+
+⏺ User answered Claude's questions:
+  ⎿  · Text + drawing in one message: what should the agent return? Today 
+     agent.py returns the drawing JSON and skips the question. → JSON only (keep
+     current)
+     · QA test questions and image cases are written from the report text. Who 
+     writes them? → Agent drafts, I skim (Recommended)
+     · Held-out drawing ground truth: your drawing numbers are tuned on CTC-01 
+     and FTC-07 only. How should the 2 test drawings get labelled? → Agent 
+     drafts, I verify (Recommended)
+
+⏺ fork(Build eval harness and suites)
+  ⎿  Backgrounded agent (↓ to manage · ctrl+o to expand)
+
+⏺ I started a new background agent for the evals with your three answers. It
+  works in this order:
+
+  1. Why first: a new NOTES.md section 10 that ties each phrase of the brief's
+     Validation requirement to how it's met. It also explains:
+     - the dev/test split (your 20 questions were used for tuning, so their
+       scores are optimistic);
+     - why per-case flips matter more than averages at this size;
+     - how each set of labels was made, and their limits.
+  2. Shared harness:
+     - one entry point, python -m eval <suite>;
+     - case selection with --n, --seed, --ids and --split;
+     - --set for quick variants without writing a new config;
+     - --compare, showing metric changes, cases that flipped, and latency and
+       token changes;
+     - every run traced as a batch;
+     - --fresh to bypass the model cache when you need honest timings.
+
+     Your existing run_qa and run_drawings commands keep working.
+  3. Five suites:
+     - router: about 80 cases generated by a script, with no hand labelling;
+     - qa_text: your 20 questions as dev, plus about 15 new test questions;
+     - qa_image: about 20 report figures cropped without their captions;
+     - drawing: CTC-03 and FTC-11 labelled as the held-out test set. The labels
+       come from the drawing sheets themselves, not from the extractor's output,
+       so the test isn't contaminated by what the extractor already produced;
+     - e2e: a text + drawing message expects only the drawing JSON, as you
+       chose.
+  4. Testing: every suite runs with the model stubbed out, using scratch
+     folders. If Ollama is running, it will also do a small real run of the
+     router suite and a few test questions.
+
+  When it finishes, you'll have two review jobs before the test sets are frozen:
+  - Drawing labels: check an overlay image per sheet against a checklist. These
+    labels stay marked unverified until you confirm them.
+  - QA test questions: skim the new test set.
+
+  I'll send you the file paths and results when it reports back.
+
+✻ Worked for 1m 26s · done 5:56 PM
+
+⏺ Agent "Build eval harness and suites" finished · 22m 19s
+
+⏺ The eval system is built. All five suites run end to end with the model
+  stubbed out, and NOTES.md section 10 explains the design. Before the test
+  numbers mean anything, you need to review the new labels.
+
+  What you have
+  - One command for everything: python -m eval 
+    <router|qa_text|qa_image|drawing|e2e>, with --n/--seed/--ids/--split, --set 
+    key=value, --compare (metric changes plus the cases that flipped) and
+    --fresh. Every run is traced as a batch.
+  - Your old commands still work: run_qa and run_drawings now call the new
+    suites.
+  - A stricter belongs_to metric in the drawing suite, next to the lenient one.
+    A check against the spot where the leader line points wasn't possible,
+    because the output stores where each annotation sits, not where its leader
+    ends.
+  - Tests with the model stubbed out:
+    - all five suites ran;
+    - a forced change showed up as a flip ("BROKE q03"), and drawings flip value
+      by value;
+    - --set changes the config fingerprint;
+    - --fresh ran with an empty cache;
+    - none of the tests wrote to your real store/, outputs/ or eval/results/.
+
+  Datasets
+
+  ┌──────────┬────────────┬──────────────────┬──────────────────────────────┐
+  │  suite   │    dev     │       test       │            labels            │
+  ├──────────┼────────────┼──────────────────┼──────────────────────────────┤
+  │          │            │                  │ Generated from the source    │
+  │ router   │ 17         │ 63               │ files, so the right answer   │
+  │          │            │                  │ is known by construction     │
+  ├──────────┼────────────┼──────────────────┼──────────────────────────────┤
+  │          │ 20         │ 15 (t01–t15,     │ Drafted; every required fact │
+  │ qa_text  │ (q01–q20)  │ new)             │  checked by script against   │
+  │          │            │                  │ its page                     │
+  ├──────────┼────────────┼──────────────────┼──────────────────────────────┤
+  │          │            │                  │ Figures without captions;    │
+  │ qa_image │ 10         │ 10               │ facts checked against the    │
+  │          │            │                  │ report text                  │
+  ├──────────┼────────────┼──────────────────┼──────────────────────────────┤
+  │          │ CTC-01,    │ CTC-03 (30       │ Drafted from the drawing     │
+  │ drawing  │ FTC-07     │ values), FTC-11  │ sheets, not from extractor   │
+  │          │            │ (12 values)      │ output; not verified yet     │
+  ├──────────┼────────────┼──────────────────┼──────────────────────────────┤
+  │ e2e      │ 8          │ 10               │ Built from cases in the      │
+  │          │            │                  │ other suites                 │
+  └──────────┴────────────┴──────────────────┴──────────────────────────────┘
+
+  Small real runs on the Mac (Ollama 4-bit, too few cases to quote)
+  - router, 15 cases: 0.93, with no drawing sent to QA. The one miss was a
+    report figure page sent to the drawing pipeline.
+  - qa_text test, 3 questions: all 3 passed.
+  - Router flaw found: the rules look only at page 1, and page 1 of the 24-013
+    report is a near-empty cover, so that report falls through to the slower
+    model check. Fixing it is fair, since it's a plain bug and not tuning on the
+    test results. Write it down in NOTES.md either way.
+
+  What you need to do
+  1. Check the drawing labels. Use the overlay images in
+     eval/datasets/drawings/review/*.png and the 12 judgement calls in
+     eval/datasets/drawings/review/CHECKLIST.md. Look closely at FTC-11: 12
+     values across 2 sheets looks low, given the extractor found 43 there. If
+     labels are missing, the extractor will be marked down for values that are
+     actually correct, and its recall score will be off. When you're done, set
+     "verified": true.
+  2. Skim the new questions: t01–t15 in eval/datasets/qa_text.jsonl and the
+     cases in eval/datasets/qa_image/cases.jsonl. After that, treat the test
+     splits as frozen and don't tune on them.
+  3. Optional: add a few real phone photos to eval/datasets/router/real/ and
+     eval/datasets/qa_image/out_of_scope/. The out-of-scope folder is empty,
+     because no meaningful out-of-scope photos could be made offline.
+
+  Two things to know
+  - --split defaults to dev, so you have to ask for test explicitly.
+  - If you swap the model but keep the same llm.model name, old cached replies
+    get replayed without any warning. Use --fresh or rename the model.
+
+  Next: once the labels are verified, run every suite on the L4 with --fresh as
+  your baseline, using --split all. That gives you honest numbers for the
+  review. After that, Docker is the last focus area.
+
+✻ Brewed for 29m 2s · done 6:19 PM
+
+※ recap: Tracing, retry and bulk upload are done, and the eval system is built and runs with a stubbed model. Next, check the drawing test labels using eval/datasets/drawings/review/CHECKLIST.md and skim the new QA test questions, then run the full baseline on the L4. (disable recaps in /config)
+
+❯ /export                                                                       
+  ⎿  Conversation exported to:
+     /Users/yashthirani/Desktop/Empty/senior-data-scientist/Validation.txt
+❯ Sorry I am a bit of a beginner here - what exactly are we doing here and what 
+  is the flow? Are questions LLM-generated? Is ideal routing decisions          
+  LLM-generated? Same for drawing annotations? What will python -m eval router  
+  for instance do? How does this align with the requirement in readme and how   
+  far are we off finishing this.                                                
+
+  Ran 1 shell command (ctrl+o to expand)
+
+⏺ No problem. Here it is from the start.
+
+  What evaluation means here
+
+  You have an agent that does three jobs: pick the case (the router), answer
+  from the reports, and read drawings. The brief wants code that scores each
+  job, and the whole system, against known-correct answers. When you change
+  something, you re-run it and see whether the score went up or down.
+
+  Each suite works the same way:
+
+  1. A dataset of test cases: inputs plus the correct answer for each.
+  2. Run the agent on them.
+  3. Compare its output with the correct answer and compute scores.
+  4. Save a results file, so the next run can be compared with this one.
+
+  Who wrote the correct answers?
+
+  Your in-house agent (Qwen) never writes its own answers; that would be
+  cheating. Three different sources were used:
+
+  dataset: Router (80 cases)
+  where the correct answers come from: Known from how each case was made. A
+  script takes your drawing PDFs and turns them into JPGs, rotated and blurred
+  copies, and so on. Anything made from a drawing must go to the drawing
+  pipeline. Anything made from a report page or figure must go to report QA
+  is an LLM involved?: No. The script knows the answer, and no one has to judge
+  ────────────────────────────────────────
+  dataset: QA text, dev (q01–q20)
+  where the correct answers come from: Written earlier in the project from the
+  report text, with the facts the answer must contain and the page they're on
+  is an LLM involved?: Written in an earlier session; NOTES.md says they were
+  written from the report text
+  ────────────────────────────────────────
+  dataset: QA text, test (t01–t15) and QA image (20)
+  where the correct answers come from: Drafted by Claude, the coding assistant,
+  from the report text. A script then checked that every required fact appears
+  word for word on the stated page
+  is an LLM involved?: Yes, but not your agent's model. The brief allows AI help
+
+  with datasets. You still skim them
+  ────────────────────────────────────────
+  dataset: Drawings, dev (CTC-01, FTC-07)
+  where the correct answers come from: Labelled earlier and marked verified
+  is an LLM involved?: —
+  ────────────────────────────────────────
+  dataset: Drawings, test (CTC-03, FTC-11)
+  where the correct answers come from: Drafted by Claude from the drawing
+  sheets,
+  deliberately not copied from your extractor's output
+  is an LLM involved?: Yes, which is why they're marked verified: false until
+  you
+  check the overlay images
+
+  The checks matter because a wrong correct answer gives a wrong score. The
+  router labels can't be wrong in that way. The drafted ones can, so you review
+  them.
+
+  What python -m eval router does
+
+  1. It loads the 80 router cases and keeps the dev ones (17) unless you pass
+     --split test or --split all.
+  2. For each case, it calls only the router on the file. Nothing runs after it,
+     so nothing else can affect the score.
+  3. It compares the route the router picked with the expected route.
+  4. It prints:
+     - the accuracy;
+     - a table of what was sent where;
+     - accuracy for the quick rules vs the slower model check;
+     - how many drawings were wrongly sent to QA, the worst mistake because the
+       user gets prose instead of JSON.
+  5. It saves eval/results/<time>_router_<label>.json.
+
+  With --compare <older file>, it also lists which cases got better or worse.
+
+  The full flow when you change something
+
+  python -m eval drawing --split all --label before          # baseline
+  # ...change the drawing code, or make configs/v2.yaml...
+  python -m eval drawing --split all --config configs/v2.yaml --label v2 
+  --compare eval/results/<before>.json
+  The output tells you, for example, "recall 0.81 → 0.85, newly found: 4 values,
+  newly missed: 1".
+
+  How this lines up with the brief
+
+  ┌────────────────────────────┬────────────────────────────────────────────┐
+  │         Brief says         │                  Done by                   │
+  ├────────────────────────────┼────────────────────────────────────────────┤
+  │ "measures… each important  │ Suites router, qa_text, qa_image, drawing, │
+  │ part"                      │  each testing one part on its own          │
+  ├────────────────────────────┼────────────────────────────────────────────┤
+  │ "…and the whole system"    │ Suite e2e: full requests through the       │
+  │                            │ agent, with no correct inputs fed in       │
+  ├────────────────────────────┼────────────────────────────────────────────┤
+  │ "plug in a new version of  │ --config configs/v2.yaml, or --set         │
+  │ the agent, or of one part" │ drawing.method=tiles for a quick change    │
+  ├────────────────────────────┼────────────────────────────────────────────┤
+  │ "run it on a chosen number │ --n 10, --ids …, --split dev/test          │
+  │  of test cases"            │                                            │
+  ├────────────────────────────┼────────────────────────────────────────────┤
+  │ "see whether it got better │ --compare shows the score changes and the  │
+  │  or worse"                 │ cases that flipped                         │
+  ├────────────────────────────┼────────────────────────────────────────────┤
+  │ "No interface needed"      │ Command line only                          │
+  └────────────────────────────┴────────────────────────────────────────────┘
+
+  How far you are from done
+
+  The code is finished and tested with the model stubbed out. Three things are
+  left:
+
+  1. Check the drawing labels (about 30–45 minutes, and only you can do it). Use
+     the overlay images in eval/datasets/drawings/review/ and
+     eval/datasets/drawings/review/CHECKLIST.md, then set "verified": true.
+  2. Skim the drafted questions (about 10 minutes): t01–t15 in
+     eval/datasets/qa_text.jsonl and eval/datasets/qa_image/cases.jsonl.
+  3. Run every suite once for real on the L4 with --split all --fresh, and write
+     the numbers into NOTES.md. These are the numbers you'll defend in the
+     review. So far only small runs on the Mac have used the real model.
+
+  After that, the validation requirement is complete, and Docker is the last
+  item on your list.
+
+✻ Crunched for 30s · done 6:31 PM
+
+※ recap: You're building the evaluation code the brief asks for; it's written, but its test sets aren't checked yet. Next, check the drafted drawing labels using the overlays and `CHECKLIST.md` in `eval/datasets/drawings/review/`.
+
+❯ So right now are we only checking this for router, text only, drawing only,   
+  and e2e? Don't we need to check this for text+image and image-only (when not  
+  the same as technical drawing) too which is supposed to be sent to the QA     
+  right?                                                                        
+
+  Ran 1 shell command (ctrl+o to expand)
+
+⏺ Yes, both are covered, but text + image is thin. The QA image suite (qa_image)
+  is the one that tests pictures sent to report QA. I just looked at its 20
+  cases:
+
+  ┌──────────────────┬──────────────────────────────┬───────────────────────┐
+  │    input type    │      where it's tested       │       cases now       │
+  ├──────────────────┼──────────────────────────────┼───────────────────────┤
+  │ Image only       │                              │ 17 in qa_image (8 dev │
+  │ (photo of a      │ qa_image, and e2e without    │  / 9 test), 3 in e2e  │
+  │ part, no         │ correct inputs fed in        │ (e03, e11, e17)       │
+  │ question)        │                              │                       │
+  ├──────────────────┼──────────────────────────────┼───────────────────────┤
+  │ Text + image     │                              │ 3 in qa_image (f2 and │
+  │ (photo plus a    │ qa_image, and e2e            │  f15 dev, f12 test),  │
+  │ question)        │                              │ 2 in e2e (e04, e12)   │
+  ├──────────────────┼──────────────────────────────┼───────────────────────┤
+  │ Image goes to    │ router: report figure crops  │                       │
+  │ QA, not to       │ and pages saved as pictures  │ part of the 80 router │
+  │ drawing          │ are expected to go to report │  cases                │
+  │                  │  QA                          │                       │
+  └──────────────────┴──────────────────────────────┴───────────────────────┘
+
+  The image-only case is well covered. Text + image has only one test case, and
+  that's too few to conclude anything. It also matters more than it looks,
+  because the question changes what a good answer is. "Why did this break?"
+  needs a diagnosis and actions. "What alloy is this?" needs a plain lookup with
+  no made-up diagnosis, and you already saw that problem with text questions.
+
+  What I'd add (small):
+  1. About 10 more text + image cases, reusing the existing figure pictures with
+     questions of different kinds:
+     - diagnosis ("what went wrong here?");
+     - a lookup about the part shown ("what material is this?");
+     - a question the reports can't answer, which should be declined;
+     - a question that names a different aircraft than the one in the picture,
+       which checks the N104ER vs N106ER mix-up.
+  2. Scores split by input type (image only vs image + text), so a regression in
+     one doesn't hide inside the average.
+  3. Out-of-scope images: that folder is still empty. Without them, nothing
+     checks that the agent declines a photo the reports don't cover. If you can
+     take 3–5 phone photos of any mechanical part or broken object, that fills
+     the gap better than anything generated.
+
+  Shall I have this built? The new cases would be drafted and checked by script
+  like the others, and you'd skim them before the test split is frozen.
+
+✻ Baked for 17s · done 6:47 PM
+
+※ recap: We're building the evaluation code the brief requires, and right now we're widening the image tests because text-plus-photo questions have only one test case. Next step: say yes and I'll have about 10 more such cases built for you to skim.
+
+❯ For drawings, refer to experiments/20261018-121642_geo-l4-fix4/bulk/drawings  
+  for the ground truth / baseline to compare everything to even if not perfect  
+
+  Listed 1 directory (ctrl+o to expand)
+  ⎿  Resuming agent afa26ad
+
+⏺ I've sent this to the eval agent. The run exists:
+  experiments/20261018-121642_geo-l4-fix4/ has all 11 drawing JSONs from the L4
+  run, plus its eval results.
+
+  How I set it up. Using a model's output as the reference means you're
+  measuring something different from correctness, so the scores need honest
+  names:
+  - Agreement with fix4, on all 11 drawings: how many fix4 values a new version
+    reproduces, which ones it drops, which it adds, and which readings changed.
+    This tells you what changed relative to the baseline you trust.
+  - Accuracy on the hand-checked sheets (CTC-01 and FTC-07) stays alongside it.
+    This tells you whether the change was right.
+
+  You need both because agreement alone penalises improvements. If a new version
+  fixes a mistake fix4 made, its agreement goes down. When an agreement drop
+  shows up next to an accuracy gain, that's a fix, not a regression. The
+  reviewers will probably ask about this, so the reasoning goes into NOTES.md.
+
+  Other details
+  - The fix4 outputs are copied into 
+    eval/datasets/drawings/reference/geo-l4-fix4/, because experiments/ is
+    git-ignored. They come with a note that they're model output, not checked
+    labels.
+  - python -m eval drawing shows both sets of numbers by default. --reference 
+    <dir> points at a different baseline run.
+  - The fix4 eval results can be passed to --compare.
+  - The e2e drawing cases with no hand labels (CTC-02, the FTC-09 photo, CTC-05)
+    are now scored against the reference instead of just "routed correctly and
+    not empty".
+  - The drafted CTC-03 and FTC-11 labels stay but are left out of the accuracy
+    numbers. Checking them is now optional: it would add two more hand-checked
+    drawings to the accuracy figure, but nothing depends on it.
+
+  Not started yet, and waiting on your yes: the extra text + image cases and the
+  split of scores by input type from my last message.
+
+✻ Churned for 39s · done 6:55 PM
+
+⏺ Agent "Build eval harness and suites" finished · 6m 12s
+
+⏺ The fix4 L4 run is now the drawing baseline, and the drawing suite reports two
+  kinds of score.
+
+  How it works now
+  - The reference is in the repo at
+    eval/datasets/drawings/reference/geo-l4-fix4/: all 11 PDF-route outputs, 515
+    values in total, plus fix4's picture-route outputs for CTC-01 and FTC-07. A
+    note there records where they came from and says they're model output, not
+    checked labels.
+  - python -m eval drawing runs all 11 drawings and reports both:
+    - Accuracy on the hand-checked sheets (CTC-01, FTC-07). For fix4 that's 0.90
+      recall and 0.89 precision on the PDF route. Re-scoring fix4's own outputs
+      gives exactly the numbers in the original run.
+    - Agreement with fix4 on all 11 drawings: which reference values are
+      reproduced, dropped, newly added, or read differently. A dropped value
+      shows up as a flip in --compare.
+  - Comparing against fix4 directly: --compare 
+    eval/results/20261018-122437_drawings_geo-l4-fix4-pdf.json works.
+    --reference <dir> points at a different baseline.
+  - e2e: the drawing cases with no hand labels (CTC-02, the FTC-09 photo,
+    CTC-05) pass if they agree with fix4 at 0.7 or above.
+  - Tests with the model stubbed out: fix4 scored against itself gives 1.0
+    everywhere. A copy with 2 values removed and 1 number changed showed exactly
+    those 3 differences. Every suite still runs.
+
+  Details to know
+  - A full drawing run now covers all 11 drawings and takes longer. For a quick
+    check, use --ids nist_ctc_01_asme1_rd.
+  - Picture route: fix4 only has picture-route output for 2 drawings. For the
+    other 9, picture-route agreement is measured against fix4's PDF output, and
+    flagged as such.
+  - Older fix4 results files store only totals, so comparing against them shows
+    the score changes but not which values flipped. Runs from now on store both.
+
+  What's left for validation
+  1. Text + image cases: about 10 more, plus scores split by input type. I'm
+     waiting for your yes.
+  2. Skim the new QA test questions before freezing them. Checking the drawing
+     drafts is now optional.
+  3. One full run of every suite on the L4 with --split all --fresh, with the
+     numbers written into NOTES.md.
+
+  Then Docker is the last item.
+
+✻ Baked for 6m 53s · done 7:01 PM

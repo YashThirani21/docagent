@@ -48,10 +48,12 @@ version against an old one.
 Two notebooks run the whole flow (setup, model server, ingest, chat, questions, trace lookup) from top
 to bottom:
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/YashThirani21/docagent/blob/main/notebooks/colab_notebook_git.ipynb)
+
 | Notebook | Where | What it does |
 |---|---|---|
 | `notebooks/local_notebook.ipynb` | Your machine | Detects the hardware and picks the matching setup: **NVIDIA GPU** → vLLM; **Apple Silicon Mac** → Ollama on Metal; **CPU only** → Ollama on CPU. Chat on `127.0.0.1` only. |
-| `notebooks/colab_notebook.ipynb` | Google Colab (GPU runtime) | Unpacks the project from Drive, restores `store/` from a Drive backup if there is one, starts vLLM, and saves the store and results back to Drive. |
+| `notebooks/colab_notebook_git.ipynb` | Google Colab (GPU runtime) | Clones the project from GitHub, starts vLLM, and runs with no setup or tokens. By default nothing is kept between sessions and the run's results download as a zip; set `PERSIST` to keep `store/` and results in your Google Drive (`"drive"`) or a private Hugging Face dataset (`"hf"`, needs an `HF_TOKEN` Colab secret). |
 
 On a local machine, open the notebook with the `.venv` kernel. On a Mac, install Ollama first
 (`brew install ollama` or the installer from ollama.com). The notebook starts Ollama and pulls the model
@@ -307,7 +309,7 @@ src/docagent/
   cli.py                 the `docagent` command
 eval/                    `python -m eval <suite>`: suites, datasets, results
 configs/                 agent versions (default = Ollama on a laptop, colab_vllm / colab_vllm_awq = GPU)
-notebooks/               local_notebook (any machine), colab_notebook (Colab)
+notebooks/               local_notebook (any machine), colab_notebook_git (Colab, cloned from GitHub)
 scripts/                 model download, Ollama setup, vLLM start
 data/                    11 NIST drawings, 3 NTSB reports
 outputs/                 results per request
@@ -316,5 +318,6 @@ store/                   index, uploads, cache, traces (not in git)
 
 ## More detail
 
+- `USAGE.md`: every command and option, including retry rules, zip safety limits and the drawing eval.
 - `PRIVACY_AND_SCALE.md`: how the design keeps data in-house and handles a million documents.
 - `NOTES.md`: what was tried, what was measured, and why each choice was made.
