@@ -59,7 +59,7 @@ Router, Trace etc)
 - `ingest/reports.py`: Ingesting pdfs from data/ with pymupdf, chunking and populating Qdrant
 
 
-## Bugs found and fixed (measured)
+## Takeaways from early expts (around 45 mins - 1 hr):
 
 - **Batched bge-m3 on Apple MPS returns corrupted vectors.** After the first ingestion only 19 of 94
   stored dense vectors were unique; a batch of 16 chunks produced 2 distinct vectors; dense scores were
@@ -77,7 +77,9 @@ Router, Trace etc)
   mode"; its guess ("fatigue") steered both search and answer. Removed: the VLM now reports visible
   features only and the reports do the diagnosing.
 
-## Drawing extraction iterations
+## Drawing extraction iterations (around 2 hrs - lot of deduplication of extracted vals needed)
+
+2 hrs of experiments before I decided manual tuning was too difficult for the constraints at hand and I have to let AI find a lot of things by itself rather than handholding here (possible overfitting too).
 
 | version | approach | CTC-01 (1 sheet) | observation |
 |---|---|---|---|
@@ -112,7 +114,7 @@ Latency: ~40-60 s per answer on the M4 (generation over ~4.5-6k prompt tokens wi
 ## Next commit:
 1. Added some configs, LLM integration for vLLM
 2. Added vLLM scripts
-3. Drawing pipeline modification 
+3. Drawing pipeline modification
 
 ## Next commit:
 1. Added a test set for text QA to run on Colab and see results
