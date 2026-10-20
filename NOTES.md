@@ -217,24 +217,16 @@ Plain SQL: the same three tables move to Postgres when there are many machines.
 when the step *opens* and updated when it closes, so a crash leaves a visible `running` span at the exact step
 that died, and loses at most that step. Periodic saves would lose up to one interval and add a thread.
 
-**Tokens and latency captured once**, in `VLM._complete` - the single point every model call passes through.
-Each call (cached or not) is an `llm.call` span: model, images, prompt hash (= cache key, i.e. a pointer to
-the full reply on disk without storing prompts twice), cache hit, tokens, latency, finish reason.
-**Spend = fresh calls only.** A reply replayed from the cache cost no model work, so it adds nothing to the
-request's `prompt_tokens` / `completion_tokens` / `llm_calls`; it increments `cache_hits`. The VLM cache stores
-`{text, usage, latency_s, finish}`, and a replayed call's span keeps that original usage under separate names
-(`orig_prompt_tokens`, `orig_completion_tokens`, `orig_latency_s`) that nothing sums as spend - `docagent trace`
-shows them as "replayed from cache, originally N tokens". A stable cost-per-case for evals, if needed, must be
-derived explicitly from fresh + orig_* and labelled as such. Old `.txt` cache entries are still read
-(original usage unknown = null).
+I want all model usage tracking to happen in one place, VLM._complete, since every model call passes through it. This avoids duplicating the tracking logic across different parts of the code and keeps the numbers consistent. For every call (llm.call), I record the model, number of images, prompt hash, cache status, token usage, latency, and finish reason. The prompt hash also serves as a reference to the full response stored on disk, so I can identify a response without storing the entire prompt repeatedly.
+
+A reply replayed from the cache cost no model work, so it adds nothing to the
+request's `prompt_tokens` / `completion_tokens` / `llm_calls`, it only increments `cache_hits`. 
 
 **Context propagation.** The current request/task/span live in `contextvars`, so pipelines need no extra
-arguments. Gotcha: `ThreadPoolExecutor` does not copy contextvars into worker threads - spans from parallel
-callout reads would lose their parent. Every traced submit goes through `trace.submit` (`copy_context().run`).
+arguments. `ThreadPoolExecutor` does not copy contextvars into worker threads - spans from parallel callout reads would lose their parent. Every traced submit goes through `trace.submit` (`copy_context().run`).
 
 **Logging stays narrative.** Python logging additionally writes JSON lines (`store/logs/agent.jsonl`) stamped
-with request/task/span ids, so a log line can be joined to its trace. Metrics are never parsed from logs; SQL
-is the source of truth.
+with request/task/span ids, so a log line can be joined to its trace. Metrics are never parsed from logs; SQL is the source of truth.
 
 **Failure recovery.**
 - Inside a task: the temperature-0 VLM cache is already a checkpoint - a rerun replays finished calls for free
