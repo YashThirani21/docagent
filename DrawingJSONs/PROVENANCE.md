@@ -5,6 +5,10 @@ These are the extractor's own outputs - they contain its mistakes. Agreement wit
 fix4, not correctness**: a new version that fixes a fix4 mistake shows *lower* agreement. That is why
 `python -m eval drawing` reports accuracy on the verified ground-truth sheets next to agreement.
 
+fix4's own score (PDF 0.900 / 0.892 recall / precision) rests on **2 of the 11 drawings**: CTC-01 (1 sheet, isometric,
+metric, 17 values) and FTC-07 (4 sheets, inch, real text layer, 53 values) - 70 values, the only labelled sheets at
+the time. The other 9 JSONs were not scored, only spot-checked visually on the annotation overlays.
+
 - source run: `experiments/20261018-121642_geo-l4-fix4/` (gitignored, so copied here)
 - PDF route (this folder, all 11 drawings): `bulk/drawings/*.json` - `docagent bulk data/drawings` on Colab L4
 - picture route (`jpg/`, CTC-01 and FTC-07 only - the only sheets fix4 ran as pictures):

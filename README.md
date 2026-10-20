@@ -231,6 +231,20 @@ python -m eval drawing --set drawing.method=tiles --label tiles \
     --compare eval/results/<timestamp>_drawing_geo.json
 ```
 
+**Drawings: the comparison basis is the fix4 run, not manual annotation.** `geo-l4-fix4` is an L4 run
+(Qwen2.5-VL-7B in BF16, geometry method), and its 11 drawing JSONs are model outputs with their mistakes.
+Agreement with fix4 measures how much a version changed, not whether it is correct. fix4's own score
+(0.900 / 0.892 recall / precision) covers only the 2 labelled drawings, CTC-01 and FTC-07. To compare a
+new version with fix4:
+
+```bash
+python -m eval drawing --config configs/v2.yaml --label v2 \
+    --compare eval/results/20261020-032010_drawing_geo-l4-fix4-pdf.json
+```
+
+Details: `eval/datasets/drawings/reference/geo-l4-fix4/PROVENANCE.md`. The BF16 vs AWQ results are in
+`eval/RESULTS_L4_bf16_vs_awq.md`.
+
 ### Useful options
 
 ```bash
@@ -302,6 +316,5 @@ store/                   index, uploads, cache, traces (not in git)
 
 ## More detail
 
-- `USAGE.md`: every command and option, including retry rules, zip safety limits and the drawing eval.
 - `PRIVACY_AND_SCALE.md`: how the design keeps data in-house and handles a million documents.
 - `NOTES.md`: what was tried, what was measured, and why each choice was made.
