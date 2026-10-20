@@ -1,10 +1,10 @@
 # Constraints for the GPU environment (vLLM): the exact versions of a working Google Colab run.
 # Source: `pip freeze` on Colab (received 2026-10-20) after `pip install vllm==0.31.0 && pip install -e .`;
-# Python >= 3.13 (inferred: rapidocr 3.x is installed, rapidocr-onnxruntime is not).
+# Frozen on Python 3.13 (inferred: rapidocr 3.x is installed, rapidocr-onnxruntime is not); also resolves on 3.12.
 # Install (GPU only; Mac / CPU use requirements.txt):
 #   pip install vllm==0.31.0 -e . -c requirements-gpu.txt
 # -c only pins versions, it installs nothing extra: most lines are Colab's preinstalled image and are ignored
-# unless something depends on them. Python 3.13+ only - on 3.11/3.12 some pins may not resolve.
+# unless something depends on them. Pins must be on PyPI: no local CUDA builds (+cuXXX), or other Colab images fail.
 # Removed from the freeze (pip refuses editables as constraints; the rest are Colab-only file/git links):
 #   -e /content/senior-data-scientist
 #   en_core_web_sm
@@ -741,7 +741,7 @@ toolz==0.12.1
 torch==2.13.0
 torch_c_dlpack_ext==0.1.5
 torchao==0.10.0
-torchaudio==2.11.0+cu130
+torchaudio==2.11.0  # not +cu130: that build is only on the PyTorch index; ==2.11.0 still accepts it when preinstalled
 torchcodec==0.17.0
 torchdata==0.11.0
 torchsummary==1.5.1
