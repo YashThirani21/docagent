@@ -67,7 +67,7 @@ secret). On a local machine, use the commands below instead.
 | Evaluation results | `eval/results/` (one JSON per run); bf16 vs AWQ on the L4: `eval/RESULTS_L4_bf16_vs_awq.md` |
 | Working notes | `NOTES.md` |
 | AI assistant session logs | `ai_logs/` |
-| Privacy and scale | `PRIVACY_AND_SCALE.md` |
+| Privacy and scale | `PRIVACY_SCALE.md` |
 
 ---
 
