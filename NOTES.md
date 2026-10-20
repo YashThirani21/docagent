@@ -117,6 +117,92 @@ records `route`, `tier` (rule | vlm), `confidence` and a `reason` in the trace.
 - Router eval (Mac, Ollama 4-bit, test n=15): accuracy 0.93, 0 drawings sent to QA, 1 report figure page
   (looks like a photo) sent to the drawing pipeline; rules decided 2/15, VLM 13/15 at ~11 s each.
 
+## Chunking and retrieval of the reports (summary)
+
+Source: `src/docagent/ingest/reports.py` (ingestion), `retriever.py` (search), `pipelines/report_qa.py`
+(how chunks reach the prompt). Run once: `docagent ingest data/reports`.
+
+### Ingestion overview
+- Per PDF: sha256 -> skip if already in the index (`has_document`)
+- Document metadata from the first 3 pages by regex: report number, vehicle (-> registration), location, date.
+  Becomes one **header line** prepended to every chunk's `embed_text`, e.g.
+  `NTSB Materials Laboratory Factual Report 18-061 | <vehicle> | <place> | <date>`.
+- Every chunk has two texts: `text` (shown to the model / user, the report's own words) and `embed_text`
+  (header + section + subject + text [+ description], what gets embedded). Both chunk kinds go into the same
+  Qdrant collection with the same bge-m3 dense + sparse vectors.
+
+### Text chunks
+1. **Blocks**: PyMuPDF text blocks per page, whitespace normalised, sorted top to bottom. Page headers/footers
+   dropped ("Page No. X", "Pg X of Y", "NATIONAL TRANSPORTATION SAFETY BOARD").
+2. **Structure tracking** (carried across pages):
+   - Section: lettered headings `A. ...` -> `section` ("A. Background").
+   - Subject: numbered subsections `1. Accident Airplane Main Wing Spars` -> `subject`. If the heading says
+     "accident" but names no aircraft, the report's registration is appended. This is the fix
+     for a case where answers mixed up N104ER / N106ER
+3. **Filtering**: skip captions, skip short blocks (< 200 chars) on figure / chart pages (those are labels
+   printed on the figure, not body text), skip blocks < 40 chars and "intentionally left blank".
+4. **Runs**: consecutive blocks with the same (section, subject) form a run. A chunk never mixes two subjects.
+5. **Size**: greedy merge of paragraphs within a run up to `embedding.max_chunk_tokens` = 350 bge-m3 tokens;
+   a paragraph longer than that is split on sentence ends. No overlap between chunks - the
+   "next paragraph" step at retrieval time covers findings that continue in the next chunk.
+6. **Figure references**: `figure_refs` = figure numbers the text cites ("Figure 5", "Figures 3 and 4",
+   "Figures 2 through 6").
+7. `embed_text` = header + `Section: ...` + `About: <subject>` + text.
+
+### Figure chunks
+1. **Why not extract images**: a figure is many small raster tiles plus vector arrows and labels, so the
+   embedded images are useless one by one. Instead the page region is **rendered as a reader sees it**.
+2. **Region**: one per `Figure N.` caption, from the previous caption (or below the page header, y = 95 pt)
+   down to this caption, full page width. Rendered at 150 dpi, saved to `store/images/<doc>/figN_pP.png`.
+3. **Chart pages**: a page with no caption, > 40 vector paths and < 600 chars (18-061 pp.37-40, load-extension
+   plots) becomes one whole-page "chart" chunk (`figure_no = None`).
+4. **Labels**: short text blocks inside the region (text printed on the figure: arrows, "RC-1", ...).
+5. **VLM description** (`fig-v1` prompt): Factual sentences on component, view and visible conditions.
+   Cached by (image hash, model, prompt version); on re-ingestion descriptions already in the index are reused,
+   so a chunking change costs no VLM calls.
+6. **Linking back to the text**: body chunks citing figure N are attached to it:
+   - their most common `subject` becomes the figure's subject (a figure is about what cites it);
+   - up to 1500 chars of the citing text are appended ("Report text citing this figure: ...").
+7. `text` = caption + labels (+ citing text). `description` is kept separately. `embed_text` = header + section +
+   caption + labels + `Visual description: ...` + subject + citing text.
+8. **Rule: the VLM description is for finding the figure only, never evidence.** It once said "fatigue" (beach
+   marks) where the report concluded bending overstress, and the answer followed it. So it is embedded, but
+   never shown to the answer model.
+
+### Retrieval (`HybridRetriever.search`)
+1. **Query**: user text + for each photo, the VLM observation (component + visible features, no failure-mode guess). If no picture then "What failed and why?"
+2. **Two hybrid searches** in the one collection, each dense (top 30) + sparse (top 30) fused with RRF in Qdrant:
+   one over all chunks, one filtered to `kind = text`. Pool = both, k x 2 each (top_k = 8), deduplicated,
+   sorted by score. No separate re-ranker.
+3. **Filter dropping irrelevant subjects**: if the question names a registration (N106ER), chunks whose `subject` names a
+   different one are dropped.
+4. **Report focus**: if a term in the question (place, registration, report no., type) matches the header of
+   exactly one report (whole word), only that report is kept.
+5. **Text first**: at least `min_text` = 4 text chunks; figures fill the rest but at most half of the k slots;
+   text comes before figures. (Figure captions used to outrank the paragraphs that hold the findings.)
+6. **Next paragraph**: each of the top 3 text hits pulls in the chunk after it (next on the page, else first
+   on the next page), inserted right after it (`via = linked`).
+7. **Linked figures**: figures cited by the top 3 text hits (up to 2 each) are added from the store
+   (`via = linked`, score 0), same other-aircraft filter.
+
+### Current limits
+- Regexes for headers, captions, sections and subsections are tuned to the NTSB layout; a new document family
+  needs its own parser (or a layout model).
+- Tables are flattened into text blocks; table structure is lost.
+- 350-token chunks with no overlap rely on the next-paragraph step for findings that span chunks.
+- Report focus and the aircraft filter are string matches on headers/registrations; at 10^6 similar documents
+  they become metadata filters (doc type, vehicle, part) in Qdrant rather than post-filtering.
+
+### Generation (`ReportQA.generate`)
+- Sources numbered `[n] report <doc>, page P, <text | Figure N>, section ..., about: <subject>` + evidence text.
+- For figure chunks the evidence is **caption + labels only**: the citing paragraphs are cut off
+  (`evidence_text`), since those paragraphs are separate sources and showing them twice steered answers and let
+  a figure "back" a number that is really on a text page. The VLM description is not shown.
+- Up to `max_context_figures` = 2 figure crops are sent as images (after the user's own pictures), each tied to
+  its source number.
+- After generation, `verify_citations` drops citations of other aircraft, adds the source that contains each
+  distinctive number in the answer, and adds the paragraph the answer is nearly quoting.
+
 ## Drawing extraction iterations (around 2 hrs - lot of deduplication of extracted vals needed)
 
 2 hrs of experiments before I decided manual tuning was too difficult for the constraints at hand and I have to let AI find a lot of things by itself rather than handholding here (possible overfitting too).
@@ -410,91 +496,3 @@ Source: `app/chat.py` (~110 lines). Run: `.venv/bin/python app/chat.py` -> http:
 - One app process: embedded Qdrant takes a file lock, so the chat and a CLI `bulk` with report-QA files can't
   run at the same time (fix: Qdrant server via `store.qdrant_url`).
 - No authentication or per-user separation: fine on localhost, not for a shared deployment.
-
-## Chunking and retrieval of the reports (summary)
-
-Source: `src/docagent/ingest/reports.py` (ingestion), `retriever.py` (search), `pipelines/report_qa.py`
-(how chunks reach the prompt). Run once: `docagent ingest data/reports`.
-
-### Ingestion overview
-- Per PDF: sha256 -> skip if already in the index (`has_document`), else delete the old version of that doc and
-  re-ingest. Chunk ids are deterministic (`<doc>:p<page>:t<n>`, `<doc>:p<page>:fig<N>`), so re-ingesting overwrites.
-- Document metadata from the first 3 pages by regex: report number, vehicle (-> registration), location, date.
-  Becomes one **header line** prepended to every chunk's `embed_text`, e.g.
-  `NTSB Materials Laboratory Factual Report 18-061 | <vehicle> | <place> | <date>`.
-- Every chunk has two texts: `text` (shown to the model / user, the report's own words) and `embed_text`
-  (header + section + subject + text [+ description], what gets embedded). Both chunk kinds go into the same
-  Qdrant collection with the same bge-m3 dense + sparse vectors.
-
-### Text chunks
-1. **Blocks**: PyMuPDF text blocks per page, whitespace normalised, sorted top to bottom. Page headers/footers
-   dropped ("Page No. X", "Pg X of Y", "NATIONAL TRANSPORTATION SAFETY BOARD").
-2. **Structure tracking** (carried across pages):
-   - Section: lettered headings `A. ...` -> `section` ("A. Background").
-   - Subject: numbered subsections `1. Accident Airplane Main Wing Spars` -> `subject`. If the heading says
-     "accident" but names no aircraft, the report's registration is appended ("... (N106ER)"). This is the fix
-     for multi-aircraft report 18-061 (answers mixed up N104ER / N106ER).
-3. **Filtering**: skip captions, skip short blocks (< 200 chars) on figure / chart pages (those are labels
-   printed on the figure, not body text), skip blocks < 40 chars and "intentionally left blank".
-4. **Runs**: consecutive blocks with the same (section, subject) form a run. A chunk never mixes two subjects.
-5. **Size**: greedy merge of paragraphs within a run up to `embedding.max_chunk_tokens` = 350 bge-m3 tokens;
-   a paragraph longer than that is split on sentence ends (`.` / `;`). No overlap between chunks - the
-   "next paragraph" step at retrieval time covers findings that continue in the next chunk.
-6. **Figure references**: `figure_refs` = figure numbers the text cites ("Figure 5", "Figures 3 and 4",
-   "Figures 2 through 6").
-7. `embed_text` = header + `Section: ...` + `About: <subject>` + text.
-
-### Figure chunks
-1. **Why not extract images**: a figure is many small raster tiles plus vector arrows and labels, so the
-   embedded images are useless one by one. Instead the page region is **rendered as a reader sees it**.
-2. **Region**: one per `Figure N.` caption, from the previous caption (or below the page header, y = 95 pt)
-   down to this caption, full page width. Rendered at 150 dpi, saved to `store/images/<doc>/figN_pP.png`.
-3. **Chart pages**: a page with no caption, > 40 vector paths and < 600 chars (18-061 pp.37-40, load-extension
-   plots) becomes one whole-page "chart" chunk (`figure_no = None`).
-4. **Labels**: short text blocks inside the region (text printed on the figure: arrows, "RC-1", ...).
-5. **VLM description** (`fig-v1` prompt): 3-6 factual sentences on component, view and visible conditions.
-   Cached by (image hash, model, prompt version); on re-ingestion descriptions already in the index are reused,
-   so a chunking change costs no VLM calls.
-6. **Linking back to the text**: body chunks citing figure N are attached to it:
-   - their most common `subject` becomes the figure's subject (a figure is about what cites it);
-   - up to 1500 chars of the citing text are appended ("Report text citing this figure: ...").
-7. `text` = caption + labels (+ citing text). `description` is kept separately. `embed_text` = header + section +
-   caption + labels + `Visual description: ...` + subject + citing text.
-8. **Rule: the VLM description is for finding the figure only, never evidence.** It once said "fatigue" (beach
-   marks) where the report concluded bending overstress, and the answer followed it. So it is embedded, but
-   never shown to the answer model.
-
-### Retrieval (`HybridRetriever.search`, version `hybrid-rrf-v3-textfirst-reg-focus-next`)
-1. **Query**: user text + per user picture the VLM's *observations* (component + visible features, no
-   failure-mode guess - the guess biased retrieval). No text and no picture -> "What failed and why?".
-2. **Two hybrid searches** in the one collection, each dense (top 30) + sparse (top 30) fused with RRF in Qdrant:
-   one over all chunks, one filtered to `kind = text`. Pool = both, k x 2 each (top_k = 8), deduplicated,
-   sorted by score.
-3. **Other-aircraft filter**: if the question names a registration (N106ER), chunks whose `subject` names a
-   different one are dropped.
-4. **Report focus**: if a term in the question (place, registration, report no., type) matches the header of
-   exactly one report (whole word), only that report is kept.
-5. **Text first**: at least `min_text` = 4 text chunks; figures fill the rest but at most half of the k slots;
-   text comes before figures. (Figure captions used to outrank the paragraphs that hold the findings.)
-6. **Next paragraph**: each of the top 3 text hits pulls in the chunk after it (next on the page, else first
-   on the next page), inserted right after it (`via = linked`).
-7. **Linked figures**: figures cited by the top 3 text hits (up to 2 each) are added from the store
-   (`via = linked`, score 0), same other-aircraft filter.
-
-### In the answer prompt (`ReportQA.generate`)
-- Sources numbered `[n] report <doc>, page P, <text | Figure N>, section ..., about: <subject>` + evidence text.
-- For figure chunks the evidence is **caption + labels only**: the citing paragraphs are cut off
-  (`evidence_text`), since those paragraphs are separate sources and showing them twice steered answers and let
-  a figure "back" a number that is really on a text page. The VLM description is not shown.
-- Up to `max_context_figures` = 2 figure crops are sent as images (after the user's own pictures), each tied to
-  its source number.
-- After generation, `verify_citations` drops citations of other aircraft, adds the source that contains each
-  distinctive number in the answer, and adds the paragraph the answer is nearly quoting.
-
-### Known limits
-- Regexes for headers, captions, sections and subsections are tuned to the NTSB layout; a new document family
-  needs its own parser (or a layout model).
-- Tables are flattened into text blocks; table structure is lost.
-- 350-token chunks with no overlap rely on the next-paragraph step for findings that span chunks.
-- Report focus and the aircraft filter are string matches on headers/registrations; at 10^6 similar documents
-  they become metadata filters (doc type, vehicle, part) in Qdrant rather than post-filtering.
