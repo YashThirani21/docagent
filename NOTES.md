@@ -254,7 +254,7 @@ Checked: the chat replies right away with a batch id, and its results match the 
 **Goal.** Req: code that measures each important part and the whole system, incrementally - plug in a
 new version of the agent or of one part, run it on a chosen number of cases, see better or worse. No interface.
 
-**Reality** Creating a golden dataset by ourselves is not practical especially with drawings. We are just going to have to get AI to generate QA sets, routing decisions, and use imperfect drawings as ground truth to compare with. Some are already there for refining
+**Reality** Creating a golden dataset by ourselves is not practical especially with drawings. We are just going to have to get AI to generate QA sets, routing decisions, and use imperfect drawings as ground truth to compare with. Some are already there for refining. This is not at all good practice for production but only for demo purposes - because especially for drawings we would ideally manually annotate them but I simply do not have the skill for it under these constraints.
 
 | brief says | mechanism |
 |---|---|
@@ -271,7 +271,7 @@ router version can't make the drawing numbers move, so a change is attributed to
 is the only place errors compound; comparing `router accuracy x component pass-rate` with the e2e success rate
 shows where e2e losses come from.
 
-**Dev / test split.** The 20 QA questions were used to tune (the q10 / q14 / q19 fixes in section 6), and the two
+**Dev / test split.** The 20 QA questions were used to tune and the two
 labelled drawings to build the geometry method - their scores are optimistic. They are `dev`. New cases written
 afterwards are `test`: not looked at while changing the agent, reported separately. Default `--split dev`, so
 tuning loops don't touch `test` by accident. Router: cases derived from the 14 original PDFs (which the rules
@@ -281,66 +281,31 @@ were written against) and 3 of the 6 text questions are dev, all generated pictu
 `--compare` lists newly failing / newly passing cases (for drawings: per ground-truth value), which is what a
 reviewer acts on.
 
-**Latency needs `--fresh`.** Temperature-0 replies replay from the VLM cache, so a re-run is fast and spends no
+**Real-world e2e latency needs `--fresh`.** Temperature-0 replies replay from the VLM cache, so a re-run is fast and spends no
 tokens - fine for accuracy comparisons (same prompts, same replies), meaningless for latency and cost. `--fresh`
 points `llm.cache_dir` at an empty temp dir for the run. Cost and latency come from the trace database (every
 eval case is a traced request under batch `eval-<suite>-<label>-<ts>`): p50/p95 latency, fresh tokens, cached calls.
 
-**How labels were made, and their limits.**
-- router: generated from the source files by `eval/build_router_set.py` (rendered sheets with rotation / blur /
-  JPEG / perspective / crop / photo-like, report pages, figure crops, charts, text questions). The label comes
-  from where the case was made, so no hand labelling and no label noise. Limit: all synthetic; `real/` takes phone
-  photos.
-- qa_text test (15) and qa_image (20): drafted by the AI assistant from the report text; every `must` fact and page
-  checked programmatically against the PDF text. **Not reviewed by a human** (user decision, 2026-10-18): the
-  qa_text test split (t01-t15) is used as drafted, so a wrong expected answer would count against the agent;
-  the qa_image cases were not reviewed either. The 10 picture + question cases added later (iq01-iq10: diagnosis,
-  lookup, refusal, wrong_aircraft; 5 dev / 5 test) are agent-generated and not human-reviewed either (user decision,
-  2026-10-18); their `must` facts were checked against the stated pages, and wrong_aircraft `must_not` values were
-  checked to be the *other* aircraft's values in the report. Expected wrong_aircraft behaviour: answer for the aircraft
-  the question names (a picture can't show a registration), never the pictured one's value. Every qa_image case has
-  `input: image | image+text`; the suite reports all metrics per input type and per kind. Frozen as of 2026-10-18 -
-  sha256 `qa_text.jsonl` ebac121c9489..., `qa_image/cases.jsonl` 1fda89c8d252... (every run records the dataset
-  hash, so a later edit shows in `--compare`).
-  Weak spots seen on a read-through: t03 / t10 check bare numbers ("23", "80.0") that can match by accident;
-  some qa_image facts are single vague words ("heat", "grain"). Limit: qa_image cases
-  are the reports' own figures (caption cropped off, augmented) - in-distribution; a real user's photo of a new
-  part is harder. No out-of-scope photos could be made offline (folder + README for real ones).
-- drawing test (CTC-03, FTC-11): drafted from the rendered sheets and text layer - not from the extractor's output,
-  so the test isn't contaminated - and `verified: false` until the user checks the overlays.
-- `belongs_to`: the lenient metric accepts any keyword from a list ("hole" passes for any hole). Added
-  `belongs_primary` (the GT's main feature word must appear). A location-based check (does the leader point at the
-  right feature?) isn't possible: the output JSON stores where the annotation is, not where its leader ends.
+**How the labels were made, and where they're weak.**
+- **Router:** generated from the source PDFs by a script: drawing sheets rendered with rotation, blur, JPEG artefacts, crops and photo-like effects, plus report pages, figure crops, charts and text questions. The label comes from how each case was made, so there's no hand labelling and no label noise. The catch is that it's all synthetic. Real phone photos would go in `real/`.
+- **Report QA (text and picture questions):** drafted by the AI assistant from the report text, including the picture + question cases added later. A script checks every required fact against the page it cites, but **no human has reviewed them**. I decided to use them as drafted, so a wrong expected answer counts against the agent. Some checks are weak too, e.g. bare numbers like "23" that can match by accident, or one-word facts like "heat".
+- **The picture questions are easy mode.** They're the reports' own figures with the caption cropped off, so a real photo of a new part will be harder. I couldn't make out-of-scope photos offline.
+- **"Wrong aircraft" questions** check that the agent answers for the aircraft the question names, not the one in the picture (a picture can't show a registration).
+- **Drawing test labels (CTC-03, FTC-11):** drafted from the rendered sheets and the text layer, on purpose not from the extractor's output, so the test isn't contaminated. Marked unverified until I check them against the overlays.
+- **`belongs_to` is lenient:** "hole" passes for any hole. I added a stricter version that needs the main feature word. Checking that the leader line points at the right feature isn't possible, because the output only stores where the annotation is.
+- The datasets are frozen and every run records their hash, so an edit to one shows up in `--compare`.
 
-**Drawings: a reference run next to the hand labels** (user decision). Only 2 drawings have verified hand labels,
-so the L4 run `geo-l4-fix4` (11 drawing JSONs, vLLM bf16, geometry method; copied to
-`eval/datasets/drawings/reference/geo-l4-fix4/` with PROVENANCE.md, since experiments/ is gitignored) is the baseline
-for all 11. `python -m eval drawing` reports both: **accuracy** on the verified sheets (CTC-01, FTC-07; the drafted
-CTC-03 / FTC-11 labels shown separately as draft labels, not in the headline, until verified) and **agreement** with
-fix4 on every drawing, with the same matcher: agree_recall / agree_precision / numbers_agree / type_agree / gdt_agree /
-datums_agree / belongs_to_agree, per value dropped vs reference / new vs reference / changed reading; `--compare` flips
-include reference values reproduced or dropped. Agreement measures *change relative to fix4, not correctness*: fix4
-has mistakes, and a version that fixes one shows lower agreement - so it is never read without the accuracy next to
-it. The picture route is compared with fix4's own picture-route outputs where they exist (CTC-01, FTC-07), else with
-its PDF outputs (flagged). e2e drawings without hand labels (CTC-02, a photo of FTC-09 sheet 1, CTC-05) pass on
-agreement >= 0.7. Checks: fix4 scored against itself = 1.0 on every agreement metric; a copy with 2 values dropped and
-1 number changed shows exactly 2 "dropped vs reference" (2 flips) and 1 "changed reading (numbers)"; fix4's accuracy
-on CTC-01 + FTC-07 reproduces its original results files exactly (PDF 0.900 / 0.892 recall / precision, JPG 0.643 / 0.807).
+**Drawings: compare against a reference run, not just hand labels.** Only 2 drawings have verified labels, which isn't enough to judge a change. So I took my best full run so far (`geo-l4-fix4`, all 11 drawings) as a reference, and the drawing suite reports two things:
+- **accuracy** against the hand labels (the drafted ones shown separately until verified)
+- **agreement** with the reference on all 11: which values were dropped, which are new, which readings changed
 
-**Sizes.** router 80 (17 dev / 63 test, 5.4 MB of pictures), qa_text 35 (20 / 15), qa_image 30 (15 / 15: 17 picture only, 13 picture + question),
-drawing 4 labelled drawings (2 / 2; 30 + 12 required values in the new ones) + the fix4 reference on all 11
-(515 reference values excluding title block / notes), e2e 21 (9 / 12).
+Agreement only says what changed, not whether it's right. The reference has mistakes, and fixing one lowers agreement, so I never look at it without accuracy next to it. End-to-end drawings without labels pass if agreement is at least 0.7. Sanity checks: the reference scored against itself gives 1.0, a copy with 2 values removed and 1 changed shows exactly those 3 differences, and its accuracy matches its original results.
 
-**First real numbers** (Mac, Ollama qwen2.5vl 4-bit - not comparable to the L4 runs; tiny samples, a smoke check of
-the harness, not a result): router test n=15: accuracy 0.93, 0 drawings sent to QA, 1 report figure page (photo
-look) sent to the drawing pipeline; rules decided 2/15, the VLM 13/15 at ~11 s each. qa_text test n=3: 3/3 pass.
-Seen on the way: report 24-013's PDF goes to the VLM tier - its first page is a near-empty cover, the rules only
-look at page 1.
+**Sizes.** Router 80 cases (mostly test), report QA 35 text + 30 picture, 4 labelled drawings plus the reference on all 11, end-to-end 21.
 
-**Status.** Done (verified with a stubbed model: every suite end to end, `--compare` deltas + flips incl. a forced
-flip, `--set` changes the config hash, `--fresh` replays nothing, old results files compare where metrics match):
-harness, five suites, router / qa_image generators, qa_text test split, drawing test GT (unverified).
-Planned: user check of drawing GT and the QA test set (then frozen), real phone photos, L4 numbers per suite.
+**First real numbers** (laptop, 4-bit model, tiny samples, so this only shows the harness works). Router: 14 of 15 right. The miss was a report figure page that looks like a photo and went to the drawing pipeline. The VLM made 13 of the 15 routing decisions, at ~11 s each. Text QA: 3 of 3. It also turned up that report 24-013 always falls through to the VLM: its first page is a nearly empty cover and the rules only look at page 1.
+
+**Status.** The harness and all five suites work end to end (tested with a stub model, including `--compare` and `--fresh`). Still to do: check the drawing test labels, add real phone photos, and get GPU numbers for every suite.
 
 ## Routing rules (summary)
 
