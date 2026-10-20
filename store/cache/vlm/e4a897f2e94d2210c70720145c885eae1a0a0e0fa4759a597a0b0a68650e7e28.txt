@@ -1,0 +1,10 @@
+{ "answer": "The left wing main spar failed due to fatigue cracking. This conclusion is based on several observations from the report and images provided, including the following points from figure 14 in the report ntsb_18-061: \n\n- The microstructure at the lower surface of the left wing main spar shows features consistent with fatigue fracture.\n- The presence of crack arrest lines on the fracture surfaces is indicative of fatigue propagation. \n- The smooth features perpendicular to the longitudinal axis are also characteristic of fatigue cracking, as opposed to ductile overstress fracture which would typically show rough matte-gray features (as seen in figure 2).\n\nThe report further supports this conclusion by indicating that the failure originated from a fatigue origin area located in the chamfer between the lower surface and hole LC-1. The crack propagation directions emanating from this origin are also consistent with fatigue fracture, as shown in figures 12 and 14.\n\nTherefore, based on these findings, it is concluded that the left wing main spar failed due to fatigue cracking.",
+ "diagnosis": "Fatigue cracking at a location near hole LC-1.",
+ "recommended_actions": [
+     "Inspect similar locations on other aircraft parts for signs of fatigue cracks.",
+     "Perform detailed metallographic examinations and hardness tests on critical components to ensure they meet the required standards."
+ ],
+
+ "cited_sources": [2],
+
+ "grounded": true }

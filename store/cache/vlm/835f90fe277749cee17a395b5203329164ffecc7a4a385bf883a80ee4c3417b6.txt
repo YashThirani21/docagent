@@ -1,0 +1,32 @@
+{
+    	"view": "Top View",
+   	"part_description": "The part is a complex mechanical component with multiple features including holes of varying sizes, slots, bosses, and angular dimensions.",
+   	"units": "mm",
+   	"items": [
+        {"id": 1, "belongs_to": "left Ø35.2 side hole", "gdt_symbol": "-"},
+        {"id": 2, "belongs_to": "right Ø34.8 side hole", "gdt_symbol": "-"},
+        {"id": 3, "belongs_to": "Ø20 +0.05 side hole", "gdt_symbol": "-"},
+        {"id": 4, "belongs_to": "A feature", "gdt_symbol": "-"},
+        {"id": 5, "belongs_to": "B feature", "gdt_symbol": "-"},
+        {"id": 6, "belongs_to": "0.2 dimension on the side", "gdt_symbol": "-"},
+        {"id": 7, "belongs_to": "Ø0.75 small hole", "gdt_symbol": "-"},
+        {"id": 8, "belongs_to": "Ø0.75 A B C feature", "gdt_symbol": "R"},
+        {"id": 9, "belongs_to": "Ø0.5 A boss", "gdt_symbol": "-"},
+        {"id": 10, "belongs_to": "Ø25 ±0.15 hole", "gdt_symbol": "-"},
+        {"id": 11, "belongs_to": "Ø34.8 - 35.2 range of holes", "gdt_symbol": "-"},
+        {"id": 12, "belongs_to": "Ø35 +0 -0.2 side hole", "gdt_symbol": "-"},
+        {"id": 13, "belongs_to": "Ø20 +0.05 side hole with additional dimension of -0.10", "gdt_symbol": "-"},
+        {"id": 14, "belongs_to": "Ø20 +0.10 side hole with additional dimension of -0.05", "gdt_symbol": "-"},
+        {"id": 15, "belongs_to": "60° ±0.5° angular feature", "gdt_symbol": "A"},
+        {"id": 16, "belongs_to": "A B dimension with additional A B C", "gdt_symbol": "-"},
+        {"id": 17, "belongs_to": "C feature", "gdt_symbol": "-"},
+        {"id": 18, "belongs_to": "Ø25 ±0.1 hole", "gdt_symbol": "-"},
+        {"id": 19, "belongs_to": "1.5 A boss", "gdt_symbol": "-"},
+        {"id": 20, "belongs_to": "60° ±0.5° angular feature", "gdt_symbol": "A"},
+        {"id": 21, "belongs_to": "A B C dimension", "gdt_symbol": "-"},
+        {"id": 22, "belongs_to": "1.25 A B C boss", "gdt_symbol": "-"},
+        {"id": 23, "belongs_to": "Ø0.75 A B C feature", "gdt_symbol": "R"},
+        {"id": 24, "belongs_to": "B feature", "gdt_symbol": "-"},
+        {"id": 25, "belongs_to": "Ø35 +0.2 side hole", "gdt_symbol": "-"}
+    ]
+}

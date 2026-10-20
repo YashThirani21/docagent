@@ -1,0 +1,29 @@
+{
+  "items": [
+    {
+      "raw_text": "Ø35 0 -0.2",
+      "type": "dimension",
+      "characteristic": "none"
+    },
+    {
+      "raw_text": "⌀ Ø0.75 A B C",
+      "type": "datum_feature",
+      "characteristic": "none"
+    },
+    {
+      "raw_text": "A",
+      "type": "datum_feature",
+      "characteristic": "none"
+    },
+    {
+      "raw_text": "2 SURFACES",
+      "type": "other",
+      "characteristic": "none"
+    },
+    {
+      "raw_text": "4 COPLANAR SURFACES",
+      "type": "other",
+      "characteristic": "none"
+    }
+  ]
+}

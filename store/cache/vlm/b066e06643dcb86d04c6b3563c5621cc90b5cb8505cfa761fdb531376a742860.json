@@ -1,0 +1,1 @@
+{"text": "{ \"kind\": \"technical_drawing\", \"confidence\": 0.95, \"reason\": \"The image is an engineering drawing with detailed dimensions and tolerances, which are typical characteristics of technical drawings used in CAD (Computer-Aided Design) systems.\" }", "usage": {"prompt_tokens": 1168, "completion_tokens": 55}, "latency_s": 10.618, "finish": "stop"}

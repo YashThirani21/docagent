@@ -1,0 +1,27 @@
+{
+     "view": "B",
+    "part_description": "A rectangular box with multiple holes and slots, designed for precision testing according to NIST PMI standards.",
+    "units": "mm",
+    "items": [
+        {"id": 1, "belongs_to": "top face", "gdt_symbol": "none"},
+        {"id": 2, "belongs_to": "left side", "gdt_symbol": "none"},
+        {"id": 3, "belongs_to": "front face", "gdt_symbol": "none"},
+        {"id": 4, "belongs_to": "back face", "gdt_symbol": "none"},
+        {"id": 5, "belongs_to": "right side", "gdt_symbol": "none"},
+        {"id": 6, "belongs_to": "bottom face", "gdt_symbol": "none"},
+        {"id": 7, "belongs_to": "left side hole", "gdt_symbol": "none"},
+        {"id": 8, "belongs_to": "front face slot", "gdt_symbol": "none"},
+        {"id": 9, "belongs_to": "right side hole", "gdt_symbol": "none"},
+        {"id": 10, "belongs_to": "left side slot", "gdt_symbol": "none"},
+        {"id": 11, "belongs_to": "front face hole", "gdt_symbol": "none"},
+        {"id": 12, "belongs_to": "top face hole", "gdt_symbol": "none"},
+        {"id": 13, "belongs_to": "left side slot", "gdt_symbol": "none"},
+        {"id": 14, "belongs_to": "front face hole", "gdt_symbol": "none"},
+        {"id": 15, "belongs_to": "right side hole", "gdt_symbol": "none"},
+        {"id": 16, "belongs_to": "top face slot", "gdt_symbol": "none"},
+        {"id": 17, "belongs_to": "left side hole", "gdt_symbol": "none"},
+        {"id": 18, "belongs_to": "front face hole", "gdt_symbol": "none"},
+        {"id": 19, "belongs_to": "top face slot", "gdt_symbol": "none"},
+        {"id": 20, "belongs_to": "left side hole", "gdt_symbol": "none"}
+    ]
+}

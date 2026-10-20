@@ -1,0 +1,29 @@
+{
+  "items": [
+    {
+      "raw_text": "-006 -\n-001 -",
+      "type": "dimension",
+      "characteristic": "none"
+    },
+    {
+      "raw_text": ".438 ±.010",
+      "type": "dimension",
+      "characteristic": "none"
+    },
+    {
+      "raw_text": ".30 ±.02",
+      "type": "dimension",
+      "characteristic": "none"
+    },
+    {
+      "raw_text": "6M E B C",
+      "type": "datum_feature",
+      "characteristic": "none"
+    },
+    {
+      "raw_text": "2M E B C",
+      "type": "datum_feature",
+      "characteristic": "none"
+    }
+  ]
+}

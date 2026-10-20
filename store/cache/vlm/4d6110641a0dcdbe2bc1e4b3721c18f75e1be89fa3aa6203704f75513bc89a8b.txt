@@ -1,0 +1,9 @@
+{ "user_reports_problem": false, "answer": "Report NTSB_24-013 concerns the Cessna 177RG with registration number N545PZ. The accident occurred in Lake Placid, NY on October 1, 2023.",
+
+"diagnosis": "The throttle arm was submitted for examination due to a fracture at its threaded section. The examination revealed plastic deformation and no evidence of preexisting cracks. The failure is consistent with bending overstress.",
+
+"recommended_actions": ["Inspect similar throttle arms on the aircraft for signs of fatigue or overstress.", "Ensure proper maintenance procedures are followed, including regular inspections of critical components like the throttle arm."],
+
+"cited_sources": [1],
+
+"grounded": true}

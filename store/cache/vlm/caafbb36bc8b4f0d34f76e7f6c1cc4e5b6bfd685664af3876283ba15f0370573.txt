@@ -1,0 +1,24 @@
+{
+    "items": [
+        {
+            "raw_text": "2X Ø.594+.012-.002",
+            "type": "dimension",
+            "characteristic": "none"
+        },
+        {
+            "raw_text": "Ø.040M",
+            "type": "dimension",
+            "characteristic": "none"
+        },
+        {
+            "raw_text": "Ø.045 MAX",
+            "type": "dimension",
+            "characteristic": "none"
+        },
+        {
+            "raw_text": "A B C",
+            "type": "datum_feature",
+            "characteristic": "none"
+        }
+    ]
+}

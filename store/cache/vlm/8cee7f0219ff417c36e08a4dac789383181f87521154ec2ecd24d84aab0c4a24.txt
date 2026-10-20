@@ -1,0 +1,24 @@
+{
+    "annotations": [
+        {
+            "raw_text": "Ø0.75 A B C",
+            "type": "diameter",
+            "bbox_2d": [198, 436, 358, 500]
+        },
+        {
+            "raw_text": "Ø0.5 A",
+            "type": "diameter",
+            "bbox_2d": [478, 644, 612, 709]
+        },
+        {
+            "raw_text": "Ø25 ±0.15",
+            "type": "diameter",
+            "bbox_2d": [398, 735, 565, 800]
+        },
+        {
+            "raw_text": "Ø34.8 - 35.2",
+            "type": "diameter",
+            "bbox_2d": [710, 735, 910, 800]
+        }
+    ]
+}

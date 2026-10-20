@@ -1,0 +1,9 @@
+{ "user_reports_problem": false, "answer": "The right main spar of N106ER fractured due to ductile overstress. The fracture surface had mostly rough matte-gray features consistent with ductile overstress fracture. River patterns associated with the fracture emanated from hole RD-1 located aft of the spar web, indicating that this was the point where the fracture initiated.",
+
+"diagnosis": "The right main spar fractured due to ductile overstress at a location near hole RD-1 on the lower spar cap.",
+
+"recommended_actions": ["Inspect similar parts for signs of ductile overstress fractures in areas near bolt holes, especially those located aft of the spar web.", "Ensure that torque measurements are taken and recorded accurately during maintenance procedures."],
+
+"cited_sources": [1],
+
+"grounded": true }

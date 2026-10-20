@@ -1,0 +1,29 @@
+{
+  "items": [
+    {
+      "raw_text": "3. APPLICABLE STANDARDS:",
+      "type": "note",
+      "characteristic": "none"
+    },
+    {
+      "raw_text": "ASME Y14.41-2003 APPLIES TO",
+      "type": "note",
+      "characteristic": "none"
+    },
+    {
+      "raw_text": "DATASET.",
+      "type": "note",
+      "characteristic": "none"
+    },
+    {
+      "raw_text": "ASME Y14.5M-1994 APPLIES TO",
+      "type": "note",
+      "characteristic": "none"
+    },
+    {
+      "raw_text": "DIMENSIONING AND TOLERANCING.",
+      "type": "note",
+      "characteristic": "none"
+    }
+  ]
+}

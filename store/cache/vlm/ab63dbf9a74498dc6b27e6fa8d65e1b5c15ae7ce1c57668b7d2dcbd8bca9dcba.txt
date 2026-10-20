@@ -1,0 +1,44 @@
+{
+  "annotations": [
+    {
+      "raw_text": "Ø35 +0 -0.2",
+      "type": "diameter",
+      "bbox_2d": [198, 174, 360, 278]
+    },
+    {
+      "raw_text": "Ø20 +0.05\n-0.10",
+      "type": "diameter",
+      "bbox_2d": [478, 129, 640, 233]
+    },
+    {
+      "raw_text": "Ø20 +0.10\n-0.05",
+      "type": "diameter",
+      "bbox_2d": [478, 233, 640, 337]
+    },
+    {
+      "raw_text": "60° ±0.5°",
+      "type": "angle",
+      "bbox_2d": [910, 285, 1072, 389]
+    },
+    {
+      "raw_text": "A B\n1.25 A B C",
+      "type": "dimension",
+      "bbox_2d": [846, 510, 1018, 614]
+    },
+    {
+      "raw_text": "C",
+      "type": "datum_feature",
+      "bbox_2d": [973, 412, 1035, 474]
+    },
+    {
+      "raw_text": "PMI Complex Test Case",
+      "type": "title_block",
+      "bbox_2d": [1168, 795, 1344, 850]
+    },
+    {
+      "raw_text": "Includes Atomic Test Cases - 1, 2, 3, 4",
+      "type": "title_block",
+      "bbox_2d": [846, 850, 1344, 904]
+    }
+  ]
+}

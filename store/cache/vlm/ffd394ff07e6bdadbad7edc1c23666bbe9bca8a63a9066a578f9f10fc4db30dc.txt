@@ -1,0 +1,44 @@
+{
+    "items": [
+        {
+            "raw_text": "-2X Ø.250+.003",
+            "type": "dimension",
+            "characteristic": "total runout"
+        },
+        {
+            "raw_text": "-.000",
+            "type": "dimension",
+            "characteristic": "total runout"
+        },
+        {
+            "raw_text": ".30±.02",
+            "type": "dimension",
+            "characteristic": "total runout"
+        },
+        {
+            "raw_text": "Ø.023",
+            "type": "dimension",
+            "characteristic": "total runout"
+        },
+        {
+            "raw_text": ".425",
+            "type": "dimension",
+            "characteristic": "total runout"
+        },
+        {
+            "raw_text": "A",
+            "type": "datum_feature",
+            "characteristic": "none"
+        },
+        {
+            "raw_text": "B",
+            "type": "datum_feature",
+            "characteristic": "none"
+        },
+        {
+            "raw_text": "C",
+            "type": "datum_feature",
+            "characteristic": "none"
+        }
+    ]
+}

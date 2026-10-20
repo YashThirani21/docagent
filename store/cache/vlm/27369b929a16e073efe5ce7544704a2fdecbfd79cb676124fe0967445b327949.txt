@@ -1,0 +1,11 @@
+{
+  "user_reports_problem": false,
+  "answer": "The average hardness measured was 81.0 HRBW, as determined from five measurements at the middle of the spar cap cross-section on the mounted sample shown in figure 13.",
+  "diagnosis": "The left wing main spar lower spar cap from NTSB_18-061 had an average hardness of 81.0 HRBW measured across its cross-section, which is slightly above the typical hardness for aluminum alloy 2024-T351 (76 HRB).",
+  "recommended_actions": [
+    "Inspect similar parts with a focus on areas where fatigue cracks might originate.",
+    "Ensure that all bolts and fasteners are properly tightened to avoid overstress."
+  ],
+  "cited_sources": [1],
+  "grounded": true
+}

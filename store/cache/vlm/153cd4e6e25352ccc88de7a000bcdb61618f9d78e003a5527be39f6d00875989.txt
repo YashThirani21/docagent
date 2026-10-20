@@ -1,0 +1,9 @@
+{
+  "items": [
+    {
+      "raw_text": "_Φ25 ±0.15",
+      "type": "dimension",
+      "characteristic": "circularity"
+    }
+  ]
+}

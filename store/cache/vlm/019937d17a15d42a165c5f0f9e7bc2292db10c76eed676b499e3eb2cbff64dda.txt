@@ -1,0 +1,9 @@
+{ "answer": "The left wing main spar from airplane N104ER failed due to fatigue cracking. This was indicated by a crack feature extending from the forward side of hole LC-1, as shown in figure 19. The examination revealed that the microstructure consisted of large surface grains surrounding a finer-grain core, and hardness measurements were made on the lower spar cap, averaging at 80.8 HRBW. These findings suggest that fatigue cracking was likely caused by cyclic loading over time, which is consistent with bending overstress as indicated in figure 14.",
+
+ "diagnosis": "Fatigue cracking",
+
+ "recommended_actions": ["Inspect similar parts for cracks and signs of fatigue.", "Perform structural integrity checks on the spar caps to ensure they meet the required standards."],
+
+ "cited_sources": [5, 8],
+
+ "grounded": true}

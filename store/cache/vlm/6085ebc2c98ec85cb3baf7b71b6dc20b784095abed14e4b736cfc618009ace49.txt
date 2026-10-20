@@ -1,0 +1,1 @@
+{"items": [{"raw_text": "30* ± 1", "type": "dimension", "characteristic": "total runout"}, {"raw_text": "Y", "type": "datum_feature", "characteristic": "none"}]}

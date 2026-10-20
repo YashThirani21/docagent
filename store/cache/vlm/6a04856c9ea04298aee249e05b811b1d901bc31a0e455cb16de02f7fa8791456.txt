@@ -1,0 +1,8 @@
+{
+  "fields": [
+    {"key": "Test Case", "value": "7"},
+    {"key": "View", "value": "A"},
+    {"key": "Cases", "value": "84, 85"},
+    {"key": "Revision", "value": "D"}
+  ]
+}

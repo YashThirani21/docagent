@@ -1,0 +1,29 @@
+{
+    "items": [
+        {
+            "raw_text": ".070 A B C",
+            "type": "dimension",
+            "characteristic": "angularity"
+        },
+        {
+            "raw_text": ".015 A",
+            "type": "dimension",
+            "characteristic": "flatness"
+        },
+        {
+            "raw_text": "4 COPLANAR SURFACES",
+            "type": "note",
+            "characteristic": "concentricity"
+        },
+        {
+            "raw_text": "SIM REQT",
+            "type": "note",
+            "characteristic": "straightness"
+        },
+        {
+            "raw_text": "E",
+            "type": "datum_feature",
+            "characteristic": "angularity"
+        }
+    ]
+}

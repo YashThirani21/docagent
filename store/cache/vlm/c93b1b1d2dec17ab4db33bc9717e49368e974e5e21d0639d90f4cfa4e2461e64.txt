@@ -1,0 +1,9 @@
+{
+  "items": [
+    {
+      "raw_text": "Rev D",
+      "type": "note",
+      "characteristic": "none"
+    }
+  ]
+}

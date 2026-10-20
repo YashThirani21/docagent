@@ -1,0 +1,19 @@
+{
+    "items": [
+        {
+            "raw_text": "-3X Ø.875 ±.020",
+            "type": "dimension",
+            "characteristic": "straightness"
+        },
+        {
+            "raw_text": "3X Ø.875 ±.010",
+            "type": "dimension",
+            "characteristic": "straightness"
+        },
+        {
+            "raw_text": "Ø.050 ST A B C",
+            "type": "datum_feature",
+            "characteristic": "circularity"
+        }
+    ]
+}

@@ -1,0 +1,47 @@
+{
+    	"view": "C",
+    "part_description": "A rectangular block with four coplanar surfaces and multiple holes.",
+    "units": "inches",
+    "items": [
+        {
+            "id": 1,
+            "belongs_to": "left Ø0.594 side hole, depth tolerance +0.012/-0.002 inches",
+            "gdt_symbol": ""
+        },
+        {
+            "id": 2,
+            "belongs_to": "top face, diameter of holes Ø0.040 and Ø0.045 maximum",
+            "gdt_symbol": "Ø"
+        },
+        {
+            "id": 3,
+            "belongs_to": "right side face, dimension .070 with features A B C",
+            "gdt_symbol": ""
+        },
+        {
+            "id": 4,
+            "belongs_to": "front face, dimension .015 with feature A",
+            "gdt_symbol": ""
+        },
+        {
+            "id": 5,
+            "belongs_to": "back face, dimension E",
+            "gdt_symbol": ""
+        },
+        {
+            "id": 6,
+            "belongs_to": "right side face, dimension .070 with features A B C",
+            "gdt_symbol": ""
+        },
+        {
+            "id": 7,
+            "belongs_to": "front face, dimension .015 with feature A",
+            "gdt_symbol": ""
+        },
+        {
+            "id": 8,
+            "belongs_to": "all faces, surface finish requirement SIM REQT",
+            "gdt_symbol": ""
+        }
+    ]
+}

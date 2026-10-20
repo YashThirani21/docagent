@@ -1,0 +1,9 @@
+{ "user_reports_problem": false, "answer": "Yes, a crack was found at the forward side of hole LC-1 in the left wing main spar from airplane N104ER. The crack extends from this location on the lower surface of the spar.",
+
+"diagnosis": "The crack is consistent with fatigue, as indicated by the smooth features and curving crack arrest lines observed under SEM examination.",
+
+"recommended_actions": ["Inspect similar parts for cracks at the same location to ensure safety.", "Perform a detailed inspection of all wing main spars on aircraft N104ER."],
+
+"cited_sources": [2],
+
+"grounded": true }

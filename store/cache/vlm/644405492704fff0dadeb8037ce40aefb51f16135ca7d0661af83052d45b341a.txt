@@ -1,0 +1,24 @@
+{
+  "items": [
+    {
+      "raw_text": ".04",
+      "type": "dimension",
+      "characteristic": "angularity"
+    },
+    {
+      "raw_text": ".01",
+      "type": "dimension",
+      "characteristic": "angularity"
+    },
+    {
+      "raw_text": "A",
+      "type": "datum_feature",
+      "characteristic": "angularity"
+    },
+    {
+      "raw_text": "4 COPLANAR SURFACES",
+      "type": "note",
+      "characteristic": "angularity"
+    }
+  ]
+}

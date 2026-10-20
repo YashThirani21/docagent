@@ -1,0 +1,14 @@
+{
+  "items": [
+    {
+      "raw_text": "Rev D",
+      "type": "note",
+      "characteristic": "none"
+    },
+    {
+      "raw_text": "nist_ctc_01_asme1_rd",
+      "type": "other",
+      "characteristic": "none"
+    }
+  ]
+}

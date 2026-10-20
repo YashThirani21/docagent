@@ -1,0 +1,11 @@
+{ "user_reports_problem": false, "answer": "Fatigue origins were located at the lower surface of the N106ER left wing main spar lower spar cap both forward and aft of hole LC-1. Additionally, fatigue features extended to the boundary near the upper aft side of the lower spar cap from the aft side of hole LD-1.",
+
+"diagnosis": "The fatigue origins were found at the lower surface of the N106ER left wing main spar lower spar cap both forward and aft of hole LC-1. Fatigue features also extended to the boundary near the upper aft side of the lower spar cap from the aft side of hole LD-1.",
+
+"recommended_actions": ["Inspect similar locations on other parts for fatigue cracks or origins.",
+                    "If there are any signs of fatigue, consider conducting further inspections and maintenance checks.",
+                    "Evaluate the structural integrity of the spar caps to ensure they meet safety standards."],
+
+"cited_sources": [7],
+
+"grounded": true}

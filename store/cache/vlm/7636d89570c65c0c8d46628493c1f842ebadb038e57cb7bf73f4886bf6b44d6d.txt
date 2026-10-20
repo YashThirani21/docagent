@@ -1,0 +1,14 @@
+{
+  "items": [
+    {
+      "raw_text": "Ø20+0.05-0.10",
+      "type": "dimension",
+      "characteristic": "total runout"
+    },
+    {
+      "raw_text": "Ø20+0.10-0.05",
+      "type": "dimension",
+      "characteristic": "total runout"
+    }
+  ]
+}

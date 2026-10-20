@@ -1,0 +1,1 @@
+{"items": [{"raw_text": "1B", "type": "dimension", "characteristic": "none"}, {"raw_text": "-", "type": "dimension", "characteristic": "none"}]}

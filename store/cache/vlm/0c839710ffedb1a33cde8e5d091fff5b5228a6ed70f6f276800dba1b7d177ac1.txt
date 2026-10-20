@@ -1,0 +1,62 @@
+{
+  "view": "Top View",
+  "part_description": "A complex mechanical component with multiple features including a hexagonal boss, cylindrical protrusions, and various holes.",
+  "units": "mm",
+  "items": [
+    {
+      "id": 1,
+      "belongs_to": "left side of the part, near the top edge (top view)",
+      "gdt_symbol": ""
+    },
+    {
+      "id": 2,
+      "belongs_to": "right side of the part, near the top edge (top view)",
+      "gdt_symbol": ""
+    },
+    {
+      "id": 3,
+      "belongs_to": "hexagonal boss",
+      "gdt_symbol": "Ø"
+    },
+    {
+      "id": 4,
+      "belongs_to": "left cylindrical protrusion (top view)",
+      "gdt_symbol": ""
+    },
+    {
+      "id": 5,
+      "belongs_to": "right cylindrical protrusion (top view)",
+      "gdt_symbol": ""
+    },
+    {
+      "id": 6,
+      "belongs_to": "left side of the part, near the bottom edge (top view)",
+      "gdt_symbol": ""
+    },
+    {
+      "id": 7,
+      "belongs_to": "angle between two cylindrical protrusions",
+      "gdt_symbol": ""
+    },
+    {
+      "id": 8,
+      "belongs_to": "radius of a circular feature (top view)",
+      "gdt_symbol": ""
+    },
+    {
+      "id": 9,
+      "belongs_to": "large slot near the center",
+      "gdt_symbol": ""
+    },
+    {
+      "id": 10,
+      "belongs_to": "right cylindrical protrusion, top edge (top view)",
+      "gdt_symbol": ""
+    },
+    {
+      "id": 11,
+      "belongs_to": "part identification code",
+      "gdt_symbol": ""
+    }
+  ]
+}

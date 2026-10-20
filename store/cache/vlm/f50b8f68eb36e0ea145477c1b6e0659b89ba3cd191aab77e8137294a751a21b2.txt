@@ -1,0 +1,31 @@
+{
+     "view": "A",
+    "part_description": "The part is a rectangular block with multiple features including holes, slots, and bosses.",
+    "units": "Inches",
+    "items": [
+        {"id": 1, "belongs_to": "left Ø250 side hole", "gdt_symbol": "Ø"},
+        {"id": 2, "belongs_to": "top face", "gdt_symbol": "+"},
+        {"id": 3, "belongs_to": "bottom face", "gdt_symbol": "+"},
+        {"id": 4, "belongs_to": "left side face", "gdt_symbol": "+"},
+        {"id": 5, "belongs_to": "right side face", "gdt_symbol": "+"},
+        {"id": 6, "belongs_to": "front face", "gdt_symbol": "+"},
+        {"id": 7, "belongs_to": "rear face", "gdt_symbol": "+"},
+        {"id": 8, "belongs_to": "left side hole", "gdt_symbol": "F1.2"},
+        {"id": 9, "belongs_to": "right side hole", "gdt_symbol": "F1.2"},
+        {"id": 10, "belongs_to": "front face", "gdt_symbol": "+"},
+        {"id": 11, "belongs_to": "rear face", "gdt_symbol": "+"},
+        {"id": 12, "belongs_to": "left side hole", "gdt_symbol": "+"},
+        {"id": 13, "belongs_to": "right side hole", "gdt_symbol": "+"},
+        {"id": 14, "belongs_to": "top face", "gdt_symbol": "+"},
+        {"id": 15, "belongs_to": "bottom face", "gdt_symbol": "+"},
+        {"id": 16, "belongs_to": "left side hole", "gdt_symbol": "+"},
+        {"id": 17, "belongs_to": "right side hole", "gdt_symbol": "+"},
+        {"id": 18, "belongs_to": "front face", "gdt_symbol": "+"},
+        {"id": 19, "belongs_to": "rear face", "gdt_symbol": "+"},
+        {"id": 20, "belongs_to": "left side hole", "gdt_symbol": "+"},
+        {"id": 21, "belongs_to": "right side hole", "gdt_symbol": "+"},
+        {"id": 22, "belongs_to": "top face", "gdt_symbol": "+"},
+        {"id": 23, "belongs_to": "bottom face", "gdt_symbol": "+"},
+        {"id": 24, "belongs_to": "left side hole", "gdt_symbol": "+"}
+    ]
+}

@@ -1,0 +1,9 @@
+{
+  "items": [
+    {
+      "raw_text": "-Ø35.2/34.8",
+      "type": "dimension",
+      "characteristic": "angularity"
+    }
+  ]
+}

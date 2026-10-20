@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "raw_text": "-R.012 -.022",
+      "type": "dimension",
+      "characteristic": "total runout"
+    },
+    {
+      "raw_text": "INNER AND OUTER RADII",
+      "type": "note",
+      "characteristic": "total runout"
+    },
+    {
+      "raw_text": "OF ENTIRE GROOVE",
+      "type": "note",
+      "characteristic": "total runout"
+    }
+  ]
+}

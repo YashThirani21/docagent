@@ -1,0 +1,1 @@
+{"text": "{ \"kind\": \"technical_drawing\", \"confidence\": 0.95, \"reason\": \"The image is an engineering drawing with dimensions and tolerances specified for the part depicted.\" }", "usage": {"prompt_tokens": 1168, "completion_tokens": 41}, "latency_s": 9.854, "finish": "stop"}

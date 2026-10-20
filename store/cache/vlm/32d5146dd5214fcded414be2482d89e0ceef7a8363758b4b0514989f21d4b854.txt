@@ -1,0 +1,14 @@
+{
+  "items": [
+    {
+      "raw_text": "PMI Fully-Toleranced Test Case 7 - View A",
+      "type": "note",
+      "characteristic": "none"
+    },
+    {
+      "raw_text": "Includes Atomic Test Cases - 84, 85",
+      "type": "note",
+      "characteristic": "none"
+    }
+  ]
+}

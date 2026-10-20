@@ -1,0 +1,29 @@
+{
+    "items": [
+        {
+            "raw_text": ".04 A B C",
+            "type": "dimension",
+            "characteristic": "angularity"
+        },
+        {
+            "raw_text": ".01 A",
+            "type": "dimension",
+            "characteristic": "angularity"
+        },
+        {
+            "raw_text": "4 COPLANAR",
+            "type": "note",
+            "characteristic": "concentricity"
+        },
+        {
+            "raw_text": "SURFACES",
+            "type": "note",
+            "characteristic": "concentricity"
+        },
+        {
+            "raw_text": "D",
+            "type": "datum_feature",
+            "characteristic": "concentricity"
+        }
+    ]
+}

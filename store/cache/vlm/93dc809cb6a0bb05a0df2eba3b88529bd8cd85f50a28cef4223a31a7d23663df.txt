@@ -1,0 +1,20 @@
+{
+    	"view": "A",
+   	"part_description": "The part is a rectangular box with multiple features including holes, slots, and bosses.",
+   	"units": "inches",
+   	"items": [
+        {"id": 1, "belongs_to": "left Ø250 side hole", "gdt_symbol": "Ø"},
+        {"id": 2, "belongs_to": "top face", "gdt_symbol": "F"},
+        {"id": 3, "belongs_to": "large slot near centre", "gdt_symbol": "F1.2"},
+        {"id": 4, "belongs_to": "left side hole", "gdt_symbol": "Ø"},
+        {"id": 5, "belongs_to": "right side hole", "gdt_symbol": "Ø"},
+        {"id": 6, "belongs_to": "bottom face", "gdt_symbol": "F1.2"},
+        {"id": 7, "belongs_to": "front face", "gdt_symbol": "F1.1"},
+        {"id": 8, "belongs_to": "rear face", "gdt_symbol": "F1.1"},
+        {"id": 9, "belongs_to": "top edge of slot", "gdt_symbol": "+"},
+        {"id": 10, "belongs_to": "untoleranced surfaces", "gdt_symbol": "."},
+        {"id": 11, "belongs_to": "statistically toleranced features", "gdt_symbol": "ST"},
+        {"id": 12, "belongs_to": "units: inches", "gdt_symbol": ""},
+        {"id": 13, "belongs_to": "file reference", "gdt_symbol": ""}
+    ]
+}

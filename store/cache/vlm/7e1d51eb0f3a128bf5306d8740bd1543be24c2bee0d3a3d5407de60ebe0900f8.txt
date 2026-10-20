@@ -1,0 +1,1 @@
+{"items": [{"raw_text": "Φ6/-0", "type": "dimension", "characteristic": "total runout"}, {"raw_text": "→", "type": "note", "characteristic": "none"}]}

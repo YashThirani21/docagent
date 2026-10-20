@@ -1,0 +1,9 @@
+{
+  "component": "Throttle arm",
+  "observations": [
+    "The threaded section exhibits plastic deformation.",
+    "There are signs of wear or corrosion on the threads and mating surfaces.",
+    "A scale-like deposit is visible on the threads, indicating potential contamination."
+  ],
+  "visible_text": "0.100in"
+}

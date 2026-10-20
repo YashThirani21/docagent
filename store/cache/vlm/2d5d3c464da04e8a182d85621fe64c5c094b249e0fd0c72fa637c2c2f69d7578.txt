@@ -1,0 +1,14 @@
+{
+  "items": [
+    {
+      "raw_text": "2.",
+      "type": "dimension",
+      "characteristic": "none"
+    },
+    {
+      "raw_text": "DIRECTLY-TOLERANCED DIMENSIONS AND BASIC DIMENSIONS DEFINED ON THE DRAWING TAKE PRECEDENCE OVER DIMENSIONAL DATA DEFINED BY THE MODEL. OBTAIN ALL OTHER DIMENSIONAL DATA FROM THE MODEL. THE MODEL REPRESENTS BASIC DIMENSIONAL DATA UNLESS OTHERWISE SPECIFIED.",
+      "type": "note",
+      "characteristic": "none"
+    }
+  ]
+}

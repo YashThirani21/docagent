@@ -1,0 +1,3 @@
+{ "component": "input control lock mechanism in the throttle control assembly", "observations": [ "The upper image shows the component in a locked position.", "The lower image shows the component just after being unlocked.", "A release rod is visible at the top left, interacting with the pawl and control tube.", "The pawl appears to be engaged within the teeth of the control tube when the component is locked.", "When the component is unlocked (lower image), the pawl has moved away from its engagement point on the control tube." ],
+
+"visible_text": "Release rod, Control tube, Lock coil, Pawl, FWD" }

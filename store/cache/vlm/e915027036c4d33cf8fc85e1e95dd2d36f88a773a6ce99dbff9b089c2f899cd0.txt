@@ -1,0 +1,12 @@
+{ "user_reports_problem": false, "answer": "The right main spar of N106ER fractured due to a combination of ductile overstress and fatigue. The fracture in the lower spar cap emanated forward from hole RD-1 located aft of the spar web, consistent with ductile overstress fracture. Fatigue features were also observed on the fracture surface at the forward side of hole RC-1, indicating that fatigue initiated near this location. The fatigue crack length was 0.026 inch where it intersected the lower surface.",
+
+ "diagnosis": "The right main spar fractured due to ductile overstress and fatigue. Fatigue features were observed on the fracture surface at the forward side of hole RC-1, indicating that fatigue initiated near this location.",
+
+ "recommended_actions": ["Inspect similar parts for signs of fatigue cracks in areas corresponding to holes LC-1 and LD-1 where fatigue origins were located.",
+                    "If there are any bolts or fasteners with washers under their heads and nuts, ensure they meet the torque specifications as outlined by the Piper Aircraft Maintenance Manual.",
+
+                    "Do not rely on visual inspection alone for fatigue detection. Consider using non-destructive testing methods such as ultrasonic testing to identify potential cracks in critical areas."],
+
+ "cited_sources": [1],
+
+ "grounded": true }

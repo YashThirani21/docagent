@@ -1,0 +1,9 @@
+{
+  "items": [
+    {
+      "raw_text": "60° ±0.5°",
+      "type": "dimension",
+      "characteristic": "angularity"
+    }
+  ]
+}

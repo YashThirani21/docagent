@@ -1,0 +1,107 @@
+{
+  "view": "B",
+  "part_description": "A rectangular box with various holes and surface features.",
+  "units": "inches",
+  "items": [
+    {
+      "id": 1,
+      "belongs_to": "left side hole, diameter Ø.173 inches, tolerance +0.005/-0.001 inches",
+      "gdt_symbol": "Ø"
+    },
+    {
+      "id": 2,
+      "belongs_to": "hole at location A with diameter Ø.060 inches and tolerances A B C",
+      "gdt_symbol": "Ø"
+    },
+    {
+      "id": 3,
+      "belongs_to": "hole at location A with diameter Ø.015 inches, tolerance -0.001 inches",
+      "gdt_symbol": "Ø"
+    },
+    {
+      "id": 4,
+      "belongs_to": "surface feature at location .01 inch from the top edge of the part",
+      "gdt_symbol": ""
+    },
+    {
+      "id": 5,
+      "belongs_to": "surface feature at location .03 inch from the bottom edge of the part",
+      "gdt_symbol": ""
+    },
+    {
+      "id": 6,
+      "belongs_to": "surface feature at location .06 inch from the right side edge of the part",
+      "gdt_symbol": ""
+    },
+    {
+      "id": 7,
+      "belongs_to": "feature at location A, possibly a hole or boss",
+      "gdt_symbol": ""
+    },
+    {
+      "id": 8,
+      "belongs_to": "feature at location B, possibly a hole or boss",
+      "gdt_symbol": ""
+    },
+    {
+      "id": 9,
+      "belongs_to": "hole diameter Ø.281 inches with tolerances +0.006/-0.001 inches and locations A B C",
+      "gdt_symbol": "Ø"
+    },
+    {
+      "id": 10,
+      "belongs_to": "hole diameter Ø.438 inches, tolerance ±0.010 inches at location D",
+      "gdt_symbol": "Ø"
+    },
+    {
+      "id": 11,
+      "belongs_to": "hole diameter .30 inches with tolerance ±0.02 inches at location D",
+      "gdt_symbol": ""
+    },
+    {
+      "id": 12,
+      "belongs_to": "feature at location M, possibly a hole or boss",
+      "gdt_symbol": ""
+    },
+    {
+      "id": 13,
+      "belongs_to": "feature at location M, possibly a hole or boss",
+      "gdt_symbol": ""
+    },
+    {
+      "id": 14,
+      "belongs_to": "surface feature at location .04 inch from the top edge of the part",
+      "gdt_symbol": ""
+    },
+    {
+      "id": 15,
+      "belongs_to": "surface feature at location .01 inch from the bottom edge of the part",
+      "gdt_symbol": ""
+    },
+    {
+      "id": 16,
+      "belongs_to": "feature at location A, possibly a hole or boss",
+      "gdt_symbol": ""
+    },
+    {
+      "id": 17,
+      "belongs_to": "feature at location B/C, possibly a hole or boss",
+      "gdt_symbol": ""
+    },
+    {
+      "id": 18,
+      "belongs_to": "hole diameter Ø.594 inches with tolerances +0.012/-0.002 inches and locations A B C",
+      "gdt_symbol": "Ø"
+    },
+    {
+      "id": 19,
+      "belongs_to": "hole diameter Ø.045 inches, maximum tolerance at location A B C",
+      "gdt_symbol": "Ø"
+    },
+    {
+      "id": 20,
+      "belongs_to": "feature at location 40, possibly a hole or boss",
+      "gdt_symbol": ""
+    }
+  ]
+}

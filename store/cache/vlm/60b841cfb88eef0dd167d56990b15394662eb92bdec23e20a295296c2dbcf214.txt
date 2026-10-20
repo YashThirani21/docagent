@@ -1,0 +1,11 @@
+{ "component": "Throttle arm", "observations": [
+    "The image shows a close-up of the threaded section of a throttle arm exhibiting plastic deformation.",
+    "There is visible evidence of plastic deformation in the form of a flattened area on the right side of the thread, indicating that the material has been compressed and deformed beyond its elastic limit.",
+    "The threads appear to be uniform in pitch but show signs of wear or fatigue, as indicated by the slight roughness and possible surface imperfections.",
+    "There are no visible cracks or fractures at this location. The deformation is localized within a small area near the center of the thread section.",
+    "The material appears to have been machined with precision, evident from the clean edges and uniform thread profile on the left side.",
+    "No signs of corrosion pitting, fretting, or wear are observed in the image provided."
+],
+
+"likely_failure_mode": "Fatigue",
+"visible_text": "0.100in"}

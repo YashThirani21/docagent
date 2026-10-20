@@ -1,0 +1,34 @@
+{
+    "annotations": [
+        {
+            "raw_text": "Ø0.75 A B C",
+            "type": "diameter",
+            "gdt": "Feature Control Frame",
+            "bbox_2d": [198, 436, 360, 500]
+        },
+        {
+            "raw_text": "Ø0.5 A",
+            "type": "diameter",
+            "gdt": "Feature Control Frame",
+            "bbox_2d": [478, 641, 619, 703]
+        },
+        {
+            "raw_text": "Ø25 ±0.15",
+            "type": "diameter",
+            "gdt": "",
+            "bbox_2d": [550, 708, 740, 769]
+        },
+        {
+            "raw_text": "Ø34.8 - 35.2",
+            "type": "diameter",
+            "gdt": "",
+            "bbox_2d": [810, 769, 1010, 830]
+        },
+        {
+            "raw_text": "2 SURFACES",
+            "type": "surface_finish",
+            "gdt": "",
+            "bbox_2d": [540, 830, 657, 890]
+        }
+    ]
+}

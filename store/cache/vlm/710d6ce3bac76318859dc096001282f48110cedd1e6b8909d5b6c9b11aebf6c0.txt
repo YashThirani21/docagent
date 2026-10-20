@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "raw_text": "- Ø34.8 - 35.2",
+      "type": "dimension",
+      "characteristic": "angularity"
+    },
+    {
+      "raw_text": "⌀35.2",
+      "type": "dimension",
+      "characteristic": "circularity"
+    },
+    {
+      "raw_text": "⌀34.8",
+      "type": "dimension",
+      "characteristic": "circularity"
+    }
+  ]
+}

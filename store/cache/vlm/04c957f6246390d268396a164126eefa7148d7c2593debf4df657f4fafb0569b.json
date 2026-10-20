@@ -1,0 +1,1 @@
+{"text": "{\n  \"kind\": \"document_page\",\n  \"confidence\": 0.85,\n  \"reason\": \"The image appears to be a page from a technical report with an optical image and annotations, which is characteristic of a document page rather than a technical drawing or a photo of a part.\"\n}", "usage": {"prompt_tokens": 1139, "completion_tokens": 63}, "latency_s": 11.085, "finish": "stop"}

@@ -1,0 +1,106 @@
+{
+  "annotations": [
+    {
+      "raw_text": "Ø35 +0 -0.2",
+      "type": "diameter",
+      "gdt": "+0 -0.2",
+      "bbox_2d": [198, 174, 360, 278]
+    },
+    {
+      "raw_text": "Ø20 +0.05\n-0.10",
+      "type": "diameter",
+      "gdt": "+0.05 -0.10",
+      "bbox_2d": [463, 128, 790, 240]
+    },
+    {
+      "raw_text": "Ø20 +0.10\n-0.05",
+      "type": "diameter",
+      "gdt": "+0.10 -0.05",
+      "bbox_2d": [638, 174, 960, 286]
+    },
+    {
+      "raw_text": "60° ±0.5°",
+      "type": "angle",
+      "gdt": "±0.5°",
+      "bbox_2d": [833, 174, 1090, 286]
+    },
+    {
+      "raw_text": "C",
+      "type": "datum_feature",
+      "gdt": "",
+      "bbox_2d": [1050, 408, 1130, 474]
+    },
+    {
+      "raw_text": "A",
+      "type": "datum_feature",
+      "gdt": "",
+      "bbox_2d": [960, 510, 1030, 586]
+    },
+    {
+      "raw_text": "B",
+      "type": "datum_feature",
+      "gdt": "",
+      "bbox_2d": [1040, 510, 1110, 586]
+    },
+    {
+      "raw_text": "A",
+      "type": "datum_feature",
+      "gdt": "",
+      "bbox_2d": [1130, 510, 1200, 586]
+    },
+    {
+      "raw_text": "B",
+      "type": "datum_feature",
+      "gdt": "",
+      "bbox_2d": [1140, 510, 1210, 586]
+    },
+    {
+      "raw_text": "C",
+      "type": "datum_feature",
+      "gdt": "",
+      "bbox_2d": [1230, 510, 1300, 586]
+    },
+    {
+      "raw_text": "A",
+      "type": "datum_feature",
+      "gdt": "",
+      "bbox_2d": [974, 622, 1044, 698]
+    },
+    {
+      "raw_text": "B",
+      "type": "datum_feature",
+      "gdt": "",
+      "bbox_2d": [1054, 622, 1124, 698]
+    },
+    {
+      "raw_text": "A",
+      "type": "datum_feature",
+      "gdt": "",
+      "bbox_2d": [1134, 622, 1204, 698]
+    },
+    {
+      "raw_text": "B",
+      "type": "datum_feature",
+      "gdt": "",
+      "bbox_2d": [1214, 622, 1284, 698]
+    },
+    {
+      "raw_text": "C",
+      "type": "datum_feature",
+      "gdt": "",
+      "bbox_2d": [1304, 622, 1374, 698]
+    },
+    {
+      "raw_text": "PMI Complex Test Case",
+      "type": "title_block",
+      "gdt": "",
+      "bbox_2d": [1350, 794, 1560, 850]
+    },
+    {
+      "raw_text": "Includes Atomic Test Cases - 1, 2, 3, 4",
+      "type": "title_block",
+      "gdt": "",
+      "bbox_2d": [1350, 860, 1560, 910]
+    }
+  ]
+}

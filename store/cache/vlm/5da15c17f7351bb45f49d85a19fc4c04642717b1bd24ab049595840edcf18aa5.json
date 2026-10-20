@@ -1,0 +1,1 @@
+{"text": "{ \"kind\": \"technical_drawing\", \"confidence\": 0.95, \"reason\": \"The image shows detailed parts labeled and measured with a ruler, which is typical for an engineering or technical drawing.\" }", "usage": {"prompt_tokens": 1139, "completion_tokens": 46}, "latency_s": 10.509, "finish": "stop"}

@@ -1,0 +1,1 @@
+{"items": [{"raw_text": "+.02", "type": "dimension", "characteristic": "total runout"}, {"raw_text": "±.02", "type": "dimension", "characteristic": "total runout"}, {"raw_text": "L2.", "type": "datum_feature", "characteristic": "none"}]}

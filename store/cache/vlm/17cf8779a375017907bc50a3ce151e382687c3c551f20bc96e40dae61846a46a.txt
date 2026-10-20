@@ -1,0 +1,1 @@
+{ "kind": "document_page", "confidence": 0.95, "reason": "The image shows the cover page of a factual report from the National Transportation Safety Board's Materials Laboratory. It includes text and a logo but no technical drawings or photographs." }

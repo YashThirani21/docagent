@@ -1,0 +1,9 @@
+{
+  "items": [
+    {
+      "raw_text": "-Φ35+0.2",
+      "type": "dimension",
+      "characteristic": "total runout"
+    }
+  ]
+}

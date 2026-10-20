@@ -1,0 +1,26 @@
+{
+    	"view": "Top View",
+   	"part_description": "The part is a complex mechanical component with multiple features including holes, slots, bosses, and angles.",
+   	"units": "mm",
+   	"items": [
+        {"id": 1, "belongs_to": "left side face", "gdt_symbol": "-"},
+        {"id": 2, "belongs_to": "top edge", "gdt_symbol": "-"},
+        {"id": 3, "belongs_to": "left top corner", "gdt_symbol": "-"},
+        {"id": 4, "belongs_to": "right top corner", "gdt_symbol": "-"},
+        {"id": 5, "belongs_to": "bottom left corner", "gdt_symbol": "-"},
+        {"id": 6, "belongs_to": "left bottom edge", "gdt_symbol": "-"},
+        {"id": 7, "belongs_to": "top face", "gdt_symbol": "A B C"},
+        {"id": 8, "belongs_to": "bottom face", "gdt_symbol": "ABC"},
+        {"id": 9, "belongs_to": "left side slot", "gdt_symbol": "-"},
+        {"id": 10, "belongs_to": "left top hole", "gdt_symbol": "Φ35"},
+        {"id": 11, "belongs_to": "right bottom hole", "gdt_symbol": "Φ35"},
+        {"id": 12, "belongs_to": "angle at the top left corner", "gdt_symbol": "60°"},
+        {"id": 13, "belongs_to": "large slot near center", "gdt_symbol": "Ø35.2-34.8"},
+        {"id": 14, "belongs_to": "small hole at the bottom right corner", "gdt_symbol": "Ø34.8 - 35.2"},
+        {"id": 15, "belongs_to": "left side boss", "gdt_symbol": "R10 H9 H"},
+        {"id": 16, "belongs_to": "right top hole", "gdt_symbol": "φ20+0.05-0.10"},
+        {"id": 17, "belongs_to": "left bottom hole", "gdt_symbol": "φ20+0.10-0.05"},
+        {"id": 18, "belongs_to": "center top hole", "gdt_symbol": "Ø25 ±0.15"},
+        {"id": 19, "belongs_to": "left bottom corner", "gdt_symbol": "-"}
+    ]
+}

@@ -1,0 +1,39 @@
+{
+    "items": [
+        {
+            "raw_text": "4X Ø.281 +.006",
+            "type": "dimension",
+            "characteristic": "angularity"
+        },
+        {
+            "raw_text": "-.001",
+            "type": "tolerance",
+            "characteristic": "angularity"
+        },
+        {
+            "raw_text": ".06",
+            "type": "dimension",
+            "characteristic": "circular runout"
+        },
+        {
+            "raw_text": "E B C",
+            "type": "datum_feature",
+            "characteristic": "circular runout"
+        },
+        {
+            "raw_text": ".02",
+            "type": "dimension",
+            "characteristic": "circularity"
+        },
+        {
+            "raw_text": "vØ.438 ±.010",
+            "type": "dimension",
+            "characteristic": "angularity"
+        },
+        {
+            "raw_text": ".30 ±.02",
+            "type": "tolerance",
+            "characteristic": "angularity"
+        }
+    ]
+}

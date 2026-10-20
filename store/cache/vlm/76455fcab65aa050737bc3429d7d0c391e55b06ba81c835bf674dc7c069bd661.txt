@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "raw_text": ".030 A B C",
+      "type": "dimension",
+      "characteristic": "angularity"
+    },
+    {
+      "raw_text": ".005 A B C",
+      "type": "dimension",
+      "characteristic": "angularity"
+    },
+    {
+      "raw_text": "INNER AND OUTER WALL OF ENTIRE GROOVE",
+      "type": "note",
+      "characteristic": "angularity"
+    }
+  ]
+}

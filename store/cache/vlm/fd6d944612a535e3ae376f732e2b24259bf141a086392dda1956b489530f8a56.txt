@@ -1,0 +1,5 @@
+{
+  "kind": "photo_of_part",
+  "confidence": 0.95,
+  "reason": "The image shows radiographs (X-ray images) of an input control lock mechanism in the throttle control assembly, indicating it is a photograph or radiograph of a physical part."
+}

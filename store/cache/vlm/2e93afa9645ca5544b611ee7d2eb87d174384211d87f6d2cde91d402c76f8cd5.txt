@@ -1,0 +1,6 @@
+{ "user_reports_problem": false,
+"answer": "The loosening torque for bolt RC-1 measured in the loosening direction was 5.0 pound-force feet (as indicated by the label 'RC-1' on figure 7). The specified installation torque to be applied to the lower spar cap nuts, according to the Piper Aircraft Maintenance Manual, is between 30 and 32.5 pound-force feet (360 to 390 pound-force inches). This information can be found in source [1].",
+"diagnosis": "The loosening torque for bolt RC-1 was measured at 5.0 pound-force feet, which falls within the acceptable range of the specified installation torque of 30 to 32.5 pound-force feet (360 to 390 pound-force inches) as per the Piper Aircraft Maintenance Manual.",
+"recommended_actions": ["Inspect similar bolts on other aircraft parts for loosening torques.", "Ensure that all bolts are tightened according to the specified torque values in the maintenance manual."],
+"cited_sources": [1],
+"grounded": true}

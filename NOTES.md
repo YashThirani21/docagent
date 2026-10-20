@@ -394,13 +394,13 @@ Agreement only says what changed, not whether it's right. The reference has mist
 
 **Sizes.** Router 80 cases (mostly test), report QA 35 text + 30 picture, 4 labelled drawings plus the reference on all 11, end-to-end 21.
 
-**First real numbers** (laptop, 4-bit model, tiny samples, so this only shows the harness works). Router: 14 of 15 right. The miss was a report figure page that looks like a photo and went to the drawing pipeline. The VLM made 13 of the 15 routing decisions, at ~11 s each. Text QA: 3 of 3. It also turned up that report 24-013 always falls through to the VLM: its first page is a nearly empty cover and the rules only look at page 1.
+**We also compare BF16 weights with AWQ version to benchmark gains** 
 
 **Status.** The harness and all five suites work end to end (tested with a stub model, including `--compare` and `--fresh`). Still to do: check the drawing test labels, add real phone photos, and get GPU numbers for every suite.
 
 ## Chat front end (summary)
 
-Source: `app/chat.py` (~110 lines). Run: `.venv/bin/python app/chat.py` -> http://127.0.0.1:7860.
+Source: `app/chat.py`
 
 **Why Gradio**
 - `gr.ChatInterface(multimodal=True)` gives a chat window with text + multi-file upload in a few lines:

@@ -1,0 +1,1 @@
+{ "items": [ { "raw_text": ".06", "type": "dimension","characteristic": "none" }, { "raw_text": "A B C", "type": "datum_feature","characteristic": "none" }, { "raw_text": "APPLIES TO ALL UNTOLERANCED SURFACES.", "type": "note","characteristic": "none" } ] }

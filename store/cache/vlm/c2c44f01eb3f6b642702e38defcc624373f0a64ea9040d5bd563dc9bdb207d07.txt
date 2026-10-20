@@ -1,0 +1,12 @@
+{ "user_reports_problem": false, "answer": "The components examined in Report NTSB 16-006 include the throttle control assembly and the mixture control assembly. These assemblies were discolored and oxidized consistent with exposure to high heat.",
+
+"diagnosis": "The throttle and mixture control assemblies were examined for signs of heat damage, oxidation, and structural integrity issues.",
+
+"recommended_actions": [
+    "Inspect similar components on other aircraft for any signs of heat damage or oxidation.",
+    "Perform a detailed inspection of the lock mechanisms in these assemblies to ensure they are functioning correctly."
+],
+
+"cited_sources": [1, 3],
+
+"grounded": true}

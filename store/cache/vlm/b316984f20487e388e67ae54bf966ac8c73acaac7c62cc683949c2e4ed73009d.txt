@@ -1,0 +1,1 @@
+{ "items": [ { "raw_text": "0.75", "type": "dimension","characteristic": "none" }, { "raw_text": "ABC", "type": "datum_feature","characteristic": "none" } ] }

@@ -1,0 +1,14 @@
+{
+  "items": [
+    {
+      "raw_text": "Feature and Specification Index",
+      "type": "note",
+      "characteristic": "none"
+    },
+    {
+      "raw_text": "nist_ftc_07_asme1_rd_fsi.pdf",
+      "type": "dimension",
+      "characteristic": "none"
+    }
+  ]
+}

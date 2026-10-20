@@ -1,0 +1,49 @@
+{
+  "items": [
+    {
+      "raw_text": "5.",
+      "type": "dimension",
+      "characteristic": "none"
+    },
+    {
+      "raw_text": "FEATURES IDENTIFIED AS STATISTICALLY",
+      "type": "note",
+      "characteristic": "none"
+    },
+    {
+      "raw_text": "TOLERANCED ST SHALL BE PRODUCED",
+      "type": "note",
+      "characteristic": "none"
+    },
+    {
+      "raw_text": "WITH STATISTICAL PROCESS CONTROLS",
+      "type": "note",
+      "characteristic": "none"
+    },
+    {
+      "raw_text": "OR TO THE MORE RESTRICTIVE",
+      "type": "note",
+      "characteristic": "none"
+    },
+    {
+      "raw_text": "ARITHMETIC LIMITS SPECIFIED.",
+      "type": "note",
+      "characteristic": "none"
+    },
+    {
+      "raw_text": "DETAILED PROCESS PLAN NEEDED TO COMPLETELY",
+      "type": "note",
+      "characteristic": "none"
+    },
+    {
+      "raw_text": "DEFINE STATISTICAL PARAMETERS AND",
+      "type": "note",
+      "characteristic": "none"
+    },
+    {
+      "raw_text": "REQUIREMENTS.",
+      "type": "note",
+      "characteristic": "none"
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+{"items": [{"raw_text": "4^r-012-", "type": "dimension", "characteristic": "none"}, {"raw_text": "-002-", "type": "dimension", "characteristic": "none"}, {"raw_text": "|40|", "type": "dimension", "characteristic": "none"}]}

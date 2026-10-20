@@ -1,0 +1,29 @@
+{
+  "items": [
+    {
+      "raw_text": ".01",
+      "type": "dimension",
+      "characteristic": "total runout"
+    },
+    {
+      "raw_text": ".03",
+      "type": "dimension",
+      "characteristic": "total runout"
+    },
+    {
+      "raw_text": ".06",
+      "type": "dimension",
+      "characteristic": "total runout"
+    },
+    {
+      "raw_text": "A",
+      "type": "datum_feature",
+      "characteristic": "none"
+    },
+    {
+      "raw_text": "B",
+      "type": "datum_feature",
+      "characteristic": "none"
+    }
+  ]
+}

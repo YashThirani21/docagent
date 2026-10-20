@@ -1,0 +1,14 @@
+{
+  "items": [
+    {
+      "raw_text": ".070A B C",
+      "type": "dimension",
+      "characteristic": "angularity"
+    },
+    {
+      "raw_text": ".015A",
+      "type": "dimension",
+      "characteristic": "angularity"
+    }
+  ]
+}

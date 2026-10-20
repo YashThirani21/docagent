@@ -1,0 +1,1 @@
+{"text": "{ \"user_reports_problem\": false, \"answer\": \"The report does not provide information about the number of flight hours for the pilot of airplane N106ER.\", \"diagnosis\": \"\", \"recommended_actions\": [],\"cited_sources\": [1],\"grounded\":false}", "usage": {"prompt_tokens": 4679, "completion_tokens": 63}, "latency_s": 30.577, "finish": "stop"}

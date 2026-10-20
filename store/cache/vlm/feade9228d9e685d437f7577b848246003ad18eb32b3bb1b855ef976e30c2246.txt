@@ -1,0 +1,29 @@
+{
+    "items": [
+        {
+            "raw_text": ".015",
+            "type": "dimension",
+            "characteristic": "total runout"
+        },
+        {
+            "raw_text": "A",
+            "type": "datum_feature",
+            "characteristic": "none"
+        },
+        {
+            "raw_text": "2 SURFACES",
+            "type": "other",
+            "characteristic": "none"
+        },
+        {
+            "raw_text": "F1.1 AND F1.2",
+            "type": "other",
+            "characteristic": "none"
+        },
+        {
+            "raw_text": "F1.1",
+            "type": "other",
+            "characteristic": "none"
+        }
+    ]
+}

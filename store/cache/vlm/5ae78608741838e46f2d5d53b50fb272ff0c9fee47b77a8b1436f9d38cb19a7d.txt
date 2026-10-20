@@ -1,0 +1,64 @@
+{
+  "annotations": [
+    {
+      "raw_text": "Ø25 ±0.1",
+      "type": "diameter",
+      "gdt": "tolerance",
+      "bbox_2d": [738, 46, 890, 100]
+    },
+    {
+      "raw_text": "1.5 A",
+      "type": "datum_feature",
+      "gdt": "datum_letter",
+      "bbox_2d": [1008, 273, 1146, 329]
+    },
+    {
+      "raw_text": "A B C",
+      "type": "datum_feature",
+      "gdt": "datum_letter",
+      "bbox_2d": [58, 578, 200, 632]
+    },
+    {
+      "raw_text": "C",
+      "type": "datum_feature",
+      "gdt": "boxed_letter",
+      "bbox_2d": [149, 478, 180, 510]
+    },
+    {
+      "raw_text": "Ø0.75 A B C",
+      "type": "diameter",
+      "gdt": "tolerance",
+      "bbox_2d": [638, 549, 876, 603]
+    },
+    {
+      "raw_text": "1.25 A B C",
+      "type": "datum_feature",
+      "gdt": "datum_letter",
+      "bbox_2d": [14, 578, 149, 632]
+    },
+    {
+      "raw_text": "A",
+      "type": "datum_feature",
+      "gdt": "boxed_letter",
+      "bbox_2d": [200, 578, 231, 610]
+    },
+    {
+      "raw_text": "B",
+      "type": "datum_feature",
+      "gdt": "boxed_letter",
+      "bbox_2d": [490, 708, 521, 740]
+    },
+    {
+      "raw_text": "Ø35 +0.2",
+      "type": "diameter",
+      "gdt": "tolerance",
+      "bbox_2d": [638, 719, 790, 773]
+    },
+    {
+      "raw_text": "60°±0.5°",
+      "type": "angle",
+      "gdt": "tolerance",
+      "bbox_2d": [40, 280, 192, 334]
+    }
+  ]
+}

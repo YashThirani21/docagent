@@ -1,0 +1,9 @@
+{
+  "items": [
+    {
+      "raw_text": "φ20+0.05-0.10",
+      "type": "dimension",
+      "characteristic": "angularity"
+    }
+  ]
+}

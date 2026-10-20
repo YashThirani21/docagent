@@ -1,0 +1,5 @@
+{ "user_reports_problem": false, "answer": "The reports do not state the cause of the accident. The examination found that the fuel servo throttle arm exhibited plastic deformation and a fractured threaded section consistent with bending overstress. There was no evidence of preexisting cracks on the fracture surface.",
+  "diagnosis": "The fuel servo throttle arm experienced bending overstress, leading to its failure.",
+  "recommended_actions": ["Inspect similar components for signs of bending overstress.", "Ensure proper maintenance and inspection procedures are followed for aircraft parts with threaded sections.", "Consider conducting fatigue tests or inspections on the threaded section of similar throttle arms."],
+  "cited_sources": [1],
+  "grounded": true}

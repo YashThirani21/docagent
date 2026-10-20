@@ -1,0 +1,1 @@
+{ "items": [ { "raw_text": ".006", "type": "dimension","characteristic": "total runout" }, { "raw_text": "A", "type": "datum_feature","characteristic": "total runout" }, { "raw_text": "B", "type": "datum_feature","characteristic": "total runout" }, { "raw_text": "C", "type": "datum_feature","characteristic": "total runout" } ]}

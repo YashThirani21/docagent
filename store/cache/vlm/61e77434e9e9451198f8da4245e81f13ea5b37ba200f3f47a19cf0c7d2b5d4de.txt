@@ -1,0 +1,5 @@
+{ "user_reports_problem": false, "answer": "Each wing spar is attached to the center wing box with a total of 18 attachment bolts. Specifically, there are 8 through the upper spar cap and 10 through the lower spar cap.",
+"diagnosis": "The wing spars are secured to the center wing box using a total of 18 bolts: 8 in the upper spar cap and 10 in the lower spar cap.",
+"recommended_actions": ["Inspect all attachment points for any signs of fatigue or overstress.", "Ensure that the aircraft's maintenance records reflect the correct number of bolts used during assembly."],
+"cited_sources": [1],
+"grounded": true}

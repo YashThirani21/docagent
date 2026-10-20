@@ -1,0 +1,1 @@
+{"items": [{"raw_text": "60°±0.5°", "type": "dimension", "characteristic": "angularity"}, {"raw_text": "R", "type": "datum_feature", "characteristic": "none"}]}

@@ -1,0 +1,1 @@
+{"text": "{\n  \"kind\": \"photo_of_part\",\n  \"confidence\": 0.95,\n  \"reason\": \"The image shows two mechanical components placed on a blue background with a ruler for scale, which is typical in photographs of physical parts used to illustrate their size and structure.\"\n}", "usage": {"prompt_tokens": 1145, "completion_tokens": 60}, "latency_s": 11.032, "finish": "stop"}

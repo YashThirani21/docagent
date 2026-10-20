@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "raw_text": ".01 / Ø1.00",
+      "type": "dimension",
+      "characteristic": "none"
+    },
+    {
+      "raw_text": ".06 A B C",
+      "type": "dimension",
+      "characteristic": "none"
+    },
+    {
+      "raw_text": ".03 A",
+      "type": "dimension",
+      "characteristic": "none"
+    }
+  ]
+}

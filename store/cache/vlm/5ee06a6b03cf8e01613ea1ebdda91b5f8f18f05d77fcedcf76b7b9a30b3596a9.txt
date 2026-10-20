@@ -1,0 +1,9 @@
+{
+  "items": [
+    {
+      "raw_text": "Test Model 1",
+      "type": "note",
+      "characteristic": "none"
+    }
+  ]
+}

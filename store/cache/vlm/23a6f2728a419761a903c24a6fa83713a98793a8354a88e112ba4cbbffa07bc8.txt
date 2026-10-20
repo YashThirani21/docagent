@@ -1,0 +1,29 @@
+{
+  "items": [
+    {
+      "raw_text": "-Ø.250+.003",
+      "type": "dimension",
+      "characteristic": "total runout"
+    },
+    {
+      "raw_text": ".30±.02",
+      "type": "dimension",
+      "characteristic": "total runout"
+    },
+    {
+      "raw_text": "Ø.015P",
+      "type": "dimension",
+      "characteristic": "total runout"
+    },
+    {
+      "raw_text": ".425A",
+      "type": "dimension",
+      "characteristic": "total runout"
+    },
+    {
+      "raw_text": "B",
+      "type": "datum_feature",
+      "characteristic": "none"
+    }
+  ]
+}

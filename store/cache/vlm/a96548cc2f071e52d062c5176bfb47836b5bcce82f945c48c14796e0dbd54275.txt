@@ -1,0 +1,5 @@
+{
+  "kind": "photo_of_part",
+  "confidence": 0.95,
+  "reason": "The image shows a close-up photograph of a mechanical part, specifically the threaded section of a throttle arm exhibiting plastic deformation. There are no dimensions, tolerances, or GD&T (Geometric Dimensioning and Tolerancing) annotations present in this image."
+}

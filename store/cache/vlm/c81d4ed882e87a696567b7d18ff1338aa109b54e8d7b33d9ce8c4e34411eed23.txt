@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "raw_text": ".070 A",
+      "type": "dimension",
+      "characteristic": "angularity"
+    },
+    {
+      "raw_text": ".015 A",
+      "type": "dimension",
+      "characteristic": "angularity"
+    },
+    {
+      "raw_text": "SIM REQT",
+      "type": "note",
+      "characteristic": "angularity"
+    }
+  ]
+}

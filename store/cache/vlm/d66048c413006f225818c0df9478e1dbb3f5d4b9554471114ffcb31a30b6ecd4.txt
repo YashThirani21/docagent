@@ -1,0 +1,13 @@
+{
+    	"view": "D",
+   	"part_description": "A groove with specified radii and tolerances.",
+   	"units": "inches",
+   	"items": [
+        {"id": 1, "belongs_to": "inner wall of the groove", "gdt_symbol": "Ø"},
+        {"id": 2, "belongs_to": "outer wall of the groove", "gdt_symbol": "Ø"},
+        {"id": 3, "belongs_to": "groove depth", "gdt_symbol": "H"},
+        {"id": 4, "belongs_to": "inner and outer radii of entire groove", "gdt_symbol": "R"},
+        {"id": 5, "belongs_to": "inner and outer radii of entire groove", "gdt_symbol": "R"},
+        {"id": 6, "belongs_to": "tolerance range for the radius", "gdt_symbol": "Tolerance"}
+    ]
+}

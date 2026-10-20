@@ -1,0 +1,1 @@
+{"items": [{"raw_text": "6.", "type": "dimension", "characteristic": "none"}, {"raw_text": "UNITS: INCHES", "type": "note", "characteristic": "none"}]}

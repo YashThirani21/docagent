@@ -1,0 +1,11 @@
+{
+  "fields": [
+    {"key": "title", "value": "Test Case 1"},
+    {"key": "drawing_number", "value": "1, 2, 3, 4, 7, 8, 17, 21, 33, 48"},
+    {"key": "revision", "value": "D"},
+    {"key": "scale", "value": ""},
+    {"key": "sheet", "value": ""},
+    {"key": "material", "value": ""},
+    {"key": "units", "value": ""}
+  ]
+}

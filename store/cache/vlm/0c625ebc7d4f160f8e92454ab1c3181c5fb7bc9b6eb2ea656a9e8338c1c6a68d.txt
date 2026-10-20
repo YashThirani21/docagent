@@ -1,0 +1,1 @@
+{"items": [{"raw_text": "-Ø34.8 - 35.2", "type": "dimension", "characteristic": "angularity"}, {"raw_text": "R10.0 H9", "type": "datum_feature", "characteristic": "circularity"}, {"raw_text": "H", "type": "datum_feature", "characteristic": "circularity"}]}

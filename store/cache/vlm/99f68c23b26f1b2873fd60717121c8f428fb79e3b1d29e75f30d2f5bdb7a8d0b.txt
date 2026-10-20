@@ -1,0 +1,39 @@
+{
+  "items": [
+    {
+      "raw_text": "-Ø.250+.003",
+      "type": "dimension",
+      "characteristic": "angularity"
+    },
+    {
+      "raw_text": ".425",
+      "type": "dimension",
+      "characteristic": "position"
+    },
+    {
+      "raw_text": "-.000",
+      "type": "dimension",
+      "characteristic": "angularity"
+    },
+    {
+      "raw_text": "x.30±.02",
+      "type": "dimension",
+      "characteristic": "position"
+    },
+    {
+      "raw_text": "Ø.020P",
+      "type": "dimension",
+      "characteristic": "angularity"
+    },
+    {
+      "raw_text": "A B",
+      "type": "datum_feature",
+      "characteristic": "position"
+    },
+    {
+      "raw_text": "C",
+      "type": "datum_feature",
+      "characteristic": "position"
+    }
+  ]
+}

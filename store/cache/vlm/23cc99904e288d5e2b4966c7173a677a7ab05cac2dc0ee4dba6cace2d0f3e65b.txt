@@ -1,0 +1,46 @@
+{
+  "annotations": [
+    {
+      "raw_text": "Ø35.2",
+      "type": "diameter",
+      "gdt": "R0.75",
+      "bbox_2d": [896, 148, 1000, 200]
+    },
+    {
+      "raw_text": "Ø34.8",
+      "type": "diameter",
+      "gdt": "",
+      "bbox_2d": [750, 148, 860, 200]
+    },
+    {
+      "raw_text": "Ø20 +0.05",
+      "type": "diameter",
+      "gdt": "",
+      "bbox_2d": [593, 798, 741, 860]
+    },
+    {
+      "raw_text": "A",
+      "type": "datum_feature",
+      "gdt": "",
+      "bbox_2d": [440, 378, 465, 410]
+    },
+    {
+      "raw_text": "B",
+      "type": "datum_feature",
+      "gdt": "",
+      "bbox_2d": [90, 668, 115, 700]
+    },
+    {
+      "raw_text": "0.2",
+      "type": "dimension",
+      "gdt": "",
+      "bbox_2d": [340, 378, 365, 410]
+    },
+    {
+      "raw_text": "Ø0.75",
+      "type": "diameter",
+      "gdt": "",
+      "bbox_2d": [990, 458, 1050, 510]
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{ "user_reports_problem": false, "answer": "The right main spar of N106ER fractured due to a combination of fatigue and ductile overstress. Fatigue features were observed emanating from holes LC-1 and LD-1 on the lower spar cap, with striations consistent with fatigue extending up to 0.047 inches aft of these holes. The fracture surface had mostly rough matte-gray features consistent with ductile overstress fracture, indicating that the spar cap experienced a sudden failure under high stress conditions. The fracture initiated near hole RD-1 and intersected hole RC-1.",
+
+ "diagnosis": "The right main spar fractured due to fatigue at specific bolt holes (LC-1 and LD-1) on the lower spar cap, with ductile overstress contributing to the overall failure.",
+
+ "recommended_actions": [
+     "Inspect similar parts for cracks or signs of fatigue around the bolt holes LC-1 and LD-1.",
+     "Ensure that all bolts are properly torqued according to the Piper Aircraft Maintenance Manual (PAMM) specifications, with at least one washer under each nut head and at least one washer under each nut. The installation torque should be between 30 pound-force feet and 32.5 pound-force feet.",
+     "Perform a detailed inspection of all main spar components for any signs of fatigue or overstress."
+ ],
+
+ "cited_sources": [1, 2],
+
+ "grounded": true }

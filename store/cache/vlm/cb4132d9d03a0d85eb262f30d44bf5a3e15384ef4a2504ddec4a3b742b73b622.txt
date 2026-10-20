@@ -1,0 +1,19 @@
+{
+    "items": [
+        {
+            "raw_text": "4X Ø.173 +.005; -.001",
+            "type": "dimension",
+            "characteristic": "angularity"
+        },
+        {
+            "raw_text": ".060 A B C",
+            "type": "datum_feature",
+            "characteristic": "angularity"
+        },
+        {
+            "raw_text": ".015 A",
+            "type": "datum_feature",
+            "characteristic": "angularity"
+        }
+    ]
+}

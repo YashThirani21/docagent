@@ -1,0 +1,24 @@
+{
+    "items": [
+        {
+            "raw_text": "4X Ø.250 +.003 -.001",
+            "type": "dimension",
+            "characteristic": "position"
+        },
+        {
+            "raw_text": ".150",
+            "type": "dimension",
+            "characteristic": "position"
+        },
+        {
+            "raw_text": "x.30 ±.02",
+            "type": "dimension",
+            "characteristic": "position"
+        },
+        {
+            "raw_text": "F1.2",
+            "type": "dimension",
+            "characteristic": "position"
+        }
+    ]
+}

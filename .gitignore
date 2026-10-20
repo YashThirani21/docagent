@@ -2,7 +2,7 @@
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
-store/
 .DS_Store
 experiments/
 USAGE.md
+tmp/
