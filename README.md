@@ -37,7 +37,8 @@ version against an old one.
 ```
 
 - **VLM:** Qwen2.5-VL 7B, served locally by **Ollama** (laptop) or **vLLM** (GPU server / Colab).
-- **Embeddings:** BAAI/bge-m3 (dense + sparse) on CPU.
+- **Embeddings:** BAAI/bge-m3 (dense + sparse), on CPU on a laptop and on CUDA on a GPU server. Not on
+  Apple's MPS: batched bge-m3 returns corrupted vectors there (see `NOTES.md`).
 - **Vector store:** Qdrant, embedded in `store/` (or a Qdrant server at scale).
 - **UI:** Gradio, bound to `127.0.0.1` only. Gradio analytics are off.
 
@@ -45,19 +46,28 @@ version against an old one.
 
 ## Running from a notebook
 
-Two notebooks run the whole flow (setup, model server, ingest, chat, questions, trace lookup) from top
-to bottom:
+`notebooks/colab_notebook_git.ipynb` runs the whole flow (setup, model server, ingest, chat, questions,
+trace lookup) from top to bottom on a Google Colab GPU runtime:
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/YashThirani21/docagent/blob/main/notebooks/colab_notebook_git.ipynb)
 
-| Notebook | Where | What it does |
-|---|---|---|
-| `notebooks/local_notebook.ipynb` | Your machine | Detects the hardware and picks the matching setup: **NVIDIA GPU** → vLLM; **Apple Silicon Mac** → Ollama on Metal; **CPU only** → Ollama on CPU. Chat on `127.0.0.1` only. |
-| `notebooks/colab_notebook_git.ipynb` | Google Colab (GPU runtime) | Clones the project from GitHub, starts vLLM, and runs with no setup or tokens. By default nothing is kept between sessions and the run's results download as a zip; set `PERSIST` to keep `store/` and results in your Google Drive (`"drive"`) or a private Hugging Face dataset (`"hf"`, needs an `HF_TOKEN` Colab secret). |
+It clones the project from GitHub, starts vLLM, and runs with no setup or tokens. By default nothing is
+kept between sessions and the run's results download as a zip; set `PERSIST` to keep `store/` and results
+in your Google Drive (`"drive"`) or a private Hugging Face dataset (`"hf"`, needs an `HF_TOKEN` Colab
+secret). On a local machine, use the commands below instead.
 
-On a local machine, open the notebook with the `.venv` kernel. On a Mac, install Ollama first
-(`brew install ollama` or the installer from ollama.com). The notebook starts Ollama and pulls the model
-if needed.
+---
+
+## Deliverables
+
+| What | Where |
+|---|---|
+| JSON output for the 11 drawings | `DrawingJSONs/` (one `<drawing_id>.json` per drawing) |
+| Evaluation data | `eval/datasets/` (router, qa_text, qa_image, drawings, e2e; dev and test splits) |
+| Evaluation results | `eval/results/` (one JSON per run); bf16 vs AWQ on the L4: `eval/RESULTS_L4_bf16_vs_awq.md` |
+| Working notes | `NOTES.md` |
+| AI assistant session logs | `ai_logs/` |
+| Privacy and scale | `PRIVACY_AND_SCALE.md` |
 
 ---
 
@@ -202,7 +212,7 @@ to test, and run the evaluation suites on both versions.
 |---|---|
 | `router` | Is each attachment sent to the right pipeline? |
 | `qa_text` | Answers to text questions about the reports |
-| `qa_image` | Answers to a photo, with or without a question (including out-of-scope pictures) |
+| `qa_image` | Answers to a photo, with or without a question |
 | `drawing` | Values read from drawings: accuracy against hand labels, plus agreement with a reference run |
 | `e2e` | The whole agent on mixed requests |
 
@@ -287,8 +297,8 @@ bash scripts/start_vllm.sh                           # serves the config's llm.m
 
 The script refuses to start if an explicit `SERVED=` disagrees with the config. The agent also checks at
 startup that the server offers the configured model and stops with a clear message if it doesn't. If the
-server isn't up yet, it only logs a warning, because replies already in the cache still work. Both
-notebooks read the served name from the config as well. If you start vLLM
+server isn't up yet, it only logs a warning, because replies already in the cache still work. The
+notebook reads the served name from the config as well. If you start vLLM
 again with a different config, stop the old server first (`pkill -f vllm.entrypoints`): it keeps port
 8000. In production, the same vLLM server would run on-premises with no outbound network.
 
@@ -309,15 +319,16 @@ src/docagent/
   cli.py                 the `docagent` command
 eval/                    `python -m eval <suite>`: suites, datasets, results
 configs/                 agent versions (default = Ollama on a laptop, colab_vllm / colab_vllm_awq = GPU)
-notebooks/               local_notebook (any machine), colab_notebook_git (Colab, cloned from GitHub)
+notebooks/               colab_notebook_git (Colab, cloned from GitHub)
 scripts/                 model download, Ollama setup, vLLM start
 data/                    11 NIST drawings, 3 NTSB reports
 outputs/                 results per request
+DrawingJSONs/            the JSON output for the 11 drawings (deliverable)
 store/                   index, uploads, cache, traces (not in git)
 ```
 
 ## More detail
 
 - `USAGE.md`: every command and option, including retry rules, zip safety limits and the drawing eval.
-- `PRIVACY_AND_SCALE.md`: how the design keeps data in-house and handles a million documents.
+- `PRIVACY_SCALE.md`: how the design keeps data in-house and handles a million documents.
 - `NOTES.md`: what was tried, what was measured, and why each choice was made.
