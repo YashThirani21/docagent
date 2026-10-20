@@ -303,4 +303,5 @@ store/                   index, uploads, cache, traces (not in git)
 ## More detail
 
 - `USAGE.md`: every command and option, including retry rules, zip safety limits and the drawing eval.
+- `PRIVACY_AND_SCALE.md`: how the design keeps data in-house and handles a million documents.
 - `NOTES.md`: what was tried, what was measured, and why each choice was made.

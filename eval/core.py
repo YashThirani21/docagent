@@ -240,7 +240,7 @@ def compare(cur: dict, prev: dict, prev_name: str, outcomes_fn=None) -> dict:
     if pr.get("case_ids") is not None and set(pr["case_ids"]) != set(cr["case_ids"]):
         warn.append(f"different cases ({len(set(pr['case_ids']) & set(cr['case_ids']))} in common): "
                     "flips only over common cases, averages not comparable")
-    if pr.get("env") and pr["env"] != cr["env"]:
+    if pr.get("env") and cr.get("env") and pr["env"] != cr["env"]:     # results files before env have none
         diff = {k: f"{pr['env'].get(k)} -> {cr['env'].get(k)}" for k in sorted(set(pr["env"]) | set(cr["env"]))
                 if pr["env"].get(k) != cr["env"].get(k)}
         warn.append(f"different environment, may explain changes: {diff}")
