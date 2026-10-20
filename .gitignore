@@ -5,3 +5,4 @@ __pycache__/
 store/
 .DS_Store
 experiments/
+USAGE.md
