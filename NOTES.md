@@ -192,54 +192,31 @@ symbol classifier (0 -> 1.0 on CTC-01), frame-part joining + empty-read fallback
 
 ## Tracing and request persistence (design)
 
-**Objective.** Requirement: a technical person sees, for every request, what the agent did and what it called -
-stored, queryable, surviving crashes. Also the groundwork for resumable bulk runs and for eval cost numbers.
+**What I need.** For every request, someone technical should be able to see what the agent did and what it called. That record has to be stored, queryable, and survive a crash. I'll also need it later for resuming bulk runs and for cost numbers in the evals.
 
-**Store: SQLite** (`store/traces.db`, `trace.db_path`). Stdlib, a file inside the system (nothing leaves the
-box), WAL mode so bulk worker threads write concurrently with readers (`docagent trace` while a batch runs).
-Plain SQL: the same three tables move to Postgres when there are many machines.
+**Where it goes: SQLite.** One file at `store/traces.db` (path set by `trace.db_path`). It's in the stdlib and the data never leaves the machine. I turned on WAL mode so bulk worker threads can keep writing while I read, e.g. running `docagent trace` in the middle of a batch. It's plain SQL, so if this ever runs on many machines the same tables can move to Postgres.
 
-**Three tables, three granularities.**
-- `requests` - one per user request. Lifecycle (`queued/running/succeeded/partial/failed/interrupted`),
-  timings, agent versions + config hash (which agent version answered), token / call / cache-hit totals.
-  `batch_id` groups a bulk run or an eval run.
-- `tasks` - one per attachment: route, tier, confidence, reason, stage, attempts, output path, error +
-  traceback. The attachment is the unit of failure isolation and of retry/resume: it is routed *and*
-  processed inside its own task, so a corrupt PDF, an unreadable image or a failed classify call fails that
-  task only (error in `resp.errors`) and the other attachments still run. A request is `partial` when some
-  task failed but something came out (a drawing JSON or an answer), `failed` only when nothing did. In bulk
-  every file is its own request; worker threads share the Agent (stateless per call), but each thread has
-  its own SQLite connection and starts with an empty trace context - tested with corrupt files among good ones.
-- `spans` - one per step (`router`, `drawing.find_annotations`, `qa.retrieve`, `llm.call`, ...), parent/child
-  tree, duration, free-form `attrs` JSON (counts, chunk ids, tokens). What it did and what it called.
+**Three tables, from coarse to fine.**
+- `requests`: one row per user request. Its status (`queued`, `running`, `succeeded`, `partial`, `failed`, `interrupted`), timings, which agent version and config hash answered it, and totals for tokens, model calls and cache hits. `batch_id` groups the requests of one bulk run or eval run.
+- `tasks`: one row per attachment. Route, tier, confidence, reason, stage, attempts, output path, and the error + traceback if it failed.
+  Each attachment is routed and processed inside its own task, so one bad file only fails its own task. A corrupt PDF, an unreadable image or a failed classify call gets recorded in `resp.errors` and the other attachments carry on. A request is `partial` if some task failed but something still came out (a drawing JSON or an answer), and `failed` only if nothing did.
+  In bulk, every file is its own request. The worker threads share one Agent (it keeps no state between calls), but each thread opens its own SQLite connection and starts with a clean trace context. Tested with corrupt files mixed in with good ones.
+- `spans`: one row per step (`router`, `drawing.find_annotations`, `qa.retrieve`, `llm.call`, ...). Spans form a parent/child tree and store a duration plus a free-form `attrs` JSON (counts, chunk ids, tokens). This is the "what did it do, what did it call" part.
 
-**Write on events, not on a timer.** Every state transition is one small transaction. A span row is inserted
-when the step *opens* and updated when it closes, so a crash leaves a visible `running` span at the exact step
-that died, and loses at most that step. Periodic saves would lose up to one interval and add a thread.
+**Write on every event, not on a timer.** Every state change is one small transaction. A span row is inserted when a step starts and updated when it finishes. If the process crashes, there's a span stuck at `running` on exactly the step that died, and only that step is lost. Saving on a timer would lose up to a whole interval and need an extra thread.
 
-I want all model usage tracking to happen in one place, VLM._complete, since every model call passes through it. This avoids duplicating the tracking logic across different parts of the code and keeps the numbers consistent. For every call (llm.call), I record the model, number of images, prompt hash, cache status, token usage, latency, and finish reason. The prompt hash also serves as a reference to the full response stored on disk, so I can identify a response without storing the entire prompt repeatedly.
+**Model usage is tracked in one place.** Every model call goes through `VLM._complete`, so that's the only place I record usage. No duplicated tracking code, and the numbers stay consistent. Each call gets an `llm.call` span with the model, number of images, prompt hash, cache status, token usage, latency and finish reason. The prompt hash also points to the full response saved on disk, so I don't store the prompt over and over.
 
-A reply replayed from the cache cost no model work, so it adds nothing to the
-request's `prompt_tokens` / `completion_tokens` / `llm_calls`, it only increments `cache_hits`. 
+A reply that comes from the cache cost no model work, so it doesn't add to the request's `prompt_tokens`, `completion_tokens` or `llm_calls`. It only bumps `cache_hits`.
 
-**Context propagation.** The current request/task/span live in `contextvars`, so pipelines need no extra
-arguments. `ThreadPoolExecutor` does not copy contextvars into worker threads - spans from parallel callout reads would lose their parent. Every traced submit goes through `trace.submit` (`copy_context().run`).
+**Passing the trace context around.** The current request, task and span live in `contextvars`, so the pipelines don't need extra arguments. One catch: `ThreadPoolExecutor` doesn't copy contextvars into its worker threads, so spans from the parallel callout reads would end up with no parent. To avoid that, every traced job is submitted through `trace.submit`, which wraps it in `copy_context().run`.
 
-**Logging stays narrative.** Python logging additionally writes JSON lines (`store/logs/agent.jsonl`) stamped
-with request/task/span ids, so a log line can be joined to its trace. Metrics are never parsed from logs; SQL is the source of truth.
+**Logs are for reading, the database is for numbers.** Python logging also writes JSON lines to `store/logs/agent.jsonl`, each stamped with the request/task/span ids so a log line can be matched to its trace. I never parse metrics out of the logs; SQL is the source of truth.
 
-**Failure recovery.**
-- Inside a task: the temperature-0 VLM cache is already a checkpoint - a rerun replays finished calls for free
-  (fix2 bulk: 7 min instead of 18). No per-stage checkpoint code.
-- Across tasks: on startup rows still `running` whose heartbeat is stale are marked `interrupted`
-  (`mark_interrupted`) - visible instead of silently "in progress" forever. *(implemented)*
-- Transient errors (connection refused, timeouts while vLLM/Ollama restarts) are retried by the OpenAI client
-  (`max_retries`, backoff); deterministic errors (unparseable output) are not retried - recorded and the next
-  attachment continues. *(implemented)*
-- *Planned with bulk:* outputs written atomically (tmp + `os.replace`), task marked `succeeded` only after its
-  output exists, idempotency key `sha256 + extractor version + config hash` to skip done work and exact
-  duplicates, `bulk --resume <batch_id>`. The `tasks` columns for this (status, attempts, output_path,
-  heartbeat_at) exist now.
+**Recovering from failures.**
+- Inside a task: the VLM runs at temperature 0 and its responses are cached, so the cache already works as a checkpoint. A rerun replays the calls that finished, for free (rerunning a bulk batch took 7 min instead of 18). So I didn't write any per-stage checkpoint code.
+- Across tasks: on startup, any row still `running` with a stale heartbeat is marked `interrupted` (`mark_interrupted`). Otherwise it would show "in progress" forever.
+- Errors: temporary ones (connection refused, timeouts while vLLM or Ollama restarts) are retried by the OpenAI client with backoff (`max_retries`). Errors that would just happen again (output that can't be parsed) aren't retried. They're recorded and the next attachment goes ahead.
 
 ### Retry, bulk resume, lookup by file
 
