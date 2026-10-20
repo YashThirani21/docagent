@@ -21,7 +21,7 @@ way to send data out.
 are unpacked by content: members with `..` or absolute paths are skipped, as are hidden files and
 unsupported types. Archives over 5,000 members or 4 GB are refused.
 
-**What is not built (operator decisions, listed so they aren't mistaken for done):**
+**Not yet built:**
 - **Network enforcement.** The offline settings are application-level. The real guarantee is a host or
   network policy that denies all egress from the model, app and store hosts. That is also how to verify the
   claim: run the eval suites with egress blocked.
@@ -60,9 +60,9 @@ only the unfinished files (`bulk --resume`). Ingest skips unchanged reports.
 
 **Routing is cheap.** Deterministic rules on page 1 (keywords, orientation, vector-path count, image coverage)
 decide most PDFs without a model call. The VLM is called only when the rules can't decide, and always for
-photos.
+photos. Case for model router too.
 
-**Retrieval, where "all very alike" matters most:**
+**Indexing in Retrieval:**
 - *Size.* The 3 reports produced ~94 chunks. At that rate, a million reports would be ~3×10⁷ dense vectors:
   ~120 GB in fp32 at 1,024 dimensions, ~30 GB with int8 quantization. That means a Qdrant server cluster
   (sharded, quantized, HNSW on disk) in place of the embedded store. It's the same API and only a config change
