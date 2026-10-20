@@ -21,18 +21,16 @@ Profiled every page of the 14 PDFs with PyMuPDF (text chars, raster images, vect
 **Reports (3 NTSB Materials Laboratory Factual Reports, 14/40/6 pages)**
 - Born-digital (Word -> PDF): full text layer on every page. **No OCR needed for the corpus.**
 - Figure pages hold one or two figures, each captioned `Figure N. ...` below the image.
-- A figure is *not* one embedded image: it is many small raster tiles plus vector arrows and text
+- A figure is not one embedded image: it is many small raster tiles plus vector arrows and text
   labels (e.g. 18-061 p.13 has 19 image placements). Extracting embedded images individually is useless.
   -> crop the page region above each caption and render it, as a reader sees it.
-- 18-061 pp.37-40 are vector load-extension charts (no caption) -> treated as "chart" figures.
-- 24-013 has a near-empty cover page and a blank page.
 
 **Drawings (11 NIST PMI test cases, 1-5 sheets each, 30 sheets total, all landscape 792x612 pt)**
-- 10 of 11 (Acrobat Distiller / PScript) draw dimensions and GD&T as **vector outlines**: the text layer
+- 10 of 11 draw dimensions and GD&T as vector outlines, the text layer
   only has the title block and notes (CTC-01: 153 chars on a sheet full of annotations).
 - Only FTC-07 (AutoCAD export) has the annotations as real text.
-- -> the VLM must read annotations from pixels; the text layer is used as exact truth where it exists.
-- Annotations are blue; part geometry is black/purple. Not yet exploited (see Next steps).
+- The VLM must read annotations from pixels; the text layer is used as exact truth where it exists.
+- Annotations are blue; part geometry is black/purple.
 
 
 ## Model and infrastructure choices
@@ -40,9 +38,6 @@ Profiled every page of the 14 PDFs with PyMuPDF (text chars, raster images, vect
 - **VLM: qwen2.5vl:7b via Ollama** (runs on the 16 GB M4, ~6 GB). One model for figure description,
   photo observation, drawing reading, routing fallback and answer generation. Called through the
   OpenAI-compatible API so vLLM on a GPU is a `base_url` change.
-- **Ollama context bug:** `ollama ps` showed the model loaded with **4096 tokens** although every request
-  passed `num_ctx=16384`: the OpenAI-compatible endpoint ignores per-request options and truncates
-  silently. Fixed with a model variant `qwen2.5vl-16k` (Modelfile, `scripts/setup_ollama.sh`).
 - **Embeddings: bge-m3** - dense + sparse (lexical) from one model, so hybrid search without a separate BM25 index.
 - **Vector DB: Qdrant**, embedded mode for now (no Docker), same API as a server. Named `dense` + `sparse`
   vectors, server-side RRF fusion. Collection name carries the embedder (`reports_bge-m3_v1`).
@@ -63,19 +58,18 @@ Router, Trace etc)
 
 - **Batched bge-m3 on Apple MPS returns corrupted vectors.** After the first ingestion only 19 of 94
   stored dense vectors were unique; a batch of 16 chunks produced 2 distinct vectors; dense scores were
-  identical (0.285) for unrelated chunks, and report 24-013 vanished from results. Short texts were fine,
+  identical for unrelated chunks, and a report vanished from results. Short texts were fine,
   long padded batches were not. CPU: all 94 unique, retrieval correct. -> `device: cpu` + a self-check at
   load time (batched vs single cosine must be > 0.99, else refuse to start). CPU embedding of the whole
-  corpus takes ~30 s, so no cost here; at scale use CUDA.
+  corpus takes ~30 s, CUDA at scale.
 - **VLM figure descriptions overrode the reports.** Q: "what caused the throttle arm to break?" The
-  report says *bending overstress, no pre-existing cracks*; the answer said *fatigue* because the
+  report says bending overstress, no pre-existing cracks; the answer said fatigue because the
   auto-generated figure description mentioned beach marks. -> descriptions are now used for
   **retrieval only** (`Chunk.description`, part of `embed_text`); the generator sees caption, printed
   labels and the report sentences citing the figure. Prompt: report conclusions are authoritative.
   After the fix the answer is correct.
-- **Failure-mode guess on user photos biased retrieval.** Observation step asked for a "likely failure
-  mode"; its guess ("fatigue") steered both search and answer. Removed: the VLM now reports visible
-  features only and the reports do the diagnosing.
+- **Failure-mode guess on user photos biased retrieval.** Earlier the observation step asked for a "likely failure
+  mode" and its guess ("fatigue") steered both search and answer even when irrelevant. Removed it and brought it only when explicit text query nudges it there
 
 ## Drawing extraction iterations (around 2 hrs - lot of deduplication of extracted vals needed)
 
@@ -220,111 +214,40 @@ A reply that comes from the cache cost no model work, so it doesn't add to the r
 
 ### Retry, bulk resume, lookup by file
 
-**Need.** A failure must not lose finished work: a drawing that failed (or a process killed mid-batch) should
-cost only what was not done yet, and a 10^6-file bulk upload has to be restartable without redoing the done part.
+A drawing takes minutes, so losing finished work to one crash or one bad file is expensive. And with a million files, starting over is not an option. What I want is that a failure only costs the part that wasn't done yet.
 
-**Design.**
-- Results are files written by the agent, atomically (tmp + `os.replace`), at `<store.output_dir>/<request_id>/`
-  - one place for chat, ask and bulk, keyed by the trace id. `tasks.output_path` is set before the task closes,
-  so `succeeded` always means "its file exists". Bulk `--out/drawings/` is a convenience copy.
-- `tasks.idem_key` = sha256(file sha256 + router/drawing version + model + config hash). Same key = same result,
-  so it can be reused. The config hash leaves out the `trace` section (where traces go changes no output).
-- `docagent retry <id>`: new request, `retry_of` = latest attempt of the chain, `attempt` + 1, same text and files
-  (refused if a file is gone or its sha256 changed - that is a new request, not a retry). Drawing tasks with a
-  finished result for the same idem_key become `reused` tasks pointing at the existing file (no copy); the rest
-  re-runs and its finished model calls replay from the VLM cache - the cache is the intra-task checkpoint. Config
-  or version changed: nothing reused, said in the output. A succeeded request needs `--force` (reuses nothing).
-  Report answers are one joint answer over the question and all pictures: re-run (cheap via the cache), never reused.
-- Bulk enqueues every file as a `queued` request before processing, so a crash leaves a complete picture: done,
-  interrupted (`running` from a dead pid on this host is marked at once - pid + host stored per request; other
-  hosts after 15 min), and never started. `bulk --resume <batch>`: per file the latest attempt; queued -> run,
-  failed / partial / interrupted -> retry, succeeded -> skip. Plain `bulk` skips files whose idem_key already has a
-  finished result (`--force` to redo) - since 9.2 recorded as instant `reused` requests so the batch lists them.
-- Migration: new columns are added with `ALTER TABLE ADD COLUMN` when an older `traces.db` is opened.
-- Lookup: `docagent requests --file <substring>` (drawing uploads have no text); `trace` shows the attempt chain.
-- Reuse is the default everywhere, not only on retry: `ask` and the chat app also take a finished drawing result
-  for an identical file (task `reused`, `reused_from`; the reply says "reused result from request X" so a demo
-  viewer is not misled). One switch with one meaning on ask / bulk / retry / chat: `--force` = reuse no earlier
-  result. It does not bypass the VLM cache - that is a config change (`llm.cache_dir`), i.e. a new agent version.
+- **A task only counts as done once its result file exists.** Results are written atomically, so a crash never leaves a half-written file that looks finished.
+- **If the input hasn't changed, the result hasn't either.** Each task is keyed on the file hash + model + versions + config. Same key, reuse the old result. Change the config or a version and nothing gets reused.
+- **Retry is a new attempt linked to the old one.** Finished drawings get reused and the rest re-runs. Even the re-run is mostly free, because the temperature-0 cache replays the model calls that already finished. So the cache doubles as my checkpoint and I don't need per-stage checkpoint code.
+- **Report answers always re-run.** They're one answer over the question and all its pictures together, so there's nothing per-file to reuse.
+- **Bulk writes down the whole plan before it starts.** Every file goes in as `queued` first. After a crash I can see what finished, what died midway and what never started, and `--resume` only picks up the unfinished ones.
+- **Reuse is on by default everywhere, `--force` turns it off.** One flag that means the same thing in every command. The chat says when it reused a result, so a demo doesn't look like it ran something it didn't.
+- **Drawing uploads have no text to search by**, so requests can be looked up by file name (`docagent requests --file`), and `trace` shows every attempt.
+- **All of this depends on prompts being identical between runs.** A cache miss on retry would quietly redo the work. So I checked that nothing random gets into a prompt (timestamps, temp paths, set ordering). Two runs with different hash seeds: 74 fresh calls, then 0.
 
-**Prompt determinism** (a cache miss on retry would silently redo work). Checked what goes into every VLM call:
-text-layer strings, geometry hints, mark lists, retrieved sources, rendered crops - no timestamps, ids, paths or
-temp names; sets are only used for membership, never iterated into a prompt. Measured: CTC-01 + FTC-07 in two
-processes with different `PYTHONHASHSEED`: 74 fresh calls, then 0.
-
-**Measured** (stub model, so counts not seconds are the point):
-| case | before | after |
-|---|---|---|
-| CTC-01 + CTC-03, CTC-03 crashes after reading -> retry | attempt 1: 55 fresh calls | attempt 2: 0 fresh; CTC-01 reused, CTC-03's 29 calls replayed |
-| bulk of 4, process killed 5 calls into file 3 -> `--resume` | files 1-2 done | only files 3-4 run; file 3 replays its 5 calls, 19 fresh |
-| same bulk again | - | 4 x "skipped (done)", 0 model calls (since 9.2: recorded as 4 instant `reused` requests) |
-Real run (Ollama, laptop): CTC-01 + a corrupt PDF -> `partial` (CTC-01's 26 calls were already in the dev cache,
-0.7 s); `docagent retry` -> CTC-01 `reused` (0 model calls, not even a replay; 0.0 s), the corrupt PDF fails again
-with the same error. On a cold cache CTC-01 is ~26 fresh VLM calls (minutes on the laptop) that the retry skips.
+Checked with a stub model: a crashed two-drawing request retried with 0 fresh calls. A bulk run killed partway through resumed only the unfinished files. Running the same bulk again made no model calls at all.
 
 ### Bulk from the chat, uploads, zips
 
-**Need.** Bulk upload must not depend on the browser or on where files came from: a chat upload of many drawings
-can take an hour (minutes per drawing on the laptop), tabs get closed, Gradio deletes its temp files, users move
-files - and a retry needs the exact bytes again.
+A big chat upload can run for an hour. The browser tab can't be the thing keeping it alive, and a retry needs the original bytes even after Gradio cleans up its temp files or the user moves the files.
 
-**Design.**
-- *Upload store*: every submitted file is copied to `store/uploads/<sha256><ext>` (atomic, once per content) and
-  the request records that path plus the original name. Retry / resume read the store, never the original; the
-  original name drives display, the drawing id and `--file`. Old rows with original paths still work (the path is
-  just checked for existence and sha256).
-- *One batch implementation* (`batch.py`) for `docagent bulk`, `--resume`, `docagent batch` and the chat. A chat
-  message becomes a batch with >= 2 files and no question, or any zip. Threshold reasoning: a question applies to
-  all its pictures jointly (one answer), so splitting it into per-file requests would change the answer; without
-  a question the files are independent, exactly what bulk does. One file stays synchronous as before.
-- The chat batch runs in a bounded thread pool in the app process (`batch.workers`); the reply is a generator that
-  only *reads* the batch's state from SQLite every second. Closing the tab stops the reading, not the work; `status
-  <batch_id>` reads it again. On start the app marks dead requests interrupted and resumes chat batches with files
-  queued / interrupted - not failed ones (a file that always fails would be retried at every start).
-- A file already done is recorded in a new batch as an instant `reused` request rather than left out, so batch
-  status and its results zip are complete. Identical content twice in one batch runs once.
-- *Zips*: members are streamed into the upload store by content, never written under an archive-supplied name, so
-  traversal is impossible by construction; `..`, absolute and drive paths are still reported (a crafted archive),
-  hidden / `__MACOSX` / unsupported members skipped; member-count and total-size limits refuse zip bombs, and a
-  per-member cap counts actual bytes (headers can lie).
-- The Agent is shared by the chat's request threads and batch workers: the report index is opened under a lock
-  (two embedded Qdrant clients in one process would collide).
+- **Keep my own copy of every upload**, named by content hash. Retry and resume read from there, never from wherever the file came from.
+- **One batch engine for both the CLI and the chat.** A chat message becomes a batch when it has several files and no question, or a zip. With a question, all the pictures get one answer together, so splitting them up would change the answer. Without one the files are independent, which is just bulk.
+- **The work runs in the app, the chat only watches.** Workers run in the background and the chat reply polls SQLite for progress. Closing the tab stops the watching, not the work. On restart the app resumes unfinished chat batches but not failed files, otherwise a file that always fails would be retried forever.
+- **Treat zips as hostile.** Files are stored by hash, never under a name from the archive, so path tricks like `../evil.pdf` don't work. Size and count limits stop zip bombs.
 
-**Measured** (stub model): a chat message with 3 drawings answers with the batch id in < 0.01 s and streams 5
-updates; its results are byte-identical to `docagent bulk --force` on the same files; dropping the generator after
-the first update still finishes all 3; a process killed 5 calls into file 3 of a 4-file chat batch -> the next app
-start resumes only files 3-4 (attempts 1, 1, 2, 1). Deleting the originals after submission: retry and `--resume`
-still succeed. Malicious zip (`../evil.pdf`, `/abs.pdf`, `C:/win.pdf`, `ok.pdf`): only `ok.pdf` processed.
+Checked: the chat replies right away with a batch id, and its results match the CLI bulk byte for byte. Killing the app mid-batch and restarting it resumes only the unfinished files. A zip full of bad paths only processes the one safe file.
 
-**Known limits (documented, not built).**
-- *Embedded Qdrant is single-process* (`store.py`): the chat app and a `bulk` containing photos / report pages /
-  text questions cannot run at the same time - the second process fails on those files. Drawing-only batches are
-  unaffected: the index is opened only by `Agent.qa`, i.e. when an attachment routes to report QA or there is a
-  question (checked in code: router, drawing pipeline and batch code never open it). Fix: a Qdrant server
-  (`store.qdrant_url`, Docker).
-- *No task claiming across concurrent workers.* Two processes resuming the same batch at once could both pick up
-  a queued file. On one host this is avoided in practice (a running request belongs to a live pid; one resumer at
-  a time). *For the scale page:* with many workers, claim work in the database - Postgres
-  `SELECT ... FOR UPDATE SKIP LOCKED` on queued rows (or a queue) - instead of each worker planning from a snapshot.
+**What I didn't fix.**
+- Embedded Qdrant can only be open in one process, so the chat app and a bulk run that needs report QA can't run at the same time. Drawing-only bulk is fine. The real fix is running Qdrant as a server.
+- Two processes resuming the same batch could grab the same file. Not an issue on one machine. With many workers they'd need to claim work through the database (Postgres `SKIP LOCKED` or a queue).
+- No retention policy yet. Traces and outputs hold user data and grow forever, but how long to keep them is the operator's call, not something I should hard-code.
 
-**Why not Opik / Langfuse.** Their cloud versions send prompts and documents out - breaks requirement 6.
-Self-hosting means 4-6 extra containers (ClickHouse, Redis, ...) for what is ~300 lines here, each line
-explainable. They are the production option once there is a UI team to serve; the span model maps onto theirs.
+**Why I built my own tracing instead of using Opik or Langfuse.** Their cloud versions send data off the machine, and self-hosting means 4-6 extra containers to replace ~300 lines I fully understand. They make sense later if a team needs a UI, and my spans map onto theirs.
 
-**Experiments.** `scripts/colab_experiment.py` ends by copying the trace database (SQLite online backup API: a
-raw copy of a WAL database can miss committed rows still in the `-wal` file) and the JSON-lines log into the
-experiment folder, so a Colab run's traces survive the VM.
+**Colab.** Experiment runs copy the trace database and logs into the experiment folder before the VM goes away.
 
-**Retention - not implemented, on purpose.** `outputs/requests/` (result files) and `store/traces.db` (request
-texts, attachment paths, answers in the summaries, error messages) hold user data and grow without bound. They
-need a retention policy - e.g. delete results and request rows after N days, keep spans summarised or sampled
-beyond that - set by whoever operates the system; it is a policy decision, not code to guess here.
-*For the privacy & scale page:* both live inside the system boundary (no external tracing service), but they are
-copies of user data with their own lifetime and need the same retention / access rules as the uploads.
-
-**Scale.** One drawing = ~50-150 `llm.call` spans; a million drawings = ~10^8 span rows. Then: Postgres with
-spans partitioned by day, retention on spans (keep requests/tasks), or spans to a columnar store. Requests and
-tasks stay small enough for one table.
+**Scale.** ~100 spans per drawing means ~10^8 rows for a million drawings. At that point spans move to Postgres partitioned by day or to a columnar store, with retention. Requests and tasks stay small.
 
 ## Evaluation design
 
