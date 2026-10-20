@@ -245,7 +245,7 @@ Latency: ~40-60 s per answer on the M4 (generation over ~4.5-6k prompt tokens wi
 ## Next commit:
 1. Added a test set for text QA to run on Colab and see results
 
-## Drawing extraction approach: find annotations geometrically, then read each one once
+### Drawing extraction approach: find annotations geometrically, then read each one once
 
 - Grouping the blue vector paths gave essentially one box per annotation on CTC-01 (19 boxes vs 32 junk-filled entries), and whole callouts on the denser sheets.
 - Two front ends feed one shared back end (PDFs based on vector paths/text layer and pictures based on OCR text boses)
@@ -268,15 +268,6 @@ Latency: ~40-60 s per answer on the M4 (generation over ~4.5-6k prompt tokens wi
   - two datums lost on PDFs
   - a picture-route rule that regressed pictures (precision 0.81 → 0.59)
 - Fix 4: picture rule reverted, phrase order preserved, frame rows with datums take no extra letter. D and E recovered, nothing newly missed. - *This is the version we decide to freeze*
-
-**Remaining risks / dataset-specific assumptions**
-- Tuned on 2 labelled drawings; the other 9 were only checked by overlay (`tmp/annot_overlays/`).
-- Vector route assumes annotations are separable by layer or colour (true for all 11, typical for CAD
-  exports); otherwise the picture route is used. Title-block regexes are NIST-specific (generic VLM
-  fallback when they find nothing).
-- GD&T symbols on AutoCAD frames: 0.61 (CTC-01: 1.0). Rarely used symbols (cylindricity, runout,
-  concentricity) have no examples here and are unvalidated.
-- belongs_to is the weakest output and the metric is lenient.
 
 ## Next steps
 - Tracing - separating request level, task level, span level
