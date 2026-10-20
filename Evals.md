@@ -14,7 +14,7 @@ Covers the twelve results files in `eval/results/` dated 2026-10-19, six per mod
 Each pair runs on the same hardware (Colab L4, vLLM), with `--split all` and `--fresh` (empty VLM cache, so latency
 and tokens are real), and on the same dataset hash. Only the `llm` section of the config differs. The AWQ config
 reuses the report index that BF16 built, including the figure descriptions, so on the QA side only the
-answering and observing model changes.
+answering and observing model changes
 
 ---
 
