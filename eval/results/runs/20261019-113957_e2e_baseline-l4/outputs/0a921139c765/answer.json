@@ -1,0 +1,113 @@
+{
+  "answer": "The component appears to be a throttle arm, as indicated by the threaded section and the rectangular shape with a circular hole. The markings 'R' and '2520876' suggest it is part of a specific aircraft model. The presence of a hexagonal head on one end suggests it is designed to be secured with a corresponding nut. The ruler next to the component provides a sense of its size, but without additional context, it is difficult to determine the exact dimensions.",
+  "diagnosis": "The component is a throttle arm, likely part of a fuel servo system, given the markings and design.",
+  "recommended_actions": [
+    "Inspect the threaded section and the circular hole for any signs of wear, corrosion, or damage.",
+    "Check the fit and condition of the hexagonal head to ensure it can securely fasten to the intended nut.",
+    "Measure the component against the specifications provided by the manufacturer to confirm its dimensions and compliance with the design requirements."
+  ],
+  "citations": [
+    {
+      "doc_id": "ntsb_24-013",
+      "page": 4,
+      "chunk_id": "ntsb_24-013:p4:fig2",
+      "figure_no": 2
+    },
+    {
+      "doc_id": "ntsb_24-013",
+      "page": 4,
+      "chunk_id": "ntsb_24-013:p4:fig1",
+      "figure_no": 1
+    }
+  ],
+  "grounded": true,
+  "image_observations": [
+    "{\"component\":\"Aircraft/mechanical component\",\"observations\":[\"The component appears to be made of metal.\",\"There is a threaded section with a hexagonal head on one end.\",\"The other end has a rectangular shape with a circular hole.\",\"The component is marked with 'R' and '2520876'.\",\"The component is shown alongside a ruler for scale.\"],\"visible_text\":\"R\\n2520876\"}"
+  ],
+  "retrieved": [
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t2",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 9,
+      "chunk_id": "ntsb_18-061:p9:t0",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t3",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t4",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t2",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t0",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t1",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_24-013",
+      "page": 4,
+      "chunk_id": "ntsb_24-013:p4:fig2",
+      "figure_no": 2
+    },
+    {
+      "doc_id": "ntsb_24-013",
+      "page": 4,
+      "chunk_id": "ntsb_24-013:p4:fig1",
+      "figure_no": 1
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 31,
+      "chunk_id": "ntsb_18-061:p31:fig26",
+      "figure_no": 26
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig18",
+      "figure_no": 18
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 10,
+      "chunk_id": "ntsb_18-061:p10:fig1",
+      "figure_no": 1
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 31,
+      "chunk_id": "ntsb_18-061:p31:fig27",
+      "figure_no": 27
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 32,
+      "chunk_id": "ntsb_18-061:p32:fig28",
+      "figure_no": 28
+    }
+  ]
+}

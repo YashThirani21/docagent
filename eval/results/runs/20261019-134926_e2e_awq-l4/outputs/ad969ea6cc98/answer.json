@@ -1,0 +1,178 @@
+{
+  "answer": "The component appears to have a bent section with a noticeable crack or separation at the bend. There are markings indicating 'UP' and 'FWD', suggesting orientation. Measurements are provided in millimeters, with a ruler placed alongside the component. The component has two distinct sections labeled 'LD-1' and 'LC-1'. The material shows signs of wear or corrosion.",
+  "diagnosis": "The component exhibits signs of fatigue crack propagation at the bend, specifically at the lower surface adjacent to hole LC-1. This is consistent with fatigue crack initiation and propagation, as indicated by the SEM images and optical microscopy.",
+  "recommended_actions": [
+    "Inspect the bent section and the lower surface adjacent to hole LC-1 for any additional cracks or signs of fatigue.",
+    "Perform a detailed structural analysis to determine the extent of the fatigue crack and its potential impact on the structural integrity of the spar."
+  ],
+  "citations": [
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t2",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t0",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t1",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t0",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 17,
+      "chunk_id": "ntsb_18-061:p17:fig9",
+      "figure_no": 9
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 14,
+      "chunk_id": "ntsb_18-061:p14:fig6",
+      "figure_no": 6
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 16,
+      "chunk_id": "ntsb_18-061:p16:fig8",
+      "figure_no": 8
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 18,
+      "chunk_id": "ntsb_18-061:p18:fig11",
+      "figure_no": 11
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig19",
+      "figure_no": 19
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 19,
+      "chunk_id": "ntsb_18-061:p19:fig12",
+      "figure_no": 12
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 12,
+      "chunk_id": "ntsb_18-061:p12:fig4",
+      "figure_no": 4
+    }
+  ],
+  "grounded": false,
+  "image_observations": [
+    "{\"component\":\"Aircraft/mechanical\",\"observations\":[\"The component appears to have a bent section with a noticeable crack or separation at the bend.\",\"There are markings indicating 'UP' and 'FWD', suggesting orientation.\",\"Measurements are provided in millimeters, with a ruler placed alongside the component.\",\"The component has two distinct sections labeled 'LD-1' and 'LC-1'.\",\"The material shows signs of wear or corrosion.\"],\"visible_text\":\"UP FWD LD-1 LC-1\"}"
+  ],
+  "retrieved": [
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t2",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t0",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t1",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t2",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t0",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t1",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t0",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 17,
+      "chunk_id": "ntsb_18-061:p17:fig9",
+      "figure_no": 9
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 14,
+      "chunk_id": "ntsb_18-061:p14:fig6",
+      "figure_no": 6
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 22,
+      "chunk_id": "ntsb_18-061:p22:fig15",
+      "figure_no": 15
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 16,
+      "chunk_id": "ntsb_18-061:p16:fig8",
+      "figure_no": 8
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 18,
+      "chunk_id": "ntsb_18-061:p18:fig11",
+      "figure_no": 11
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig19",
+      "figure_no": 19
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 19,
+      "chunk_id": "ntsb_18-061:p19:fig12",
+      "figure_no": 12
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig18",
+      "figure_no": 18
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 12,
+      "chunk_id": "ntsb_18-061:p12:fig4",
+      "figure_no": 4
+    }
+  ]
+}

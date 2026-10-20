@@ -1,0 +1,100 @@
+{
+  "answer": "The conductivity measured on the N106ER spar was 29.3% IACS.",
+  "diagnosis": "The conductivity was measured on the surface of the spar cap and was found to be 29.3% IACS.",
+  "recommended_actions": [
+    "Inspect the conductivity of similar spars to ensure consistency.",
+    "Monitor the conductivity levels regularly to detect any changes that could indicate material degradation."
+  ],
+  "citations": [
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t1",
+      "figure_no": null
+    }
+  ],
+  "grounded": true,
+  "image_observations": [
+    "{\"component\":\"Aircraft/mechanical component\",\"observations\":[\"The image shows a micrograph of a metallic material.\",\"There are distinct grain boundaries visible within the material.\",\"The grains appear elongated in the direction of the FWD (forward) arrow.\",\"The LC-1 marking is present on the left side of the image.\",\"A scale bar indicates a length of 0.020 inches.\"],\"visible_text\":\"LC-1\"}"
+  ],
+  "retrieved": [
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t0",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 9,
+      "chunk_id": "ntsb_18-061:p9:t0",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t1",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t2",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t2",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 20,
+      "chunk_id": "ntsb_18-061:p20:fig13",
+      "figure_no": 13
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 21,
+      "chunk_id": "ntsb_18-061:p21:fig14",
+      "figure_no": 14
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 33,
+      "chunk_id": "ntsb_18-061:p33:fig29",
+      "figure_no": 29
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 17,
+      "chunk_id": "ntsb_18-061:p17:fig9",
+      "figure_no": 9
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 19,
+      "chunk_id": "ntsb_18-061:p19:fig12",
+      "figure_no": 12
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 31,
+      "chunk_id": "ntsb_18-061:p31:fig27",
+      "figure_no": 27
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 32,
+      "chunk_id": "ntsb_18-061:p32:fig28",
+      "figure_no": 28
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 12,
+      "chunk_id": "ntsb_18-061:p12:fig4",
+      "figure_no": 4
+    }
+  ]
+}

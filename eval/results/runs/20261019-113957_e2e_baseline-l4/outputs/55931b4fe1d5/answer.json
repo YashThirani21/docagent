@@ -1,0 +1,83 @@
+{
+  "answer": "The hardness measured on the lower spar cap of the left main wing spar from airplane N104ER was 80.8 HRBW.",
+  "diagnosis": null,
+  "recommended_actions": [],
+  "citations": [
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t0",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t1",
+      "figure_no": null
+    }
+  ],
+  "grounded": true,
+  "image_observations": [],
+  "retrieved": [
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t0",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 9,
+      "chunk_id": "ntsb_18-061:p9:t0",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t1",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t2",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 27,
+      "chunk_id": "ntsb_18-061:p27:fig21",
+      "figure_no": 21
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 28,
+      "chunk_id": "ntsb_18-061:p28:fig22",
+      "figure_no": 22
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig19",
+      "figure_no": 19
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig18",
+      "figure_no": 18
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 31,
+      "chunk_id": "ntsb_18-061:p31:fig27",
+      "figure_no": 27
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 32,
+      "chunk_id": "ntsb_18-061:p32:fig28",
+      "figure_no": 28
+    }
+  ]
+}

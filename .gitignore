@@ -5,4 +5,3 @@ __pycache__/
 store/
 .DS_Store
 experiments/
-eval/results/

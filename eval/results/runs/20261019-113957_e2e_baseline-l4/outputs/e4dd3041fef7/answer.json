@@ -1,0 +1,99 @@
+{
+  "answer": "The reports do not provide information about the pilot's flight hours.",
+  "diagnosis": "The provided information does not include details about the pilot's flight hours.",
+  "recommended_actions": [
+    "Refer to the pilot's logbook for flight hours.",
+    "Consult the aircraft's maintenance records for any notes related to the pilot's experience."
+  ],
+  "citations": [],
+  "grounded": false,
+  "image_observations": [
+    "{\"component\":\"Aircraft/mechanical component\",\"observations\":[\"Fatigue striations are visible on the fracture surface.\",\"The fracture surface shows a lab cut, indicating a controlled sectioning for analysis.\",\"The component appears to have undergone a fatigue failure.\",\"The component has markings: 'RD-1', 'RC-1', 'FWD', and 'UP'.\",\"The component is metallic and has a polished surface.\"],\"visible_text\":\"'Fatigue', 'Lab cut', 'RD-1', 'RC-1', 'FWD', 'UP'\"}"
+  ],
+  "retrieved": [
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t2",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t3",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t2",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t0",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t0",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t1",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t0",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 22,
+      "chunk_id": "ntsb_18-061:p22:fig15",
+      "figure_no": 15
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 16,
+      "chunk_id": "ntsb_18-061:p16:fig8",
+      "figure_no": 8
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 13,
+      "chunk_id": "ntsb_18-061:p13:fig5",
+      "figure_no": 5
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 18,
+      "chunk_id": "ntsb_18-061:p18:fig11",
+      "figure_no": 11
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 24,
+      "chunk_id": "ntsb_18-061:p24:fig17",
+      "figure_no": 17
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 23,
+      "chunk_id": "ntsb_18-061:p23:fig16",
+      "figure_no": 16
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 26,
+      "chunk_id": "ntsb_18-061:p26:fig20",
+      "figure_no": 20
+    }
+  ]
+}

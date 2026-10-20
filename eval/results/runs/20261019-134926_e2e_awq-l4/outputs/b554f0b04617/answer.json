@@ -1,0 +1,83 @@
+{
+  "answer": "The average hardness measured on the N106ER left spar lower cap was 81.0 HRBW, based on 5 measurements from the middle of the spar cap cross-section. The conductivity measured on the surface of the spar cap was 29.3% IACS.",
+  "diagnosis": null,
+  "recommended_actions": [],
+  "citations": [
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t1",
+      "figure_no": null
+    }
+  ],
+  "grounded": true,
+  "image_observations": [],
+  "retrieved": [
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t1",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t2",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 9,
+      "chunk_id": "ntsb_18-061:p9:t0",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 6,
+      "chunk_id": "ntsb_18-061:p6:t0",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 6,
+      "chunk_id": "ntsb_18-061:p6:t1",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t1",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t0",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 33,
+      "chunk_id": "ntsb_18-061:p33:fig29",
+      "figure_no": 29
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 31,
+      "chunk_id": "ntsb_18-061:p31:fig27",
+      "figure_no": 27
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 20,
+      "chunk_id": "ntsb_18-061:p20:fig13",
+      "figure_no": 13
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 32,
+      "chunk_id": "ntsb_18-061:p32:fig28",
+      "figure_no": 28
+    }
+  ]
+}

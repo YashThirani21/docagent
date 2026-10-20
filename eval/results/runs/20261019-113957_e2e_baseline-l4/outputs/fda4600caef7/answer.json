@@ -1,0 +1,101 @@
+{
+  "answer": "The release rod on the mixture control assembly does not move because of a deformation lip associated with the longitudinal cut that penetrated the control tube. This deformation lip interferes with the movement of the release rod. Additionally, there is corrosion on the exterior surfaces of the lock tube, control tube, and release rod, which could have contributed to the malfunction. It is important to inspect the release rod for any bends or deformations, and ensure that the gap between the release rod and the control tube is adequate. The presence of corrosion should be addressed to prevent further degradation of the components.",
+  "diagnosis": "The release rod is not moving due to a deformation lip in the control tube and corrosion on the exterior surfaces of the lock tube, control tube, and release rod.",
+  "recommended_actions": [
+    "Inspect the release rod for any bends or deformations.",
+    "Ensure that the gap between the release rod and the control tube is adequate.",
+    "Address the corrosion on the exterior surfaces of the lock tube, control tube, and release rod."
+  ],
+  "citations": [
+    {
+      "doc_id": "ntsb_16-006",
+      "page": 4,
+      "chunk_id": "ntsb_16-006:p4:t1",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_16-006",
+      "page": 5,
+      "chunk_id": "ntsb_16-006:p5:t0",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_16-006",
+      "page": 14,
+      "chunk_id": "ntsb_16-006:p14:fig12",
+      "figure_no": 12
+    },
+    {
+      "doc_id": "ntsb_16-006",
+      "page": 13,
+      "chunk_id": "ntsb_16-006:p13:fig11",
+      "figure_no": 11
+    },
+    {
+      "doc_id": "ntsb_16-006",
+      "page": 13,
+      "chunk_id": "ntsb_16-006:p13:fig10",
+      "figure_no": 10
+    },
+    {
+      "doc_id": "ntsb_16-006",
+      "page": 12,
+      "chunk_id": "ntsb_16-006:p12:fig9",
+      "figure_no": 9
+    }
+  ],
+  "grounded": true,
+  "image_observations": [
+    "{\"component\":\"Lock tube assembly\",\"observations\":[\"Lock tube: Corrosion is visible on the exterior surface.\",\"Roll groove: Present on the control tube.\",\"Lock ball: Visible in the center of the control tube.\",\"Control tube: Corrosion is visible on the exterior surface.\",\"Release rod: Corrosion is visible on the exterior surface.\",\"FWD: Forward direction indicated by an arrow.\"],\"visible_text\":\"Lock tube, Roll groove, Lock ball, Control tube, Roll groove, Corrosion, Release rod\"}"
+  ],
+  "retrieved": [
+    {
+      "doc_id": "ntsb_16-006",
+      "page": 4,
+      "chunk_id": "ntsb_16-006:p4:t1",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_16-006",
+      "page": 5,
+      "chunk_id": "ntsb_16-006:p5:t0",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_16-006",
+      "page": 4,
+      "chunk_id": "ntsb_16-006:p4:t0",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t2",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_16-006",
+      "page": 14,
+      "chunk_id": "ntsb_16-006:p14:fig12",
+      "figure_no": 12
+    },
+    {
+      "doc_id": "ntsb_16-006",
+      "page": 13,
+      "chunk_id": "ntsb_16-006:p13:fig11",
+      "figure_no": 11
+    },
+    {
+      "doc_id": "ntsb_16-006",
+      "page": 13,
+      "chunk_id": "ntsb_16-006:p13:fig10",
+      "figure_no": 10
+    },
+    {
+      "doc_id": "ntsb_16-006",
+      "page": 12,
+      "chunk_id": "ntsb_16-006:p12:fig9",
+      "figure_no": 9
+    }
+  ]
+}

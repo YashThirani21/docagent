@@ -1,0 +1,131 @@
+{
+  "answer": "The spar cap experienced fatigue failure. Fatigue striations are visible on the fracture surface, and the presence of a lab cut suggests a controlled sectioning for analysis. The orientation arrows indicate 'UP' and 'FWD', which may help in understanding the direction of loading during the failure. The fatigue features extend through the spar cap, intersecting the lower side of hole LD-1 and upward into the web, consistent with fatigue failure patterns.",
+  "diagnosis": "Fatigue failure occurred in the spar cap.",
+  "recommended_actions": [
+    "Inspect the spar caps on similar aircraft for signs of fatigue, focusing on the areas around the holes and doubler attachments.",
+    "Perform a detailed inspection of the spar caps for any signs of cracking or damage, especially at the locations of the holes and doubler attachments.",
+    "Consider conducting additional non-destructive testing (NDT) such as ultrasonic testing or magnetic particle inspection (MPI) to assess the integrity of the spar caps."
+  ],
+  "citations": [
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t2",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t0",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 18,
+      "chunk_id": "ntsb_18-061:p18:fig10",
+      "figure_no": 10
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 13,
+      "chunk_id": "ntsb_18-061:p13:fig5",
+      "figure_no": 5
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 12,
+      "chunk_id": "ntsb_18-061:p12:fig4",
+      "figure_no": 4
+    }
+  ],
+  "grounded": true,
+  "image_observations": [
+    "{\"component\":\"Aircraft/mechanical component\",\"observations\":[\"Fatigue striations are visible on the fracture surface.\",\"The fracture surface shows a lab cut, indicating a controlled sectioning for analysis.\",\"The component appears to have undergone a fatigue failure.\",\"The orientation arrows indicate 'UP' and 'FWD', suggesting the direction of loading.\"],\"visible_text\":\"Fatigue\\nLab cut\\nRD-1\\nRC-1\"}"
+  ],
+  "retrieved": [
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t2",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t0",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t1",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t2",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t3",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t0",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 22,
+      "chunk_id": "ntsb_18-061:p22:fig15",
+      "figure_no": 15
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 18,
+      "chunk_id": "ntsb_18-061:p18:fig10",
+      "figure_no": 10
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 16,
+      "chunk_id": "ntsb_18-061:p16:fig8",
+      "figure_no": 8
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 13,
+      "chunk_id": "ntsb_18-061:p13:fig5",
+      "figure_no": 5
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 19,
+      "chunk_id": "ntsb_18-061:p19:fig12",
+      "figure_no": 12
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 20,
+      "chunk_id": "ntsb_18-061:p20:fig13",
+      "figure_no": 13
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 12,
+      "chunk_id": "ntsb_18-061:p12:fig4",
+      "figure_no": 4
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 14,
+      "chunk_id": "ntsb_18-061:p14:fig6",
+      "figure_no": 6
+    }
+  ]
+}

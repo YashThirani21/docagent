@@ -1,0 +1,946 @@
+{
+ "drawing_id": "nist_ctc_05_asme1_rd",
+ "source_file": "nist_ctc_05_asme1_rd.pdf",
+ "source_sha256": "82eeafd5167ab590d6e1dc6ecce65aaecff322ecc6069ee6616accda941cee8f",
+ "units": "inches",
+ "coord_units": "pt",
+ "title_block": {
+  "title": "PMI Complex Test Case 5 - View 1 (of 2)",
+  "atomic_test_cases": "11, 18, 19, 23, 24, 37, 42, 44",
+  "series": "NIST PMI Test Models - 2012",
+  "model": "Test Model 5",
+  "revision": "D",
+  "drawing_number": "nist_ctc_05_asme1_rd"
+ },
+ "notes": [
+  "Datum feature B and Datum target D1 defined in View 2 (of 2)."
+ ],
+ "pages": [
+  {
+   "page": 1,
+   "view": "View 1 (of 2)",
+   "description": "14 annotation callouts"
+  },
+  {
+   "page": 2,
+   "view": "View 2 (of 2)",
+   "description": "11 annotation callouts"
+  }
+ ],
+ "values": [
+  {
+   "id": "nist_ctc_05_asme1_rd-p1-v001",
+   "page": 1,
+   "raw_text": ".005",
+   "type": "gdt_frame",
+   "quantity": null,
+   "nominal": 0.005,
+   "unit": "inches",
+   "tol_plus": null,
+   "tol_minus": null,
+   "lower_limit": null,
+   "upper_limit": null,
+   "characteristic": "straightness",
+   "datums": [],
+   "modifiers": [],
+   "belongs_to": "round boss",
+   "meaning": "Straightness tolerance, zone 0.005 inches: the line element/axis must lie within this straightness zone.",
+   "bbox": [
+    269.6,
+    317.2,
+    300.2,
+    345.7
+   ],
+   "source": "vlm",
+   "confidence": 0.75,
+   "checks": [
+    "leader end located and named",
+    "symbol: recognised from frame geometry"
+   ]
+  },
+  {
+   "id": "nist_ctc_05_asme1_rd-p1-v002",
+   "page": 1,
+   "raw_text": "0.002",
+   "type": "gdt_frame",
+   "quantity": null,
+   "nominal": 0.002,
+   "unit": "inches",
+   "tol_plus": null,
+   "tol_minus": null,
+   "lower_limit": null,
+   "upper_limit": null,
+   "characteristic": "circularity",
+   "datums": [],
+   "modifiers": [],
+   "belongs_to": "left side of the cylindrical boss (hole)",
+   "meaning": "Circularity tolerance, zone 0.002 inches: each circular cross-section must lie between two concentric circles this far apart.",
+   "bbox": [
+    311.5,
+    455.0,
+    339.6,
+    482.1
+   ],
+   "source": "vlm",
+   "confidence": 0.75,
+   "checks": [
+    "leader end located and named",
+    "symbol: recognised from frame geometry",
+    "belongs_to from sheet-level marks (no usable leader-end reading)"
+   ]
+  },
+  {
+   "id": "nist_ctc_05_asme1_rd-p1-v003",
+   "page": 1,
+   "raw_text": "2.000",
+   "type": "dimension",
+   "quantity": null,
+   "nominal": 2.0,
+   "unit": "inches",
+   "tol_plus": null,
+   "tol_minus": null,
+   "lower_limit": null,
+   "upper_limit": null,
+   "characteristic": null,
+   "datums": [],
+   "modifiers": [],
+   "belongs_to": "right side of the cylindrical boss (slot)",
+   "meaning": "Size/location dimension 2 inches.",
+   "bbox": [
+    609.9,
+    353.1,
+    629.9,
+    375.1
+   ],
+   "source": "vlm",
+   "confidence": 0.75,
+   "checks": [
+    "numbers parsed",
+    "leader end located and named",
+    "belongs_to from sheet-level marks (no usable leader-end reading)"
+   ]
+  },
+  {
+   "id": "nist_ctc_05_asme1_rd-p1-v004",
+   "page": 1,
+   "raw_text": "-1.250",
+   "type": "dimension",
+   "quantity": null,
+   "nominal": 1.25,
+   "unit": "inches",
+   "tol_plus": null,
+   "tol_minus": null,
+   "lower_limit": null,
+   "upper_limit": null,
+   "characteristic": null,
+   "datums": [],
+   "modifiers": [],
+   "belongs_to": "left side of the cylindrical boss (slot)",
+   "meaning": "Size/location dimension 1.25 inches.",
+   "bbox": [
+    602.4,
+    386.5,
+    622.0,
+    408.2
+   ],
+   "source": "vlm",
+   "confidence": 0.75,
+   "checks": [
+    "numbers parsed",
+    "leader end located and named",
+    "belongs_to from sheet-level marks (no usable leader-end reading)"
+   ]
+  },
+  {
+   "id": "nist_ctc_05_asme1_rd-p1-v005",
+   "page": 1,
+   "raw_text": "φ.030 A",
+   "type": "gdt_frame",
+   "quantity": null,
+   "nominal": 0.03,
+   "unit": "inches",
+   "tol_plus": null,
+   "tol_minus": null,
+   "lower_limit": null,
+   "upper_limit": null,
+   "characteristic": "concentricity",
+   "datums": [
+    "A"
+   ],
+   "modifiers": [],
+   "belongs_to": "left side of the cylindrical boss (hole)",
+   "meaning": "Concentricity tolerance, zone 0.03 inches relative to datums A: median points must lie within a zone coaxial with the datum axis.",
+   "bbox": [
+    545.2,
+    177.9,
+    588.1,
+    213.4
+   ],
+   "source": "vlm",
+   "confidence": 0.85,
+   "checks": [
+    "leader end located and named",
+    "symbol: recognised from frame geometry",
+    "belongs_to from sheet-level marks (no usable leader-end reading)",
+    "datums defined on drawing"
+   ]
+  },
+  {
+   "id": "nist_ctc_05_asme1_rd-p1-v006",
+   "page": 1,
+   "raw_text": ".035 A-B",
+   "type": "gdt_frame",
+   "quantity": null,
+   "nominal": 0.035,
+   "unit": "inches",
+   "tol_plus": null,
+   "tol_minus": null,
+   "lower_limit": null,
+   "upper_limit": null,
+   "characteristic": "circularity",
+   "datums": [
+    "A",
+    "B"
+   ],
+   "modifiers": [],
+   "belongs_to": "left side of the cylindrical boss (fillet)",
+   "meaning": "Circularity tolerance, zone 0.035 inches relative to datums A, B: each circular cross-section must lie between two concentric circles this far apart.",
+   "bbox": [
+    387.7,
+    451.4,
+    431.1,
+    487.3
+   ],
+   "source": "vlm",
+   "confidence": 0.85,
+   "checks": [
+    "leader end located and named",
+    "symbol: recognised from frame geometry",
+    "belongs_to from sheet-level marks (no usable leader-end reading)",
+    "datums defined on drawing"
+   ]
+  },
+  {
+   "id": "nist_ctc_05_asme1_rd-p1-v007",
+   "page": 1,
+   "raw_text": ".010 C",
+   "type": "gdt_frame",
+   "quantity": null,
+   "nominal": 0.01,
+   "unit": "inches",
+   "tol_plus": null,
+   "tol_minus": null,
+   "lower_limit": null,
+   "upper_limit": null,
+   "characteristic": "perpendicularity",
+   "datums": [
+    "C"
+   ],
+   "modifiers": [],
+   "belongs_to": "left side of the cylindrical boss (hole)",
+   "meaning": "Perpendicularity tolerance, zone 0.01 inches relative to datums C: the feature must lie within a zone perpendicular to the datum.",
+   "bbox": [
+    583.6,
+    473.4,
+    632.3,
+    501.5
+   ],
+   "source": "vlm",
+   "confidence": 0.55,
+   "checks": [
+    "leader end located and named",
+    "symbol: recognised from frame geometry",
+    "belongs_to from sheet-level marks (no usable leader-end reading)",
+    "datum(s) ['C'] not defined on drawing"
+   ]
+  },
+  {
+   "id": "nist_ctc_05_asme1_rd-p1-v008",
+   "page": 1,
+   "raw_text": "L",
+   "type": "datum_feature",
+   "quantity": null,
+   "nominal": null,
+   "unit": null,
+   "tol_plus": null,
+   "tol_minus": null,
+   "lower_limit": null,
+   "upper_limit": null,
+   "characteristic": null,
+   "datums": [],
+   "modifiers": [],
+   "belongs_to": "left side of the cylindrical boss (hole)",
+   "meaning": "Identifies this feature as datum L, a reference for GD&T controls.",
+   "bbox": [
+    583.6,
+    473.4,
+    632.3,
+    501.5
+   ],
+   "source": "vlm",
+   "confidence": 0.65,
+   "checks": [
+    "leader end located and named",
+    "belongs_to from sheet-level marks (no usable leader-end reading)"
+   ]
+  },
+  {
+   "id": "nist_ctc_05_asme1_rd-p1-v009",
+   "page": 1,
+   "raw_text": ".010 L D",
+   "type": "gdt_frame",
+   "quantity": null,
+   "nominal": 0.01,
+   "unit": "inches",
+   "tol_plus": null,
+   "tol_minus": null,
+   "lower_limit": null,
+   "upper_limit": null,
+   "characteristic": "perpendicularity",
+   "datums": [
+    "D"
+   ],
+   "modifiers": [],
+   "belongs_to": "left side of the cylindrical boss (hole)",
+   "meaning": "Perpendicularity tolerance, zone 0.01 inches relative to datums D: the feature must lie within a zone perpendicular to the datum.",
+   "bbox": [
+    253.3,
+    222.1,
+    301.7,
+    250.1
+   ],
+   "source": "vlm",
+   "confidence": 0.55,
+   "checks": [
+    "leader end located and named",
+    "symbol: recognised from frame geometry",
+    "belongs_to from sheet-level marks (no usable leader-end reading)",
+    "datum(s) ['D'] not defined on drawing"
+   ]
+  },
+  {
+   "id": "nist_ctc_05_asme1_rd-p1-v010",
+   "page": 1,
+   "raw_text": "A",
+   "type": "datum_feature",
+   "quantity": null,
+   "nominal": null,
+   "unit": null,
+   "tol_plus": null,
+   "tol_minus": null,
+   "lower_limit": null,
+   "upper_limit": null,
+   "characteristic": null,
+   "datums": [],
+   "modifiers": [],
+   "belongs_to": "left side of the cylindrical boss",
+   "meaning": "Identifies this feature as datum A, a reference for GD&T controls.",
+   "bbox": [
+    269.2,
+    378.0,
+    278.2,
+    394.1
+   ],
+   "source": "vlm",
+   "confidence": 0.55,
+   "checks": [
+    "belongs_to from sheet-level marks (no usable leader-end reading)"
+   ]
+  },
+  {
+   "id": "nist_ctc_05_asme1_rd-p1-v011",
+   "page": 1,
+   "raw_text": ".025 A-B",
+   "type": "gdt_frame",
+   "quantity": null,
+   "nominal": 0.025,
+   "unit": "inches",
+   "tol_plus": null,
+   "tol_minus": null,
+   "lower_limit": null,
+   "upper_limit": null,
+   "characteristic": "circularity",
+   "datums": [
+    "A",
+    "B"
+   ],
+   "modifiers": [],
+   "belongs_to": "left side of the cylindrical boss (hole)",
+   "meaning": "Circularity tolerance, zone 0.025 inches relative to datums A, B: each circular cross-section must lie between two concentric circles this far apart.",
+   "bbox": [
+    354.2,
+    79.3,
+    397.6,
+    115.1
+   ],
+   "source": "vlm",
+   "confidence": 0.85,
+   "checks": [
+    "leader end located and named",
+    "symbol: recognised from frame geometry",
+    "belongs_to from sheet-level marks (no usable leader-end reading)",
+    "datums defined on drawing"
+   ]
+  },
+  {
+   "id": "nist_ctc_05_asme1_rd-p1-v012",
+   "page": 1,
+   "raw_text": ".025 A-B",
+   "type": "gdt_frame",
+   "quantity": null,
+   "nominal": 0.025,
+   "unit": "inches",
+   "tol_plus": null,
+   "tol_minus": null,
+   "lower_limit": null,
+   "upper_limit": null,
+   "characteristic": "circularity",
+   "datums": [
+    "A",
+    "B"
+   ],
+   "modifiers": [],
+   "belongs_to": "left side of the cylindrical boss (fillet)",
+   "meaning": "Circularity tolerance, zone 0.025 inches relative to datums A, B: each circular cross-section must lie between two concentric circles this far apart.",
+   "bbox": [
+    610.0,
+    454.3,
+    653.3,
+    490.1
+   ],
+   "source": "vlm",
+   "confidence": 0.85,
+   "checks": [
+    "leader end located and named",
+    "symbol: recognised from frame geometry",
+    "belongs_to from sheet-level marks (no usable leader-end reading)",
+    "datums defined on drawing"
+   ]
+  },
+  {
+   "id": "nist_ctc_05_asme1_rd-p1-v013",
+   "page": 1,
+   "raw_text": "710 T",
+   "type": "dimension",
+   "quantity": null,
+   "nominal": 710.0,
+   "unit": "inches",
+   "tol_plus": null,
+   "tol_minus": null,
+   "lower_limit": null,
+   "upper_limit": null,
+   "characteristic": null,
+   "datums": [],
+   "modifiers": [],
+   "belongs_to": "left side of the cylindrical boss (fillet)",
+   "meaning": "Size/location dimension 710 inches.",
+   "bbox": [
+    610.0,
+    454.3,
+    653.3,
+    490.1
+   ],
+   "source": "vlm",
+   "confidence": 0.75,
+   "checks": [
+    "numbers parsed",
+    "leader end located and named",
+    "belongs_to from sheet-level marks (no usable leader-end reading)"
+   ]
+  },
+  {
+   "id": "nist_ctc_05_asme1_rd-p1-v014",
+   "page": 1,
+   "raw_text": "C1",
+   "type": "datum_target",
+   "quantity": null,
+   "nominal": null,
+   "unit": null,
+   "tol_plus": null,
+   "tol_minus": null,
+   "lower_limit": null,
+   "upper_limit": null,
+   "characteristic": null,
+   "datums": [],
+   "modifiers": [],
+   "belongs_to": "left side of the cylindrical boss",
+   "meaning": "Datum target C1: a specific point/line/area used to establish a datum.",
+   "bbox": [
+    617.8,
+    323.7,
+    623.3,
+    330.5
+   ],
+   "source": "vlm",
+   "confidence": 0.55,
+   "checks": [
+    "belongs_to from sheet-level marks (no usable leader-end reading)"
+   ]
+  },
+  {
+   "id": "nist_ctc_05_asme1_rd-p1-v015",
+   "page": 1,
+   "raw_text": "5.000 ±.008",
+   "type": "dimension",
+   "quantity": null,
+   "nominal": 5.0,
+   "unit": "inches",
+   "tol_plus": 0.008,
+   "tol_minus": -0.008,
+   "lower_limit": 4.992,
+   "upper_limit": 5.008,
+   "characteristic": null,
+   "datums": [],
+   "modifiers": [],
+   "belongs_to": "left side of the cylindrical boss (hole)",
+   "meaning": "Size/location dimension 5 inches, tolerance +0.008/-0.008 (acceptable 4.992–5.008 inches).",
+   "bbox": [
+    259.1,
+    249.2,
+    306.6,
+    281.8
+   ],
+   "source": "vlm",
+   "confidence": 0.75,
+   "checks": [
+    "numbers parsed",
+    "leader end located and named",
+    "belongs_to from sheet-level marks (no usable leader-end reading)"
+   ]
+  },
+  {
+   "id": "nist_ctc_05_asme1_rd-p2-v001",
+   "page": 2,
+   "raw_text": "2.000",
+   "type": "dimension",
+   "quantity": null,
+   "nominal": 2.0,
+   "unit": "inches",
+   "tol_plus": null,
+   "tol_minus": null,
+   "lower_limit": null,
+   "upper_limit": null,
+   "characteristic": null,
+   "datums": [],
+   "modifiers": [],
+   "belongs_to": "top face (hole)",
+   "meaning": "Size/location dimension 2 inches.",
+   "bbox": [
+    554.8,
+    320.9,
+    574.9,
+    342.8
+   ],
+   "source": "vlm",
+   "confidence": 0.75,
+   "checks": [
+    "numbers parsed",
+    "leader end located and named",
+    "belongs_to from sheet-level marks (no usable leader-end reading)"
+   ]
+  },
+  {
+   "id": "nist_ctc_05_asme1_rd-p2-v002",
+   "page": 2,
+   "raw_text": "-1.250",
+   "type": "dimension",
+   "quantity": null,
+   "nominal": 1.25,
+   "unit": "inches",
+   "tol_plus": null,
+   "tol_minus": null,
+   "lower_limit": null,
+   "upper_limit": null,
+   "characteristic": null,
+   "datums": [],
+   "modifiers": [],
+   "belongs_to": "left boss (hole)",
+   "meaning": "Size/location dimension 1.25 inches.",
+   "bbox": [
+    547.3,
+    354.3,
+    566.9,
+    376.0
+   ],
+   "source": "vlm",
+   "confidence": 0.75,
+   "checks": [
+    "numbers parsed",
+    "leader end located and named",
+    "belongs_to from sheet-level marks (no usable leader-end reading)"
+   ]
+  },
+  {
+   "id": "nist_ctc_05_asme1_rd-p2-v003",
+   "page": 2,
+   "raw_text": ".002 A",
+   "type": "gdt_frame",
+   "quantity": null,
+   "nominal": 0.002,
+   "unit": "inches",
+   "tol_plus": null,
+   "tol_minus": null,
+   "lower_limit": null,
+   "upper_limit": null,
+   "characteristic": "profile of a surface",
+   "datums": [
+    "A"
+   ],
+   "modifiers": [],
+   "belongs_to": "left boss (hole)",
+   "meaning": "Profile of a surface tolerance, zone 0.002 inches relative to datums A: the surface must lie within a uniform boundary of this width around the true profile.",
+   "bbox": [
+    235.0,
+    319.5,
+    277.2,
+    354.7
+   ],
+   "source": "vlm",
+   "confidence": 0.85,
+   "checks": [
+    "leader end located and named",
+    "symbol: recognised from frame geometry",
+    "belongs_to from sheet-level marks (no usable leader-end reading)",
+    "datums defined on drawing"
+   ]
+  },
+  {
+   "id": "nist_ctc_05_asme1_rd-p2-v004",
+   "page": 2,
+   "raw_text": ".015 B",
+   "type": "gdt_frame",
+   "quantity": null,
+   "nominal": 0.015,
+   "unit": "inches",
+   "tol_plus": null,
+   "tol_minus": null,
+   "lower_limit": null,
+   "upper_limit": null,
+   "characteristic": "profile of a surface",
+   "datums": [
+    "B"
+   ],
+   "modifiers": [],
+   "belongs_to": "right boss (hole)",
+   "meaning": "Profile of a surface tolerance, zone 0.015 inches relative to datums B: the surface must lie within a uniform boundary of this width around the true profile.",
+   "bbox": [
+    211.3,
+    243.1,
+    252.8,
+    277.8
+   ],
+   "source": "vlm",
+   "confidence": 0.85,
+   "checks": [
+    "leader end located and named",
+    "symbol: recognised from frame geometry",
+    "belongs_to from sheet-level marks (no usable leader-end reading)",
+    "datums defined on drawing"
+   ]
+  },
+  {
+   "id": "nist_ctc_05_asme1_rd-p2-v005",
+   "page": 2,
+   "raw_text": "B",
+   "type": "datum_feature",
+   "quantity": null,
+   "nominal": null,
+   "unit": null,
+   "tol_plus": null,
+   "tol_minus": null,
+   "lower_limit": null,
+   "upper_limit": null,
+   "characteristic": null,
+   "datums": [],
+   "modifiers": [],
+   "belongs_to": "right boss",
+   "meaning": "Identifies this feature as datum B, a reference for GD&T controls.",
+   "bbox": [
+    223.1,
+    294.1,
+    231.3,
+    309.7
+   ],
+   "source": "vlm",
+   "confidence": 0.55,
+   "checks": [
+    "belongs_to from sheet-level marks (no usable leader-end reading)"
+   ]
+  },
+  {
+   "id": "nist_ctc_05_asme1_rd-p2-v006",
+   "page": 2,
+   "raw_text": "A",
+   "type": "datum_feature",
+   "quantity": null,
+   "nominal": null,
+   "unit": null,
+   "tol_plus": null,
+   "tol_minus": null,
+   "lower_limit": null,
+   "upper_limit": null,
+   "characteristic": null,
+   "datums": [],
+   "modifiers": [],
+   "belongs_to": "top face",
+   "meaning": "Identifies this feature as datum A, a reference for GD&T controls.",
+   "bbox": [
+    589.6,
+    129.1,
+    598.6,
+    145.1
+   ],
+   "source": "vlm",
+   "confidence": 0.55,
+   "checks": [
+    "belongs_to from sheet-level marks (no usable leader-end reading)"
+   ]
+  },
+  {
+   "id": "nist_ctc_05_asme1_rd-p2-v007",
+   "page": 2,
+   "raw_text": "D1",
+   "type": "datum_target",
+   "quantity": null,
+   "nominal": null,
+   "unit": null,
+   "tol_plus": null,
+   "tol_minus": null,
+   "lower_limit": null,
+   "upper_limit": null,
+   "characteristic": null,
+   "datums": [],
+   "modifiers": [],
+   "belongs_to": "top face",
+   "meaning": "Datum target D1: a specific point/line/area used to establish a datum.",
+   "bbox": [
+    562.9,
+    291.5,
+    568.2,
+    298.9
+   ],
+   "source": "vlm",
+   "confidence": 0.55,
+   "checks": [
+    "belongs_to from sheet-level marks (no usable leader-end reading)"
+   ]
+  },
+  {
+   "id": "nist_ctc_05_asme1_rd-p2-v008",
+   "page": 2,
+   "raw_text": "ø10.000 ±.001",
+   "type": "diameter",
+   "quantity": null,
+   "nominal": 10.0,
+   "unit": "inches",
+   "tol_plus": 0.001,
+   "tol_minus": -0.001,
+   "lower_limit": 9.999,
+   "upper_limit": 10.001,
+   "characteristic": null,
+   "datums": [],
+   "modifiers": [],
+   "belongs_to": "central hole (hole)",
+   "meaning": "Diameter 10 inches, tolerance +0.001/-0.001 (acceptable 9.999–10.001 inches).",
+   "bbox": [
+    206.2,
+    371.8,
+    248.0,
+    401.3
+   ],
+   "source": "vlm",
+   "confidence": 0.75,
+   "checks": [
+    "numbers parsed",
+    "leader end located and named",
+    "belongs_to from sheet-level marks (no usable leader-end reading)"
+   ]
+  },
+  {
+   "id": "nist_ctc_05_asme1_rd-p2-v009",
+   "page": 2,
+   "raw_text": "Datum target D1 referenced in View 1 (of 2). Datum target D1 referenced",
+   "type": "other",
+   "quantity": null,
+   "nominal": null,
+   "unit": null,
+   "tol_plus": null,
+   "tol_minus": null,
+   "lower_limit": null,
+   "upper_limit": null,
+   "characteristic": null,
+   "datums": [],
+   "modifiers": [],
+   "belongs_to": "top face",
+   "meaning": "Annotation 'Datum target D1 referenced in View 1 (of 2). Datum target D1 referenced' attached to the feature.",
+   "bbox": [
+    54.8,
+    511.6,
+    179.1,
+    534.9
+   ],
+   "source": "vlm+text_layer",
+   "confidence": 0.85,
+   "checks": [
+    "text layer agrees",
+    "belongs_to from sheet-level marks (no usable leader-end reading)"
+   ]
+  },
+  {
+   "id": "nist_ctc_05_asme1_rd-tb-title",
+   "page": 1,
+   "raw_text": "PMI Complex Test Case 5 - View 1 (of 2)",
+   "type": "title_block",
+   "quantity": null,
+   "nominal": null,
+   "unit": null,
+   "tol_plus": null,
+   "tol_minus": null,
+   "lower_limit": null,
+   "upper_limit": null,
+   "characteristic": null,
+   "datums": [],
+   "modifiers": [],
+   "belongs_to": "title block",
+   "meaning": "Title: PMI Complex Test Case 5 - View 1 (of 2)",
+   "bbox": null,
+   "source": "text_layer",
+   "confidence": 1.0,
+   "checks": []
+  },
+  {
+   "id": "nist_ctc_05_asme1_rd-tb-atomic_test_cases",
+   "page": 1,
+   "raw_text": "11, 18, 19, 23, 24, 37, 42, 44",
+   "type": "title_block",
+   "quantity": null,
+   "nominal": null,
+   "unit": null,
+   "tol_plus": null,
+   "tol_minus": null,
+   "lower_limit": null,
+   "upper_limit": null,
+   "characteristic": null,
+   "datums": [],
+   "modifiers": [],
+   "belongs_to": "title block",
+   "meaning": "Atomic test cases: 11, 18, 19, 23, 24, 37, 42, 44",
+   "bbox": null,
+   "source": "text_layer",
+   "confidence": 1.0,
+   "checks": []
+  },
+  {
+   "id": "nist_ctc_05_asme1_rd-tb-series",
+   "page": 1,
+   "raw_text": "NIST PMI Test Models - 2012",
+   "type": "title_block",
+   "quantity": null,
+   "nominal": null,
+   "unit": null,
+   "tol_plus": null,
+   "tol_minus": null,
+   "lower_limit": null,
+   "upper_limit": null,
+   "characteristic": null,
+   "datums": [],
+   "modifiers": [],
+   "belongs_to": "title block",
+   "meaning": "Series: NIST PMI Test Models - 2012",
+   "bbox": null,
+   "source": "text_layer",
+   "confidence": 1.0,
+   "checks": []
+  },
+  {
+   "id": "nist_ctc_05_asme1_rd-tb-model",
+   "page": 1,
+   "raw_text": "Test Model 5",
+   "type": "title_block",
+   "quantity": null,
+   "nominal": null,
+   "unit": null,
+   "tol_plus": null,
+   "tol_minus": null,
+   "lower_limit": null,
+   "upper_limit": null,
+   "characteristic": null,
+   "datums": [],
+   "modifiers": [],
+   "belongs_to": "title block",
+   "meaning": "Model: Test Model 5",
+   "bbox": null,
+   "source": "text_layer",
+   "confidence": 1.0,
+   "checks": []
+  },
+  {
+   "id": "nist_ctc_05_asme1_rd-tb-revision",
+   "page": 1,
+   "raw_text": "D",
+   "type": "title_block",
+   "quantity": null,
+   "nominal": null,
+   "unit": null,
+   "tol_plus": null,
+   "tol_minus": null,
+   "lower_limit": null,
+   "upper_limit": null,
+   "characteristic": null,
+   "datums": [],
+   "modifiers": [],
+   "belongs_to": "title block",
+   "meaning": "Revision: D",
+   "bbox": null,
+   "source": "text_layer",
+   "confidence": 1.0,
+   "checks": []
+  },
+  {
+   "id": "nist_ctc_05_asme1_rd-tb-drawing_number",
+   "page": 1,
+   "raw_text": "nist_ctc_05_asme1_rd",
+   "type": "title_block",
+   "quantity": null,
+   "nominal": null,
+   "unit": null,
+   "tol_plus": null,
+   "tol_minus": null,
+   "lower_limit": null,
+   "upper_limit": null,
+   "characteristic": null,
+   "datums": [],
+   "modifiers": [],
+   "belongs_to": "title block",
+   "meaning": "Drawing number: nist_ctc_05_asme1_rd",
+   "bbox": null,
+   "source": "text_layer",
+   "confidence": 1.0,
+   "checks": []
+  },
+  {
+   "id": "nist_ctc_05_asme1_rd-note-1",
+   "page": 1,
+   "raw_text": "Datum feature B and Datum target D1 defined in View 2 (of 2).",
+   "type": "note",
+   "quantity": null,
+   "nominal": null,
+   "unit": null,
+   "tol_plus": null,
+   "tol_minus": null,
+   "lower_limit": null,
+   "upper_limit": null,
+   "characteristic": null,
+   "datums": [],
+   "modifiers": [],
+   "belongs_to": "general notes (whole drawing)",
+   "meaning": "General note 1; applies to the whole part unless stated otherwise.",
+   "bbox": null,
+   "source": "text_layer",
+   "confidence": 1.0,
+   "checks": []
+  }
+ ],
+ "unmatched_text_tokens": [],
+ "extractor_version": "drawing-geometry-v1"
+}

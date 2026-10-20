@@ -1,0 +1,83 @@
+{
+  "answer": "The PA-28R-201 main wing spar is made of aluminum alloy 2024-T3511.",
+  "diagnosis": null,
+  "recommended_actions": [],
+  "citations": [
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t4",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t0",
+      "figure_no": null
+    }
+  ],
+  "grounded": true,
+  "image_observations": [],
+  "retrieved": [
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t4",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t0",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t1",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t2",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t3",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t2",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 33,
+      "chunk_id": "ntsb_18-061:p33:fig29",
+      "figure_no": 29
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 21,
+      "chunk_id": "ntsb_18-061:p21:fig14",
+      "figure_no": 14
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 20,
+      "chunk_id": "ntsb_18-061:p20:fig13",
+      "figure_no": 13
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 28,
+      "chunk_id": "ntsb_18-061:p28:fig22",
+      "figure_no": 22
+    }
+  ]
+}

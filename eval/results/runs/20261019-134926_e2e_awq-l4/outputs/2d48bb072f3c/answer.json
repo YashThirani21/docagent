@@ -1,0 +1,113 @@
+{
+  "answer": "The spar cap experienced fatigue cracking. This can be inferred from the presence of striations consistent with fatigue, as well as the observation of fatigue features emanating from an origin area at the hole surface. The fatigue region extends up to 0.047 inches aft of the hole and 0.038 inches upward from the lower surface. The fatigue crack length at the intersection of the fatigue region with the lower surface is 0.026 inches. No evidence of a preexisting crack was observed at hole RD-1, where the overstress fracture of the spar cap initiated.",
+  "diagnosis": "Fatigue cracking occurred in the spar cap.",
+  "recommended_actions": [
+    "Inspect the spar cap for any additional fatigue cracks or damage.",
+    "Ensure that the spar cap is replaced or repaired according to the manufacturer's specifications.",
+    "Perform a thorough inspection of similar components on the aircraft to ensure there are no other areas affected by fatigue."
+  ],
+  "citations": [
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t2",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 22,
+      "chunk_id": "ntsb_18-061:p22:fig15",
+      "figure_no": 15
+    }
+  ],
+  "grounded": true,
+  "image_observations": [
+    "{\"component\":\"Aircraft/mechanical\",\"observations\":[\"Fatigue crack visible on the component.\",\"Lab cut mark present.\",\"Material appears to be metallic.\"],\"visible_text\":\"Fatigue\\nLab cut\\nRD-1\\nRC-1\"}"
+  ],
+  "retrieved": [
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t2",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t3",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t1",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t2",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t0",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t1",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 22,
+      "chunk_id": "ntsb_18-061:p22:fig15",
+      "figure_no": 15
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 18,
+      "chunk_id": "ntsb_18-061:p18:fig10",
+      "figure_no": 10
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 16,
+      "chunk_id": "ntsb_18-061:p16:fig8",
+      "figure_no": 8
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 11,
+      "chunk_id": "ntsb_18-061:p11:fig2",
+      "figure_no": 2
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 24,
+      "chunk_id": "ntsb_18-061:p24:fig17",
+      "figure_no": 17
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig19",
+      "figure_no": 19
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig18",
+      "figure_no": 18
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 23,
+      "chunk_id": "ntsb_18-061:p23:fig16",
+      "figure_no": 16
+    }
+  ]
+}

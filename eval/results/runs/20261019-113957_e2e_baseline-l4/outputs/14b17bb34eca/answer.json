@@ -1,0 +1,107 @@
+{
+  "answer": "The fatigue crack started at hole LC-1. This can be inferred from the detailed examination of the fracture surfaces and the presence of fatigue features emanating from the lower surface adjacent to the hole LC-1. The report states that fatigue features appeared to emanate from an origin area at the lower surface adjacent to the hole LC-1, and the location of the crack is indicated in the upper image in Figure 17.",
+  "diagnosis": "Fatigue crack originated at hole LC-1.",
+  "recommended_actions": [
+    "Inspect the area around hole LC-1 for any signs of fatigue or overstress.",
+    "Perform a thorough inspection of similar components on the aircraft to ensure no other fatigue cracks exist.",
+    "Consider conducting additional non-destructive testing (NDT) to assess the integrity of the spar caps."
+  ],
+  "citations": [
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 24,
+      "chunk_id": "ntsb_18-061:p24:fig17",
+      "figure_no": 17
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 18,
+      "chunk_id": "ntsb_18-061:p18:fig11",
+      "figure_no": 11
+    }
+  ],
+  "grounded": true,
+  "image_observations": [
+    "{\"component\":\"Aircraft/mechanical component\",\"observations\":[\"The component appears to have a fractured surface with visible cracks.\",\"The fracture surface shows a rough texture with some areas exhibiting a metallic luster.\",\"There is a clear indication of a crack propagation path, suggesting a fatigue or stress-corrosion cracking mechanism.\",\"The magnified view reveals a layered structure within the material, which could indicate a weld or a joint.\",\"The scale markers indicate that the magnified area is approximately 0.100 inches in size.\"],\"visible_text\":\"UP\\nFWD\\nLC-1\\n0.100in\\n0.050in\"}"
+  ],
+  "retrieved": [
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t3",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 6,
+      "chunk_id": "ntsb_18-061:p6:t0",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t0",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t1",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t2",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t0",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t1",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 16,
+      "chunk_id": "ntsb_18-061:p16:fig8",
+      "figure_no": 8
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 24,
+      "chunk_id": "ntsb_18-061:p24:fig17",
+      "figure_no": 17
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 17,
+      "chunk_id": "ntsb_18-061:p17:fig9",
+      "figure_no": 9
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 18,
+      "chunk_id": "ntsb_18-061:p18:fig11",
+      "figure_no": 11
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 19,
+      "chunk_id": "ntsb_18-061:p19:fig12",
+      "figure_no": 12
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 12,
+      "chunk_id": "ntsb_18-061:p12:fig4",
+      "figure_no": 4
+    }
+  ]
+}

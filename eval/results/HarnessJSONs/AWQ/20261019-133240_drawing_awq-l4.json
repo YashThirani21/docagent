@@ -1,0 +1,6788 @@
+{
+ "run": {
+  "suite": "drawing",
+  "label": "awq-l4",
+  "timestamp": "20261019-133240",
+  "config": "configs/colab_vllm_awq.yaml",
+  "overrides": [],
+  "config_hash": "eb400b779831",
+  "versions": {
+   "router": "rules+vlm-v1",
+   "drawing": "drawing-geometry-v1",
+   "report_qa": "report-qa-v3",
+   "llm": "qwen2.5-vl-7b-awq"
+  },
+  "model": "qwen2.5-vl-7b-awq",
+  "dataset": [
+   "eval/datasets/drawings/nist_ctc_01_asme1_rd.json",
+   "eval/datasets/drawings/nist_ctc_03_asme1_rc.json",
+   "eval/datasets/drawings/nist_ftc_07_asme1_rd.json",
+   "eval/datasets/drawings/nist_ftc_11_asme1_rb.json",
+   "eval/datasets/drawings/reference/geo-l4-fix4/nist_ctc_01_asme1_rd.json",
+   "eval/datasets/drawings/reference/geo-l4-fix4/nist_ctc_02_asme1_rc.json",
+   "eval/datasets/drawings/reference/geo-l4-fix4/nist_ctc_03_asme1_rc.json",
+   "eval/datasets/drawings/reference/geo-l4-fix4/nist_ctc_04_asme1_rd.json",
+   "eval/datasets/drawings/reference/geo-l4-fix4/nist_ctc_05_asme1_rd.json",
+   "eval/datasets/drawings/reference/geo-l4-fix4/nist_ftc_06_asme1_rd.json",
+   "eval/datasets/drawings/reference/geo-l4-fix4/nist_ftc_07_asme1_rd.json",
+   "eval/datasets/drawings/reference/geo-l4-fix4/nist_ftc_08_asme1_rc.json",
+   "eval/datasets/drawings/reference/geo-l4-fix4/nist_ftc_09_asme1_rd.json",
+   "eval/datasets/drawings/reference/geo-l4-fix4/nist_ftc_10_asme1_rb.json",
+   "eval/datasets/drawings/reference/geo-l4-fix4/nist_ftc_11_asme1_rb.json"
+  ],
+  "dataset_hash": "3c6d84c4691e",
+  "split": "all",
+  "seed": 0,
+  "n": 11,
+  "case_ids": [
+   "nist_ctc_01_asme1_rd",
+   "nist_ctc_02_asme1_rc",
+   "nist_ctc_03_asme1_rc",
+   "nist_ctc_04_asme1_rd",
+   "nist_ctc_05_asme1_rd",
+   "nist_ftc_06_asme1_rd",
+   "nist_ftc_07_asme1_rd",
+   "nist_ftc_08_asme1_rc",
+   "nist_ftc_09_asme1_rd",
+   "nist_ftc_10_asme1_rb",
+   "nist_ftc_11_asme1_rb"
+  ],
+  "fresh": true,
+  "batch_id": "eval-drawing-awq-l4-20261019-133240",
+  "wall_s": 887.4
+ },
+ "summary": {
+  "recall": 0.843,
+  "precision": 0.766,
+  "numbers": 0.914,
+  "type": 0.92,
+  "gdt_symbol": 0.652,
+  "datums": 0.877,
+  "belongs_to": 0.845,
+  "belongs_primary": 0.507,
+  "title_block": 1.0,
+  "notes": 1.0,
+  "units": 1.0,
+  "n_pred": 81,
+  "n_gt_required": 70,
+  "accuracy_drawings": [
+   "nist_ctc_01_asme1_rd",
+   "nist_ftc_07_asme1_rd"
+  ],
+  "draft_labels": {
+   "recall": 0.81,
+   "precision": 0.875,
+   "numbers": 0.968,
+   "type": 0.943,
+   "gdt_symbol": 0.86,
+   "datums": 0.547,
+   "belongs_to": 0.735,
+   "belongs_primary": 0.491,
+   "title_block": 1.0,
+   "notes": 0.5,
+   "units": 1.0,
+   "n_pred": 40,
+   "n_gt_required": 42,
+   "drawings": [
+    "nist_ctc_03_asme1_rc",
+    "nist_ftc_11_asme1_rb"
+   ],
+   "note": "unverified hand labels - not in the headline"
+  },
+  "agree_recall": 0.872,
+  "agree_precision": 0.902,
+  "numbers_agree": 0.981,
+  "type_agree": 0.964,
+  "gdt_agree": 0.863,
+  "datums_agree": 0.77,
+  "belongs_to_agree": 0.091,
+  "ref_values": 515,
+  "dropped_vs_reference": 66,
+  "new_vs_reference": 49,
+  "changed_reading": 413,
+  "reference": "geo-l4-fix4",
+  "agreement_drawings": 11,
+  "agreement_note": "agreement = change relative to the reference run (model outputs, not labels), not correctness; accuracy on the verified sheets is the correctness measure",
+  "n": 11,
+  "errors": 0
+ },
+ "cost": {
+  "requests": 11,
+  "latency_p50_s": 92.13,
+  "latency_p95_s": 195.95,
+  "fresh_llm_calls": 640,
+  "cached_calls": 9,
+  "prompt_tokens": 408459,
+  "completion_tokens": 56369,
+  "failed_requests": 0
+ },
+ "rows": [
+  {
+   "id": "nist_ctc_01_asme1_rd",
+   "verified": true,
+   "has_gt": true,
+   "gt": {
+    "drawing": "nist_ctc_01_asme1_rd",
+    "n_pred": 17,
+    "n_gt_required": 17,
+    "recall": 0.765,
+    "precision": 0.824,
+    "numbers": 1.0,
+    "type": 0.929,
+    "gdt_symbol": 1.0,
+    "datums": 0.8,
+    "belongs_to": 0.462,
+    "belongs_primary": 0.231,
+    "title_block": 1.0,
+    "notes": true,
+    "units": true,
+    "missed": [
+     "Ø35.2 Ø34.8 (p1)",
+     "A (p1)",
+     "B (p1)",
+     "⌓ 0.5 A (p1)"
+    ],
+    "extra": [
+     "W (p1)",
+     "Ø35.2 (p1)",
+     "34.8 (p1)"
+    ],
+    "pairs": [
+     {
+      "pred": "Φ25 ±0.15",
+      "gt": "Ø25 ±0.15",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "top face of the part (hole)"
+     },
+     {
+      "pred": "Φ20+0.05-0.10",
+      "gt": "Ø20 +0.05 -0.10",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "top face of the part (hole)"
+     },
+     {
+      "pred": "Ø34.8-35.2",
+      "gt": "Ø34.8 - 35.2",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "top face of the part"
+     },
+     {
+      "pred": "60° ±0.5°",
+      "gt": "60° ±0.5°",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "top face of the part"
+     },
+     {
+      "pred": "Φ35 0 -0.2",
+      "gt": "Ø35 0 -0.2",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "left side of the part"
+     },
+     {
+      "pred": "0.75 A B C",
+      "gt": "⌖ 0.75 A B C",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "position",
+      "gt_char": "position",
+      "belongs_to": "top face of the part (fillet)"
+     },
+     {
+      "pred": "0.75 ABC",
+      "gt": "⌖ 0.75 A B C",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "position",
+      "gt_char": "position",
+      "belongs_to": "top face of the part"
+     },
+     {
+      "pred": "1.5 A",
+      "gt": "⊥ 1.5 A",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "perpendicularity",
+      "gt_char": "perpendicularity",
+      "belongs_to": "left side of the part (hole)"
+     },
+     {
+      "pred": "C",
+      "gt": "C",
+      "page": 1,
+      "numbers": null,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "right side of the part"
+     },
+     {
+      "pred": "A",
+      "gt": "A",
+      "page": 1,
+      "numbers": null,
+      "type_ok": false,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "top face of the part"
+     },
+     {
+      "pred": "0.2",
+      "gt": "▱ 0.2",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "flatness",
+      "gt_char": "flatness",
+      "belongs_to": "left side of the part (hole)"
+     },
+     {
+      "pred": "Φ20+0.10-0.05-",
+      "gt": "Ø20 +0.10 -0.05",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "top face of the part (hole)"
+     },
+     {
+      "pred": "1.25 A B C A",
+      "gt": "⌓ 1.25 A B C",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "profile of a surface",
+      "gt_char": "profile of a surface",
+      "belongs_to": "top face of the part (hole)"
+     },
+     {
+      "pred": "Φ35 +0.2",
+      "gt": "Ø35 +0.2 0",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "left side of the part"
+     }
+    ],
+    "found": {
+     "nist_ctc_01_asme1_rd#1 Ø35.2 Ø34.8 (p1)": false,
+     "nist_ctc_01_asme1_rd#2 ▱ 0.2 (p1)": true,
+     "nist_ctc_01_asme1_rd#3 A (p1)": false,
+     "nist_ctc_01_asme1_rd#4 ⌖ 0.75 A B C (p1)": true,
+     "nist_ctc_01_asme1_rd#5 B (p1)": false,
+     "nist_ctc_01_asme1_rd#6 ⌓ 0.5 A (p1)": false,
+     "nist_ctc_01_asme1_rd#7 Ø25 ±0.15 (p1)": true,
+     "nist_ctc_01_asme1_rd#8 Ø34.8 - 35.2 (p1)": true,
+     "nist_ctc_01_asme1_rd#9 Ø35 0 -0.2 (p1)": true,
+     "nist_ctc_01_asme1_rd#10 Ø20 +0.05 -0.10 (p1)": true,
+     "nist_ctc_01_asme1_rd#11 Ø20 +0.10 -0.05 (p1)": true,
+     "nist_ctc_01_asme1_rd#12 60° ±0.5° (p1)": true,
+     "nist_ctc_01_asme1_rd#13 ⊥ 1.5 A (p1)": true,
+     "nist_ctc_01_asme1_rd#14 C (p1)": true,
+     "nist_ctc_01_asme1_rd#15 ⌓ 1.25 A B C (p1)": true,
+     "nist_ctc_01_asme1_rd#16 ⌖ 0.75 A B C (p1)": true,
+     "nist_ctc_01_asme1_rd#17 Ø35 +0.2 0 (p1)": true
+    }
+   },
+   "reference": {
+    "n_pred": 17,
+    "n_ref": 19,
+    "n_paired": 17,
+    "agree_recall": 0.895,
+    "agree_precision": 1.0,
+    "numbers_agree": 1.0,
+    "type_agree": 1.0,
+    "gdt_agree": 1.0,
+    "datums_agree": 0.8,
+    "belongs_to_agree": 0.0,
+    "counts": {
+     "num": [
+      14,
+      14
+     ],
+     "typ": [
+      17,
+      17
+     ],
+     "gdt": [
+      5,
+      5
+     ],
+     "dat": [
+      4,
+      5
+     ],
+     "bel": [
+      0,
+      17
+     ]
+    },
+    "dropped": [
+     "0.5 A (p1)",
+     "W (p1)"
+    ],
+    "new": [],
+    "changed": [
+     {
+      "ref": "Φ25 ±0.15",
+      "new": "Φ25 ±0.15",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left edge (face)",
+      "new_belongs_to": "top face of the part (hole)"
+     },
+     {
+      "ref": "Φ20+0.05-0.10",
+      "new": "Φ20+0.05-0.10",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left edge (hole)",
+      "new_belongs_to": "top face of the part (hole)"
+     },
+     {
+      "ref": "Ø34.8 - 35.2",
+      "new": "Ø34.8-35.2",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "bottom face",
+      "new_belongs_to": "top face of the part"
+     },
+     {
+      "ref": "34.8",
+      "new": "34.8",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "bottom face",
+      "new_belongs_to": "top face of the part"
+     },
+     {
+      "ref": "Ø35.2",
+      "new": "Ø35.2",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left hole",
+      "new_belongs_to": "left side of the part"
+     },
+     {
+      "ref": "60° ±0.5°",
+      "new": "60° ±0.5°",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left edge",
+      "new_belongs_to": "top face of the part"
+     },
+     {
+      "ref": "Φ35+0.2",
+      "new": "Φ35 +0.2",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "right hole",
+      "new_belongs_to": "left side of the part"
+     },
+     {
+      "ref": "Φ35 0 -0.2",
+      "new": "Φ35 0 -0.2",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left hole",
+      "new_belongs_to": "left side of the part"
+     },
+     {
+      "ref": "0.75 A B C",
+      "new": "0.75 A B C",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top face (fillet)",
+      "new_belongs_to": "top face of the part (fillet)"
+     },
+     {
+      "ref": "0.75 A B C",
+      "new": "0.75 ABC",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top face",
+      "new_belongs_to": "top face of the part"
+     },
+     {
+      "ref": "1.5A",
+      "new": "1.5 A",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left edge (hole)",
+      "new_belongs_to": "left side of the part (hole)"
+     },
+     {
+      "ref": "C",
+      "new": "C",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left edge",
+      "new_belongs_to": "right side of the part"
+     },
+     {
+      "ref": "W",
+      "new": "W",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left edge (hole)",
+      "new_belongs_to": "bottom face of the part"
+     },
+     {
+      "ref": "A",
+      "new": "A",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top face",
+      "new_belongs_to": "top face of the part"
+     },
+     {
+      "ref": "0.2",
+      "new": "0.2",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left edge (hole)",
+      "new_belongs_to": "left side of the part (hole)"
+     },
+     {
+      "ref": "Φ20+0.10-0.05",
+      "new": "Φ20+0.10-0.05-",
+      "page": 1,
+      "what": [
+       "text",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left edge (hole)",
+      "new_belongs_to": "top face of the part (hole)"
+     },
+     {
+      "ref": "1.25 A-B A B C",
+      "new": "1.25 A B C A",
+      "page": 1,
+      "what": [
+       "text",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left edge (face)",
+      "new_belongs_to": "top face of the part (hole)"
+     }
+    ],
+    "reproduced": {
+     "nist_ctc_01_asme1_rd#ref1 0.5 A (p1)": false,
+     "nist_ctc_01_asme1_rd#ref2 0.2 (p1)": true,
+     "nist_ctc_01_asme1_rd#ref3 A (p1)": true,
+     "nist_ctc_01_asme1_rd#ref4 W (p1)": false,
+     "nist_ctc_01_asme1_rd#ref5 C (p1)": true,
+     "nist_ctc_01_asme1_rd#ref6 1.5A (p1)": true,
+     "nist_ctc_01_asme1_rd#ref7 0.75 A B C (p1)": true,
+     "nist_ctc_01_asme1_rd#ref8 0.75 A B C (p1)": true,
+     "nist_ctc_01_asme1_rd#ref9 1.25 A-B A B C (p1)": true,
+     "nist_ctc_01_asme1_rd#ref10 Φ35 0 -0.2 (p1)": true,
+     "nist_ctc_01_asme1_rd#ref11 Φ35+0.2 (p1)": true,
+     "nist_ctc_01_asme1_rd#ref12 60° ±0.5° (p1)": true,
+     "nist_ctc_01_asme1_rd#ref13 Ø35.2 (p1)": true,
+     "nist_ctc_01_asme1_rd#ref14 34.8 (p1)": true,
+     "nist_ctc_01_asme1_rd#ref15 Ø34.8 - 35.2 (p1)": true,
+     "nist_ctc_01_asme1_rd#ref16 Φ20+0.05-0.10 (p1)": true,
+     "nist_ctc_01_asme1_rd#ref17 Φ20+0.10-0.05 (p1)": true,
+     "nist_ctc_01_asme1_rd#ref18 Φ25 ±0.15 (p1)": true,
+     "nist_ctc_01_asme1_rd#ref19 W (p1)": true
+    },
+    "route": "pdf"
+   },
+   "latency_s": 30.92,
+   "split": "dev"
+  },
+  {
+   "id": "nist_ctc_02_asme1_rc",
+   "verified": false,
+   "has_gt": false,
+   "reference": {
+    "n_pred": 51,
+    "n_ref": 58,
+    "n_paired": 46,
+    "agree_recall": 0.793,
+    "agree_precision": 0.902,
+    "numbers_agree": 0.964,
+    "type_agree": 0.913,
+    "gdt_agree": 0.684,
+    "datums_agree": 0.632,
+    "belongs_to_agree": 0.065,
+    "counts": {
+     "num": [
+      27,
+      28
+     ],
+     "typ": [
+      42,
+      46
+     ],
+     "gdt": [
+      13,
+      19
+     ],
+     "dat": [
+      12,
+      19
+     ],
+     "bel": [
+      3,
+      46
+     ]
+    },
+    "dropped": [
+     "0- (p2)",
+     "10±0.2 (p2)",
+     "R1.5 (p2)",
+     "-0.125-0.063 (p2)",
+     "F (p3)",
+     "0.05 (p3)",
+     "D (p3)",
+     "0.8 G H L (p3)",
+     "0.1 (p3)",
+     "G (p3)",
+     "J (p3)",
+     "0.8 G H J (p3)"
+    ],
+    "new": [
+     "E (p3)",
+     "M (p3)",
+     "L (p3)",
+     "0.8 G ± -0.1 0.8 G H J +0.1 (p3)",
+     "5 L (p3)"
+    ],
+    "changed": [
+     {
+      "ref": "0.8 G H J",
+      "new": "0.8 G H J",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top face (fillet)",
+      "new_belongs_to": "large slot near center (hole)"
+     },
+     {
+      "ref": "J",
+      "new": "J",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "right side hole (fillet)",
+      "new_belongs_to": "large slot near center (hole)"
+     },
+     {
+      "ref": "Ø0.15L G H",
+      "new": "Ø0.15L G H",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top face (hole)",
+      "new_belongs_to": "large slot near center (hole)"
+     },
+     {
+      "ref": "Ø22 ±0.1",
+      "new": "Ø22 ±0.1",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "right Ø22 side hole (hole)",
+      "new_belongs_to": "large slot near center (hole)"
+     },
+     {
+      "ref": "0.1",
+      "new": "0.1",
+      "page": 3,
+      "what": [
+       "type",
+       "characteristic",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top face (hole)",
+      "new_belongs_to": "large slot near center (hole)"
+     },
+     {
+      "ref": "0.8",
+      "new": "0.8",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top face (hole)",
+      "new_belongs_to": "large slot near center (hole)"
+     },
+     {
+      "ref": "Ø0.1L G H",
+      "new": "Ø0.1L G H",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top face (face)",
+      "new_belongs_to": "large slot near center (hole)"
+     },
+     {
+      "ref": "Ø22 ±0.1− L",
+      "new": "Ø22 ±0.1− L",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "right Ø22 side hole (face)",
+      "new_belongs_to": "large slot near center (hole)"
+     },
+     {
+      "ref": "0.5",
+      "new": "0.5",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (hole)",
+      "new_belongs_to": "large slot near center (hole)"
+     },
+     {
+      "ref": "0.5 DEF",
+      "new": "0.5 DEF",
+      "page": 3,
+      "what": [
+       "type",
+       "characteristic",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (hole)",
+      "new_belongs_to": "large slot near center (hole)"
+     },
+     {
+      "ref": "Ø12 ±0.05",
+      "new": "Ø12 ±0.05",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left Ø12 side hole (hole)",
+      "new_belongs_to": "right Ø12 side hole (hole)"
+     },
+     {
+      "ref": "C1",
+      "new": "C1",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "large circular boss on right",
+      "new_belongs_to": "top face"
+     },
+     {
+      "ref": "A1",
+      "new": "A1",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "large circular boss on right",
+      "new_belongs_to": "top face"
+     },
+     {
+      "ref": "A3",
+      "new": "A3",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "large circular boss on right",
+      "new_belongs_to": "large slot near centre"
+     },
+     {
+      "ref": "B2",
+      "new": "B2",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "large circular boss on right",
+      "new_belongs_to": "top face"
+     },
+     {
+      "ref": "B1",
+      "new": "B1",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "large circular boss on right",
+      "new_belongs_to": "top face"
+     },
+     {
+      "ref": "B4",
+      "new": "B4",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "large circular boss on right",
+      "new_belongs_to": "large slot near centre"
+     },
+     {
+      "ref": "B3",
+      "new": "B3",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "large circular boss on right",
+      "new_belongs_to": "large slot near centre"
+     },
+     {
+      "ref": "K1",
+      "new": "K1",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "datum target K1 (hole)",
+      "new_belongs_to": "bottom circular boss (hole)"
+     },
+     {
+      "ref": "Ø85",
+      "new": "Ø85",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "large circular boss on right (hole)",
+      "new_belongs_to": "large slot near centre (hole)"
+     },
+     {
+      "ref": "K",
+      "new": "K",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "datum target K1 (hole)",
+      "new_belongs_to": "bottom circular boss (hole)"
+     },
+     {
+      "ref": "Ø0.25",
+      "new": "Ø0.25",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "small circular boss on left (hole)",
+      "new_belongs_to": "small circular boss (hole)"
+     },
+     {
+      "ref": "Ø40 ±0.15 L",
+      "new": "Ø40 ±0.15 L",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "large circular boss on right (hole)",
+      "new_belongs_to": "bottom circular boss (hole)"
+     },
+     {
+      "ref": "0.75 ABC",
+      "new": "0.75 A B C",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top face (hole)",
+      "new_belongs_to": "large slot near centre (hole)"
+     },
+     {
+      "ref": "C1",
+      "new": "C1",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "side face near hexagonal boss",
+      "new_belongs_to": "right circular boss"
+     },
+     {
+      "ref": "B4",
+      "new": "B4",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "rear face",
+      "new_belongs_to": "right circular boss"
+     },
+     {
+      "ref": "B3",
+      "new": "B3",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "front face",
+      "new_belongs_to": "left circular boss"
+     },
+     {
+      "ref": "B2",
+      "new": "B2",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "right side face (hole)",
+      "new_belongs_to": "left circular boss (hole)"
+     },
+     {
+      "ref": "B1",
+      "new": "B1",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side face",
+      "new_belongs_to": "left circular boss"
+     },
+     {
+      "ref": "A3",
+      "new": "A3",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "bottom face",
+      "new_belongs_to": "right circular boss"
+     },
+     {
+      "ref": "A1",
+      "new": "A1",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top face",
+      "new_belongs_to": "left circular boss"
+     },
+     {
+      "ref": "Ø1.5 M A B C",
+      "new": "Ø1.5M A B C",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "hexagonal boss (hole)",
+      "new_belongs_to": "smaller circular hole (hole)"
+     },
+     {
+      "ref": "2X Ø100 ±0.15",
+      "new": "2X Ø100 ±0.15",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "right circular hole (hole)",
+      "new_belongs_to": "large circular hole (hole)"
+     },
+     {
+      "ref": "0.25 A B C",
+      "new": "0.25 A B C",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "smaller circular hole (hole)",
+      "new_belongs_to": "smaller circular boss (hole)"
+     },
+     {
+      "ref": "2X Ø52 ±0.15",
+      "new": "2X Ø52 ±0.15",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left circular hole (hole)",
+      "new_belongs_to": "left circular boss (hole)"
+     },
+     {
+      "ref": "Ø12 ±0.05 L",
+      "new": "Ø12 ±0.05",
+      "page": 3,
+      "what": [
+       "text",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left Ø12 side hole (face)",
+      "new_belongs_to": "left Ø12 side hole (hole)"
+     },
+     {
+      "ref": "Ø0.05 D E",
+      "new": "Ø0.05 D E F",
+      "page": 3,
+      "what": [
+       "text",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top face (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "Ø0.05 D E",
+      "new": "0.05 D",
+      "page": 3,
+      "what": [
+       "text",
+       "characteristic",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top face (face)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "0.8 G H J G H",
+      "new": "0.8",
+      "page": 3,
+      "what": [
+       "text",
+       "characteristic",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top face (fillet)",
+      "new_belongs_to": "large slot near center (hole)"
+     },
+     {
+      "ref": "0.5",
+      "new": "0.5D",
+      "page": 3,
+      "what": [
+       "text",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (hole)",
+      "new_belongs_to": "large slot near center (hole)"
+     },
+     {
+      "ref": "0.05",
+      "new": "⊥ Ø0.05 D",
+      "page": 3,
+      "what": [
+       "text",
+       "type",
+       "characteristic",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "A2",
+      "new": "A2 C",
+      "page": 2,
+      "what": [
+       "text",
+       "type",
+       "characteristic",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top face (hole)",
+      "new_belongs_to": "large slot near centre (hole)"
+     },
+     {
+      "ref": "0.5 DEF M",
+      "new": "0.5 DEFM 0.5 DEF",
+      "page": 3,
+      "what": [
+       "text",
+       "numbers",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (hole)",
+      "new_belongs_to": "large slot near center (hole)"
+     }
+    ],
+    "reproduced": {
+     "nist_ctc_02_asme1_rc#ref1 2X Ø52 ±0.15 (p1)": true,
+     "nist_ctc_02_asme1_rc#ref2 0.25 A B C (p1)": true,
+     "nist_ctc_02_asme1_rc#ref3 2X Ø100 ±0.15 (p1)": true,
+     "nist_ctc_02_asme1_rc#ref4 Ø1.5 M A B C (p1)": true,
+     "nist_ctc_02_asme1_rc#ref5 A1 (p1)": true,
+     "nist_ctc_02_asme1_rc#ref6 A3 (p1)": true,
+     "nist_ctc_02_asme1_rc#ref7 B1 (p1)": true,
+     "nist_ctc_02_asme1_rc#ref8 B2 (p1)": true,
+     "nist_ctc_02_asme1_rc#ref9 B3 (p1)": true,
+     "nist_ctc_02_asme1_rc#ref10 B4 (p1)": true,
+     "nist_ctc_02_asme1_rc#ref11 C1 (p1)": true,
+     "nist_ctc_02_asme1_rc#ref12 2.5U0.5 (p2)": true,
+     "nist_ctc_02_asme1_rc#ref13 A2 (p2)": true,
+     "nist_ctc_02_asme1_rc#ref14 0.75 ABC (p2)": true,
+     "nist_ctc_02_asme1_rc#ref15 Ø40 ±0.15 L (p2)": true,
+     "nist_ctc_02_asme1_rc#ref16 Ø0.25 (p2)": true,
+     "nist_ctc_02_asme1_rc#ref17 K (p2)": true,
+     "nist_ctc_02_asme1_rc#ref18 2.5U2.5 A B C (p2)": true,
+     "nist_ctc_02_asme1_rc#ref19 2.5U0 A B C (p2)": true,
+     "nist_ctc_02_asme1_rc#ref20 0- (p2)": false,
+     "nist_ctc_02_asme1_rc#ref21 Ø85 (p2)": true,
+     "nist_ctc_02_asme1_rc#ref22 K1 (p2)": true,
+     "nist_ctc_02_asme1_rc#ref23 10±0.2 (p2)": false,
+     "nist_ctc_02_asme1_rc#ref24 R1.5 (p2)": false,
+     "nist_ctc_02_asme1_rc#ref25 -0.125-0.063 (p2)": false,
+     "nist_ctc_02_asme1_rc#ref26 B3 (p2)": true,
+     "nist_ctc_02_asme1_rc#ref27 B4 (p2)": true,
+     "nist_ctc_02_asme1_rc#ref28 B1 (p2)": true,
+     "nist_ctc_02_asme1_rc#ref29 B2 (p2)": true,
+     "nist_ctc_02_asme1_rc#ref30 A3 (p2)": true,
+     "nist_ctc_02_asme1_rc#ref31 A1 (p2)": true,
+     "nist_ctc_02_asme1_rc#ref32 C1 (p2)": true,
+     "nist_ctc_02_asme1_rc#ref33 Ø12 ±0.05 L (p3)": true,
+     "nist_ctc_02_asme1_rc#ref34 Ø0.05 D E (p3)": true,
+     "nist_ctc_02_asme1_rc#ref35 Ø12 ±0.05 (p3)": true,
+     "nist_ctc_02_asme1_rc#ref36 Ø0.05 D E (p3)": true,
+     "nist_ctc_02_asme1_rc#ref37 F (p3)": false,
+     "nist_ctc_02_asme1_rc#ref38 0.05 (p3)": false,
+     "nist_ctc_02_asme1_rc#ref39 0.05 (p3)": true,
+     "nist_ctc_02_asme1_rc#ref40 D (p3)": false,
+     "nist_ctc_02_asme1_rc#ref41 0.5 DEF M (p3)": true,
+     "nist_ctc_02_asme1_rc#ref42 0.5 (p3)": true,
+     "nist_ctc_02_asme1_rc#ref43 0.5 DEF (p3)": true,
+     "nist_ctc_02_asme1_rc#ref44 0.5 (p3)": true,
+     "nist_ctc_02_asme1_rc#ref45 Ø22 ±0.1− L (p3)": true,
+     "nist_ctc_02_asme1_rc#ref46 Ø0.1L G H (p3)": true,
+     "nist_ctc_02_asme1_rc#ref47 0.8 G H L (p3)": false,
+     "nist_ctc_02_asme1_rc#ref48 0.8 (p3)": true,
+     "nist_ctc_02_asme1_rc#ref49 0.1 (p3)": false,
+     "nist_ctc_02_asme1_rc#ref50 G (p3)": false,
+     "nist_ctc_02_asme1_rc#ref51 Ø22 ±0.1 (p3)": true,
+     "nist_ctc_02_asme1_rc#ref52 Ø0.15L G H (p3)": true,
+     "nist_ctc_02_asme1_rc#ref53 J (p3)": false,
+     "nist_ctc_02_asme1_rc#ref54 0.8 G H J (p3)": false,
+     "nist_ctc_02_asme1_rc#ref55 0.1 (p3)": true,
+     "nist_ctc_02_asme1_rc#ref56 0.8 G H J (p3)": true,
+     "nist_ctc_02_asme1_rc#ref57 0.8 G H J G H (p3)": true,
+     "nist_ctc_02_asme1_rc#ref58 J (p3)": true
+    },
+    "route": "pdf"
+   },
+   "latency_s": 92.16,
+   "split": "dev"
+  },
+  {
+   "id": "nist_ctc_03_asme1_rc",
+   "verified": false,
+   "has_gt": true,
+   "gt": {
+    "drawing": "nist_ctc_03_asme1_rc",
+    "n_pred": 28,
+    "n_gt_required": 30,
+    "recall": 0.767,
+    "precision": 0.821,
+    "numbers": 0.952,
+    "type": 0.957,
+    "gdt_symbol": 0.917,
+    "datums": 0.833,
+    "belongs_to": 0.739,
+    "belongs_primary": 0.652,
+    "title_block": 1.0,
+    "notes": false,
+    "units": true,
+    "missed": [
+     "D (p1)",
+     "SWITCH MOUNTING LOCATIONS (p1)",
+     "A (p1)",
+     "2 COPLANAR SURFACES (p1)",
+     "⊥ Ø.01 E (p1)",
+     "F (p1)",
+     "B (p1)"
+    ],
+    "extra": [
+     "M (p1)",
+     ".25 X .2 (p1)",
+     "E (p1)",
+     ".04 (p1)",
+     ".06 (p1)"
+    ],
+    "pairs": [
+     {
+      "pred": ".750",
+      "gt": "(.750)",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "left side hole (hole)"
+     },
+     {
+      "pred": "E",
+      "gt": "E",
+      "page": 1,
+      "numbers": null,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "left side hole (hole)"
+     },
+     {
+      "pred": "Ø1.065 ±.003",
+      "gt": "Ø1.065 ±.003",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "left side hole (hole)"
+     },
+     {
+      "pred": "⌀.06 DBC",
+      "gt": "⌖ Ø.06 D B C",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "position",
+      "gt_char": "position",
+      "belongs_to": "left side hole (hole)"
+     },
+     {
+      "pred": "Φ2.00 ±.01",
+      "gt": "Ø2.00 ±.01",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "left side hole (hole)"
+     },
+     {
+      "pred": "4X Ø.625 ±.005",
+      "gt": "4X Ø.625 ±.005",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "left side hole (hole)"
+     },
+     {
+      "pred": ".005 / .25 X .25",
+      "gt": "▱ .005 / .25 X .25",
+      "page": 1,
+      "numbers": true,
+      "type_ok": false,
+      "pred_char": null,
+      "gt_char": "flatness",
+      "belongs_to": "left side hole (hole)"
+     },
+     {
+      "pred": ".06 A B C",
+      "gt": "⌓ .06 A B C",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "profile of a surface",
+      "gt_char": "profile of a surface",
+      "belongs_to": "left side hole (hole)"
+     },
+     {
+      "pred": "Ø .03 DBC",
+      "gt": "⌖ .03 D B C",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "position",
+      "gt_char": "position",
+      "belongs_to": "left side hole (hole)"
+     },
+     {
+      "pred": "Ø .08 DBC",
+      "gt": "⌖ Ø.08 D B C",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "position",
+      "gt_char": "position",
+      "belongs_to": "left side hole (hole)"
+     },
+     {
+      "pred": "Ø1.500 ±.005",
+      "gt": "Ø1.500 ±.005",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "large slot near center (hole)"
+     },
+     {
+      "pred": ".04 A",
+      "gt": "∠ .04 A",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "angularity",
+      "gt_char": "angularity",
+      "belongs_to": "left side hole (hole)"
+     },
+     {
+      "pred": "C",
+      "gt": "C",
+      "page": 1,
+      "numbers": null,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "bottom face (hole)"
+     },
+     {
+      "pred": "Φ.02 A B",
+      "gt": "⌖ Ø.02 A B",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "position",
+      "gt_char": "position",
+      "belongs_to": "right side hole (hole)"
+     },
+     {
+      "pred": "Φ.438 ±.005",
+      "gt": "Ø.438 ±.005",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "left side hole (hole)"
+     },
+     {
+      "pred": "Φ.438 ±.005",
+      "gt": "Ø.438 ±.005",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "left side hole (hole)"
+     },
+     {
+      "pred": ".01",
+      "gt": "⌓ .01",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "profile of a surface",
+      "gt_char": "profile of a surface",
+      "belongs_to": "top face (hole)"
+     },
+     {
+      "pred": "2X Φ.438 ±.005 -",
+      "gt": "2X Ø.438 ±.005",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "left side hole (hole)"
+     },
+     {
+      "pred": "⌀.05M DBC",
+      "gt": "⌖ Ø.05Ⓜ D B C",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "position",
+      "gt_char": "position",
+      "belongs_to": "left side hole (hole)"
+     },
+     {
+      "pred": ".03 A B C D",
+      "gt": "⌓ .03 A B C",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "profile of a surface",
+      "gt_char": "profile of a surface",
+      "belongs_to": "left side hole (hole)"
+     },
+     {
+      "pred": "Φ.05M A B C",
+      "gt": "⌖ Ø.05Ⓜ A BⓂ CⓂ",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "position",
+      "gt_char": "position",
+      "belongs_to": "left side hole (hole)"
+     },
+     {
+      "pred": "Φ.01 A B",
+      "gt": "⊥ Ø.01 A",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "perpendicularity",
+      "gt_char": "perpendicularity",
+      "belongs_to": "left side hole (hole)"
+     },
+     {
+      "pred": ".82 ±.06",
+      "gt": "4X .82 ±.06",
+      "page": 1,
+      "numbers": false,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "large slot near center (hole)"
+     }
+    ],
+    "found": {
+     "nist_ctc_03_asme1_rc#1 2X Ø.438 ±.005 (p1)": true,
+     "nist_ctc_03_asme1_rc#2 ⌖ Ø.05Ⓜ A BⓂ CⓂ (p1)": true,
+     "nist_ctc_03_asme1_rc#3 Ø2.00 ±.01 (p1)": true,
+     "nist_ctc_03_asme1_rc#4 ⌖ Ø.06 D B C (p1)": true,
+     "nist_ctc_03_asme1_rc#5 (.750) (p1)": true,
+     "nist_ctc_03_asme1_rc#6 ⌓ .03 A B C (p1)": true,
+     "nist_ctc_03_asme1_rc#7 D (p1)": false,
+     "nist_ctc_03_asme1_rc#8 4X Ø.625 ±.005 (p1)": true,
+     "nist_ctc_03_asme1_rc#9 ⌖ Ø.05Ⓜ D B C (p1)": true,
+     "nist_ctc_03_asme1_rc#10 SWITCH MOUNTING LOCATIONS (p1)": false,
+     "nist_ctc_03_asme1_rc#11 ⌓ .01 (p1)": true,
+     "nist_ctc_03_asme1_rc#12 A (p1)": false,
+     "nist_ctc_03_asme1_rc#13 2 COPLANAR SURFACES (p1)": false,
+     "nist_ctc_03_asme1_rc#14 C (p1)": true,
+     "nist_ctc_03_asme1_rc#15 Ø.438 ±.005 (p1)": true,
+     "nist_ctc_03_asme1_rc#16 ⌖ Ø.02 A B (p1)": true,
+     "nist_ctc_03_asme1_rc#17 Ø1.065 ±.003 (p1)": true,
+     "nist_ctc_03_asme1_rc#18 ⊥ Ø.01 E (p1)": false,
+     "nist_ctc_03_asme1_rc#19 F (p1)": false,
+     "nist_ctc_03_asme1_rc#20 ∠ .04 A (p1)": true,
+     "nist_ctc_03_asme1_rc#21 ▱ .005 / .25 X .25 (p1)": true,
+     "nist_ctc_03_asme1_rc#22 ⌓ .06 A B C (p1)": true,
+     "nist_ctc_03_asme1_rc#23 E (p1)": true,
+     "nist_ctc_03_asme1_rc#24 Ø.438 ±.005 (p1)": true,
+     "nist_ctc_03_asme1_rc#25 ⊥ Ø.01 A (p1)": true,
+     "nist_ctc_03_asme1_rc#26 B (p1)": false,
+     "nist_ctc_03_asme1_rc#27 4X .82 ±.06 (p1)": true,
+     "nist_ctc_03_asme1_rc#28 Ø1.500 ±.005 (p1)": true,
+     "nist_ctc_03_asme1_rc#29 ⌖ Ø.08 D B C (p1)": true,
+     "nist_ctc_03_asme1_rc#30 ⌖ .03 D B C (p1)": true
+    }
+   },
+   "reference": {
+    "n_pred": 28,
+    "n_ref": 28,
+    "n_paired": 27,
+    "agree_recall": 0.964,
+    "agree_precision": 0.964,
+    "numbers_agree": 1.0,
+    "type_agree": 0.963,
+    "gdt_agree": 1.0,
+    "datums_agree": 0.909,
+    "belongs_to_agree": 0.0,
+    "counts": {
+     "num": [
+      24,
+      24
+     ],
+     "typ": [
+      26,
+      27
+     ],
+     "gdt": [
+      11,
+      11
+     ],
+     "dat": [
+      10,
+      11
+     ],
+     "bel": [
+      0,
+      27
+     ]
+    },
+    "dropped": [
+     "D (p1)"
+    ],
+    "new": [
+     "C (p1)"
+    ],
+    "changed": [
+     {
+      "ref": ".750",
+      "new": ".750",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "The vertical edge at the bottom right corner. (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "E",
+      "new": "E",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "The small circular hole at the bottom right corner. (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "Ø1.065 ±.003",
+      "new": "Ø1.065 ±.003",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "The small circular hole at the bottom right corner. (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "Φ.06 DBC",
+      "new": "⌀.06 DBC",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "The small circular hole at the bottom right corner. (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "Φ2.00 ±.01",
+      "new": "Φ2.00 ±.01",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "The large circular hole at the bottom right corner. (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "φ.05M DBC",
+      "new": "⌀.05M DBC",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "The small circular hole at the bottom right corner. (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "4X Ø.625 ±.005",
+      "new": "4X Ø.625 ±.005",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "The small circular hole at the bottom right corner. (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": ".06",
+      "new": ".06",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "The small circular hole at the bottom right corner. (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": ".005 / .25 X .25",
+      "new": ".005 / .25 X .25",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "The small circular hole at the bottom right corner. (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": ".04",
+      "new": ".04",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "The small circular hole at the bottom right corner. (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "E",
+      "new": "E",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "The small circular hole at the bottom right corner. (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": ".06 A B C",
+      "new": ".06 A B C",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "The small circular hole at the bottom right corner. (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": ".25 X .2",
+      "new": ".25 X .2",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "The small circular hole at the bottom right corner. (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "Ø.03 DBC",
+      "new": "Ø .03 DBC",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "The small circular hole at the bottom right corner. (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "Ø.08 DBC",
+      "new": "Ø .08 DBC",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "The small circular hole at the bottom right corner. (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "Ø1.500 ±.005",
+      "new": "Ø1.500 ±.005",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "The large circular hole at the bottom right corner. (hole)",
+      "new_belongs_to": "large slot near center (hole)"
+     },
+     {
+      "ref": ".82 ±.06",
+      "new": ".82 ±.06",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "The horizontal edge at the bottom center. (hole)",
+      "new_belongs_to": "large slot near center (hole)"
+     },
+     {
+      "ref": ".04 A",
+      "new": ".04 A",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "The vertical edge at the bottom left corner. (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "M",
+      "new": "M",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "The top horizontal edge of the bracket. (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "Φ.05M A B C",
+      "new": "Φ.05M A B C",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "Three small circular holes at the top left corner. (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "2X Φ.438 ±.005 -",
+      "new": "2X Φ.438 ±.005 -",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "Two small circular holes at the top left corner. (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "Φ.02 A B",
+      "new": "Φ.02 A B",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "Small circular hole at the top center. (hole)",
+      "new_belongs_to": "right side hole (hole)"
+     },
+     {
+      "ref": "Φ.438 ±.005",
+      "new": "Φ.438 ±.005",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "Large circular hole at the bottom right corner. (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "Φ.01 A B",
+      "new": "Φ.01 A B",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "Small circular hole at the top left corner. (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": ".438 ±.005",
+      "new": "Φ.438 ±.005",
+      "page": 1,
+      "what": [
+       "type",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "Left vertical edge of the bracket. (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": ".01",
+      "new": ".01",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "Datum Feature F not referenced. (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": ".03 A B C",
+      "new": ".03 A B C D",
+      "page": 1,
+      "what": [
+       "text",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "The bottom horizontal edge of the bracket. (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     }
+    ],
+    "reproduced": {
+     "nist_ctc_03_asme1_rc#ref1 .01 (p1)": true,
+     "nist_ctc_03_asme1_rc#ref2 .438 ±.005 (p1)": true,
+     "nist_ctc_03_asme1_rc#ref3 Φ.01 A B (p1)": true,
+     "nist_ctc_03_asme1_rc#ref4 Φ.438 ±.005 (p1)": true,
+     "nist_ctc_03_asme1_rc#ref5 Φ.02 A B (p1)": true,
+     "nist_ctc_03_asme1_rc#ref6 2X Φ.438 ±.005 - (p1)": true,
+     "nist_ctc_03_asme1_rc#ref7 Φ.05M A B C (p1)": true,
+     "nist_ctc_03_asme1_rc#ref8 M (p1)": true,
+     "nist_ctc_03_asme1_rc#ref9 .03 A B C (p1)": true,
+     "nist_ctc_03_asme1_rc#ref10 D (p1)": false,
+     "nist_ctc_03_asme1_rc#ref11 .04 A (p1)": true,
+     "nist_ctc_03_asme1_rc#ref12 .82 ±.06 (p1)": true,
+     "nist_ctc_03_asme1_rc#ref13 Ø1.500 ±.005 (p1)": true,
+     "nist_ctc_03_asme1_rc#ref14 Ø.08 DBC (p1)": true,
+     "nist_ctc_03_asme1_rc#ref15 Ø.03 DBC (p1)": true,
+     "nist_ctc_03_asme1_rc#ref16 .25 X .2 (p1)": true,
+     "nist_ctc_03_asme1_rc#ref17 .06 A B C (p1)": true,
+     "nist_ctc_03_asme1_rc#ref18 E (p1)": true,
+     "nist_ctc_03_asme1_rc#ref19 .04 (p1)": true,
+     "nist_ctc_03_asme1_rc#ref20 .005 / .25 X .25 (p1)": true,
+     "nist_ctc_03_asme1_rc#ref21 .06 (p1)": true,
+     "nist_ctc_03_asme1_rc#ref22 4X Ø.625 ±.005 (p1)": true,
+     "nist_ctc_03_asme1_rc#ref23 φ.05M DBC (p1)": true,
+     "nist_ctc_03_asme1_rc#ref24 Φ2.00 ±.01 (p1)": true,
+     "nist_ctc_03_asme1_rc#ref25 Φ.06 DBC (p1)": true,
+     "nist_ctc_03_asme1_rc#ref26 Ø1.065 ±.003 (p1)": true,
+     "nist_ctc_03_asme1_rc#ref27 E (p1)": true,
+     "nist_ctc_03_asme1_rc#ref28 .750 (p1)": true
+    },
+    "route": "pdf"
+   },
+   "latency_s": 40.44,
+   "split": "test"
+  },
+  {
+   "id": "nist_ctc_04_asme1_rd",
+   "verified": false,
+   "has_gt": false,
+   "reference": {
+    "n_pred": 19,
+    "n_ref": 19,
+    "n_paired": 17,
+    "agree_recall": 0.895,
+    "agree_precision": 0.895,
+    "numbers_agree": 1.0,
+    "type_agree": 1.0,
+    "gdt_agree": 1.0,
+    "datums_agree": 0.5,
+    "belongs_to_agree": 0.059,
+    "counts": {
+     "num": [
+      10,
+      10
+     ],
+     "typ": [
+      17,
+      17
+     ],
+     "gdt": [
+      4,
+      4
+     ],
+     "dat": [
+      2,
+      4
+     ],
+     "bel": [
+      1,
+      17
+     ]
+    },
+    "dropped": [
+     "Φ10 (p1)",
+     "H (p1)"
+    ],
+    "new": [
+     "Ø0.75 P 50 A B C (p1)",
+     "A B C (p1)"
+    ],
+    "changed": [
+     {
+      "ref": "Φ1.5",
+      "new": "Φ1.5",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "Ø1.5 cylindrical boss (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "-6XΦ6.65±0.12",
+      "new": "-6XΦ6.65±0.12",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "six Φ6.65 cylindrical bosses (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "30X √Ø20 ±0.3 X 90° ±1°",
+      "new": "30X √Ø20 ±0.3 X 90° ±1°",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "thirty √Ø20 angled holes",
+      "new_belongs_to": "top face"
+     },
+     {
+      "ref": "2DG0.2D",
+      "new": "2DG0.2D",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "two DG0.2D surface tolerance (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "0.5 A B C",
+      "new": "0.5 A B C",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "three 0.5 mm diameter holes (hole)",
+      "new_belongs_to": "left side hexagonal boss (hole)"
+     },
+     {
+      "ref": "G",
+      "new": "G",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "G-shaped slot",
+      "new_belongs_to": "left side hexagonal boss"
+     },
+     {
+      "ref": "F",
+      "new": "F",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "F-shaped slot",
+      "new_belongs_to": "left side hexagonal boss"
+     },
+     {
+      "ref": "D",
+      "new": "D",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "D-shaped slot",
+      "new_belongs_to": "left side hexagonal boss"
+     },
+     {
+      "ref": "M",
+      "new": "M",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "M12 x 1.75 hex head screw",
+      "new_belongs_to": "left side hexagonal boss"
+     },
+     {
+      "ref": "C",
+      "new": "C",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "right hexagonal boss",
+      "new_belongs_to": "right side hexagonal boss"
+     },
+     {
+      "ref": "30X Ø14 ±0.",
+      "new": "30X Ø14 ±0.",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "thirty 14 mm diameter holes (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "4X M12 x 1.75 -6H 25 ±0.25",
+      "new": "4X M12 x 1.75 -6H 25 ±0.25",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "four M12 x 1.75 hex head screws (hole)",
+      "new_belongs_to": "left side hexagonal boss (hole)"
+     },
+     {
+      "ref": "A",
+      "new": "A",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left hexagonal boss",
+      "new_belongs_to": "left side"
+     },
+     {
+      "ref": "4X L J Ø20 ±0.2 20 ±0.2",
+      "new": "4X L Ø20 ±0.2 20 ±0.2",
+      "page": 1,
+      "what": [
+       "text",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "four L-shaped 20 mm diameter holes (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "Φ0.3 DEF DE",
+      "new": "Φ0.3 DEF DE E F",
+      "page": 1,
+      "what": [
+       "text",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "three Φ0.3 cylindrical bosses (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "∅0.35 A B C",
+      "new": "∅0.35",
+      "page": 1,
+      "what": [
+       "text",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "three 0.35 mm diameter holes (hole)",
+      "new_belongs_to": "top face (hole)"
+     }
+    ],
+    "reproduced": {
+     "nist_ctc_04_asme1_rd#ref1 A (p1)": true,
+     "nist_ctc_04_asme1_rd#ref2 B (p1)": true,
+     "nist_ctc_04_asme1_rd#ref3 4X M12 x 1.75 -6H 25 ±0.25 (p1)": true,
+     "nist_ctc_04_asme1_rd#ref4 4X L J Ø20 ±0.2 20 ±0.2 (p1)": true,
+     "nist_ctc_04_asme1_rd#ref5 30X Ø14 ±0. (p1)": true,
+     "nist_ctc_04_asme1_rd#ref6 C (p1)": true,
+     "nist_ctc_04_asme1_rd#ref7 ∅0.35 A B C (p1)": true,
+     "nist_ctc_04_asme1_rd#ref8 M (p1)": true,
+     "nist_ctc_04_asme1_rd#ref9 D (p1)": true,
+     "nist_ctc_04_asme1_rd#ref10 F (p1)": true,
+     "nist_ctc_04_asme1_rd#ref11 G (p1)": true,
+     "nist_ctc_04_asme1_rd#ref12 0.5 A B C (p1)": true,
+     "nist_ctc_04_asme1_rd#ref13 2DG0.2D (p1)": true,
+     "nist_ctc_04_asme1_rd#ref14 Φ10 (p1)": false,
+     "nist_ctc_04_asme1_rd#ref15 30X √Ø20 ±0.3 X 90° ±1° (p1)": true,
+     "nist_ctc_04_asme1_rd#ref16 H (p1)": false,
+     "nist_ctc_04_asme1_rd#ref17 -6XΦ6.65±0.12 (p1)": true,
+     "nist_ctc_04_asme1_rd#ref18 Φ1.5 (p1)": true,
+     "nist_ctc_04_asme1_rd#ref19 Φ0.3 DEF DE (p1)": true
+    },
+    "route": "pdf"
+   },
+   "latency_s": 29.59,
+   "split": "dev"
+  },
+  {
+   "id": "nist_ctc_05_asme1_rd",
+   "verified": false,
+   "has_gt": false,
+   "reference": {
+    "n_pred": 24,
+    "n_ref": 26,
+    "n_paired": 23,
+    "agree_recall": 0.885,
+    "agree_precision": 0.958,
+    "numbers_agree": 1.0,
+    "type_agree": 0.957,
+    "gdt_agree": 0.9,
+    "datums_agree": 0.9,
+    "belongs_to_agree": 0.087,
+    "counts": {
+     "num": [
+      17,
+      17
+     ],
+     "typ": [
+      22,
+      23
+     ],
+     "gdt": [
+      9,
+      10
+     ],
+     "dat": [
+      9,
+      10
+     ],
+     "bel": [
+      2,
+      23
+     ]
+    },
+    "dropped": [
+     ".005 (p1)",
+     ".002 (p1)",
+     "Z (p2)"
+    ],
+    "new": [
+     "L (p1)"
+    ],
+    "changed": [
+     {
+      "ref": "Datum target D1 referenced in View 1 (of 2). Datum target D1 referenced",
+      "new": "Datum target D1 referenced in View 1 (of 2). Datum target D1 referenced",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "Datum target D1",
+      "new_belongs_to": "top face"
+     },
+     {
+      "ref": "D1",
+      "new": "D1",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "Datum target D1",
+      "new_belongs_to": "top face"
+     },
+     {
+      "ref": "A",
+      "new": "A",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "flange edge",
+      "new_belongs_to": "top face"
+     },
+     {
+      "ref": "B",
+      "new": "B",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "flange edge",
+      "new_belongs_to": "right boss"
+     },
+     {
+      "ref": ".015 B",
+      "new": ".015 B",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "right side hole (hole)",
+      "new_belongs_to": "right boss (hole)"
+     },
+     {
+      "ref": ".002 A",
+      "new": ".002 A",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (hole)",
+      "new_belongs_to": "left boss (hole)"
+     },
+     {
+      "ref": "-1.250",
+      "new": "-1.250",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "bottom face (hole)",
+      "new_belongs_to": "left boss (hole)"
+     },
+     {
+      "ref": "C1",
+      "new": "C1",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "hexagonal boss",
+      "new_belongs_to": "left side of the cylindrical boss"
+     },
+     {
+      "ref": ".025 A-B",
+      "new": ".025 A-B",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "large slot near center (fillet)",
+      "new_belongs_to": "left side of the cylindrical boss (fillet)"
+     },
+     {
+      "ref": ".025 A-B",
+      "new": ".025 A-B",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "large slot near center (face)",
+      "new_belongs_to": "left side of the cylindrical boss (hole)"
+     },
+     {
+      "ref": "A",
+      "new": "A",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "hexagonal boss",
+      "new_belongs_to": "left side of the cylindrical boss"
+     },
+     {
+      "ref": ".035 A-B",
+      "new": ".035 A-B",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "large slot near center (fillet)",
+      "new_belongs_to": "left side of the cylindrical boss (fillet)"
+     },
+     {
+      "ref": "φ.030 A",
+      "new": "φ.030 A",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "hexagonal boss (hole)",
+      "new_belongs_to": "left side of the cylindrical boss (hole)"
+     },
+     {
+      "ref": "-1.250",
+      "new": "-1.250",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "small slot near center (face)",
+      "new_belongs_to": "left side of the cylindrical boss (slot)"
+     },
+     {
+      "ref": "2.000",
+      "new": "2.000",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "large slot near center (slot)",
+      "new_belongs_to": "right side of the cylindrical boss (slot)"
+     },
+     {
+      "ref": "0.002",
+      "new": "0.002",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "bottom face (face)",
+      "new_belongs_to": "left side of the cylindrical boss (hole)"
+     },
+     {
+      "ref": ".005",
+      "new": ".005",
+      "page": 1,
+      "what": [
+       "type",
+       "characteristic",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "right side hole (hole)",
+      "new_belongs_to": "round boss"
+     },
+     {
+      "ref": "5.000 ±.008 ST",
+      "new": "5.000 ±.008",
+      "page": 1,
+      "what": [
+       "text",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "large slot near center (hole)",
+      "new_belongs_to": "left side of the cylindrical boss (hole)"
+     },
+     {
+      "ref": ".010 D",
+      "new": ".010 L D",
+      "page": 1,
+      "what": [
+       "text",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "right side hole (hole)",
+      "new_belongs_to": "left side of the cylindrical boss (hole)"
+     },
+     {
+      "ref": "710",
+      "new": "710 T",
+      "page": 1,
+      "what": [
+       "text",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "large slot near center (fillet)",
+      "new_belongs_to": "left side of the cylindrical boss (fillet)"
+     },
+     {
+      "ref": ".010 L",
+      "new": ".010 C",
+      "page": 1,
+      "what": [
+       "text",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (hole)",
+      "new_belongs_to": "left side of the cylindrical boss (hole)"
+     }
+    ],
+    "reproduced": {
+     "nist_ctc_05_asme1_rd#ref1 .005 (p1)": false,
+     "nist_ctc_05_asme1_rd#ref2 .005 (p1)": true,
+     "nist_ctc_05_asme1_rd#ref3 0.002 (p1)": true,
+     "nist_ctc_05_asme1_rd#ref4 .002 (p1)": false,
+     "nist_ctc_05_asme1_rd#ref5 2.000 (p1)": true,
+     "nist_ctc_05_asme1_rd#ref6 -1.250 (p1)": true,
+     "nist_ctc_05_asme1_rd#ref7 φ.030 A (p1)": true,
+     "nist_ctc_05_asme1_rd#ref8 .035 A-B (p1)": true,
+     "nist_ctc_05_asme1_rd#ref9 .010 L (p1)": true,
+     "nist_ctc_05_asme1_rd#ref10 .010 D (p1)": true,
+     "nist_ctc_05_asme1_rd#ref11 A (p1)": true,
+     "nist_ctc_05_asme1_rd#ref12 .025 A-B (p1)": true,
+     "nist_ctc_05_asme1_rd#ref13 .025 A-B (p1)": true,
+     "nist_ctc_05_asme1_rd#ref14 710 (p1)": true,
+     "nist_ctc_05_asme1_rd#ref15 C1 (p1)": true,
+     "nist_ctc_05_asme1_rd#ref16 5.000 ±.008 ST (p1)": true,
+     "nist_ctc_05_asme1_rd#ref17 2.000 (p2)": true,
+     "nist_ctc_05_asme1_rd#ref18 -1.250 (p2)": true,
+     "nist_ctc_05_asme1_rd#ref19 .002 A (p2)": true,
+     "nist_ctc_05_asme1_rd#ref20 .015 B (p2)": true,
+     "nist_ctc_05_asme1_rd#ref21 B (p2)": true,
+     "nist_ctc_05_asme1_rd#ref22 A (p2)": true,
+     "nist_ctc_05_asme1_rd#ref23 D1 (p2)": true,
+     "nist_ctc_05_asme1_rd#ref24 Z (p2)": false,
+     "nist_ctc_05_asme1_rd#ref25 Ø10.000 ±.001 (p2)": true,
+     "nist_ctc_05_asme1_rd#ref26 Datum target D1 referenced in View 1 (of 2). Datum target D1 referenced (p2)": true
+    },
+    "route": "pdf"
+   },
+   "latency_s": 39.77,
+   "split": "dev"
+  },
+  {
+   "id": "nist_ftc_06_asme1_rd",
+   "verified": false,
+   "has_gt": false,
+   "reference": {
+    "n_pred": 70,
+    "n_ref": 79,
+    "n_paired": 67,
+    "agree_recall": 0.848,
+    "agree_precision": 0.957,
+    "numbers_agree": 0.98,
+    "type_agree": 0.97,
+    "gdt_agree": 1.0,
+    "datums_agree": 0.889,
+    "belongs_to_agree": 0.015,
+    "counts": {
+     "num": [
+      49,
+      50
+     ],
+     "typ": [
+      65,
+      67
+     ],
+     "gdt": [
+      18,
+      18
+     ],
+     "dat": [
+      16,
+      18
+     ],
+     "bel": [
+      1,
+      67
+     ]
+    },
+    "dropped": [
+     "4X (p1)",
+     "2X L J Ø.812 ±.020 V.56 ±.02 (p1)",
+     ".025 M (p1)",
+     ".012 (p2)",
+     "5 +0.010 -0.020 (p2)",
+     "R (p2)",
+     "∅.015 D G (p3)",
+     "vant .50 ±.05 (p3)",
+     "K (p3)",
+     "2 -0.1 (p3)",
+     "27 ±0.1 (p3)",
+     "D (p3)"
+    ],
+    "new": [
+     "2X L] (p1)",
+     "Ø.812 ±.020 (p1)",
+     "V.56 ±.02 (p1)"
+    ],
+    "changed": [
+     {
+      "ref": "Z",
+      "new": "Z",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "Z axis",
+      "new_belongs_to": "bottom face"
+     },
+     {
+      "ref": "106)",
+      "new": "(106)",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left cylindrical feature",
+      "new_belongs_to": "right cylindrical boss"
+     },
+     {
+      "ref": "(1",
+      "new": "(1",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left cylindrical feature",
+      "new_belongs_to": "left cylindrical boss"
+     },
+     {
+      "ref": "(106)",
+      "new": "(106)",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left cylindrical feature",
+      "new_belongs_to": "right cylindrical boss"
+     },
+     {
+      "ref": "(1",
+      "new": "(1",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left cylindrical feature",
+      "new_belongs_to": "left cylindrical boss"
+     },
+     {
+      "ref": "D",
+      "new": "D",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left cylindrical feature (fillet)",
+      "new_belongs_to": "right cylindrical boss (fillet)"
+     },
+     {
+      "ref": "D",
+      "new": "D",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left cylindrical feature (slot)",
+      "new_belongs_to": "right cylindrical boss (hole)"
+     },
+     {
+      "ref": ".01",
+      "new": ".01",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left cylindrical feature",
+      "new_belongs_to": "right cylindrical boss"
+     },
+     {
+      "ref": ".05",
+      "new": ".05",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left cylindrical feature",
+      "new_belongs_to": "left cylindrical boss"
+     },
+     {
+      "ref": "D",
+      "new": "D",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left cylindrical feature (fillet)",
+      "new_belongs_to": "left cylindrical boss (fillet)"
+     },
+     {
+      "ref": "B C",
+      "new": "B C",
+      "page": 3,
+      "what": [
+       "type",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left cylindrical feature",
+      "new_belongs_to": "left cylindrical boss"
+     },
+     {
+      "ref": ".01",
+      "new": ".01",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left cylindrical feature",
+      "new_belongs_to": "right cylindrical boss"
+     },
+     {
+      "ref": ".05",
+      "new": ".05",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left cylindrical feature",
+      "new_belongs_to": "left cylindrical boss"
+     },
+     {
+      "ref": "Z",
+      "new": "Z",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "Z axis (hole)",
+      "new_belongs_to": "bottom face (hole)"
+     },
+     {
+      "ref": "H1",
+      "new": "H1",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "right hexagonal boss",
+      "new_belongs_to": "left cylindrical boss"
+     },
+     {
+      "ref": "(∅1.000)",
+      "new": "(∅1.000)",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "right hexagonal boss (face)",
+      "new_belongs_to": "right cylindrical boss (hole)"
+     },
+     {
+      "ref": "G1",
+      "new": "G1",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left hexagonal boss",
+      "new_belongs_to": "left cylindrical boss"
+     },
+     {
+      "ref": "(∅1.000)",
+      "new": "(∅1.000)",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "large cylindrical feature",
+      "new_belongs_to": "large cylindrical boss"
+     },
+     {
+      "ref": "K2",
+      "new": "K2",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "right hexagonal boss (slot)",
+      "new_belongs_to": "right cylindrical boss (slot)"
+     },
+     {
+      "ref": "K1",
+      "new": "K1",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left hexagonal boss (slot)",
+      "new_belongs_to": "left cylindrical boss (slot)"
+     },
+     {
+      "ref": "J2",
+      "new": "J2",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "right hexagonal boss (slot)",
+      "new_belongs_to": "right cylindrical boss (slot)"
+     },
+     {
+      "ref": "J1",
+      "new": "J1",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left hexagonal boss (slot)",
+      "new_belongs_to": "left cylindrical boss (slot)"
+     },
+     {
+      "ref": ".500 ±.008",
+      "new": ".500 ±.008",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "right cylindrical feature (hole)",
+      "new_belongs_to": "left cylindrical hole (hole)"
+     },
+     {
+      "ref": "J",
+      "new": "J",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top surface (hole)",
+      "new_belongs_to": "right cylindrical boss (hole)"
+     },
+     {
+      "ref": ".025 D C",
+      "new": ".025 D C",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left cylindrical feature (hole)",
+      "new_belongs_to": "left cylindrical boss (hole)"
+     },
+     {
+      "ref": ".500 ±.008",
+      "new": ".500 ±.008",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top surface (hole)",
+      "new_belongs_to": "large slot near center (hole)"
+     },
+     {
+      "ref": "Ø.250 ±.008",
+      "new": "Ø.250 ±.008",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left cylindrical feature",
+      "new_belongs_to": "right cylindrical hole"
+     },
+     {
+      "ref": "∅.250 ±.008",
+      "new": "∅.250 ±.008",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left cylindrical feature (hole)",
+      "new_belongs_to": "round boss"
+     },
+     {
+      "ref": "D",
+      "new": "D",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "boss on the bottom surface (face)",
+      "new_belongs_to": "right cylindrical boss (face)"
+     },
+     {
+      "ref": ".01",
+      "new": ".01",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "boss on the top surface (face)",
+      "new_belongs_to": "top face of the rectangular section (face)"
+     },
+     {
+      "ref": ".05",
+      "new": ".05",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "slot on the back surface (face)",
+      "new_belongs_to": "top face of the rectangular section (hole)"
+     },
+     {
+      "ref": "-12.00 ±.01-",
+      "new": "-12.00 ±.01-",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "slot on the bottom surface (edge)",
+      "new_belongs_to": "left cylindrical boss (hole)"
+     },
+     {
+      "ref": ".04 A B C",
+      "new": ".04 A B C",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "slot on the top surface (slot)",
+      "new_belongs_to": "left cylindrical boss (hole)"
+     },
+     {
+      "ref": ".01 D",
+      "new": ".01 D",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "slot on the left side (hole)",
+      "new_belongs_to": "round boss"
+     },
+     {
+      "ref": ".05 D B C",
+      "new": ".05 D B C",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "slot on the right side (hole)",
+      "new_belongs_to": "round boss"
+     },
+     {
+      "ref": ".01 E",
+      "new": ".01 E",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "slot on the back surface (hole)",
+      "new_belongs_to": "round boss"
+     },
+     {
+      "ref": ".02 A B C",
+      "new": ".02 A B C",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "slot on the front surface (hole)",
+      "new_belongs_to": "round boss"
+     },
+     {
+      "ref": "2X 1.00 : 3.00-",
+      "new": "2X 1.00 : 3.00-",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "slot on the bottom surface (hole)",
+      "new_belongs_to": "left cylindrical boss (hole)"
+     },
+     {
+      "ref": "-1.00:2.00-",
+      "new": "-1.00:2.00-",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "slot on the top surface (hole)",
+      "new_belongs_to": "large slot near center (hole)"
+     },
+     {
+      "ref": "C",
+      "new": "C",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "cylindrical protrusion on the bottom (face)",
+      "new_belongs_to": "right cylindrical boss (hole)"
+     },
+     {
+      "ref": ".012 A B",
+      "new": ".012 A B",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "cylindrical protrusion on the top (face)",
+      "new_belongs_to": "left cylindrical boss (hole)"
+     },
+     {
+      "ref": "B",
+      "new": "B",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "small cylindrical protrusion on the right (face)",
+      "new_belongs_to": "right cylindrical boss (hole)"
+     },
+     {
+      "ref": ".012 A",
+      "new": ".012 A",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "small cylindrical protrusion on the left (face)",
+      "new_belongs_to": "top face of the rectangular section (hole)"
+     },
+     {
+      "ref": "12.00 ±.01",
+      "new": "12.00 ±.01",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left cylindrical protrusion (face)",
+      "new_belongs_to": "left cylindrical boss (hole)"
+     },
+     {
+      "ref": "Z",
+      "new": "Z",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "central cylindrical hole",
+      "new_belongs_to": "center boss"
+     },
+     {
+      "ref": ".015 C A B",
+      "new": "Ø.015 C A B",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "rightmost cylindrical hole (hole)",
+      "new_belongs_to": "left side boss (hole)"
+     },
+     {
+      "ref": "2X Ø.562 ±.008-",
+      "new": "2X Ø.562 ±.008-",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "leftmost cylindrical hole (hole)",
+      "new_belongs_to": "left side boss (hole)"
+     },
+     {
+      "ref": "⌀.025 M A B C",
+      "new": "⌀.025 M A B C",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "central cylindrical hole (boss)",
+      "new_belongs_to": "left side boss (boss)"
+     },
+     {
+      "ref": "v.50 ±.02",
+      "new": "v.50 ±.02",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "bottom cylindrical hole (boss)",
+      "new_belongs_to": "left side boss (boss)"
+     },
+     {
+      "ref": "Ø.625 ±.020",
+      "new": "Ø.625 ±.020",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top cylindrical hole (boss)",
+      "new_belongs_to": "left side boss (boss)"
+     },
+     {
+      "ref": "4X Ø.415 ±.008",
+      "new": "4X Ø.415 ±.008",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "hexagonal boss on left (boss)",
+      "new_belongs_to": "left side boss (boss)"
+     },
+     {
+      "ref": "φ.02M F",
+      "new": "⌀ .02 M F",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "hexagonal boss on right (hole)",
+      "new_belongs_to": "bottom boss (hole)"
+     },
+     {
+      "ref": "4X Ø.281 ±.008",
+      "new": "4X Ø.281 ±.008",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "leftmost slot (hole)",
+      "new_belongs_to": "bottom boss (hole)"
+     },
+     {
+      "ref": ".01 D",
+      "new": ".01 D",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "bottom surface of the central hub (face)",
+      "new_belongs_to": "center boss (hole)"
+     },
+     {
+      "ref": ".02 A B C",
+      "new": ".02 A B C",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "side surface of the central hub (face)",
+      "new_belongs_to": "center boss (hole)"
+     },
+     {
+      "ref": "SØ.025 D B C",
+      "new": "SØ.025 D B C",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top surface of the central hub (face)",
+      "new_belongs_to": "center boss (hole)"
+     },
+     {
+      "ref": "2X SØ1.250 ±.008",
+      "new": "2X SØ1.250 ±.008",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "central cylindrical hole (face)",
+      "new_belongs_to": "center boss (hole)"
+     },
+     {
+      "ref": "24X R.125 ±.020",
+      "new": "24X R.125 ±.020",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "rightmost cylindrical hole (face)",
+      "new_belongs_to": "right side boss (hole)"
+     },
+     {
+      "ref": ".01 A",
+      "new": ".01 A",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "leftmost cylindrical hole (face)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": ".2X CR.50 ±.02",
+      "new": "2X CR.50 ±.02",
+      "page": 1,
+      "what": [
+       "text",
+       "numbers",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "topmost cylindrical hole (face)",
+      "new_belongs_to": "left side boss (hole)"
+     },
+     {
+      "ref": "T.31 ±.02",
+      "new": ".31 ±.02",
+      "page": 1,
+      "what": [
+       "text",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "hexagonal boss on bottom (hole)",
+      "new_belongs_to": "bottom boss (hole)"
+     },
+     {
+      "ref": "(SR.500)-",
+      "new": "(SR.500)",
+      "page": 1,
+      "what": [
+       "text",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "leftmost cylindrical hole (hole)",
+      "new_belongs_to": "left side boss (hole)"
+     },
+     {
+      "ref": ".025 D C K D C",
+      "new": ".025 D C K",
+      "page": 3,
+      "what": [
+       "text",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left cylindrical feature (hole)",
+      "new_belongs_to": "right cylindrical hole (hole)"
+     },
+     {
+      "ref": "vant .015 D H",
+      "new": "⌀.015 D H",
+      "page": 3,
+      "what": [
+       "text",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "right cylindrical feature",
+      "new_belongs_to": "small cylindrical boss"
+     },
+     {
+      "ref": "L0.40 ±.01",
+      "new": "Ø.40 ±.01",
+      "page": 1,
+      "what": [
+       "text",
+       "type",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "hexagonal boss on top (hole)",
+      "new_belongs_to": "bottom boss (hole)"
+     },
+     {
+      "ref": "Ø.015 E A B E A B",
+      "new": "Ø.015 E A B",
+      "page": 1,
+      "what": [
+       "text",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "rightmost slot (hole)",
+      "new_belongs_to": "bottom boss (hole)"
+     }
+    ],
+    "reproduced": {
+     "nist_ftc_06_asme1_rd#ref1 .01 A (p1)": true,
+     "nist_ftc_06_asme1_rd#ref2 .2X CR.50 ±.02 (p1)": true,
+     "nist_ftc_06_asme1_rd#ref3 24X R.125 ±.020 (p1)": true,
+     "nist_ftc_06_asme1_rd#ref4 2X SØ1.250 ±.008 (p1)": true,
+     "nist_ftc_06_asme1_rd#ref5 SØ.025 D B C (p1)": true,
+     "nist_ftc_06_asme1_rd#ref6 .02 A B C (p1)": true,
+     "nist_ftc_06_asme1_rd#ref7 .01 D (p1)": true,
+     "nist_ftc_06_asme1_rd#ref8 4X Ø.281 ±.008 (p1)": true,
+     "nist_ftc_06_asme1_rd#ref9 Ø.015 E A B E A B (p1)": true,
+     "nist_ftc_06_asme1_rd#ref10 4X (p1)": false,
+     "nist_ftc_06_asme1_rd#ref11 L0.40 ±.01 (p1)": true,
+     "nist_ftc_06_asme1_rd#ref12 T.31 ±.02 (p1)": true,
+     "nist_ftc_06_asme1_rd#ref13 φ.02M F (p1)": true,
+     "nist_ftc_06_asme1_rd#ref14 4X Ø.415 ±.008 (p1)": true,
+     "nist_ftc_06_asme1_rd#ref15 Ø.625 ±.020 (p1)": true,
+     "nist_ftc_06_asme1_rd#ref16 v.50 ±.02 (p1)": true,
+     "nist_ftc_06_asme1_rd#ref17 ⌀.025 M A B C (p1)": true,
+     "nist_ftc_06_asme1_rd#ref18 2X Ø.562 ±.008- (p1)": true,
+     "nist_ftc_06_asme1_rd#ref19 .015 C A B (p1)": true,
+     "nist_ftc_06_asme1_rd#ref20 2X L J Ø.812 ±.020 V.56 ±.02 (p1)": false,
+     "nist_ftc_06_asme1_rd#ref21 .025 M (p1)": false,
+     "nist_ftc_06_asme1_rd#ref22 Z (p1)": true,
+     "nist_ftc_06_asme1_rd#ref23 (SR.500)- (p1)": true,
+     "nist_ftc_06_asme1_rd#ref24 12.00 ±.01 (p2)": true,
+     "nist_ftc_06_asme1_rd#ref25 .012 A (p2)": true,
+     "nist_ftc_06_asme1_rd#ref26 B (p2)": true,
+     "nist_ftc_06_asme1_rd#ref27 .012 A B (p2)": true,
+     "nist_ftc_06_asme1_rd#ref28 C (p2)": true,
+     "nist_ftc_06_asme1_rd#ref29 -1.00:2.00- (p2)": true,
+     "nist_ftc_06_asme1_rd#ref30 2X 1.00 : 3.00- (p2)": true,
+     "nist_ftc_06_asme1_rd#ref31 .02 A B C (p2)": true,
+     "nist_ftc_06_asme1_rd#ref32 .01 E (p2)": true,
+     "nist_ftc_06_asme1_rd#ref33 .05 D B C (p2)": true,
+     "nist_ftc_06_asme1_rd#ref34 .01 D (p2)": true,
+     "nist_ftc_06_asme1_rd#ref35 .04 A B C (p2)": true,
+     "nist_ftc_06_asme1_rd#ref36 -12.00 ±.01- (p2)": true,
+     "nist_ftc_06_asme1_rd#ref37 .012 (p2)": false,
+     "nist_ftc_06_asme1_rd#ref38 .05 (p2)": true,
+     "nist_ftc_06_asme1_rd#ref39 5 +0.010 -0.020 (p2)": false,
+     "nist_ftc_06_asme1_rd#ref40 R (p2)": false,
+     "nist_ftc_06_asme1_rd#ref41 .01 (p2)": true,
+     "nist_ftc_06_asme1_rd#ref42 D (p2)": true,
+     "nist_ftc_06_asme1_rd#ref43 ∅.250 ±.008 (p3)": true,
+     "nist_ftc_06_asme1_rd#ref44 ∅.015 D G (p3)": false,
+     "nist_ftc_06_asme1_rd#ref45 Ø.250 ±.008 (p3)": true,
+     "nist_ftc_06_asme1_rd#ref46 vant .50 ±.05 (p3)": false,
+     "nist_ftc_06_asme1_rd#ref47 vant .015 D H (p3)": true,
+     "nist_ftc_06_asme1_rd#ref48 .500 ±.008 (p3)": true,
+     "nist_ftc_06_asme1_rd#ref49 .025 D C (p3)": true,
+     "nist_ftc_06_asme1_rd#ref50 J (p3)": true,
+     "nist_ftc_06_asme1_rd#ref51 .500 ±.008 (p3)": true,
+     "nist_ftc_06_asme1_rd#ref52 .025 D C K D C (p3)": true,
+     "nist_ftc_06_asme1_rd#ref53 K (p3)": false,
+     "nist_ftc_06_asme1_rd#ref54 J1 (p3)": true,
+     "nist_ftc_06_asme1_rd#ref55 J2 (p3)": true,
+     "nist_ftc_06_asme1_rd#ref56 K1 (p3)": true,
+     "nist_ftc_06_asme1_rd#ref57 K2 (p3)": true,
+     "nist_ftc_06_asme1_rd#ref58 (∅1.000) (p3)": true,
+     "nist_ftc_06_asme1_rd#ref59 G1 (p3)": true,
+     "nist_ftc_06_asme1_rd#ref60 (∅1.000) (p3)": true,
+     "nist_ftc_06_asme1_rd#ref61 H1 (p3)": true,
+     "nist_ftc_06_asme1_rd#ref62 Z (p3)": true,
+     "nist_ftc_06_asme1_rd#ref63 2 -0.1 (p3)": false,
+     "nist_ftc_06_asme1_rd#ref64 27 ±0.1 (p3)": false,
+     "nist_ftc_06_asme1_rd#ref65 .05 (p3)": true,
+     "nist_ftc_06_asme1_rd#ref66 .01 (p3)": true,
+     "nist_ftc_06_asme1_rd#ref67 D (p3)": false,
+     "nist_ftc_06_asme1_rd#ref68 B C (p3)": true,
+     "nist_ftc_06_asme1_rd#ref69 D (p3)": true,
+     "nist_ftc_06_asme1_rd#ref70 .05 (p3)": true,
+     "nist_ftc_06_asme1_rd#ref71 .01 (p3)": true,
+     "nist_ftc_06_asme1_rd#ref72 D (p3)": true,
+     "nist_ftc_06_asme1_rd#ref73 D (p3)": true,
+     "nist_ftc_06_asme1_rd#ref74 (1 (p3)": true,
+     "nist_ftc_06_asme1_rd#ref75 (106) (p3)": true,
+     "nist_ftc_06_asme1_rd#ref76 (1 (p3)": true,
+     "nist_ftc_06_asme1_rd#ref77 106) (p3)": true,
+     "nist_ftc_06_asme1_rd#ref78 Z (p3)": true,
+     "nist_ftc_06_asme1_rd#ref79 View Rotated 45° View Rotated 45° View Rotated 45° (p3)": true
+    },
+    "route": "pdf"
+   },
+   "latency_s": 107.1,
+   "split": "dev"
+  },
+  {
+   "id": "nist_ftc_07_asme1_rd",
+   "verified": true,
+   "has_gt": true,
+   "gt": {
+    "drawing": "nist_ftc_07_asme1_rd",
+    "n_pred": 64,
+    "n_gt_required": 53,
+    "recall": 0.868,
+    "precision": 0.75,
+    "numbers": 0.889,
+    "type": 0.917,
+    "gdt_symbol": 0.55,
+    "datums": 0.9,
+    "belongs_to": 0.957,
+    "belongs_primary": 0.587,
+    "title_block": 1.0,
+    "notes": true,
+    "units": true,
+    "missed": [
+     "↧.30 ±.02 (p1)",
+     "⌖ Ø.020Ⓟ.425 A B (p1)",
+     "C (p1)",
+     "⌖ Ø.023Ⓟ.150 D B C (p1)",
+     "⌖ Ø.023Ⓟ.425 A B C (p1)",
+     "⊥ Ø.015Ⓟ.425 A (p1)",
+     "D (p2)"
+    ],
+    "extra": [
+     "Ø.015P (p1)",
+     "Ø.425 (p1)",
+     "A B (p1)",
+     "Ø.023 (p1)",
+     "P.150 (p1)",
+     "A (p1)",
+     ".425 (p1)",
+     "Ø.020 (p1)",
+     "P (p1)",
+     ".425 (p1)",
+     "A B C (p1)",
+     "ASIC (p1)",
+     "A B C (p2)",
+     "Z (p2)",
+     "Ø.040M (p2)",
+     "Ø.040 M (p3)"
+    ],
+    "pairs": [
+     {
+      "pred": "INNER AND OUTER RADII OF ENTIRE GROOVE",
+      "gt": "INNER AND OUTER RADII OF ENTIRE GROOVE",
+      "page": 4,
+      "numbers": null,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "inner and outer radii of the entire groove (hole)"
+     },
+     {
+      "pred": "R.012 - .022",
+      "gt": "R.012 - .022",
+      "page": 4,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "inner and outer radii of the entire groove (hole)"
+     },
+     {
+      "pred": "INNER AND OUTER WALL OF ENTIRE GROOVE",
+      "gt": "INNER AND OUTER WALL OF ENTIRE GROOVE",
+      "page": 4,
+      "numbers": null,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "groove along the length (groove)"
+     },
+     {
+      "pred": ".005 A B C",
+      "gt": ".005 A B C",
+      "page": 4,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "profile of a surface",
+      "gt_char": "profile of a surface",
+      "belongs_to": "middle edge (groove)"
+     },
+     {
+      "pred": ".030 A B C",
+      "gt": ".030 A B C",
+      "page": 4,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "profile of a surface",
+      "gt_char": "profile of a surface",
+      "belongs_to": "top edge (groove)"
+     },
+     {
+      "pred": ".006 A B C",
+      "gt": "⌓ .006 A B C",
+      "page": 4,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "profile of a surface",
+      "gt_char": "profile of a surface",
+      "belongs_to": "bottom edge (hole)"
+     },
+     {
+      "pred": "SIM REQT",
+      "gt": "SIM REQT",
+      "page": 3,
+      "numbers": null,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "top face (face)"
+     },
+     {
+      "pred": ".015 A",
+      "gt": ".015 A",
+      "page": 3,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "profile of a surface",
+      "gt_char": "profile of a surface",
+      "belongs_to": "top face (face)"
+     },
+     {
+      "pred": ".070 A B C",
+      "gt": ".070 A B C",
+      "page": 3,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "profile of a surface",
+      "gt_char": "profile of a surface",
+      "belongs_to": "top face (face)"
+     },
+     {
+      "pred": "SIM REQT",
+      "gt": "SIM REQT",
+      "page": 3,
+      "numbers": null,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "top face (hole)"
+     },
+     {
+      "pred": "4 COPLANAR SURFACES",
+      "gt": "4 COPLANAR SURFACES",
+      "page": 3,
+      "numbers": null,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "top face (hole)"
+     },
+     {
+      "pred": "E",
+      "gt": "E",
+      "page": 3,
+      "numbers": null,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "bottom face (hole)"
+     },
+     {
+      "pred": ".015 A",
+      "gt": ".015 A",
+      "page": 3,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "profile of a surface",
+      "gt_char": "profile of a surface",
+      "belongs_to": "top face (hole)"
+     },
+     {
+      "pred": ".070 A B C",
+      "gt": ".070 A B C",
+      "page": 3,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "profile of a surface",
+      "gt_char": "profile of a surface",
+      "belongs_to": "top face (hole)"
+     },
+     {
+      "pred": "2X Ø.594 +.012 - .002",
+      "gt": "2X Ø.594 +.012 -.002",
+      "page": 3,
+      "numbers": false,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "left side hole"
+     },
+     {
+      "pred": ".06 E B C",
+      "gt": "⌖ Ø.06Ⓜ E B C",
+      "page": 2,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "perpendicularity",
+      "gt_char": "position",
+      "belongs_to": "top face (hole)"
+     },
+     {
+      "pred": "4X Ø.281 +.006 -.001",
+      "gt": "4X Ø.281 +.006 -.001",
+      "page": 2,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "top face (hole)"
+     },
+     {
+      "pred": "4 COPLANAR SURFACES",
+      "gt": "4 COPLANAR SURFACES",
+      "page": 2,
+      "numbers": null,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "top face (hole)"
+     },
+     {
+      "pred": "D",
+      "gt": "D",
+      "page": 2,
+      "numbers": null,
+      "type_ok": false,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "front face (hole)"
+     },
+     {
+      "pred": ".01 A",
+      "gt": ".01 A",
+      "page": 2,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "profile of a surface",
+      "gt_char": "profile of a surface",
+      "belongs_to": "top face (hole)"
+     },
+     {
+      "pred": ".04 A B C",
+      "gt": ".04 A B C",
+      "page": 2,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "circularity",
+      "gt_char": "profile of a surface",
+      "belongs_to": "top face (hole)"
+     },
+     {
+      "pred": "2X Ø.594 +.012 - .002",
+      "gt": "2X Ø.594 +.012 -.002",
+      "page": 2,
+      "numbers": false,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "front face"
+     },
+     {
+      "pred": ".015 A",
+      "gt": "Ø.015 A",
+      "page": 2,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "position",
+      "gt_char": "position",
+      "belongs_to": "left side (hole)"
+     },
+     {
+      "pred": ".060 A B C",
+      "gt": "⌖ Ø.060 A B C",
+      "page": 2,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "position",
+      "gt_char": "position",
+      "belongs_to": "left side (hole)"
+     },
+     {
+      "pred": "4X Ø.173 +.005; -.001",
+      "gt": "4X Ø.173 +.005 -.001",
+      "page": 2,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "left side (hole)"
+     },
+     {
+      "pred": "3X Ø.875 ±.010",
+      "gt": "3X Ø.875 ±.010",
+      "page": 2,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "bottom face (hole)"
+     },
+     {
+      "pred": ".06 A B C",
+      "gt": "⌓ .06 A B C",
+      "page": 2,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "parallelism",
+      "gt_char": "profile of a surface",
+      "belongs_to": "top face (hole)"
+     },
+     {
+      "pred": ".01 / Ø1.00",
+      "gt": "▱ .01 / Ø1.00",
+      "page": 2,
+      "numbers": true,
+      "type_ok": false,
+      "pred_char": null,
+      "gt_char": "flatness",
+      "belongs_to": "top face (hole)"
+     },
+     {
+      "pred": "2X Ø.250 +.003 -.000",
+      "gt": "2X Ø.250 +.003 -.000",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "left side hole"
+     },
+     {
+      "pred": "B",
+      "gt": "B",
+      "page": 1,
+      "numbers": null,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "left side face (hole)"
+     },
+     {
+      "pred": "A",
+      "gt": "A",
+      "page": 1,
+      "numbers": null,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "left side face (hole)"
+     },
+     {
+      "pred": "Ø.250 +.003 -.000",
+      "gt": "Ø.250 +.003 -.000",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "left side hole (hole)"
+     },
+     {
+      "pred": "2 SURFACES F1.1 AND F1.2",
+      "gt": "2 SURFACES F1.1 AND F1.2",
+      "page": 1,
+      "numbers": null,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "left side face (fillet)"
+     },
+     {
+      "pred": ".015",
+      "gt": "⌓ .015",
+      "page": 1,
+      "numbers": true,
+      "type_ok": false,
+      "pred_char": null,
+      "gt_char": "profile of a surface",
+      "belongs_to": "left side face (fillet)"
+     },
+     {
+      "pred": "4X Ø.250 +.003 -.001",
+      "gt": "4X Ø.250 +.003 -.001",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "left side hole (hole)"
+     },
+     {
+      "pred": "Ø.250+.003-.000",
+      "gt": "Ø.250 +.003 -.000",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "left side hole (hole)"
+     },
+     {
+      "pred": "vØ.438 ±.010",
+      "gt": "⌴Ø.438 ±.010",
+      "page": 2,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "top face (hole)"
+     },
+     {
+      "pred": "x.30 ±.02",
+      "gt": "↧.30 ±.02",
+      "page": 2,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "top face (hole)"
+     },
+     {
+      "pred": "x.30 ±.02",
+      "gt": "↧.30 ±.02",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "top face (hole)"
+     },
+     {
+      "pred": "x.30 ±.02",
+      "gt": "↧.30 ±.02",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "top face (hole)"
+     },
+     {
+      "pred": "x.30±.02",
+      "gt": "↧.30 ±.02",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "top face (hole)"
+     },
+     {
+      "pred": "3X Ø.875 ±.020",
+      "gt": "3X Ø.875 ±.020 ST",
+      "page": 2,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "bottom face (hole)"
+     },
+     {
+      "pred": ".02",
+      "gt": "Ø.02Ⓜ E B C",
+      "page": 2,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "perpendicularity",
+      "gt_char": "position",
+      "belongs_to": "top face (hole)"
+     },
+     {
+      "pred": "Ø.050",
+      "gt": "⌖ Ø.050 ST A B C",
+      "page": 2,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "flatness",
+      "gt_char": "position",
+      "belongs_to": "bottom face (hole)"
+     },
+     {
+      "pred": ".03 A",
+      "gt": "// .03 A",
+      "page": 2,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "flatness",
+      "gt_char": "parallelism",
+      "belongs_to": "top face (hole)"
+     },
+     {
+      "pred": "F1.2 C B D",
+      "gt": "F1.2",
+      "page": 1,
+      "numbers": null,
+      "type_ok": false,
+      "pred_char": "flatness",
+      "gt_char": null,
+      "belongs_to": "left side face (hole)"
+     },
+     {
+      "pred": "Ø.045 MAX A B C",
+      "gt": "⌖ Ø.040Ⓜ Ø.045 MAX A B C",
+      "page": 3,
+      "numbers": false,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": "position",
+      "belongs_to": "right side hole"
+     },
+     {
+      "pred": "Ø.045 MAX A B C",
+      "gt": "⌖ Ø.040Ⓜ Ø.045 MAX A B C",
+      "page": 2,
+      "numbers": false,
+      "type_ok": true,
+      "pred_char": "position",
+      "gt_char": "position",
+      "belongs_to": "front face"
+     }
+    ],
+    "found": {
+     "nist_ftc_07_asme1_rd#1 Ø.250 +.003 -.000 (p1)": true,
+     "nist_ftc_07_asme1_rd#2 ↧.30 ±.02 (p1)": false,
+     "nist_ftc_07_asme1_rd#3 ⌖ Ø.020Ⓟ.425 A B (p1)": false,
+     "nist_ftc_07_asme1_rd#4 C (p1)": false,
+     "nist_ftc_07_asme1_rd#5 4X Ø.250 +.003 -.001 (p1)": true,
+     "nist_ftc_07_asme1_rd#6 ↧.30 ±.02 (p1)": true,
+     "nist_ftc_07_asme1_rd#7 ⌖ Ø.023Ⓟ.150 D B C (p1)": false,
+     "nist_ftc_07_asme1_rd#8 2X Ø.250 +.003 -.000 (p1)": true,
+     "nist_ftc_07_asme1_rd#9 ↧.30 ±.02 (p1)": true,
+     "nist_ftc_07_asme1_rd#10 ⌖ Ø.023Ⓟ.425 A B C (p1)": false,
+     "nist_ftc_07_asme1_rd#11 Ø.250 +.003 -.000 (p1)": true,
+     "nist_ftc_07_asme1_rd#12 ↧.30 ±.02 (p1)": true,
+     "nist_ftc_07_asme1_rd#13 ⊥ Ø.015Ⓟ.425 A (p1)": false,
+     "nist_ftc_07_asme1_rd#14 B (p1)": true,
+     "nist_ftc_07_asme1_rd#15 ⌓ .015 (p1)": true,
+     "nist_ftc_07_asme1_rd#16 2 SURFACES F1.1 AND F1.2 (p1)": true,
+     "nist_ftc_07_asme1_rd#17 A (p1)": true,
+     "nist_ftc_07_asme1_rd#20 4X Ø.281 +.006 -.001 (p2)": true,
+     "nist_ftc_07_asme1_rd#21 ⌴Ø.438 ±.010 (p2)": true,
+     "nist_ftc_07_asme1_rd#22 ↧.30 ±.02 (p2)": true,
+     "nist_ftc_07_asme1_rd#23 ⌖ Ø.06Ⓜ E B C (p2)": true,
+     "nist_ftc_07_asme1_rd#24 Ø.02Ⓜ E B C (p2)": true,
+     "nist_ftc_07_asme1_rd#25 .04 A B C (p2)": true,
+     "nist_ftc_07_asme1_rd#26 .01 A (p2)": true,
+     "nist_ftc_07_asme1_rd#27 4 COPLANAR SURFACES (p2)": true,
+     "nist_ftc_07_asme1_rd#28 D (p2)": false,
+     "nist_ftc_07_asme1_rd#29 ▱ .01 / Ø1.00 (p2)": true,
+     "nist_ftc_07_asme1_rd#30 // .03 A (p2)": true,
+     "nist_ftc_07_asme1_rd#31 ⌓ .06 A B C (p2)": true,
+     "nist_ftc_07_asme1_rd#32 2X Ø.594 +.012 -.002 (p2)": true,
+     "nist_ftc_07_asme1_rd#33 ⌖ Ø.040Ⓜ Ø.045 MAX A B C (p2)": true,
+     "nist_ftc_07_asme1_rd#34 4X Ø.173 +.005 -.001 (p2)": true,
+     "nist_ftc_07_asme1_rd#35 ⌖ Ø.060 A B C (p2)": true,
+     "nist_ftc_07_asme1_rd#36 Ø.015 A (p2)": true,
+     "nist_ftc_07_asme1_rd#37 3X Ø.875 ±.020 ST (p2)": true,
+     "nist_ftc_07_asme1_rd#38 3X Ø.875 ±.010 (p2)": true,
+     "nist_ftc_07_asme1_rd#39 ⌖ Ø.050 ST A B C (p2)": true,
+     "nist_ftc_07_asme1_rd#41 2X Ø.594 +.012 -.002 (p3)": true,
+     "nist_ftc_07_asme1_rd#42 ⌖ Ø.040Ⓜ Ø.045 MAX A B C (p3)": true,
+     "nist_ftc_07_asme1_rd#43 .070 A B C (p3)": true,
+     "nist_ftc_07_asme1_rd#44 .015 A (p3)": true,
+     "nist_ftc_07_asme1_rd#45 SIM REQT (p3)": true,
+     "nist_ftc_07_asme1_rd#46 .070 A B C (p3)": true,
+     "nist_ftc_07_asme1_rd#47 .015 A (p3)": true,
+     "nist_ftc_07_asme1_rd#48 4 COPLANAR SURFACES (p3)": true,
+     "nist_ftc_07_asme1_rd#49 SIM REQT (p3)": true,
+     "nist_ftc_07_asme1_rd#50 E (p3)": true,
+     "nist_ftc_07_asme1_rd#51 R.012 - .022 (p4)": true,
+     "nist_ftc_07_asme1_rd#52 INNER AND OUTER RADII OF ENTIRE GROOVE (p4)": true,
+     "nist_ftc_07_asme1_rd#53 .030 A B C (p4)": true,
+     "nist_ftc_07_asme1_rd#54 .005 A B C (p4)": true,
+     "nist_ftc_07_asme1_rd#55 INNER AND OUTER WALL OF ENTIRE GROOVE (p4)": true,
+     "nist_ftc_07_asme1_rd#56 ⌓ .006 A B C (p4)": true
+    }
+   },
+   "reference": {
+    "n_pred": 64,
+    "n_ref": 55,
+    "n_paired": 50,
+    "agree_recall": 0.909,
+    "agree_precision": 0.781,
+    "numbers_agree": 0.975,
+    "type_agree": 0.98,
+    "gdt_agree": 0.773,
+    "datums_agree": 0.909,
+    "belongs_to_agree": 0.3,
+    "counts": {
+     "num": [
+      39,
+      40
+     ],
+     "typ": [
+      49,
+      50
+     ],
+     "gdt": [
+      17,
+      22
+     ],
+     "dat": [
+      20,
+      22
+     ],
+     "bel": [
+      15,
+      50
+     ]
+    },
+    "dropped": [
+     "1.5-1.4 (p1)",
+     "Ø.020P .425 A B (p1)",
+     "Ø.023P .425 A B (p1)",
+     "D (p2)",
+     "1.5-1.4 (p3)"
+    ],
+    "new": [
+     "Ø.015P (p1)",
+     "Ø.425 (p1)",
+     "A B (p1)",
+     "Ø.023 (p1)",
+     "A (p1)",
+     ".425 (p1)",
+     "Ø.020 (p1)",
+     "P (p1)",
+     "B (p1)",
+     ".425 (p1)",
+     "A B C (p1)",
+     "ASIC (p1)",
+     "A B C (p2)",
+     "Z (p2)"
+    ],
+    "changed": [
+     {
+      "ref": "INNER AND OUTER RADII OF ENTIRE GROOVE",
+      "new": "INNER AND OUTER RADII OF ENTIRE GROOVE",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "outer radius of the groove (face)",
+      "new_belongs_to": "inner and outer radii of the entire groove (hole)"
+     },
+     {
+      "ref": "R.012 - .022",
+      "new": "R.012 - .022",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "inner radius of the groove (face)",
+      "new_belongs_to": "inner and outer radii of the entire groove (hole)"
+     },
+     {
+      "ref": "INNER AND OUTER WALL OF ENTIRE GROOVE",
+      "new": "INNER AND OUTER WALL OF ENTIRE GROOVE",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "groove walls (groove)",
+      "new_belongs_to": "groove along the length (groove)"
+     },
+     {
+      "ref": ".005 A B C",
+      "new": ".005 A B C",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "inner wall of the groove (groove)",
+      "new_belongs_to": "middle edge (groove)"
+     },
+     {
+      "ref": ".030 A B C",
+      "new": ".030 A B C",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "outer wall of the groove (groove)",
+      "new_belongs_to": "top edge (groove)"
+     },
+     {
+      "ref": ".006 A B C",
+      "new": ".006 A B C",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "inner wall of the groove (hole)",
+      "new_belongs_to": "bottom edge (hole)"
+     },
+     {
+      "ref": "E",
+      "new": "E",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top face (hole)",
+      "new_belongs_to": "bottom face (hole)"
+     },
+     {
+      "ref": "Ø.045 MAX A B C",
+      "new": "Ø.045 MAX A B C",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "right hexagonal boss",
+      "new_belongs_to": "right side hole"
+     },
+     {
+      "ref": "Ø.040M",
+      "new": "Ø.040 M",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left hexagonal boss",
+      "new_belongs_to": "top face"
+     },
+     {
+      "ref": "2X Ø.594 +.012 - .002",
+      "new": "2X Ø.594 +.012 - .002",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left hexagonal boss",
+      "new_belongs_to": "left side hole"
+     },
+     {
+      "ref": "x.30 ±.02",
+      "new": "x.30 ±.02",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "back face (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "vØ.438 ±.010",
+      "new": "vØ.438 ±.010",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "back face (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": ".02",
+      "new": ".02",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "back face (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": ".06 E B C",
+      "new": ".06 E B C",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "back face (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "4X Ø.281 +.006 -.001",
+      "new": "4X Ø.281 +.006 -.001",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "back face (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "4 COPLANAR SURFACES",
+      "new": "4 COPLANAR SURFACES",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "front face (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "D",
+      "new": "D",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "back face (hole)",
+      "new_belongs_to": "front face (hole)"
+     },
+     {
+      "ref": ".01 A",
+      "new": ".01 A",
+      "page": 2,
+      "what": [
+       "characteristic",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "front face (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": ".04 A B C",
+      "new": ".04 A B C",
+      "page": 2,
+      "what": [
+       "characteristic",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "front face (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "Ø.045 MAX A B C",
+      "new": "Ø.045 MAX A B C",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "right side face",
+      "new_belongs_to": "front face"
+     },
+     {
+      "ref": "Ø.040M",
+      "new": "Ø.040M",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "right side face",
+      "new_belongs_to": "front face"
+     },
+     {
+      "ref": "2X Ø.594 +.012 - .002",
+      "new": "2X Ø.594 +.012 - .002",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "right side face",
+      "new_belongs_to": "front face"
+     },
+     {
+      "ref": ".015 A",
+      "new": ".015 A",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side face (face)",
+      "new_belongs_to": "left side (hole)"
+     },
+     {
+      "ref": ".060 A B C",
+      "new": ".060 A B C",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side face (face)",
+      "new_belongs_to": "left side (hole)"
+     },
+     {
+      "ref": "4X Ø.173 +.005; -.001",
+      "new": "4X Ø.173 +.005; -.001",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side face (face)",
+      "new_belongs_to": "left side (hole)"
+     },
+     {
+      "ref": "A",
+      "new": "A",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "two surfaces (F1.1 and F1.2) (groove)",
+      "new_belongs_to": "left side face (hole)"
+     },
+     {
+      "ref": "x.30 ±.02",
+      "new": "x.30 ±.02",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "bottom face (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "2 SURFACES F1.1 AND F1.2",
+      "new": "2 SURFACES F1.1 AND F1.2",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (groove)",
+      "new_belongs_to": "left side face (fillet)"
+     },
+     {
+      "ref": ".015",
+      "new": ".015",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "small hole at the bottom center (groove)",
+      "new_belongs_to": "left side face (fillet)"
+     },
+     {
+      "ref": "4X Ø.250 +.003 -.001",
+      "new": "4X Ø.250 +.003 -.001",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "four identical holes on the top face (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "Ø.250+.003 -.000",
+      "new": "Ø.250+.003-.000",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (slot)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": ".30 ±.02",
+      "new": "x.30 ±.02",
+      "page": 1,
+      "what": [
+       "text",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "bottom face",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "↓.30±.02",
+      "new": "x.30±.02",
+      "page": 1,
+      "what": [
+       "text",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "bottom face (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "Ø.050 ST A B C",
+      "new": "Ø.050",
+      "page": 2,
+      "what": [
+       "text",
+       "characteristic",
+       "datums"
+      ]
+     },
+     {
+      "ref": "F1.2",
+      "new": "F1.2 C B D",
+      "page": 1,
+      "what": [
+       "text",
+       "type",
+       "characteristic",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "vertical edge (hole)",
+      "new_belongs_to": "left side face (hole)"
+     },
+     {
+      "ref": "Ø.023 P .150",
+      "new": "P.150",
+      "page": 1,
+      "what": [
+       "text",
+       "numbers",
+       "characteristic",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "small hole at the bottom center (hole)",
+      "new_belongs_to": "top face (hole)"
+     }
+    ],
+    "reproduced": {
+     "nist_ftc_07_asme1_rd#ref1 Ø.250+.003 -.000 (p1)": true,
+     "nist_ftc_07_asme1_rd#ref2 4X Ø.250 +.003 -.001 (p1)": true,
+     "nist_ftc_07_asme1_rd#ref3 Ø.023 P .150 (p1)": true,
+     "nist_ftc_07_asme1_rd#ref4 x.30 ±.02 (p1)": true,
+     "nist_ftc_07_asme1_rd#ref5 F1.2 (p1)": true,
+     "nist_ftc_07_asme1_rd#ref6 1.5-1.4 (p1)": false,
+     "nist_ftc_07_asme1_rd#ref7 .015 (p1)": true,
+     "nist_ftc_07_asme1_rd#ref8 A (p1)": true,
+     "nist_ftc_07_asme1_rd#ref9 2 SURFACES F1.1 AND F1.2 (p1)": true,
+     "nist_ftc_07_asme1_rd#ref10 Ø.250+.003 -.000 (p1)": true,
+     "nist_ftc_07_asme1_rd#ref11 ↓.30±.02 (p1)": true,
+     "nist_ftc_07_asme1_rd#ref12 Ø.020P .425 A B (p1)": false,
+     "nist_ftc_07_asme1_rd#ref13 2X Ø.250 +.003 -.000 (p1)": true,
+     "nist_ftc_07_asme1_rd#ref14 .30 ±.02 (p1)": true,
+     "nist_ftc_07_asme1_rd#ref15 Ø.023P .425 A B (p1)": false,
+     "nist_ftc_07_asme1_rd#ref16 .01 / Ø1.00 (p2)": true,
+     "nist_ftc_07_asme1_rd#ref17 .03 A (p2)": true,
+     "nist_ftc_07_asme1_rd#ref18 .06 A B C (p2)": true,
+     "nist_ftc_07_asme1_rd#ref19 D (p2)": false,
+     "nist_ftc_07_asme1_rd#ref20 3X Ø.875 ±.020 (p2)": true,
+     "nist_ftc_07_asme1_rd#ref21 3X Ø.875 ±.010 (p2)": true,
+     "nist_ftc_07_asme1_rd#ref22 Ø.050 ST A B C (p2)": true,
+     "nist_ftc_07_asme1_rd#ref23 4X Ø.173 +.005; -.001 (p2)": true,
+     "nist_ftc_07_asme1_rd#ref24 .060 A B C (p2)": true,
+     "nist_ftc_07_asme1_rd#ref25 .015 A (p2)": true,
+     "nist_ftc_07_asme1_rd#ref26 2X Ø.594 +.012 - .002 (p2)": true,
+     "nist_ftc_07_asme1_rd#ref27 Ø.040M (p2)": true,
+     "nist_ftc_07_asme1_rd#ref28 Ø.045 MAX A B C (p2)": true,
+     "nist_ftc_07_asme1_rd#ref29 .04 A B C (p2)": true,
+     "nist_ftc_07_asme1_rd#ref30 .01 A (p2)": true,
+     "nist_ftc_07_asme1_rd#ref31 4 COPLANAR SURFACES (p2)": true,
+     "nist_ftc_07_asme1_rd#ref32 D (p2)": true,
+     "nist_ftc_07_asme1_rd#ref33 4X Ø.281 +.006 -.001 (p2)": true,
+     "nist_ftc_07_asme1_rd#ref34 .06 E B C (p2)": true,
+     "nist_ftc_07_asme1_rd#ref35 .02 (p2)": true,
+     "nist_ftc_07_asme1_rd#ref36 vØ.438 ±.010 (p2)": true,
+     "nist_ftc_07_asme1_rd#ref37 x.30 ±.02 (p2)": true,
+     "nist_ftc_07_asme1_rd#ref38 2X Ø.594 +.012 - .002 (p3)": true,
+     "nist_ftc_07_asme1_rd#ref39 Ø.040M (p3)": true,
+     "nist_ftc_07_asme1_rd#ref40 Ø.045 MAX A B C (p3)": true,
+     "nist_ftc_07_asme1_rd#ref41 1.5-1.4 (p3)": false,
+     "nist_ftc_07_asme1_rd#ref42 .070 A B C (p3)": true,
+     "nist_ftc_07_asme1_rd#ref43 .015 A (p3)": true,
+     "nist_ftc_07_asme1_rd#ref44 4 COPLANAR SURFACES (p3)": true,
+     "nist_ftc_07_asme1_rd#ref45 SIM REQT (p3)": true,
+     "nist_ftc_07_asme1_rd#ref46 E (p3)": true,
+     "nist_ftc_07_asme1_rd#ref47 .070 A B C (p3)": true,
+     "nist_ftc_07_asme1_rd#ref48 .015 A (p3)": true,
+     "nist_ftc_07_asme1_rd#ref49 SIM REQT (p3)": true,
+     "nist_ftc_07_asme1_rd#ref50 .006 A B C (p4)": true,
+     "nist_ftc_07_asme1_rd#ref51 .030 A B C (p4)": true,
+     "nist_ftc_07_asme1_rd#ref52 .005 A B C (p4)": true,
+     "nist_ftc_07_asme1_rd#ref53 INNER AND OUTER WALL OF ENTIRE GROOVE (p4)": true,
+     "nist_ftc_07_asme1_rd#ref54 R.012 - .022 (p4)": true,
+     "nist_ftc_07_asme1_rd#ref55 INNER AND OUTER RADII OF ENTIRE GROOVE (p4)": true
+    },
+    "route": "pdf"
+   },
+   "latency_s": 196.02,
+   "split": "dev"
+  },
+  {
+   "id": "nist_ftc_08_asme1_rc",
+   "verified": false,
+   "has_gt": false,
+   "reference": {
+    "n_pred": 59,
+    "n_ref": 57,
+    "n_paired": 52,
+    "agree_recall": 0.912,
+    "agree_precision": 0.881,
+    "numbers_agree": 0.956,
+    "type_agree": 0.923,
+    "gdt_agree": 0.897,
+    "datums_agree": 0.552,
+    "belongs_to_agree": 0.038,
+    "counts": {
+     "num": [
+      43,
+      45
+     ],
+     "typ": [
+      48,
+      52
+     ],
+     "gdt": [
+      26,
+      29
+     ],
+     "dat": [
+      16,
+      29
+     ],
+     "bel": [
+      2,
+      52
+     ]
+    },
+    "dropped": [
+     "D (p2)",
+     "L7. (p2)",
+     "G (p3)",
+     "Z (p3)",
+     "H (p4)"
+    ],
+    "new": [
+     "L1. (p2)",
+     "M (p3)",
+     "⌀.03DBC G (p3)",
+     ".020 M DBC (p4)",
+     "L (p4)",
+     "K (p4)",
+     ".020 (p4)"
+    ],
+    "changed": [
+     {
+      "ref": ".05",
+      "new": "Ø.05",
+      "page": 4,
+      "what": [
+       "type",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left hole (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "Ø.242 +.005 -.001",
+      "new": "Ø.242 +.005 -.001",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left hole (hole)",
+      "new_belongs_to": "large slot near center (hole)"
+     },
+     {
+      "ref": "M",
+      "new": "M",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left hole (hole)",
+      "new_belongs_to": "bottom face (hole)"
+     },
+     {
+      "ref": "L",
+      "new": "L",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left hole (face)",
+      "new_belongs_to": "bottom face (hole)"
+     },
+     {
+      "ref": "K",
+      "new": "K",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left hole (face)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": ".015 D",
+      "new": ".015 D",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left hole (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": ".020 M D B C",
+      "new": "Φ.020 M D B C",
+      "page": 4,
+      "what": [
+       "characteristic",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left hole (face)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": ".228 +.001 -.005",
+      "new": "Φ.228 +.001 -.005",
+      "page": 4,
+      "what": [
+       "type",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left hole (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": ".050",
+      "new": ".050",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left hole (face)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": ".020 M D B C",
+      "new": ".020 M D B C",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left hole (face)",
+      "new_belongs_to": "bottom face (hole)"
+     },
+     {
+      "ref": "+005 -001",
+      "new": "+005 -001",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left hole (face)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": ".005 DBC DBC",
+      "new": ".005 DBC DBC",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "two small holes (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": ".040 DBC",
+      "new": ".040 DBC",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top surface (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "2XΦ.250+.006-.001",
+      "new": "2XΦ.250+.006-.001",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "two circular holes with diameter Φ.250 (hole)",
+      "new_belongs_to": "large slot near center (hole)"
+     },
+     {
+      "ref": "L2-",
+      "new": "L2-",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side face (slot)",
+      "new_belongs_to": "left side boss (hole)"
+     },
+     {
+      "ref": ".213+.005-.001",
+      "new": ".213+.005-.001",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top face (face)",
+      "new_belongs_to": "left side boss (hole)"
+     },
+     {
+      "ref": "-10XΦ.213",
+      "new": "-10XΦ.213",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top face (hole)",
+      "new_belongs_to": "left side boss (hole)"
+     },
+     {
+      "ref": ".06 A B C",
+      "new": ".06 A B C",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "front face (hole)",
+      "new_belongs_to": "left side boss (hole)"
+     },
+     {
+      "ref": ".015",
+      "new": ".015",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side face (hole)",
+      "new_belongs_to": "left side boss (hole)"
+     },
+     {
+      "ref": ".05A A B C",
+      "new": ".05A A B C",
+      "page": 2,
+      "what": [
+       "characteristic",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "front face (hole)",
+      "new_belongs_to": "left side boss (hole)"
+     },
+     {
+      "ref": ".03FT",
+      "new": ".03FT",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "front face (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": ".015T",
+      "new": ".015T",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side face (hole)",
+      "new_belongs_to": "left side boss (hole)"
+     },
+     {
+      "ref": ".015T",
+      "new": ".015T",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side face (hole)",
+      "new_belongs_to": "left side boss (hole)"
+     },
+     {
+      "ref": "M",
+      "new": "M",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "rear face",
+      "new_belongs_to": "right side boss"
+     },
+     {
+      "ref": "F",
+      "new": "F",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "right side face",
+      "new_belongs_to": "left side boss"
+     },
+     {
+      "ref": ".015",
+      "new": ".015",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (hole)",
+      "new_belongs_to": "bottom face (hole)"
+     },
+     {
+      "ref": ".03F",
+      "new": ".03F",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (hole)",
+      "new_belongs_to": "left side (hole)"
+     },
+     {
+      "ref": "Ø.023M F A B C",
+      "new": "Ø.023M F A B C",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "2X Ø.238+.005-.001",
+      "new": "2X Ø.238+.005-.001",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "large slot near center (hole)",
+      "new_belongs_to": "large central slot (hole)"
+     },
+     {
+      "ref": "C",
+      "new": "C",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top face (hole)",
+      "new_belongs_to": "right side (hole)"
+     },
+     {
+      "ref": "Φ.020MF A B",
+      "new": "Φ.020M F A B",
+      "page": 1,
+      "what": [
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "right side hole (hole)",
+      "new_belongs_to": "hexagonal boss (hole)"
+     },
+     {
+      "ref": "Φ.015MFA B",
+      "new": "Φ.015MFA B",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole",
+      "new_belongs_to": "small hole near top left corner"
+     },
+     {
+      "ref": "Φ.238+.005-.001",
+      "new": "Φ.238+.005-.001",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "large slot near center",
+      "new_belongs_to": "large central slot"
+     },
+     {
+      "ref": "A",
+      "new": "A",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole",
+      "new_belongs_to": "left side"
+     },
+     {
+      "ref": "-0.228+.005-.001",
+      "new": "Ø.228+.005-.001",
+      "page": 4,
+      "what": [
+       "text",
+       "type",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left hole (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": ".242 +.005 -.001",
+      "new": "Ø.242 +.005 -.001 DB",
+      "page": 4,
+      "what": [
+       "text",
+       "numbers",
+       "type",
+       "characteristic",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left hole (hole)",
+      "new_belongs_to": "large slot near center (hole)"
+     },
+     {
+      "ref": ".06 A B C",
+      "new": ".06 D A B C",
+      "page": 1,
+      "what": [
+       "text",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "untoleranced surfaces (hole)",
+      "new_belongs_to": "bottom face (hole)"
+     },
+     {
+      "ref": "(□1.100)",
+      "new": "(□1.100)-",
+      "page": 3,
+      "what": [
+       "text",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "large square hole (hole)",
+      "new_belongs_to": "right edge (hole)"
+     },
+     {
+      "ref": ".015 D K M L M",
+      "new": ".015 D",
+      "page": 4,
+      "what": [
+       "text",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left hole (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": ".050 M D D B B C C",
+      "new": "Φ.050 M",
+      "page": 4,
+      "what": [
+       "text",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left hole (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "1",
+      "new": "1 D B C C",
+      "page": 4,
+      "what": [
+       "text",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left hole (face)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "-.001/.005",
+      "new": "-0.001/-0.005",
+      "page": 4,
+      "what": [
+       "text",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left hole (face)",
+      "new_belongs_to": "right side hole (hole)"
+     },
+     {
+      "ref": ".050 M D B C",
+      "new": ".050",
+      "page": 4,
+      "what": [
+       "text",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left hole (face)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": ".02M",
+      "new": ".02M DBC",
+      "page": 2,
+      "what": [
+       "text",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "front face (face)",
+      "new_belongs_to": "left side boss (hole)"
+     },
+     {
+      "ref": ".04M DBC",
+      "new": ".04M",
+      "page": 2,
+      "what": [
+       "text",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "front face (face)",
+      "new_belongs_to": "left side boss (hole)"
+     },
+     {
+      "ref": ".04 D E-F",
+      "new": ".04 D",
+      "page": 2,
+      "what": [
+       "text",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "bottom face (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": ".06 A B C",
+      "new": ".06 A A B C D",
+      "page": 2,
+      "what": [
+       "text",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "front face (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": ".03 A",
+      "new": ".03",
+      "page": 2,
+      "what": [
+       "text",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side face (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": ".02 D",
+      "new": ".02",
+      "page": 1,
+      "what": [
+       "text",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "bottom face (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "Φ.238+005-001",
+      "new": "Φ.238+0.005-0.001",
+      "page": 1,
+      "what": [
+       "text",
+       "numbers",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "large slot near center (hole)",
+      "new_belongs_to": "small hole near bottom right corner (hole)"
+     }
+    ],
+    "reproduced": {
+     "nist_ftc_08_asme1_rc#ref1 A (p1)": true,
+     "nist_ftc_08_asme1_rc#ref2 .02 D (p1)": true,
+     "nist_ftc_08_asme1_rc#ref3 .06 A B C (p1)": true,
+     "nist_ftc_08_asme1_rc#ref4 Φ.238+.005-.001 (p1)": true,
+     "nist_ftc_08_asme1_rc#ref5 Φ.015MFA B (p1)": true,
+     "nist_ftc_08_asme1_rc#ref6 Φ.238+005-001 (p1)": true,
+     "nist_ftc_08_asme1_rc#ref7 Φ.020MF A B (p1)": true,
+     "nist_ftc_08_asme1_rc#ref8 C (p1)": true,
+     "nist_ftc_08_asme1_rc#ref9 2X Ø.238+.005-.001 (p1)": true,
+     "nist_ftc_08_asme1_rc#ref10 Ø.023M F A B C (p1)": true,
+     "nist_ftc_08_asme1_rc#ref11 .03F (p1)": true,
+     "nist_ftc_08_asme1_rc#ref12 .015 (p1)": true,
+     "nist_ftc_08_asme1_rc#ref13 .03 A (p2)": true,
+     "nist_ftc_08_asme1_rc#ref14 .06 A B C (p2)": true,
+     "nist_ftc_08_asme1_rc#ref15 D (p2)": false,
+     "nist_ftc_08_asme1_rc#ref16 F (p2)": true,
+     "nist_ftc_08_asme1_rc#ref17 M (p2)": true,
+     "nist_ftc_08_asme1_rc#ref18 .04 D E-F (p2)": true,
+     "nist_ftc_08_asme1_rc#ref19 .015T (p2)": true,
+     "nist_ftc_08_asme1_rc#ref20 .035DBC T D B C (p2)": true,
+     "nist_ftc_08_asme1_rc#ref21 .015T (p2)": true,
+     "nist_ftc_08_asme1_rc#ref22 .03FT (p2)": true,
+     "nist_ftc_08_asme1_rc#ref23 .05A A B C (p2)": true,
+     "nist_ftc_08_asme1_rc#ref24 .015 (p2)": true,
+     "nist_ftc_08_asme1_rc#ref25 .06 A B C (p2)": true,
+     "nist_ftc_08_asme1_rc#ref26 -10XΦ.213 (p2)": true,
+     "nist_ftc_08_asme1_rc#ref27 .213+.005-.001 (p2)": true,
+     "nist_ftc_08_asme1_rc#ref28 .04M DBC (p2)": true,
+     "nist_ftc_08_asme1_rc#ref29 .02M (p2)": true,
+     "nist_ftc_08_asme1_rc#ref30 L7. (p2)": false,
+     "nist_ftc_08_asme1_rc#ref31 L2- (p2)": true,
+     "nist_ftc_08_asme1_rc#ref32 .015 D G (p3)": true,
+     "nist_ftc_08_asme1_rc#ref33 2XΦ.250+.006-.001 (p3)": true,
+     "nist_ftc_08_asme1_rc#ref34 G (p3)": false,
+     "nist_ftc_08_asme1_rc#ref35 (□1.100) (p3)": true,
+     "nist_ftc_08_asme1_rc#ref36 .040 DBC (p3)": true,
+     "nist_ftc_08_asme1_rc#ref37 .005 DBC DBC (p3)": true,
+     "nist_ftc_08_asme1_rc#ref38 Z (p3)": false,
+     "nist_ftc_08_asme1_rc#ref39 +005 -001 (p4)": true,
+     "nist_ftc_08_asme1_rc#ref40 .050 M D B C (p4)": true,
+     "nist_ftc_08_asme1_rc#ref41 L (p4)": true,
+     "nist_ftc_08_asme1_rc#ref42 -.001/.005 (p4)": true,
+     "nist_ftc_08_asme1_rc#ref43 .020 M D B C (p4)": true,
+     "nist_ftc_08_asme1_rc#ref44 K (p4)": true,
+     "nist_ftc_08_asme1_rc#ref45 .050 (p4)": true,
+     "nist_ftc_08_asme1_rc#ref46 .020 M D B C (p4)": true,
+     "nist_ftc_08_asme1_rc#ref47 1 (p4)": true,
+     "nist_ftc_08_asme1_rc#ref48 .228 +.001 -.005 (p4)": true,
+     "nist_ftc_08_asme1_rc#ref49 .050 M D D B B C C (p4)": true,
+     "nist_ftc_08_asme1_rc#ref50 .015 D (p4)": true,
+     "nist_ftc_08_asme1_rc#ref51 H (p4)": false,
+     "nist_ftc_08_asme1_rc#ref52 M (p4)": true,
+     "nist_ftc_08_asme1_rc#ref53 .015 D K M L M (p4)": true,
+     "nist_ftc_08_asme1_rc#ref54 .242 +.005 -.001 (p4)": true,
+     "nist_ftc_08_asme1_rc#ref55 .05 (p4)": true,
+     "nist_ftc_08_asme1_rc#ref56 Ø.242 +.005 -.001 (p4)": true,
+     "nist_ftc_08_asme1_rc#ref57 -0.228+.005-.001 (p4)": true
+    },
+    "route": "pdf"
+   },
+   "latency_s": 92.24,
+   "split": "dev"
+  },
+  {
+   "id": "nist_ftc_09_asme1_rd",
+   "verified": false,
+   "has_gt": false,
+   "reference": {
+    "n_pred": 68,
+    "n_ref": 70,
+    "n_paired": 60,
+    "agree_recall": 0.857,
+    "agree_precision": 0.882,
+    "numbers_agree": 1.0,
+    "type_agree": 0.983,
+    "gdt_agree": 0.846,
+    "datums_agree": 0.808,
+    "belongs_to_agree": 0.017,
+    "counts": {
+     "num": [
+      54,
+      54
+     ],
+     "typ": [
+      59,
+      60
+     ],
+     "gdt": [
+      22,
+      26
+     ],
+     "dat": [
+      21,
+      26
+     ],
+     "bel": [
+      1,
+      60
+     ]
+    },
+    "dropped": [
+     "C (p1)",
+     "250P.26 P (p1)",
+     "3X (p3)",
+     ".156 ±.008 (p3)",
+     ".375 ±.008 (p3)",
+     "Z (p3)",
+     "Ø.030 [0.76] A B C (p4)",
+     "3X (p4)",
+     "∅.025M A (p4)",
+     "Ø.025M (p4)"
+    ],
+    "new": [
+     "A (p2)",
+     "030M A B (p2)",
+     ".01 (p3)",
+     ".0156 (p3)",
+     ".040 (p3)",
+     ".375 (p3)",
+     "E (p4)",
+     "Dual units used for 2X Ø.315 holes. (p4)"
+    ],
+    "changed": [
+     {
+      "ref": "2X Ø.156 ±.008",
+      "new": "2X Ø.156 ±.008",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "two 0.156-inch diameter holes (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "2X Ø.156 ±.008",
+      "new": "2X Ø.156 ±.008",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "two 0.156-inch diameter holes (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "ADB",
+      "new": "ADB",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "the top face (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": ".020 A",
+      "new": ".020 A",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "0.020-inch diameter hole (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "2X Ø.221 ±.008",
+      "new": "2X Ø.221 ±.008",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "two 0.221-inch diameter holes (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": ".025M A D E",
+      "new": "∅.025M A D E",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "0.025-inch diameter hole (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": ".156 ±.008",
+      "new": ".156 ±.008",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "0.156-inch diameter hole (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "2X Ø.221 ±.008",
+      "new": "2X Ø.221 ±.008",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "two 0.221-inch diameter holes (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "D",
+      "new": "D",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "the top face (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "Ø.050 A B C",
+      "new": "Ø.050 A B C",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "0.050-inch diameter hole (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "Ø.010 A",
+      "new": "Ø.010 A",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "0.010-inch diameter hole (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "∅.025M A D E",
+      "new": "Ø.025M A D E",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "0.025-inch diameter hole (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "2X Ø.156 ±.008",
+      "new": "2X Ø.156 ±.008",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "two 0.156-inch diameter holes (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "2X Ø.156 ±008",
+      "new": "2X Ø.156 ±008",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "two 0.156-inch diameter holes (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": ".060 A B C",
+      "new": ".060 A B C",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "0.025-inch diameter hole (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "3X",
+      "new": "3X",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "two 0.156-inch diameter holes (hole)",
+      "new_belongs_to": "hexagonal boss (hole)"
+     },
+     {
+      "ref": "Ø.010 A",
+      "new": "Ø.010 A",
+      "page": 4,
+      "what": [
+       "characteristic",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "0.010-inch diameter hole (hole)",
+      "new_belongs_to": "large slot near center (hole)"
+     },
+     {
+      "ref": "3X Ø.281 ±.008",
+      "new": "3X Ø.281 ±.008",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "three 0.281-inch diameter holes (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "2X Ø.315 ±.008 [8 ±0.2]",
+      "new": "2X Ø.315 ±.008 [8 ±0.2]",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "two 0.315-inch diameter holes (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "Z",
+      "new": "Z",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "Z-axis dimension",
+      "new_belongs_to": "Z-axis"
+     },
+     {
+      "ref": ".008 A G H",
+      "new": ".008 A GH",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "Right side hole (face)",
+      "new_belongs_to": "bottom left corner (hole)"
+     },
+     {
+      "ref": ".01 A G H",
+      "new": ".01 A GH",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "Left side hole (slot)",
+      "new_belongs_to": "top left corner (hole)"
+     },
+     {
+      "ref": "4XR-",
+      "new": "4XR-",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top face (hole)",
+      "new_belongs_to": "left edge of the rectangular plate (hole)"
+     },
+     {
+      "ref": "-2XR",
+      "new": "-2XR",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top face (hole)",
+      "new_belongs_to": "left edge of the rectangular plate (hole)"
+     },
+     {
+      "ref": ".375 ±.008 X 1.500 ±.012",
+      "new": ".375 ±.008 X 1.500 ±.012",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "large slot near center (slot)",
+      "new_belongs_to": "large slot near the center of the rectangular plate (slot)"
+     },
+     {
+      "ref": "4XΦ.250±.008",
+      "new": "4XΦ.250±.008",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left Ø.250 side hole (hole)",
+      "new_belongs_to": "left edge of the rectangular plate (hole)"
+     },
+     {
+      "ref": ".030M A B C",
+      "new": ".030M A B C",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top face (slot)",
+      "new_belongs_to": "small circular hole at the top left corner (hole)"
+     },
+     {
+      "ref": ".02M A B C",
+      "new": ".02M A B C",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top face (hole)",
+      "new_belongs_to": "small circular hole at the top left corner (hole)"
+     },
+     {
+      "ref": "2X .25 ±.01",
+      "new": "2X .25 ±.01",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top face (hole)",
+      "new_belongs_to": "left edge of the rectangular plate (hole)"
+     },
+     {
+      "ref": ".06M A B C",
+      "new": ".06M A B C",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top face (hole)",
+      "new_belongs_to": "small circular hole at the top left corner (hole)"
+     },
+     {
+      "ref": "-2X1.00 ±.02",
+      "new": "-2X1.00 ±.02",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top face (hole)",
+      "new_belongs_to": "left edge of the rectangular plate (hole)"
+     },
+     {
+      "ref": "M",
+      "new": "M",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left edge (hole)",
+      "new_belongs_to": "small circular hole at the bottom right corner (hole)"
+     },
+     {
+      "ref": ".02 A F",
+      "new": ".02 A F",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left edge (hole)",
+      "new_belongs_to": "small circular hole at the top right corner (hole)"
+     },
+     {
+      "ref": "F",
+      "new": "F",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left edge (hole)",
+      "new_belongs_to": "small circular hole at the bottom left corner (hole)"
+     },
+     {
+      "ref": "Ø.030 A B C",
+      "new": "∅.030 A B C",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top face (hole)",
+      "new_belongs_to": "small circular hole at the top left corner (hole)"
+     },
+     {
+      "ref": "4X Ø.250 ±.008",
+      "new": "4X Ø.250 ±.008",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left Ø.250 side hole (hole)",
+      "new_belongs_to": "left edge of the rectangular plate (hole)"
+     },
+     {
+      "ref": "3XΦ.250+.003-.000",
+      "new": "3XΦ.250+.003-.000",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top left corner hole (hole)",
+      "new_belongs_to": "left edge (hole)"
+     },
+     {
+      "ref": "Φ.050P 10",
+      "new": "Φ.050 P 10",
+      "page": 1,
+      "what": [
+       "characteristic",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top left corner hole (hole)",
+      "new_belongs_to": "left edge (hole)"
+     },
+     {
+      "ref": "-3XΦ.250+.003-.000",
+      "new": "-3XΦ.250+.003 -.000",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top left corner hole (hole)",
+      "new_belongs_to": "left edge (hole)"
+     },
+     {
+      "ref": "A",
+      "new": "A",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top left corner hole (hole)",
+      "new_belongs_to": "top edge (hole)"
+     },
+     {
+      "ref": "Φ.010 P .260 A B C",
+      "new": "Φ.010 P .260 A B C",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top left corner hole (hole)",
+      "new_belongs_to": "top edge (hole)"
+     },
+     {
+      "ref": "Φ.250 +.003 - .000",
+      "new": "Φ.250+ .003 - .000",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top left corner hole (hole)",
+      "new_belongs_to": "top edge (hole)"
+     },
+     {
+      "ref": ".010P.260 A B C A",
+      "new": ".010P.260 A B C A",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top left corner hole (face)",
+      "new_belongs_to": "top edge (hole)"
+     },
+     {
+      "ref": ".050P.260",
+      "new": ".050P.260",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top left corner hole (face)",
+      "new_belongs_to": "top edge (hole)"
+     },
+     {
+      "ref": ".250+.003-.000",
+      "new": ".250+.003-.000",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top left corner hole (face)",
+      "new_belongs_to": "top edge (hole)"
+     },
+     {
+      "ref": ".05",
+      "new": ".05",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "bottom right corner hole (edge)",
+      "new_belongs_to": "bottom edge (hole)"
+     },
+     {
+      "ref": "4X .03 ±.01 X .03 ±.01",
+      "new": "4X .03 ±.01 X .03 ±.01",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "bottom right corner hole (hole)",
+      "new_belongs_to": "bottom edge (hole)"
+     },
+     {
+      "ref": "Ø.016M A B C",
+      "new": "Ø.016M A B C",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top left corner hole (hole)",
+      "new_belongs_to": "left edge (hole)"
+     },
+     {
+      "ref": "2X Ø.234 ±.008",
+      "new": "2X Ø.234 ±.008",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top left corner hole (hole)",
+      "new_belongs_to": "left edge (hole)"
+     },
+     {
+      "ref": "Ø.234 ±.008 -",
+      "new": "Ø.234 ±.008 -",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top left corner hole (hole)",
+      "new_belongs_to": "left edge (hole)"
+     },
+     {
+      "ref": "L Ø.016 A",
+      "new": "L Ø.016 A",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top left corner hole (hole)",
+      "new_belongs_to": "left edge (hole)"
+     },
+     {
+      "ref": "Ø.234 ±.008 -",
+      "new": "Ø.234 ±.008 -",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top left corner hole (hole)",
+      "new_belongs_to": "left edge (hole)"
+     },
+     {
+      "ref": "Ø.750 ±.008 L",
+      "new": "Ø.750 ±.008",
+      "page": 4,
+      "what": [
+       "text",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "0.750-inch diameter hole (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "Ø.016 A B",
+      "new": "Ø.016 A B C",
+      "page": 1,
+      "what": [
+       "text",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top left corner hole (hole)",
+      "new_belongs_to": "left edge (hole)"
+     },
+     {
+      "ref": ".020 A B C",
+      "new": "Ø.020 A D B",
+      "page": 4,
+      "what": [
+       "text",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "three 0.060-inch diameter holes (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "Ø.025M T",
+      "new": "∅.025M A D E",
+      "page": 4,
+      "what": [
+       "text",
+       "type",
+       "characteristic",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "0.025-inch diameter hole (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": ".01 A G H",
+      "new": ".010",
+      "page": 3,
+      "what": [
+       "text",
+       "characteristic",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "Left side hole (face)",
+      "new_belongs_to": "bottom left corner (hole)"
+     },
+     {
+      "ref": ".03 A G H",
+      "new": ".03",
+      "page": 3,
+      "what": [
+       "text",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "Right side hole (face)",
+      "new_belongs_to": "right top corner (hole)"
+     },
+     {
+      "ref": "Φ.030A",
+      "new": "Φ.030",
+      "page": 2,
+      "what": [
+       "text",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top face (hole)",
+      "new_belongs_to": "small circular hole at the top left corner (hole)"
+     }
+    ],
+    "reproduced": {
+     "nist_ftc_09_asme1_rd#ref1 .01 A (p1)": true,
+     "nist_ftc_09_asme1_rd#ref2 Ø.234 ±.008 - (p1)": true,
+     "nist_ftc_09_asme1_rd#ref3 L Ø.016 A (p1)": true,
+     "nist_ftc_09_asme1_rd#ref4 Ø.234 ±.008 - (p1)": true,
+     "nist_ftc_09_asme1_rd#ref5 Ø.016 A B (p1)": true,
+     "nist_ftc_09_asme1_rd#ref6 C (p1)": false,
+     "nist_ftc_09_asme1_rd#ref7 2X Ø.234 ±.008 (p1)": true,
+     "nist_ftc_09_asme1_rd#ref8 Ø.016M A B C (p1)": true,
+     "nist_ftc_09_asme1_rd#ref9 4X .03 ±.01 X .03 ±.01 (p1)": true,
+     "nist_ftc_09_asme1_rd#ref10 .05 (p1)": true,
+     "nist_ftc_09_asme1_rd#ref11 .250+.003-.000 (p1)": true,
+     "nist_ftc_09_asme1_rd#ref12 .050P.260 (p1)": true,
+     "nist_ftc_09_asme1_rd#ref13 .010P.260 A B C A (p1)": true,
+     "nist_ftc_09_asme1_rd#ref14 Φ.250 +.003 - .000 (p1)": true,
+     "nist_ftc_09_asme1_rd#ref15 Φ.010 P .260 A B C (p1)": true,
+     "nist_ftc_09_asme1_rd#ref16 A (p1)": true,
+     "nist_ftc_09_asme1_rd#ref17 -3XΦ.250+.003-.000 (p1)": true,
+     "nist_ftc_09_asme1_rd#ref18 Φ.050P 10 (p1)": true,
+     "nist_ftc_09_asme1_rd#ref19 3XΦ.250+.003-.000 (p1)": true,
+     "nist_ftc_09_asme1_rd#ref20 250P.26 P (p1)": false,
+     "nist_ftc_09_asme1_rd#ref21 4X Ø.250 ±.008 (p2)": true,
+     "nist_ftc_09_asme1_rd#ref22 Ø.030 A B C (p2)": true,
+     "nist_ftc_09_asme1_rd#ref23 F (p2)": true,
+     "nist_ftc_09_asme1_rd#ref24 .02 A F (p2)": true,
+     "nist_ftc_09_asme1_rd#ref25 M (p2)": true,
+     "nist_ftc_09_asme1_rd#ref26 -2X1.00 ±.02 (p2)": true,
+     "nist_ftc_09_asme1_rd#ref27 .06M A B C (p2)": true,
+     "nist_ftc_09_asme1_rd#ref28 2X .25 ±.01 (p2)": true,
+     "nist_ftc_09_asme1_rd#ref29 .02M A B C (p2)": true,
+     "nist_ftc_09_asme1_rd#ref30 .030M A B C (p2)": true,
+     "nist_ftc_09_asme1_rd#ref31 4XΦ.250±.008 (p2)": true,
+     "nist_ftc_09_asme1_rd#ref32 Φ.030A (p2)": true,
+     "nist_ftc_09_asme1_rd#ref33 .375 ±.008 X 1.500 ±.012 (p2)": true,
+     "nist_ftc_09_asme1_rd#ref34 -2XR (p2)": true,
+     "nist_ftc_09_asme1_rd#ref35 4XR- (p2)": true,
+     "nist_ftc_09_asme1_rd#ref36 3X (p3)": false,
+     "nist_ftc_09_asme1_rd#ref37 .01 A G H (p3)": true,
+     "nist_ftc_09_asme1_rd#ref38 .03 A G H (p3)": true,
+     "nist_ftc_09_asme1_rd#ref39 .156 ±.008 (p3)": false,
+     "nist_ftc_09_asme1_rd#ref40 .375 ±.008 (p3)": false,
+     "nist_ftc_09_asme1_rd#ref41 .01 A G H (p3)": true,
+     "nist_ftc_09_asme1_rd#ref42 .008 A G H (p3)": true,
+     "nist_ftc_09_asme1_rd#ref43 Z (p3)": false,
+     "nist_ftc_09_asme1_rd#ref44 Z (p3)": true,
+     "nist_ftc_09_asme1_rd#ref45 2X Ø.315 ±.008 [8 ±0.2] (p4)": true,
+     "nist_ftc_09_asme1_rd#ref46 Ø.030 [0.76] A B C (p4)": false,
+     "nist_ftc_09_asme1_rd#ref47 3X Ø.281 ±.008 (p4)": true,
+     "nist_ftc_09_asme1_rd#ref48 Ø.010 A (p4)": true,
+     "nist_ftc_09_asme1_rd#ref49 3X (p4)": false,
+     "nist_ftc_09_asme1_rd#ref50 .020 A B C (p4)": true,
+     "nist_ftc_09_asme1_rd#ref51 3X (p4)": true,
+     "nist_ftc_09_asme1_rd#ref52 .060 A B C (p4)": true,
+     "nist_ftc_09_asme1_rd#ref53 2X Ø.156 ±008 (p4)": true,
+     "nist_ftc_09_asme1_rd#ref54 ∅.025M A (p4)": false,
+     "nist_ftc_09_asme1_rd#ref55 2X Ø.156 ±.008 (p4)": true,
+     "nist_ftc_09_asme1_rd#ref56 ∅.025M A D E (p4)": true,
+     "nist_ftc_09_asme1_rd#ref57 Ø.750 ±.008 L (p4)": true,
+     "nist_ftc_09_asme1_rd#ref58 Ø.010 A (p4)": true,
+     "nist_ftc_09_asme1_rd#ref59 Ø.050 A B C (p4)": true,
+     "nist_ftc_09_asme1_rd#ref60 D (p4)": true,
+     "nist_ftc_09_asme1_rd#ref61 2X Ø.221 ±.008 (p4)": true,
+     "nist_ftc_09_asme1_rd#ref62 .156 ±.008 (p4)": true,
+     "nist_ftc_09_asme1_rd#ref63 .025M A D E (p4)": true,
+     "nist_ftc_09_asme1_rd#ref64 2X Ø.221 ±.008 (p4)": true,
+     "nist_ftc_09_asme1_rd#ref65 .020 A (p4)": true,
+     "nist_ftc_09_asme1_rd#ref66 ADB (p4)": true,
+     "nist_ftc_09_asme1_rd#ref67 2X Ø.156 ±.008 (p4)": true,
+     "nist_ftc_09_asme1_rd#ref68 Ø.025M (p4)": false,
+     "nist_ftc_09_asme1_rd#ref69 2X Ø.156 ±.008 (p4)": true,
+     "nist_ftc_09_asme1_rd#ref70 Ø.025M T (p4)": true
+    },
+    "route": "pdf"
+   },
+   "latency_s": 103.98,
+   "split": "dev"
+  },
+  {
+   "id": "nist_ftc_10_asme1_rb",
+   "verified": false,
+   "has_gt": false,
+   "reference": {
+    "n_pred": 86,
+    "n_ref": 90,
+    "n_paired": 78,
+    "agree_recall": 0.867,
+    "agree_precision": 0.907,
+    "numbers_agree": 0.97,
+    "type_agree": 0.974,
+    "gdt_agree": 0.829,
+    "datums_agree": 0.771,
+    "belongs_to_agree": 0.205,
+    "counts": {
+     "num": [
+      65,
+      67
+     ],
+     "typ": [
+      76,
+      78
+     ],
+     "gdt": [
+      29,
+      35
+     ],
+     "dat": [
+      27,
+      35
+     ],
+     "bel": [
+      16,
+      78
+     ]
+    },
+    "dropped": [
+     "V2 ±0.15 (p2)",
+     "3 (p2)",
+     "1.5 A B C (p2)",
+     "1.75 A B C (p2)",
+     "R0.15 (p2)",
+     "Ø0.12 D G (p3)",
+     "27.5 ±1 (p3)",
+     "1.2 A B C (p3)",
+     "E (p3)",
+     "A (p4)",
+     "A (p4)",
+     "A (p4)"
+    ],
+    "new": [
+     "B (p1)",
+     "Ø5.5±0. (p2)",
+     "D (p2)",
+     "ABC (p2)",
+     "-1.75/0.2/1 (p2)",
+     "D (p3)",
+     "∅0L (p3)",
+     "2 COPLANAR SURFACES A B C (p3)"
+    ],
+    "changed": [
+     {
+      "ref": "0.1",
+      "new": "0.1",
+      "page": 5,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "The rectangular block.",
+      "new_belongs_to": "small slot near the center"
+     },
+     {
+      "ref": "0M A B C",
+      "new": "0M A B C",
+      "page": 5,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "The four cylindrical holes located on the top surface.",
+      "new_belongs_to": "smaller features (A, B, C)"
+     },
+     {
+      "ref": "4X Ø7 ±0.25",
+      "new": "4X Ø7 ±0.25",
+      "page": 5,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "The four cylindrical holes located on the top surface.",
+      "new_belongs_to": "four cylindrical holes"
+     },
+     {
+      "ref": "L2",
+      "new": "L2",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "slot labeled L2",
+      "new_belongs_to": "right hexagonal boss"
+     },
+     {
+      "ref": "0.15",
+      "new": "0.15",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "distance between two features (0.15 mm)",
+      "new_belongs_to": "left hexagonal boss"
+     },
+     {
+      "ref": "1.2",
+      "new": "1.2",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "distance between two features (1.2 mm)",
+      "new_belongs_to": "left hexagonal boss"
+     },
+     {
+      "ref": "L1",
+      "new": "L1",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "slot labeled L1 (slot)",
+      "new_belongs_to": "left hexagonal boss (hole)"
+     },
+     {
+      "ref": "K2",
+      "new": "K2",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "slot labeled K2",
+      "new_belongs_to": "right hexagonal boss"
+     },
+     {
+      "ref": "K1",
+      "new": "K1",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "slot labeled K1",
+      "new_belongs_to": "left hexagonal boss"
+     },
+     {
+      "ref": "Ø0.8 P 3.2 D G B",
+      "new": "⌀0.8 P 3.2 D G B",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "third leftmost hole diameter (Ø0.8) with positional tolerance (P 3.2) on planes D, G, and B",
+      "new_belongs_to": "right hexagonal boss"
+     },
+     {
+      "ref": "2X M3x0.5-6g",
+      "new": "2X M3x0.5-6g",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "third leftmost threaded hole (M3x0.5-6g)",
+      "new_belongs_to": "right hexagonal boss"
+     },
+     {
+      "ref": "Ø0.8 P 3.2 D F B",
+      "new": "⌀0.8 P 3.2 D F B",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "second leftmost hole diameter (Ø0.8) with positional tolerance (P 3.2) on planes D, F, and B",
+      "new_belongs_to": "right hexagonal boss"
+     },
+     {
+      "ref": "2X M3x0.5-6g",
+      "new": "2X M3x0.5-6g",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "second leftmost threaded hole (M3x0.5-6g)",
+      "new_belongs_to": "right hexagonal boss"
+     },
+     {
+      "ref": "Ø0.8 P 3.2 D E B",
+      "new": "Ø0.8 P 3.2 D E B",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "leftmost hole diameter (Ø0.8) with positional tolerance (P 3.2) on planes D, E, and B",
+      "new_belongs_to": "left hexagonal boss"
+     },
+     {
+      "ref": "2X M3x0.5-6g",
+      "new": "2X M3x0.5-6g",
+      "page": 4,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "leftmost threaded hole (M3x0.5-6g)",
+      "new_belongs_to": "left hexagonal boss"
+     },
+     {
+      "ref": "-F81",
+      "new": "-F81",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side surface (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "0.12 A",
+      "new": "0.12 A",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (face)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "3X Ø3.5 ±0.2",
+      "new": "3XØ3.5±0.2",
+      "page": 3,
+      "what": [
+       "numbers"
+      ]
+     },
+     {
+      "ref": "0.1",
+      "new": "0.1",
+      "page": 3,
+      "what": [
+       "characteristic"
+      ]
+     },
+     {
+      "ref": "0.8 A B C",
+      "new": "0.8 A B C",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side surface (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "V10 ±0.2",
+      "new": "V10 ±0.2",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "counterbore (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "4X LJ010 ±0.25",
+      "new": "4X LJ010 ±0.25",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "counterbore (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "Φ5.5 ±0.08",
+      "new": "Φ5.5 ±0.08",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "right side hole (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "Ø0.8 DBC",
+      "new": "Ø0.8 D B C",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "right side hole (slot)",
+      "new_belongs_to": "right side hole (hole)"
+     },
+     {
+      "ref": "4",
+      "new": "4",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "bottom face (slot)",
+      "new_belongs_to": "bottom face (hole)"
+     },
+     {
+      "ref": "Ø3.5 G6",
+      "new": "Ø3.5 G6",
+      "page": 3,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (slot)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "F65-",
+      "new": "F65-",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (face)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "4X R0.15 MAX",
+      "new": "4X R0.15 MAX",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (slot)",
+      "new_belongs_to": "top face (slot)"
+     },
+     {
+      "ref": "4X R0.2",
+      "new": "4X R0.2",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (fillet)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "1.75 A B C",
+      "new": "1.75 A B C",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "1.2",
+      "new": "⌀1.2",
+      "page": 2,
+      "what": [
+       "characteristic",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top face (face)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "€0.8 A B C",
+      "new": "⌀0.8 A B C",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (face)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "√10 ±0.2",
+      "new": "√10 ±0.2",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (face)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "J",
+      "new": "J",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole",
+      "new_belongs_to": "top face"
+     },
+     {
+      "ref": "0.1 A",
+      "new": "0.1 A",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole",
+      "new_belongs_to": "top face"
+     },
+     {
+      "ref": "-15 ±0.2",
+      "new": "-15 ±0.2",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole",
+      "new_belongs_to": "top face"
+     },
+     {
+      "ref": "0.25",
+      "new": "0.25",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "4X L₁₀10 ±0.25",
+      "new": "4X L∟Ø10 ±0.25",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (face)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "Ø5.5 ±0.08",
+      "new": "Ø5.5 ±0.08",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "right side hole (slot)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "V35 ±1",
+      "new": "V35 ±1",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top face (slot)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "Ø5.5 ±0.2",
+      "new": "Ø5.5 ±0.2",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (slot)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "1.2 A B",
+      "new": "1.2 A B",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "right side surface (hole)",
+      "new_belongs_to": "top left corner (hole)"
+     },
+     {
+      "ref": "Φ6 ±0.15",
+      "new": "Φ6 ±0.15",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (Ø6) (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "C",
+      "new": "C",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "center hole (C) (hole)",
+      "new_belongs_to": "top right corner (hole)"
+     },
+     {
+      "ref": "Φ0.5 A B",
+      "new": "Φ0.5 A B",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (Ø0.5) (hole)",
+      "new_belongs_to": "top left corner (hole)"
+     },
+     {
+      "ref": "Φ6 ±0.15",
+      "new": "Φ6 ±0.15",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (Ø6) (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "0.65 A B C",
+      "new": "Ø0.65 A B C",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "bottom surface (0.65) (hole)",
+      "new_belongs_to": "bottom left corner (hole)"
+     },
+     {
+      "ref": "2X Ø6 ±0.15",
+      "new": "2X Ø6 ±0.15",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (2x Ø6) (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "Ø0.75 A B C",
+      "new": "Ø0.75 A B C",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "center hole (Ø0.75) (hole)",
+      "new_belongs_to": "bottom left corner (hole)"
+     },
+     {
+      "ref": "4",
+      "new": "4",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "top surface (hole)",
+      "new_belongs_to": "bottom right corner (hole)"
+     },
+     {
+      "ref": "8X Ø2.5 ±0.15",
+      "new": "8X Ø2.5 ±0.15",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "bottom surface (8x Ø2.5 holes) (hole)",
+      "new_belongs_to": "large slot near center (hole)"
+     },
+     {
+      "ref": "1.2 ABC",
+      "new": "1.2 A B C",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "right side surface (hole)",
+      "new_belongs_to": "top left corner (hole)"
+     },
+     {
+      "ref": "Φ0.25 A",
+      "new": "∅0.25 A",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "small hole (Ø0.25) (hole)",
+      "new_belongs_to": "right side hole (hole)"
+     },
+     {
+      "ref": "Φ6 ±0.15",
+      "new": "Φ6 ±0.15",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (Ø6) (hole)",
+      "new_belongs_to": "left side hole (hole)"
+     },
+     {
+      "ref": "0.2 A",
+      "new": "0.2 A",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side surface (hole)",
+      "new_belongs_to": "bottom edge (hole)"
+     },
+     {
+      "ref": "⊥ Ø0.12 D F",
+      "new": "Ø0.12 D E F",
+      "page": 3,
+      "what": [
+       "text",
+       "characteristic",
+       "datums"
+      ]
+     },
+     {
+      "ref": "0.2/15 L",
+      "new": "0.2/15",
+      "page": 2,
+      "what": [
+       "text",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "3XØ3.5±0.2 L",
+      "new": "3X Ø3.5 ±0.2-",
+      "page": 3,
+      "what": [
+       "text",
+       "numbers"
+      ]
+     },
+     {
+      "ref": "⊥ Ø0.12 D",
+      "new": "Ø0.12",
+      "page": 3,
+      "what": [
+       "text",
+       "type",
+       "characteristic",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (hole)",
+      "new_belongs_to": "small hole (hole)"
+     },
+     {
+      "ref": "-0.2/1",
+      "new": "-/0.2/1 A B C",
+      "page": 2,
+      "what": [
+       "text",
+       "type",
+       "characteristic",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "4X L□Ø10 ±0.25",
+      "new": "4X ∟IØ10 ±0.25",
+      "page": 2,
+      "what": [
+       "text",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (slot)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "=0.5A J",
+      "new": "0.5",
+      "page": 2,
+      "what": [
+       "text",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "0.25H L",
+      "new": "0.25 L H",
+      "page": 2,
+      "what": [
+       "text",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "0.2 A B C",
+      "new": "0.2 A",
+      "page": 2,
+      "what": [
+       "text",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (face)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "€1.2 A B C",
+      "new": "1.2",
+      "page": 2,
+      "what": [
+       "text",
+       "characteristic",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left side hole (face)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "⌀0.8 D EⓂ️-FⓂ️-GⓂ️",
+      "new": "⌀0.8 D",
+      "page": 2,
+      "what": [
+       "text",
+       "datums",
+       "belongs_to"
+      ],
+      "ref_belongs_to": "bottom face (slot)",
+      "new_belongs_to": "top face (hole)"
+     }
+    ],
+    "reproduced": {
+     "nist_ftc_10_asme1_rb#ref1 0.2 A (p1)": true,
+     "nist_ftc_10_asme1_rb#ref2 Φ6 ±0.15 (p1)": true,
+     "nist_ftc_10_asme1_rb#ref3 Φ0.25 A (p1)": true,
+     "nist_ftc_10_asme1_rb#ref4 1.2 ABC (p1)": true,
+     "nist_ftc_10_asme1_rb#ref5 8X Ø2.5 ±0.15 (p1)": true,
+     "nist_ftc_10_asme1_rb#ref6 4 (p1)": true,
+     "nist_ftc_10_asme1_rb#ref7 Ø0.75 A B C (p1)": true,
+     "nist_ftc_10_asme1_rb#ref8 2X Ø6 ±0.15 (p1)": true,
+     "nist_ftc_10_asme1_rb#ref9 0.65 A B C (p1)": true,
+     "nist_ftc_10_asme1_rb#ref10 Φ6 ±0.15 (p1)": true,
+     "nist_ftc_10_asme1_rb#ref11 Φ0.5 A B (p1)": true,
+     "nist_ftc_10_asme1_rb#ref12 C (p1)": true,
+     "nist_ftc_10_asme1_rb#ref13 Φ6 ±0.15 (p1)": true,
+     "nist_ftc_10_asme1_rb#ref14 1.2 A B (p1)": true,
+     "nist_ftc_10_asme1_rb#ref15 Ø5.5 ±0.2 (p2)": true,
+     "nist_ftc_10_asme1_rb#ref16 V35 ±1 (p2)": true,
+     "nist_ftc_10_asme1_rb#ref17 Ø5.5 ±0.08 (p2)": true,
+     "nist_ftc_10_asme1_rb#ref18 ⌀0.8 D EⓂ️-FⓂ️-GⓂ️ (p2)": true,
+     "nist_ftc_10_asme1_rb#ref19 4X L□Ø10 ±0.25 (p2)": true,
+     "nist_ftc_10_asme1_rb#ref20 V2 ±0.15 (p2)": false,
+     "nist_ftc_10_asme1_rb#ref21 75 (p2)": true,
+     "nist_ftc_10_asme1_rb#ref22 0.2/15 L (p2)": true,
+     "nist_ftc_10_asme1_rb#ref23 1.2 (p2)": true,
+     "nist_ftc_10_asme1_rb#ref24 0.2 A B C (p2)": true,
+     "nist_ftc_10_asme1_rb#ref25 3 (p2)": false,
+     "nist_ftc_10_asme1_rb#ref26 0.25 (p2)": true,
+     "nist_ftc_10_asme1_rb#ref27 1.5 A B C (p2)": false,
+     "nist_ftc_10_asme1_rb#ref28 0.25H L (p2)": true,
+     "nist_ftc_10_asme1_rb#ref29 -15 ±0.2 (p2)": true,
+     "nist_ftc_10_asme1_rb#ref30 1A B C (p2)": true,
+     "nist_ftc_10_asme1_rb#ref31 0.1 A (p2)": true,
+     "nist_ftc_10_asme1_rb#ref32 J (p2)": true,
+     "nist_ftc_10_asme1_rb#ref33 5 ±0.2 (p2)": true,
+     "nist_ftc_10_asme1_rb#ref34 =0.5A J (p2)": true,
+     "nist_ftc_10_asme1_rb#ref35 4X L₁₀10 ±0.25 (p2)": true,
+     "nist_ftc_10_asme1_rb#ref36 √10 ±0.2 (p2)": true,
+     "nist_ftc_10_asme1_rb#ref37 €0.8 A B C (p2)": true,
+     "nist_ftc_10_asme1_rb#ref38 €1.2 A B C (p2)": true,
+     "nist_ftc_10_asme1_rb#ref39 -0.2/1 (p2)": true,
+     "nist_ftc_10_asme1_rb#ref40 1.75 A B C (p2)": false,
+     "nist_ftc_10_asme1_rb#ref41 1.75 A B C (p2)": true,
+     "nist_ftc_10_asme1_rb#ref42 4X R0.2 (p2)": true,
+     "nist_ftc_10_asme1_rb#ref43 4X R0.15 MAX (p2)": true,
+     "nist_ftc_10_asme1_rb#ref44 R0.15 (p2)": false,
+     "nist_ftc_10_asme1_rb#ref45 F65- (p2)": true,
+     "nist_ftc_10_asme1_rb#ref46 Ø3.5 G6 (p3)": true,
+     "nist_ftc_10_asme1_rb#ref47 4 (p3)": true,
+     "nist_ftc_10_asme1_rb#ref48 Ø0.8 DBC (p3)": true,
+     "nist_ftc_10_asme1_rb#ref49 Ø0.12 D G (p3)": false,
+     "nist_ftc_10_asme1_rb#ref50 Φ5.5 ±0.2 (p3)": true,
+     "nist_ftc_10_asme1_rb#ref51 Φ5.5 ±0.08 (p3)": true,
+     "nist_ftc_10_asme1_rb#ref52 27.5 ±1 (p3)": false,
+     "nist_ftc_10_asme1_rb#ref53 φ0.8 (p3)": true,
+     "nist_ftc_10_asme1_rb#ref54 4X LJ010 ±0.25 (p3)": true,
+     "nist_ftc_10_asme1_rb#ref55 V10 ±0.2 (p3)": true,
+     "nist_ftc_10_asme1_rb#ref56 0.8 A B C (p3)": true,
+     "nist_ftc_10_asme1_rb#ref57 1.2 A B C (p3)": false,
+     "nist_ftc_10_asme1_rb#ref58 3X Ø3.5 ±0.2 (p3)": true,
+     "nist_ftc_10_asme1_rb#ref59 0.1 (p3)": true,
+     "nist_ftc_10_asme1_rb#ref60 Ø3.5 G6 4 (p3)": true,
+     "nist_ftc_10_asme1_rb#ref61 Ø0.8 D B C (p3)": true,
+     "nist_ftc_10_asme1_rb#ref62 ⊥ Ø0.12 D (p3)": true,
+     "nist_ftc_10_asme1_rb#ref63 E (p3)": false,
+     "nist_ftc_10_asme1_rb#ref64 ⊥ Ø0.12 D F (p3)": true,
+     "nist_ftc_10_asme1_rb#ref65 Z1 (p3)": true,
+     "nist_ftc_10_asme1_rb#ref66 3XØ3.5±0.2 L (p3)": true,
+     "nist_ftc_10_asme1_rb#ref67 H (p3)": true,
+     "nist_ftc_10_asme1_rb#ref68 K (p3)": true,
+     "nist_ftc_10_asme1_rb#ref69 I (p3)": true,
+     "nist_ftc_10_asme1_rb#ref70 0.12 A (p3)": true,
+     "nist_ftc_10_asme1_rb#ref71 -F81 (p3)": true,
+     "nist_ftc_10_asme1_rb#ref72 H (p4)": true,
+     "nist_ftc_10_asme1_rb#ref73 2X M3x0.5-6g (p4)": true,
+     "nist_ftc_10_asme1_rb#ref74 Ø0.8 P 3.2 D E B (p4)": true,
+     "nist_ftc_10_asme1_rb#ref75 2X M3x0.5-6g (p4)": true,
+     "nist_ftc_10_asme1_rb#ref76 Ø0.8 P 3.2 D F B (p4)": true,
+     "nist_ftc_10_asme1_rb#ref77 2X M3x0.5-6g (p4)": true,
+     "nist_ftc_10_asme1_rb#ref78 Ø0.8 P 3.2 D G B (p4)": true,
+     "nist_ftc_10_asme1_rb#ref79 K1 (p4)": true,
+     "nist_ftc_10_asme1_rb#ref80 K2 (p4)": true,
+     "nist_ftc_10_asme1_rb#ref81 L1 (p4)": true,
+     "nist_ftc_10_asme1_rb#ref82 1.2 (p4)": true,
+     "nist_ftc_10_asme1_rb#ref83 0.15 (p4)": true,
+     "nist_ftc_10_asme1_rb#ref84 A (p4)": false,
+     "nist_ftc_10_asme1_rb#ref85 A (p4)": false,
+     "nist_ftc_10_asme1_rb#ref86 A (p4)": false,
+     "nist_ftc_10_asme1_rb#ref87 L2 (p4)": true,
+     "nist_ftc_10_asme1_rb#ref88 4X Ø7 ±0.25 (p5)": true,
+     "nist_ftc_10_asme1_rb#ref89 0M A B C (p5)": true,
+     "nist_ftc_10_asme1_rb#ref90 0.1 (p5)": true
+    },
+    "route": "pdf"
+   },
+   "latency_s": 133.35,
+   "split": "dev"
+  },
+  {
+   "id": "nist_ftc_11_asme1_rb",
+   "verified": false,
+   "has_gt": true,
+   "gt": {
+    "drawing": "nist_ftc_11_asme1_rb",
+    "n_pred": 12,
+    "n_gt_required": 12,
+    "recall": 0.917,
+    "precision": 1.0,
+    "numbers": 1.0,
+    "type": 0.917,
+    "gdt_symbol": 0.75,
+    "datums": 0.0,
+    "belongs_to": 0.727,
+    "belongs_primary": 0.182,
+    "title_block": 1.0,
+    "notes": true,
+    "units": true,
+    "missed": [
+     "B (p1)"
+    ],
+    "extra": [],
+    "pairs": [
+     {
+      "pred": "2X R0.1 MAX",
+      "gt": "2X R0.1 MAX",
+      "page": 2,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "cylindrical boss (fillet)"
+     },
+     {
+      "pred": "1.93 ±0.08",
+      "gt": "1.93 ±0.08",
+      "page": 2,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "cylindrical boss"
+     },
+     {
+      "pred": "A",
+      "gt": "A",
+      "page": 2,
+      "numbers": null,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "top flat surface"
+     },
+     {
+      "pred": "2X R1.5 ±0.04",
+      "gt": "2X R1.5 ±0.04",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "two radii at the ends of the cylindrical ring (fillet)"
+     },
+     {
+      "pred": "Ø63 ±0.5 AVG (O.D.)",
+      "gt": "Ø63 ±0.5 AVG (O.D.)",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "outer diameter of the cylindrical ring (hole)"
+     },
+     {
+      "pred": "B",
+      "gt": "B",
+      "page": 1,
+      "numbers": null,
+      "type_ok": false,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "top face"
+     },
+     {
+      "pred": "0.3F A B",
+      "gt": "⌓ 0.3Ⓕ A B",
+      "page": 2,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "profile of a surface",
+      "gt_char": "profile of a surface",
+      "belongs_to": "top flat surface (hole)"
+     },
+     {
+      "pred": "-(197.9)",
+      "gt": "(197.9)",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "bottom face (hole)"
+     },
+     {
+      "pred": "1.2F A B",
+      "gt": "↗ 1.2Ⓕ A B",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "circularity",
+      "gt_char": "circular runout",
+      "belongs_to": "top face (hole)"
+     },
+     {
+      "pred": "0.3F F",
+      "gt": "▱ 0.3Ⓕ",
+      "page": 2,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "flatness",
+      "gt_char": "flatness",
+      "belongs_to": "top flat surface (fillet)"
+     },
+     {
+      "pred": "1.2 F",
+      "gt": "○ 1.2Ⓕ",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": "circularity",
+      "gt_char": "circularity",
+      "belongs_to": "top face (hole)"
+     },
+     {
+      "pred": "Ø32 ±0.3 AVG (I",
+      "gt": "Ø32 ±0.3 AVG (I.D.)",
+      "page": 1,
+      "numbers": true,
+      "type_ok": true,
+      "pred_char": null,
+      "gt_char": null,
+      "belongs_to": "inner diameter of the central hole (hole)"
+     }
+    ],
+    "found": {
+     "nist_ftc_11_asme1_rb#1 Ø63 ±0.5 AVG (O.D.) (p1)": true,
+     "nist_ftc_11_asme1_rb#2 Ø32 ±0.3 AVG (I.D.) (p1)": true,
+     "nist_ftc_11_asme1_rb#3 ○ 1.2Ⓕ (p1)": true,
+     "nist_ftc_11_asme1_rb#4 B (p1)": false,
+     "nist_ftc_11_asme1_rb#5 ↗ 1.2Ⓕ A B (p1)": true,
+     "nist_ftc_11_asme1_rb#6 2X R1.5 ±0.04 (p1)": true,
+     "nist_ftc_11_asme1_rb#7 (197.9) (p1)": true,
+     "nist_ftc_11_asme1_rb#9 2X R0.1 MAX (p2)": true,
+     "nist_ftc_11_asme1_rb#10 ⌓ 0.3Ⓕ A B (p2)": true,
+     "nist_ftc_11_asme1_rb#11 1.93 ±0.08 (p2)": true,
+     "nist_ftc_11_asme1_rb#12 ▱ 0.3Ⓕ (p2)": true,
+     "nist_ftc_11_asme1_rb#13 A (p2)": true
+    }
+   },
+   "reference": {
+    "n_pred": 12,
+    "n_ref": 14,
+    "n_paired": 12,
+    "agree_recall": 0.857,
+    "agree_precision": 1.0,
+    "numbers_agree": 1.0,
+    "type_agree": 1.0,
+    "gdt_agree": 1.0,
+    "datums_agree": 1.0,
+    "belongs_to_agree": 0.0,
+    "counts": {
+     "num": [
+      10,
+      10
+     ],
+     "typ": [
+      12,
+      12
+     ],
+     "gdt": [
+      4,
+      4
+     ],
+     "dat": [
+      4,
+      4
+     ],
+     "bel": [
+      0,
+      12
+     ]
+    },
+    "dropped": [
+     "Z (p1)",
+     "Z (p2)"
+    ],
+    "new": [],
+    "changed": [
+     {
+      "ref": "2X R0.1 MAX",
+      "new": "2X R0.1 MAX",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "radius at the center of the rod (fillet)",
+      "new_belongs_to": "cylindrical boss (fillet)"
+     },
+     {
+      "ref": "1.93 ±0.08",
+      "new": "1.93 ±0.08",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "diameter of the rod",
+      "new_belongs_to": "cylindrical boss"
+     },
+     {
+      "ref": "0.3F A B",
+      "new": "0.3F A B",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "center of the rod (face)",
+      "new_belongs_to": "top flat surface (hole)"
+     },
+     {
+      "ref": "0.3F F",
+      "new": "0.3F F",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "chamfered edge (fillet)",
+      "new_belongs_to": "top flat surface (fillet)"
+     },
+     {
+      "ref": "A",
+      "new": "A",
+      "page": 2,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "left end face",
+      "new_belongs_to": "top flat surface"
+     },
+     {
+      "ref": "2X R1.5 ±0.04",
+      "new": "2X R1.5 ±0.04",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "radius of the annular grooves (fillet)",
+      "new_belongs_to": "two radii at the ends of the cylindrical ring (fillet)"
+     },
+     {
+      "ref": "-(197.9)",
+      "new": "-(197.9)",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "central hole depth (hole)",
+      "new_belongs_to": "bottom face (hole)"
+     },
+     {
+      "ref": "Ø63 ±0.5 AVG (O.D.)",
+      "new": "Ø63 ±0.5 AVG (O.D.)",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "outer diameter (hole)",
+      "new_belongs_to": "outer diameter of the cylindrical ring (hole)"
+     },
+     {
+      "ref": "1.2 F",
+      "new": "1.2 F",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "material thickness (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "Ø32 ±0.3 AVG (I",
+      "new": "Ø32 ±0.3 AVG (I",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "inner diameter (hole)",
+      "new_belongs_to": "inner diameter of the central hole (hole)"
+     },
+     {
+      "ref": "1.2F A B",
+      "new": "1.2F A B",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "material thickness (hole)",
+      "new_belongs_to": "top face (hole)"
+     },
+     {
+      "ref": "B",
+      "new": "B",
+      "page": 1,
+      "what": [
+       "belongs_to"
+      ],
+      "ref_belongs_to": "outer diameter",
+      "new_belongs_to": "top face"
+     }
+    ],
+    "reproduced": {
+     "nist_ftc_11_asme1_rb#ref1 B (p1)": true,
+     "nist_ftc_11_asme1_rb#ref2 1.2F A B (p1)": true,
+     "nist_ftc_11_asme1_rb#ref3 Ø32 ±0.3 AVG (I (p1)": true,
+     "nist_ftc_11_asme1_rb#ref4 1.2 F (p1)": true,
+     "nist_ftc_11_asme1_rb#ref5 Z (p1)": false,
+     "nist_ftc_11_asme1_rb#ref6 Ø63 ±0.5 AVG (O.D.) (p1)": true,
+     "nist_ftc_11_asme1_rb#ref7 -(197.9) (p1)": true,
+     "nist_ftc_11_asme1_rb#ref8 2X R1.5 ±0.04 (p1)": true,
+     "nist_ftc_11_asme1_rb#ref9 A (p2)": true,
+     "nist_ftc_11_asme1_rb#ref10 0.3F F (p2)": true,
+     "nist_ftc_11_asme1_rb#ref11 0.3F A B (p2)": true,
+     "nist_ftc_11_asme1_rb#ref12 1.93 ±0.08 (p2)": true,
+     "nist_ftc_11_asme1_rb#ref13 Z (p2)": false,
+     "nist_ftc_11_asme1_rb#ref14 2X R0.1 MAX (p2)": true
+    },
+    "route": "pdf"
+   },
+   "latency_s": 21.81,
+   "split": "test"
+  }
+ ]
+}

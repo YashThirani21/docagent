@@ -1,0 +1,120 @@
+{
+  "answer": "The component appears to have undergone a bending deformation, and there are visible cracks or fractures along the bend, indicating potential fatigue or overload. The material shows signs of wear or corrosion on the surface. The component has markings labeled 'LD-1' and 'LC-1', which could indicate specific locations or measurements. A ruler is present in two images, providing scale for the component's dimensions.",
+  "diagnosis": "The component exhibits signs of fatigue or overload, possibly due to bending stress, and there are visible cracks or fractures along the bend. The presence of wear or corrosion suggests that the component may have been subjected to environmental factors or cyclic loading.",
+  "recommended_actions": [
+    "Inspect the component for any additional cracks or damage, especially around the bend and at the locations marked 'LD-1' and 'LC-1'.",
+    "Perform a detailed metallurgical analysis to determine the root cause of the fatigue or overload, including the material composition and any potential manufacturing defects.",
+    "Consider replacing the component if the inspection reveals significant damage or if the material properties are compromised.",
+    "Review the aircraft's maintenance history and operational procedures to identify any potential contributing factors to the component's condition."
+  ],
+  "citations": [
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t2",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t0",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t2",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 17,
+      "chunk_id": "ntsb_18-061:p17:fig9",
+      "figure_no": 9
+    }
+  ],
+  "grounded": true,
+  "image_observations": [
+    "{\"component\":\"Aircraft/mechanical component\",\"observations\":[\"The component appears to have undergone a bending deformation.\",\"There are visible cracks or fractures along the bend, indicating potential fatigue or overload.\",\"The material shows signs of wear or corrosion on the surface.\",\"The component has markings labeled 'LD-1' and 'LC-1', which could indicate specific locations or measurements.\",\"A ruler is present in two images, providing scale for the component's dimensions.\"],\"visible_text\":\"UP FWD\"}"
+  ],
+  "retrieved": [
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t2",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t0",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t2",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t1",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t0",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 17,
+      "chunk_id": "ntsb_18-061:p17:fig9",
+      "figure_no": 9
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 22,
+      "chunk_id": "ntsb_18-061:p22:fig15",
+      "figure_no": 15
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 12,
+      "chunk_id": "ntsb_18-061:p12:fig4",
+      "figure_no": 4
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 18,
+      "chunk_id": "ntsb_18-061:p18:fig10",
+      "figure_no": 10
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 18,
+      "chunk_id": "ntsb_18-061:p18:fig11",
+      "figure_no": 11
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 19,
+      "chunk_id": "ntsb_18-061:p19:fig12",
+      "figure_no": 12
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 13,
+      "chunk_id": "ntsb_18-061:p13:fig5",
+      "figure_no": 5
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 14,
+      "chunk_id": "ntsb_18-061:p14:fig6",
+      "figure_no": 6
+    }
+  ]
+}

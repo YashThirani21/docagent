@@ -1,0 +1,77 @@
+{
+  "answer": "The pilot of N106ER had 7,690.6 hours time in service (TIS) at the time of the accident.",
+  "diagnosis": null,
+  "recommended_actions": [],
+  "citations": [
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t4",
+      "figure_no": null
+    }
+  ],
+  "grounded": true,
+  "image_observations": [],
+  "retrieved": [
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t4",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t0",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t0",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t1",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t2",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t2",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t0",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t1",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t1",
+      "figure_no": null
+    },
+    {
+      "doc_id": "ntsb_18-061",
+      "page": 23,
+      "chunk_id": "ntsb_18-061:p23:fig16",
+      "figure_no": 16
+    }
+  ]
+}
