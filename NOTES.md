@@ -71,6 +71,52 @@ Router, Trace etc)
 - **Failure-mode guess on user photos biased retrieval.** Earlier the observation step asked for a "likely failure
   mode" and its guess ("fatigue") steered both search and answer even when irrelevant. Removed it and brought it only when explicit text query nudges it there
 
+## Routing rules (summary)
+
+Source: `src/docagent/router.py` (version `rules+vlm-v1`), called per attachment from `Agent.handle`.
+Principle: cheap deterministic rules first, the VLM only when the rules can't decide. Every decision
+records `route`, `tier` (rule | vlm), `confidence` and a `reason` in the trace.
+
+**Two possible routes:** `report_qa` (answer from the NTSB reports) or `drawing` (extract values to JSON).
+
+**1. Request level**
+- No attachment (text only) -> `report_qa`, confidence 1.0.
+- Otherwise each attachment is routed on its own (one task each, so one bad file fails only itself).
+- Same file bytes + same router/drawing/model versions + same config -> the earlier result is reused,
+  no routing (idempotency key).
+- Chat only: a zip, or >= 2 files with no question, becomes a background batch (`batch.chat_min_files`);
+  each file is then still routed individually.
+
+**2. PDFs: rules on page 1** (`pdf.page_stats`)
+- Drawing score, 0-4, one point each:
+  - >= 2 distinct drawing keywords in the text (ASME Y14, UNLESS OTHERWISE SPECIFIED, TOLERANC, UNIT(S):,
+    SCALE, SHEET, DWG, REV X, Ø, ±, PMI, DATUM)
+  - landscape page
+  - > 300 vector paths
+  - < 10% of the page covered by raster images
+- Prose = > 1500 characters of text on a portrait page.
+- score >= 3 and not prose -> `drawing`, confidence 0.6 + 0.1 x score.
+- prose, or (score <= 1 and > 30% image coverage) -> `report_qa`, confidence 0.8.
+- Anything else -> undecided -> VLM on page 1 rendered at 80 dpi.
+
+**3. Images (PNG/JPG, ...)** -> always the VLM (no rules for pixels).
+
+**4. VLM classifier** (image downscaled to `router.classify_max_side` = 768 px)
+- Classes: technical_drawing, photo_of_part, document_page, chart_or_plot, other.
+- `technical_drawing` (including a photo or screenshot of one) -> `drawing`; every other class -> `report_qa`.
+- Confidence and reason come from the model.
+
+**5. Other file types** -> `report_qa`, confidence 0.3, treated as context for a question.
+
+**After routing**
+- Each `drawing` attachment -> its own JSON file in `outputs/requests/<request_id>/`.
+- All `report_qa` attachments are pooled (up to 3 pages rendered per PDF) with the text into one answer.
+
+**Known limits / measurements**
+- Only page 1 is inspected: report 24-013 has a near-empty cover, so it falls through to the VLM tier.
+- Router eval (Mac, Ollama 4-bit, test n=15): accuracy 0.93, 0 drawings sent to QA, 1 report figure page
+  (looks like a photo) sent to the drawing pipeline; rules decided 2/15, VLM 13/15 at ~11 s each.
+
 ## Drawing extraction iterations (around 2 hrs - lot of deduplication of extracted vals needed)
 
 2 hrs of experiments before I decided manual tuning was too difficult for the constraints at hand and I have to let AI find a lot of things by itself rather than handholding here (possible overfitting too).
