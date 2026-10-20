@@ -7,32 +7,23 @@
   1. Logging and storage of trace - what to persist from time to time? How to   
   avoid lost progress when failing?                                             
   2. Bulk uploads of files - how do we do this?                                 
-  3. How to deploy this for demo? Any docker?                                   
-  4. How to eval router, qa text, image, drawing, e2e?                          
+  3. How to eval router, qa text, image, drawing, e2e?                         
   - what are your recommendations on each? Regarding 1, I think we need to      
   store status, routerdecision, start_time, end_time etc as part of the         
-  Job/Request whose status/fields keep evolving as the request continues to     
-  execute, and it should be saved from time to time, and persisted in SQL       
-  somehow. Can we use logging too? THink about how to log things like token     
-  use, time taken etc, and how to add some sort of failure recovery.            
+  Requests whose status/fields keep evolving as the request continues to     
+  execute, and it should be updated as fields update, and persisted in SQL.       
+  Then we need spans for steps like llm_call, router_decision etc, 
+  plus resource consumption. Regarding 2 we need each batch to be independent,
+  treat each request individually, and not retry successful tasks. For 3 we 
+  will need to generate datasets to evaluate it by, I cannot inspect the data 
+  and manually create them
 
 ⏺ I'll look at the project first so the recommendations fit what's actually
   there.
 
   Searched for 1 pattern, ran 5 shell commands (ctrl+o to expand)
 
-⏺ I read the code first. Two things to fix before anything else:
-
-  - Your project has no git history. git rev-parse resolves to
-    /Users/yashthirani, your home directory, and that repo has no commits. The
-    brief says "commit as you go… do not squash", and reviewers will check. Run
-    git init inside senior-data-scientist/ and commit now. If you can, rebuild
-    the history in a few honest commits that follow the sections in NOTES.md.
-  - There's no ai_logs/ folder yet. It's a required deliverable.
-
-  ---
-
-  1. Tracing, persistence and failure recovery
+⏺ 1. Tracing, persistence and failure recovery
 
   Your Job-row idea is right. Use SQLite for it, and treat logs as a secondary 
   record. SQLite needs no extra service, keeps the data in-house, and runs in
@@ -126,28 +117,7 @@
   zip of the JSON files at the end. Keep workers × llm.max_concurrency ≤ 
   max-num-seqs, as USAGE.md already says.
 
-  3. Deploying for the demo
-
-  Docker on a Mac can't use the Metal GPU, so Ollama inside Docker runs on CPU 
-  only and is too slow for a live demo. So:
-
-  - Live demo: run natively on the Mac with Ollama. Pre-run the bulk job and the
-    evals so the results exist. Live, show one question, one photo and one
-    drawing, including at least one uncached run so you're honest about latency.
-    Time CTC-01 on the Mac beforehand.
-  - Docker, as the in-house deployment story: use docker-compose with:
-    - app: Gradio and CLI, CPU torch, models mounted as a volume,
-      HF_HUB_OFFLINE=1.
-    - qdrant server: you need it anyway, because embedded Qdrant allows only one
-      process, so chat, bulk and eval can't run together.
-    - vllm: the GPU service, under a gpu profile.
-    - An internal network with internal: true, so the containers have no
-      outbound access. That backs up your privacy claim with config, not just
-      words.
-  - Give Docker at most about an hour, and only hand in a compose file you've
-    actually run. They'll ask.
-
-  4. Evaluation
+  3. Evaluation
 
   One harness for every part: python -m eval.run 
   <router|qa_text|qa_image|drawing|e2e> --config configs/vX.yaml --n 20 --seed 0
@@ -207,7 +177,7 @@
 
   ---
 
-  Suggested order: git now → SQLite tracer and tasks table (covers requirement
+  Suggested order: SQLite tracer and tasks table (covers requirement
   8, makes bulk resumable, and adds cost metrics to evals) → bulk on top of it →
   router, image-QA and E2E evals with --compare → Docker last, either tested or
   left out.
@@ -218,7 +188,7 @@
 
 ✻ Sautéed for 1m 57s · done 7:30 AM
 
-❯ Forget git for now. I want to start with the tracing and tables. First fork   
+❯ I want to start with the tracing and tables. First fork   
   an agent outlining exactly why we are doing what we are doing, then write     
   code to build it so that this chat remains clear.                             
 
@@ -249,7 +219,7 @@
      It will test this with a stubbed VLM. If Ollama is running, it will also do
      one real request and trace it.
 
-  It won't touch git. I'll pass on a short summary when it finishes: what
+  I'll pass on a short summary when it finishes: what
   changed, what was tested and how, and anything left for you to decide.
 
 ✻ Sautéed for 38s · done 3:25 PM
@@ -259,7 +229,7 @@
 ⏺ Tracing is built, and the reasoning is in a new section 9 of NOTES.md. It
   worked on one real request through Ollama and on a set of tests with a stubbed
   model. The drawing pipeline and the two eval scripts have not been run
-  against the real model yet. Nothing was done in git.
+  against the real model yet.
 
   What you get
   - Three tables in store/traces.db: requests, tasks (one per attachment) and
@@ -407,7 +377,7 @@
 ⏺ Agent "Design rationale + tracing build" finished · 2m 51s
 
 ⏺ All three changes are in, and each was tested with the model stubbed out.
-  Nothing was re-run against the real model, and nothing was done in git.
+  Nothing was re-run against the real model.
 
   1. One bad file no longer fails the others.
      - Within a request: each attachment is now routed and processed separately,
@@ -459,50 +429,7 @@
 
 ✻ Crunched for 3m 18s · done 3:44 PM
 
-❯ /export                                                                       
-  ⎿  Conversation exported to: /Users/yashthirani/Desktop/Empty/senior-data-scie
-     ntist/logging_bulk_eval.txt
-
 ※ recap: You're adding tracing and failure recovery to the document agent, and the SQLite tables plus your three changes are done and tested with a stubbed model. Next, tell me whether to start the bulk-upload resume step. (disable recaps in /config)
-
-❯ How is the id found to look up the trace for?                                 
-
-  Searched for 1 pattern (ctrl+o to expand)
-
-⏺ Every request gets a 12-character id when it's created (e.g. d59f9bbac916).
-  There are four ways to get hold of it:
-
-  1. The person who made the request sees it. In both the chat and docagent ask,
-     the reply ends with a small request d59f9bbac916 · routes: … line
-     (src/docagent/render.py:31). A user can paste that id when reporting a
-     problem.
-  2. A technical person can list recent requests and pick one. docagent requests
-     shows the id, time, status, duration, tokens, routes and the question
-     text. It can be filtered:
-  docagent requests --status failed --since 1h
-  docagent requests --batch bulk-20261018-143000-a1b2
-     A bulk run prints its batch id at the start and end, and also writes it to
-     bulk_summary.json next to each file's request id.
-  3. There are shortcuts.
-     - docagent trace last opens the newest request.
-     - A unique prefix also works: docagent trace d59f.
-  4. The id shows up in other places too.
-     - Each line of the JSON-lines log carries the request id, so you can grep
-       the log for an error and get the id.
-     - Drawing JSON from the chat is saved under outputs/chat/<request_id>/.
-     - You can query SQLite or Datasette directly.
-
-  One gap: you can't search by file name yet. For a drawing upload the question
-  text is empty, so the requests list shows only the route, not which drawing it
-  was. The file path is stored on the attachment row in the database, but no
-  command filters on it. That matters for bulk: "show me what happened to
-  ctc_03.pdf." I'd add a --file <name> filter that matches the attachment path,
-  and show the file name in the list. It's small, and it fits in the bulk step.
-  Shall I include it there?
-
-✻ Baked for 13s · done 3:56 PM
-
-※ recap: We're building tracing, bulk upload, deployment and evals for your document agent; tracing is done and tested, though only with a stubbed model and one real text question. Next, just say go to start the bulk step, including a filter to look up requests by file name. (disable recaps in /config)
 
 ❯ Based on the current system, retrying an unsuccessful request only creates a  
   new fresh request having lost the intermediate progress right? Is that        
@@ -560,7 +487,7 @@
 
 ✻ Cogitated for 19s · done 4:44 PM
 
-❯ Ok, build it, and explain the need and effect summary in bullets.             
+❯ Build it.             
   ⎿  Resuming agent a582787
 
 ⏺ The same background agent is now building this:
@@ -586,8 +513,7 @@
 ⏺ Retry, bulk resume and lookup by file name are built. All six test scenarios
   pass with the model stubbed out, and one real retry ran against Ollama. All
   CTC-01 model calls were already cached before that real run, so it shows
-  results being reused, not the model calls a retry saves. Nothing was done in
-  git.
+  results being reused, not the model calls a retry saves.
 
   Why each piece is needed
   - Recording each file's result: a file counts as done only after its result
@@ -743,8 +669,6 @@
   tuned on.
 
 ✻ Cogitated for 6m 18s · done 5:10 PM
-
-※ recap: We're preparing your document agent for the review, and the tracing, retry and bulk resume work is finished with all tests passing. Next, run one real drawing without the cache and check its trace, then start on the evals. (disable recaps in /config)
 
 ❯ Let's go over the bulk plan once - we now address failed individual requests  
   in bulk individually instead of retrying the whole bulk which is good. And we 
@@ -950,14 +874,7 @@
 
 ※ recap: You're making the document agent durable and traceable; tracing, retry and bulk upload (kept uploads, chat batches, zips, results download) are built and pass stubbed tests. Next, decide whether to add the chat's recent-batches list, then move on to the evals. (disable recaps in /config)
 
-❯ I want to move on to evals now. Remember this from the Readme                 
-  Validation. Code that measures how well the agent works, for each important   
-  part (for example:                                                            
-     choosing the case, reading a drawing, answering from the reports) and for  
-  the whole system. It is                                                       
-     incremental: plug in a new version of the agent, or of one part, run it on 
-  a chosen number of test                                                       
-     cases, and see whether it got better or worse. No interface needed.        
+❯ I want to move on to evals now. We will have to generate data to test against, not manually.        
 
   Ran 2 shell commands (ctrl+o to expand)
 
@@ -1183,202 +1100,6 @@
 ✻ Brewed for 29m 2s · done 6:19 PM
 
 ※ recap: Tracing, retry and bulk upload are done, and the eval system is built and runs with a stubbed model. Next, check the drawing test labels using eval/datasets/drawings/review/CHECKLIST.md and skim the new QA test questions, then run the full baseline on the L4. (disable recaps in /config)
-
-❯ /export                                                                       
-  ⎿  Conversation exported to:
-     /Users/yashthirani/Desktop/Empty/senior-data-scientist/Validation.txt
-❯ Sorry I am a bit of a beginner here - what exactly are we doing here and what 
-  is the flow? Are questions LLM-generated? Is ideal routing decisions          
-  LLM-generated? Same for drawing annotations? What will python -m eval router  
-  for instance do? How does this align with the requirement in readme and how   
-  far are we off finishing this.                                                
-
-  Ran 1 shell command (ctrl+o to expand)
-
-⏺ No problem. Here it is from the start.
-
-  What evaluation means here
-
-  You have an agent that does three jobs: pick the case (the router), answer
-  from the reports, and read drawings. The brief wants code that scores each
-  job, and the whole system, against known-correct answers. When you change
-  something, you re-run it and see whether the score went up or down.
-
-  Each suite works the same way:
-
-  1. A dataset of test cases: inputs plus the correct answer for each.
-  2. Run the agent on them.
-  3. Compare its output with the correct answer and compute scores.
-  4. Save a results file, so the next run can be compared with this one.
-
-  Who wrote the correct answers?
-
-  Your in-house agent (Qwen) never writes its own answers; that would be
-  cheating. Three different sources were used:
-
-  dataset: Router (80 cases)
-  where the correct answers come from: Known from how each case was made. A
-  script takes your drawing PDFs and turns them into JPGs, rotated and blurred
-  copies, and so on. Anything made from a drawing must go to the drawing
-  pipeline. Anything made from a report page or figure must go to report QA
-  is an LLM involved?: No. The script knows the answer, and no one has to judge
-  ────────────────────────────────────────
-  dataset: QA text, dev (q01–q20)
-  where the correct answers come from: Written earlier in the project from the
-  report text, with the facts the answer must contain and the page they're on
-  is an LLM involved?: Written in an earlier session; NOTES.md says they were
-  written from the report text
-  ────────────────────────────────────────
-  dataset: QA text, test (t01–t15) and QA image (20)
-  where the correct answers come from: Drafted by Claude, the coding assistant,
-  from the report text. A script then checked that every required fact appears
-  word for word on the stated page
-  is an LLM involved?: Yes, but not your agent's model. The brief allows AI help
-
-  with datasets. You still skim them
-  ────────────────────────────────────────
-  dataset: Drawings, dev (CTC-01, FTC-07)
-  where the correct answers come from: Labelled earlier and marked verified
-  is an LLM involved?: —
-  ────────────────────────────────────────
-  dataset: Drawings, test (CTC-03, FTC-11)
-  where the correct answers come from: Drafted by Claude from the drawing
-  sheets,
-  deliberately not copied from your extractor's output
-  is an LLM involved?: Yes, which is why they're marked verified: false until
-  you
-  check the overlay images
-
-  The checks matter because a wrong correct answer gives a wrong score. The
-  router labels can't be wrong in that way. The drafted ones can, so you review
-  them.
-
-  What python -m eval router does
-
-  1. It loads the 80 router cases and keeps the dev ones (17) unless you pass
-     --split test or --split all.
-  2. For each case, it calls only the router on the file. Nothing runs after it,
-     so nothing else can affect the score.
-  3. It compares the route the router picked with the expected route.
-  4. It prints:
-     - the accuracy;
-     - a table of what was sent where;
-     - accuracy for the quick rules vs the slower model check;
-     - how many drawings were wrongly sent to QA, the worst mistake because the
-       user gets prose instead of JSON.
-  5. It saves eval/results/<time>_router_<label>.json.
-
-  With --compare <older file>, it also lists which cases got better or worse.
-
-  The full flow when you change something
-
-  python -m eval drawing --split all --label before          # baseline
-  # ...change the drawing code, or make configs/v2.yaml...
-  python -m eval drawing --split all --config configs/v2.yaml --label v2 
-  --compare eval/results/<before>.json
-  The output tells you, for example, "recall 0.81 → 0.85, newly found: 4 values,
-  newly missed: 1".
-
-  How this lines up with the brief
-
-  ┌────────────────────────────┬────────────────────────────────────────────┐
-  │         Brief says         │                  Done by                   │
-  ├────────────────────────────┼────────────────────────────────────────────┤
-  │ "measures… each important  │ Suites router, qa_text, qa_image, drawing, │
-  │ part"                      │  each testing one part on its own          │
-  ├────────────────────────────┼────────────────────────────────────────────┤
-  │ "…and the whole system"    │ Suite e2e: full requests through the       │
-  │                            │ agent, with no correct inputs fed in       │
-  ├────────────────────────────┼────────────────────────────────────────────┤
-  │ "plug in a new version of  │ --config configs/v2.yaml, or --set         │
-  │ the agent, or of one part" │ drawing.method=tiles for a quick change    │
-  ├────────────────────────────┼────────────────────────────────────────────┤
-  │ "run it on a chosen number │ --n 10, --ids …, --split dev/test          │
-  │  of test cases"            │                                            │
-  ├────────────────────────────┼────────────────────────────────────────────┤
-  │ "see whether it got better │ --compare shows the score changes and the  │
-  │  or worse"                 │ cases that flipped                         │
-  ├────────────────────────────┼────────────────────────────────────────────┤
-  │ "No interface needed"      │ Command line only                          │
-  └────────────────────────────┴────────────────────────────────────────────┘
-
-  How far you are from done
-
-  The code is finished and tested with the model stubbed out. Three things are
-  left:
-
-  1. Check the drawing labels (about 30–45 minutes, and only you can do it). Use
-     the overlay images in eval/datasets/drawings/review/ and
-     eval/datasets/drawings/review/CHECKLIST.md, then set "verified": true.
-  2. Skim the drafted questions (about 10 minutes): t01–t15 in
-     eval/datasets/qa_text.jsonl and eval/datasets/qa_image/cases.jsonl.
-  3. Run every suite once for real on the L4 with --split all --fresh, and write
-     the numbers into NOTES.md. These are the numbers you'll defend in the
-     review. So far only small runs on the Mac have used the real model.
-
-  After that, the validation requirement is complete, and Docker is the last
-  item on your list.
-
-✻ Crunched for 30s · done 6:31 PM
-
-※ recap: You're building the evaluation code the brief asks for; it's written, but its test sets aren't checked yet. Next, check the drafted drawing labels using the overlays and `CHECKLIST.md` in `eval/datasets/drawings/review/`.
-
-❯ So right now are we only checking this for router, text only, drawing only,   
-  and e2e? Don't we need to check this for text+image and image-only (when not  
-  the same as technical drawing) too which is supposed to be sent to the QA     
-  right?                                                                        
-
-  Ran 1 shell command (ctrl+o to expand)
-
-⏺ Yes, both are covered, but text + image is thin. The QA image suite (qa_image)
-  is the one that tests pictures sent to report QA. I just looked at its 20
-  cases:
-
-  ┌──────────────────┬──────────────────────────────┬───────────────────────┐
-  │    input type    │      where it's tested       │       cases now       │
-  ├──────────────────┼──────────────────────────────┼───────────────────────┤
-  │ Image only       │                              │ 17 in qa_image (8 dev │
-  │ (photo of a      │ qa_image, and e2e without    │  / 9 test), 3 in e2e  │
-  │ part, no         │ correct inputs fed in        │ (e03, e11, e17)       │
-  │ question)        │                              │                       │
-  ├──────────────────┼──────────────────────────────┼───────────────────────┤
-  │ Text + image     │                              │ 3 in qa_image (f2 and │
-  │ (photo plus a    │ qa_image, and e2e            │  f15 dev, f12 test),  │
-  │ question)        │                              │ 2 in e2e (e04, e12)   │
-  ├──────────────────┼──────────────────────────────┼───────────────────────┤
-  │ Image goes to    │ router: report figure crops  │                       │
-  │ QA, not to       │ and pages saved as pictures  │ part of the 80 router │
-  │ drawing          │ are expected to go to report │  cases                │
-  │                  │  QA                          │                       │
-  └──────────────────┴──────────────────────────────┴───────────────────────┘
-
-  The image-only case is well covered. Text + image has only one test case, and
-  that's too few to conclude anything. It also matters more than it looks,
-  because the question changes what a good answer is. "Why did this break?"
-  needs a diagnosis and actions. "What alloy is this?" needs a plain lookup with
-  no made-up diagnosis, and you already saw that problem with text questions.
-
-  What I'd add (small):
-  1. About 10 more text + image cases, reusing the existing figure pictures with
-     questions of different kinds:
-     - diagnosis ("what went wrong here?");
-     - a lookup about the part shown ("what material is this?");
-     - a question the reports can't answer, which should be declined;
-     - a question that names a different aircraft than the one in the picture,
-       which checks the N104ER vs N106ER mix-up.
-  2. Scores split by input type (image only vs image + text), so a regression in
-     one doesn't hide inside the average.
-  3. Out-of-scope images: that folder is still empty. Without them, nothing
-     checks that the agent declines a photo the reports don't cover. If you can
-     take 3–5 phone photos of any mechanical part or broken object, that fills
-     the gap better than anything generated.
-
-  Shall I have this built? The new cases would be drafted and checked by script
-  like the others, and you'd skim them before the test split is frozen.
-
-✻ Baked for 17s · done 6:47 PM
-
-※ recap: We're building the evaluation code the brief requires, and right now we're widening the image tests because text-plus-photo questions have only one test case. Next step: say yes and I'll have about 10 more such cases built for you to skim.
 
 ❯ For drawings, refer to experiments/20261018-121642_geo-l4-fix4/bulk/drawings  
   for the ground truth / baseline to compare everything to even if not perfect  
