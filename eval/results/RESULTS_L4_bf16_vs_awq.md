@@ -134,10 +134,17 @@ checked this in the traces; the four `request_id`s are in the rows. Without thos
   answer).
 - **Five shared failures**, which neither model gets right:
   - q16: the known diagnosis gap ("bent", "roll groove"), accepted in NOTES section 8.
-  - q18 ("oxidized"), t03 ("25" lbf), t08 (0.047 / 0.038 in): the right page is cited but the exact number or word
-    is missing from the answer. This is a generation-precision problem, not retrieval.
-  - t14 (pilot flight hours): **should refuse, doesn't**. Refusal is 0.75 for both models (1 of 4 fails), and e10
-    in e2e fails the same way.
+  - t08, t03: **picked the wrong number from a page full of numbers.** t08 expects crack sizes 0.047 / 0.038 in;
+    the model answered 0.026 in, another measurement in the same report. t03 expects 25 lb; the model said 23 lb,
+    then 43 lb, both real values on that page.
+  - q18: **the scorer is too strict.** The answer says "oxidation", but the check looks for the exact word
+    "oxidized", so a correct answer fails.
+  - t14 (pilot flight hours): **should refuse, doesn't.** It mixes up similar facts and gives the *aircraft's*
+    7,690.6 hours as the pilot's. Refusal is 0.75 for both models (1 of 4 fails), and e10 in e2e fails the same way.
+- **Takeaway: retrieval is not the bottleneck.** In every failing case the right page was cited, so the fact was in
+  the model's context. The failures are about precision when several similar facts sit close together, not about
+  missing information, and at least one "failure" (q18) is a word-matching problem in the scorer. Text-QA
+  pass rates therefore slightly understate quality.
 - Dev 0.90 → test 0.80 for BF16: a 10-pt generalisation gap, as expected from tuning on dev.
 
 ### Image QA: the weakest component, and picture-only is the problem
@@ -158,6 +165,13 @@ checked this in the traces; the four `request_id`s are in the rows. Without thos
   report and give its conclusion. The failure pattern is the same in both models: they confuse **fatigue with
   overstress** (24-013 is overstress, 18-061 is fatigue) and **hedge with lists** ("fatigue, corrosion, and potential
   abrasive wear"). A hedge then trips the `must_not: corrosion` check.
+- **Takeaway: a high doc_hit does not mean retrieval is strong here; it only finds the right report.** In BF16,
+  retrieval finds the right report every time (doc_hit 1.0). But it pulls the actual figure into context only 71% of
+  the time (`fig_in_context` 0.714) and cites the figure's page only 36% of the time (`page_cited` 0.357; AWQ:
+  0.75 / 0.25). The report's conclusion ("overstress" or "fatigue") is often on a different page from the figure.
+  Without that page, the model falls back on its own reading of the picture, and that is where the
+  fatigue/overstress mix-ups and hedged answers come from. When a question is attached, it gives retrieval text to
+  match on, which explains why picture + question scores much higher.
 - **AWQ's specific regression is retrieval from the picture.** It cited the wrong report for all three 24-013 figures
   (doc_hit 0.893, wrong-report citations 0.11 → 0.50), and it says "corrosion" more often. The index is the same, so
   this comes from AWQ's image observations steering the query to the wrong report.
@@ -215,14 +229,17 @@ worst case (e16 below).
 
 ---
 
-## 5. What to do next (by expected impact)
+## 5. Next steps
 
 1. **Fix e18**: split images into batches of ≤ 4 per VLM call, or raise vLLM's per-prompt image limit. This is a
    guaranteed e2e failure today.
 2. **Investigate the BF16 ~460 s qa_image cases**: probably runaway generation; cap `max_tokens` per call and add a
    repetition guard.
-3. **Picture-only image QA**: have the model commit to one failure mode (no hedged lists) and give the report's
-   wording for the conclusion. It is the largest source of e2e losses (e03, e11, e17).
+3. **Picture-only image QA**: after finding the figure, also retrieve the page that states the report's conclusion.
+   Then tell the model to use that conclusion rather than its own reading of the picture, and to commit to one
+   failure mode (no hedged lists). It is the largest source of e2e losses (e03, e11, e17).
+   **Text QA precision**: make the answer quote the exact sentence it got each number from. Also make the scorer
+   accept word variants (oxidized / oxidation) so correct answers stop counting as failures.
 4. **Refusal on out-of-corpus facts** (t14, e10): with 1 of 4 refusals failing, this is a safety issue for a
    maintenance assistant.
 5. **Human-verify the test labels** (qa_text t01–t15, qa_image, drawing CTC-03 / FTC-11), then freeze them. Most of
