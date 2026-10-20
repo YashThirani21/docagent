@@ -213,7 +213,7 @@ to test, and run the evaluation suites on both versions.
 | `router` | Is each attachment sent to the right pipeline? |
 | `qa_text` | Answers to text questions about the reports |
 | `qa_image` | Answers to a photo, with or without a question |
-| `drawing` | Values read from drawings: accuracy against hand labels, plus agreement with a reference run |
+| `drawing` | Values read from drawings: accuracy against VLB labels (from best performing approach), plus agreement with a reference run |
 | `e2e` | The whole agent on mixed requests |
 
 Each suite has a **dev** and a **test** split. The datasets are in `eval/datasets/`.
