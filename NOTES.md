@@ -8,13 +8,13 @@ One chat agent that works out which of two jobs a request needs:
 
 Around it: automatic routing, bulk upload, fully offline running, a design that works at scale, a trace of every request, and an eval harness that compares versions.
 
-## How I'll work
+## Starting plan
 
-1. **Every part working badly before any part working well.** With limited time, a complete weak system beats one perfect component.
-2. **Contracts and tracing first.** Everything later plugs into them; adding them at the end means rewriting.
+1. **Get basic routing, retrieval and generation working** Bulk, UI, Harness can be handled later
+2. **Contracts and logging first.** Everything later plugs into them, adding them at the end means rewriting
 3. **I think I will need Colab here** since qwen2.5vl:7b is too clunky to work with on Ollama on local - better to use VLLM and GPU on Colab
 
-## 1. Data inspection (before any design)
+## Data inspection (before any design)
 
 Profiled every page of the 14 PDFs with PyMuPDF (text chars, raster images, vector paths, page size).
 
