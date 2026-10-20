@@ -260,7 +260,7 @@ worst case (e16 below).
 
 ---
 
-## 5. Next steps
+## 5. Next investigations and steps with more time
 
 1. **Fix e18**: split images into batches of ≤ 4 per VLM call, or raise vLLM's per-prompt image limit. This is a
    guaranteed e2e failure today.
