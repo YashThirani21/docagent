@@ -31,8 +31,8 @@ unsupported types. Archives over 5,000 members or 4 GB are refused.
 - **Access control and encryption at rest.** The chat has no login, and `store/` isn't encrypted. In
   production: SSO in front of the UI, an encrypted volume, and tracing data readable by the technical team only.
 - **Development exceptions.** Colab and AI assistants saw the 14 public documents, as the brief allows. The
-  Colab notebook uses a public Gradio share link for convenience; the local notebook and the production
-  setup do not.
+  Colab notebook uses a public Gradio share link for convenience; the production
+  setup does not.
 
 ## Scale: a million similar documents
 
