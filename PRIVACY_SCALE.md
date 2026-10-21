@@ -40,15 +40,18 @@ unsupported types. Archives over 5,000 members or 4 GB are refused.
 in the number of drawings and doesn't depend on corpus size. Each file is independent, so the work splits
 across as many workers and GPUs as there are.
 
-| Measured on one L4 GPU, vLLM bf16, cache off | Per drawing | Per report question |
-|---|---|---|
-| Latency (p50 / p95) | 218 s / 316 s | 11 s / 15 s |
-| VLM calls | ~52 | 1 |
-| Tokens (prompt + completion) | ~38,000 | ~3,600 |
+| Measured on one L4 GPU, vLLM bf16, cache off | Per drawing | Per text question | Per picture question |
+|---|---|---|---|
+| Latency (p50 / p95) | 218 s / 316 s | 11 s / 15 s | 26 s / 53 s |
+| VLM calls | ~52 | 1 | ~2 (describe the picture, answer) |
+| Tokens (prompt + completion) | ~38,000 | ~3,600 | ~6,000 |
 
 Source: `eval/results/20261019-120306_drawing_baseline-l4.json` (all 11 drawings, 30 sheets, PDF route, one
-drawing at a time) and `20261019-104621_qa_text_baseline-l4.json` (35 questions). The same drawings with AWQ
-4-bit weights: 92 s / 196 s per drawing, at lower accuracy (`20261019-133240_drawing_awq-l4.json`).
+drawing at a time), and the final-setup runs `20261021-194454_qa_text_bf16-l4.json` (35 questions) and
+`20261021-190321_qa_image_bf16-l4.json` (30 picture questions). The picture-question p95 comes from four pictures
+whose description loops every run; a length cap holds each to ~50 s. With AWQ 4-bit weights: 92 s / 196 s per
+drawing and 4.6 s / 9.7 s (p50, text / picture question), at lower accuracy on drawings and text facts
+(`20261019-133240_drawing_awq-l4.json`, `eval/RESULTS_L4_bf16_vs_awq.md` section 1).
 
 At one drawing at a time, a million drawings would take about 2,500 GPU-days (bf16). That's an upper bound: each
 drawing's reads run in parallel (`llm.max_concurrency`), several drawings run at once (`batch.workers`), and
@@ -90,7 +93,12 @@ photos.
   (document type, vehicle, part, date) applied *before* search, plus de-duplication of near-identical chunks at
   ingest.
 - *Ingest cost.* It's dominated by one VLM description per figure (~50 figures, ~15 minutes on a laptop). It's
-  a one-time batch job per document and parallelizes on GPUs like drawings do.
+  a one-time batch job per document and parallelizes on GPUs like drawings do. The descriptions are cached by
+  (figure image, model, prompt version) and the cache is versioned with the index: re-ingesting the 3 reports
+  from it takes 32 s on the L4 instead of ~10 minutes, and gives the same index every time. That matters beyond
+  cost. The descriptions are model-written, so regenerating them changes what picture questions retrieve; on
+  this corpus a rebuild moved picture-QA results by several cases. At scale, a description is written once per
+  figure and an index is rebuilt only on purpose (new embedder, chunking or description prompt).
 
 **The single-host parts and what replaces them:**
 

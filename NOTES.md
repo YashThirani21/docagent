@@ -455,3 +455,14 @@ Source: `app/chat.py`
 - One app process: embedded Qdrant takes a file lock, so the chat and a CLI `bulk` with report-QA files can't
   run at the same time (fix: Qdrant server via `store.qdrant_url`).
 - No authentication or per-user separation: fine on localhost, not for a shared deployment.
+
+## Small inefficiency fix which caused e2e latency to run into for some questions minutes
+- Picture description capped at 512 tokens it looped indefenetely: 2–8 min per case
+- Answer capped at 1,024 tokens
+- Small bug fix to avoid the system breaking on queries with too many pictures too
+
+## Evaluation on Colab
+- Now that the retrieval pipeline is fixed, I need to push figure descriptions cached by model to Git 
+- This way, re-ingestion of the same document with the same model version (eg: bf16 or AWQ) does not retry costly VLM summaries
+- Ingestion step cut down to 30 secs in new Colab runs
+- This necessitated a new full run of both bf16 and AWQ models with these new one-time caches
