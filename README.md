@@ -47,7 +47,7 @@ version against an old one.
 ## Running from a notebook
 
 `notebooks/colab_notebook_git.ipynb` runs the whole flow (setup, model server, ingest, chat, questions,
-trace lookup) from top to bottom on a Google Colab GPU runtime:
+trace lookup, evaluation) from top to bottom on a Google Colab GPU runtime:
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/YashThirani21/docagent/blob/main/notebooks/colab_notebook_git.ipynb)
 
@@ -204,7 +204,12 @@ pip install datasette && datasette store/traces.db
 
 **An agent version is a config file.** `configs/default.yaml` holds every setting: models, context
 length, retrieval top-k, drawing method and so on. To make a new version, copy it, change what you want
-to test, and run the evaluation suites on both versions.
+to test, and run the evaluation suites on both versions. Instead of `--config`, you can also set
+`DOCAGENT_CONFIG=configs/v2.yaml`, which the CLI, the chat app and the notebook all read.
+
+A change to one part's **code** (router rules, extractor, prompts) is validated the same way: run the suite on
+the new code and `--compare` it with the earlier run. Every run records the component versions
+(`Agent.versions`) and package versions, and `--compare` warns when they differ.
 
 ### The suites
 
@@ -216,7 +221,13 @@ to test, and run the evaluation suites on both versions.
 | `drawing` | Values read from drawings: accuracy against 4 AI-drafted label files (2 verified dev, 2 unverified test), plus agreement with the fix4 baseline run (measures change, not correctness) |
 | `e2e` | The whole agent on mixed requests |
 
-Each suite has a **dev** and a **test** split. The datasets are in `eval/datasets/`.
+Each suite has a **dev** split (cases the agent was tuned on) and a **test** split (held out). The
+**default is `--split dev`**, so a tuning loop can't touch the test cases by accident; use `--split test` or
+`--split all` for the held-out numbers. The datasets are in `eval/datasets/`.
+
+An e2e case passes when every attachment is routed correctly, every component passes (for drawings: recall
+and precision ≥ 0.7 against the labels, or agreement ≥ 0.7 with fix4 when a drawing has no labels) and
+nothing errors.
 
 ### Compare a new version with the current one
 
@@ -230,6 +241,11 @@ cp configs/default.yaml configs/v2.yaml     # then edit configs/v2.yaml
 # 3. score the new version and compare it with the baseline
 python -m eval qa_text --config configs/v2.yaml --label v2 \
     --compare eval/results/<timestamp>_qa_text_baseline.json
+
+# the whole system, the same way
+python -m eval e2e --label baseline
+python -m eval e2e --config configs/v2.yaml --label v2 \
+    --compare eval/results/<timestamp>_e2e_baseline.json
 ```
 
 `--compare` prints the change in each metric, the cases that **broke** and the cases that were
@@ -264,11 +280,27 @@ python -m eval router --split test --n 20 --seed 1    # 20 held-out cases, repro
 python -m eval qa_text --ids q10 t05                  # specific cases only
 python -m eval e2e --n 5 --fresh                      # --fresh: bypass the model cache for real latency and tokens
 python -m eval <suite> --help                         # all options
+
+# drawing suite only
+python -m eval drawing --as-images --label geo-jpg    # picture route: each sheet as a JPG
+python -m eval drawing --pred-dir outputs/drawings    # score drawing JSONs that already exist, no model calls
+python -m eval drawing --reference <run>/drawings     # agreement with another reference run
+python -m eval drawing --no-reference                 # accuracy on the labelled sheets only
 ```
 
-Each run writes `eval/results/<timestamp>_<suite>_<label>.json`, containing the config hash, model,
-dataset hash, case ids, the scores, the cost and every case. The run also prints a
+Each run writes `eval/results/<timestamp>_<suite>_<label>.json`, containing the config hash, overrides,
+component versions, model, dataset hash, case ids, seed, the scores, the cost and every case. Drawing and
+e2e runs also keep their output files under `eval/results/runs/`. The run prints a
 `docagent requests --batch eval-...` command so you can open the trace of each case.
+
+**Datasets.** The generated sets are rebuilt deterministically with `python -m eval.build_router_set` and
+`python -m eval.build_qa_image_set` (the latter checks every expected fact against the report text). To review
+drawing labels, `python -m eval.review_drawing_gt` draws the unverified label files onto their sheets
+(`eval/datasets/drawings/review/`, checklist in `CHECKLIST.md`); set `"verified": true` in a label file once
+it has been checked.
+
+**On Colab,** notebook step 17 runs any suite against the model vLLM is serving, with `--split all --fresh`,
+and compares it with the latest saved run of the same model in `eval/results/`.
 
 > **Caching:** model replies are cached on disk for each prompt, so re-running an accuracy comparison
 > is fast and free. If you compare latency or tokens, use `--fresh` on both runs. If you put a new model

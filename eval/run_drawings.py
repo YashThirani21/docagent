@@ -1,4 +1,4 @@
-"""Score drawing extraction against hand-labelled ground truth (eval/datasets/drawings/*.json).
+"""Score drawing extraction (eval/datasets/drawings/*.json).
 
   python -m eval drawing --split all --label geo                 # run the extractor on the GT drawings, score
   python -m eval drawing --as-images --label geo-jpg             # picture route (each sheet as a JPG)

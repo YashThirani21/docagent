@@ -6,7 +6,7 @@
   python -m eval e2e --n 5 --fresh
 
 Common options (every suite): --config --set --n --seed --ids --split dev|test|all --label --compare --fresh.
-`python -m eval <suite> --help` for suite-specific options. Design: NOTES.md section 10.
+`python -m eval <suite> --help` for suite-specific options. Design: NOTES.md
 """
 import importlib
 import sys
