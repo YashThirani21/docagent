@@ -1,0 +1,3897 @@
+{
+ "run": {
+  "suite": "qa_text",
+  "label": "bf16-l4",
+  "timestamp": "20261021-171532",
+  "config": "configs/colab_vllm.yaml",
+  "overrides": [],
+  "config_hash": "8e5ad2f26db8",
+  "versions": {
+   "router": "rules+vlm-v1",
+   "drawing": "drawing-geometry-v1",
+   "report_qa": "report-qa-v5",
+   "llm": "qwen2.5-vl-7b",
+   "retriever": "hybrid-rrf-v3-textfirst-reg-focus-next"
+  },
+  "model": "qwen2.5-vl-7b",
+  "dataset": [
+   "eval/datasets/qa_text.jsonl"
+  ],
+  "dataset_hash": "ebac121c9489",
+  "split": "all",
+  "seed": 0,
+  "n": 35,
+  "case_ids": [
+   "q01",
+   "q02",
+   "q03",
+   "q04",
+   "q05",
+   "q06",
+   "q07",
+   "q08",
+   "q09",
+   "q10",
+   "q11",
+   "q12",
+   "q13",
+   "q14",
+   "q15",
+   "q16",
+   "q17",
+   "q18",
+   "q19",
+   "q20",
+   "t01",
+   "t02",
+   "t03",
+   "t04",
+   "t05",
+   "t06",
+   "t07",
+   "t08",
+   "t09",
+   "t10",
+   "t11",
+   "t12",
+   "t13",
+   "t14",
+   "t15"
+  ],
+  "fresh": true,
+  "batch_id": "eval-qa_text-bf16-l4-20261021-171532",
+  "wall_s": 386.6,
+  "env": {
+   "python": "3.13.15",
+   "platform": "Linux-x86_64",
+   "pymupdf": "2.0",
+   "torch": "2.13.0",
+   "transformers": "5.17.0",
+   "FlagEmbedding": "1.4.2",
+   "numpy": "2.1.3",
+   "pillow": "11.3.0",
+   "opencv-python-headless": "5.0.0.93",
+   "openai": "2.54.0",
+   "vllm": "0.31.0"
+  }
+ },
+ "summary": {
+  "n": 35,
+  "pass": 0.857,
+  "facts": 0.886,
+  "pages": 1.0,
+  "page_recall": 1.0,
+  "refusal": 0.75,
+  "filler_on_lookups": 0.0,
+  "avg_citations": 1.8,
+  "errors": 0
+ },
+ "cost": {
+  "requests": 35,
+  "latency_p50_s": 10.56,
+  "latency_p95_s": 15.93,
+  "fresh_llm_calls": 35,
+  "cached_calls": 0,
+  "prompt_tokens": 118262,
+  "completion_tokens": 6028,
+  "failed_requests": 0
+ },
+ "rows": [
+  {
+   "id": "q01",
+   "request_id": "3ee9f8c7443b",
+   "question": "What caused the fuel servo throttle arm to fracture?",
+   "kind": "lookup",
+   "expected": "Bending overstress; no evidence of preexisting cracks; threaded section plastically deformed.",
+   "answer": {
+    "answer": "The fracture of the fuel servo throttle arm is consistent with bending overstress, as indicated in the NTSB report. There is no evidence of preexisting cracks on the fracture surfaces, suggesting that the failure was sudden rather than gradual. The plastic deformation observed in the threaded section supports this conclusion.",
+    "diagnosis": null,
+    "recommended_actions": [],
+    "citations": [
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 3,
+      "chunk_id": "ntsb_24-013:p3:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 6,
+      "chunk_id": "ntsb_24-013:p6:fig5",
+      "figure_no": 5
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 6,
+      "chunk_id": "ntsb_24-013:p6:fig4",
+      "figure_no": 4
+     }
+    ],
+    "grounded": true,
+    "image_observations": [],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 3,
+      "chunk_id": "ntsb_24-013:p3:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 1,
+      "chunk_id": "ntsb_16-006:p1:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 1,
+      "chunk_id": "ntsb_16-006:p1:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 6,
+      "chunk_id": "ntsb_18-061:p6:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 6,
+      "chunk_id": "ntsb_24-013:p6:fig5",
+      "figure_no": 5
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 6,
+      "chunk_id": "ntsb_24-013:p6:fig4",
+      "figure_no": 4
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 4,
+      "chunk_id": "ntsb_24-013:p4:fig1",
+      "figure_no": 1
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 4,
+      "chunk_id": "ntsb_24-013:p4:fig2",
+      "figure_no": 2
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 6,
+      "chunk_id": "ntsb_16-006:p6:fig1",
+      "figure_no": 1
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "facts": true,
+    "missing": [],
+    "forbidden_found": [],
+    "pages": true,
+    "page_recall": 1.0,
+    "n_citations": 2,
+    "off_doc_citations": 0,
+    "filler": false,
+    "refusal": null,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 9.73,
+   "split": "dev"
+  },
+  {
+   "id": "q02",
+   "request_id": "35d33dfbbed8",
+   "question": "Which aircraft and location does report 24-013 concern?",
+   "kind": "lookup",
+   "expected": "Cessna 177RG, N545PZ, Lake Placid, NY, October 1, 2023.",
+   "answer": {
+    "answer": "Report 24-013 concerns the Cessna 177RG aircraft with registration N545PZ, located in Lake Placid, NY.",
+    "diagnosis": null,
+    "recommended_actions": [],
+    "citations": [
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 3,
+      "chunk_id": "ntsb_24-013:p3:t0",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 3,
+      "chunk_id": "ntsb_24-013:p3:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 6,
+      "chunk_id": "ntsb_24-013:p6:fig5",
+      "figure_no": 5
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 6,
+      "chunk_id": "ntsb_24-013:p6:fig4",
+      "figure_no": 4
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 4,
+      "chunk_id": "ntsb_24-013:p4:fig2",
+      "figure_no": 2
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 5,
+      "chunk_id": "ntsb_24-013:p5:fig3",
+      "figure_no": 3
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 4,
+      "chunk_id": "ntsb_24-013:p4:fig1",
+      "figure_no": 1
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "facts": true,
+    "missing": [],
+    "forbidden_found": [],
+    "pages": true,
+    "page_recall": 1.0,
+    "n_citations": 1,
+    "off_doc_citations": 0,
+    "filler": false,
+    "refusal": null,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 10.47,
+   "split": "dev"
+  },
+  {
+   "id": "q03",
+   "request_id": "09f9a3d7e272",
+   "question": "What alloy is the PA-28R-201 main wing spar made of?",
+   "kind": "lookup",
+   "expected": "Aluminum alloy 2024-T3511, I-shaped extrusion.",
+   "answer": {
+    "answer": "The PA-28R-201 main wing spar is made of aluminum alloy 2024-T3511.",
+    "diagnosis": null,
+    "recommended_actions": [],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t4",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t0",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t4",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 33,
+      "chunk_id": "ntsb_18-061:p33:fig29",
+      "figure_no": 29
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 21,
+      "chunk_id": "ntsb_18-061:p21:fig14",
+      "figure_no": 14
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 20,
+      "chunk_id": "ntsb_18-061:p20:fig13",
+      "figure_no": 13
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 28,
+      "chunk_id": "ntsb_18-061:p28:fig22",
+      "figure_no": 22
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "facts": true,
+    "missing": [],
+    "forbidden_found": [],
+    "pages": true,
+    "page_recall": 1.0,
+    "n_citations": 2,
+    "off_doc_citations": 0,
+    "filler": false,
+    "refusal": null,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 7.28,
+   "split": "dev"
+  },
+  {
+   "id": "q04",
+   "request_id": "82d1f49ec540",
+   "question": "What components were examined in report 16-006?",
+   "kind": "lookup",
+   "expected": "Throttle and mixture control assemblies (Mooney M20TN).",
+   "answer": {
+    "answer": "The components examined in report 16-006 included the throttle control assembly and the mixture control assembly.",
+    "diagnosis": null,
+    "recommended_actions": [],
+    "citations": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 1,
+      "chunk_id": "ntsb_16-006:p1:t0",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 1,
+      "chunk_id": "ntsb_16-006:p1:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 1,
+      "chunk_id": "ntsb_16-006:p1:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 3,
+      "chunk_id": "ntsb_16-006:p3:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 3,
+      "chunk_id": "ntsb_16-006:p3:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 1,
+      "chunk_id": "ntsb_16-006:p1:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 1,
+      "chunk_id": "ntsb_16-006:p1:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 14,
+      "chunk_id": "ntsb_16-006:p14:fig12",
+      "figure_no": 12
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 9,
+      "chunk_id": "ntsb_16-006:p9:fig5",
+      "figure_no": 5
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 6,
+      "chunk_id": "ntsb_16-006:p6:fig1",
+      "figure_no": 1
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 7,
+      "chunk_id": "ntsb_16-006:p7:fig2",
+      "figure_no": 2
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "facts": true,
+    "missing": [],
+    "forbidden_found": [],
+    "pages": true,
+    "page_recall": 1.0,
+    "n_citations": 1,
+    "off_doc_citations": 0,
+    "filler": false,
+    "refusal": null,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 9.67,
+   "split": "dev"
+  },
+  {
+   "id": "q05",
+   "request_id": "2addcddfbac3",
+   "question": "How many bolts attach each wing spar to the center wing box?",
+   "kind": "lookup",
+   "expected": "18 bolts: 8 through the upper spar cap, 10 through the lower spar cap.",
+   "answer": {
+    "answer": "Each wing spar is attached to the center wing box with 18 attachment bolts; 8 through the upper spar cap and 10 through the lower spar cap.",
+    "diagnosis": null,
+    "recommended_actions": [],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t4",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t4",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 10,
+      "chunk_id": "ntsb_18-061:p10:fig1",
+      "figure_no": 1
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 29,
+      "chunk_id": "ntsb_18-061:p29:fig23",
+      "figure_no": 23
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig18",
+      "figure_no": 18
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig19",
+      "figure_no": 19
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 11,
+      "chunk_id": "ntsb_18-061:p11:fig2",
+      "figure_no": 2
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 12,
+      "chunk_id": "ntsb_18-061:p12:fig3",
+      "figure_no": 3
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "facts": true,
+    "missing": [],
+    "forbidden_found": [],
+    "pages": true,
+    "page_recall": 1.0,
+    "n_citations": 1,
+    "off_doc_citations": 0,
+    "filler": false,
+    "refusal": null,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 9.39,
+   "split": "dev"
+  },
+  {
+   "id": "q06",
+   "request_id": "72130c216456",
+   "question": "What throttle position was measured on the accident throttle control?",
+   "kind": "lookup",
+   "expected": "3.75 inches, 74% of full open (full open 4.620 in, full closed 1.3 in).",
+   "answer": {
+    "answer": "The throttle position measurement on the accident throttle control was 3.75 inches, corresponding to a throttle position of 74% of full open.",
+    "diagnosis": null,
+    "recommended_actions": [],
+    "citations": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t0",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 1,
+      "chunk_id": "ntsb_16-006:p1:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 1,
+      "chunk_id": "ntsb_16-006:p1:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 4,
+      "chunk_id": "ntsb_16-006:p4:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 4,
+      "chunk_id": "ntsb_16-006:p4:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 7,
+      "chunk_id": "ntsb_16-006:p7:fig2",
+      "figure_no": 2
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 6,
+      "chunk_id": "ntsb_16-006:p6:fig1",
+      "figure_no": 1
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 11,
+      "chunk_id": "ntsb_16-006:p11:fig8",
+      "figure_no": 8
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 13,
+      "chunk_id": "ntsb_16-006:p13:fig10",
+      "figure_no": 10
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "facts": true,
+    "missing": [],
+    "forbidden_found": [],
+    "pages": true,
+    "page_recall": 1.0,
+    "n_citations": 1,
+    "off_doc_citations": 0,
+    "filler": false,
+    "refusal": null,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 11.41,
+   "split": "dev"
+  },
+  {
+   "id": "q07",
+   "request_id": "e93627f79365",
+   "question": "What was the mixture control position?",
+   "kind": "lookup",
+   "expected": "6.70 inches, 57% of full rich.",
+   "answer": {
+    "answer": "The mixture control position was documented as 6.70 inches, corresponding to a mixture position of 57% of full rich.",
+    "diagnosis": null,
+    "recommended_actions": [],
+    "citations": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 4,
+      "chunk_id": "ntsb_16-006:p4:t0",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 4,
+      "chunk_id": "ntsb_16-006:p4:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 4,
+      "chunk_id": "ntsb_16-006:p4:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 3,
+      "chunk_id": "ntsb_16-006:p3:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 1,
+      "chunk_id": "ntsb_16-006:p1:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 1,
+      "chunk_id": "ntsb_16-006:p1:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 12,
+      "chunk_id": "ntsb_16-006:p12:fig9",
+      "figure_no": 9
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 13,
+      "chunk_id": "ntsb_16-006:p13:fig10",
+      "figure_no": 10
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 13,
+      "chunk_id": "ntsb_16-006:p13:fig11",
+      "figure_no": 11
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 11,
+      "chunk_id": "ntsb_16-006:p11:fig8",
+      "figure_no": 8
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 14,
+      "chunk_id": "ntsb_16-006:p14:fig12",
+      "figure_no": 12
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "facts": true,
+    "missing": [],
+    "forbidden_found": [],
+    "pages": true,
+    "page_recall": 1.0,
+    "n_citations": 1,
+    "off_doc_citations": 0,
+    "filler": false,
+    "refusal": null,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 10.5,
+   "split": "dev"
+  },
+  {
+   "id": "q08",
+   "request_id": "5256da4dd6ed",
+   "question": "What were the average yield strength, tensile strength and elongation of the spar material?",
+   "kind": "lookup",
+   "expected": "64,000 psi; 86,500 psi; 18.5%; conformed to QQ-A-200/3F.",
+   "answer": {
+    "answer": "The average yield strength, tensile strength, and elongation of the spar material were 64,000 psi, 86,500 psi, and 18.5%, respectively.",
+    "diagnosis": null,
+    "recommended_actions": [],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t0",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 9,
+      "chunk_id": "ntsb_18-061:p9:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 31,
+      "chunk_id": "ntsb_18-061:p31:fig26",
+      "figure_no": 26
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 31,
+      "chunk_id": "ntsb_18-061:p31:fig27",
+      "figure_no": 27
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 29,
+      "chunk_id": "ntsb_18-061:p29:fig23",
+      "figure_no": 23
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 33,
+      "chunk_id": "ntsb_18-061:p33:fig29",
+      "figure_no": 29
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig19",
+      "figure_no": 19
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig18",
+      "figure_no": 18
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 32,
+      "chunk_id": "ntsb_18-061:p32:fig28",
+      "figure_no": 28
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "facts": true,
+    "missing": [],
+    "forbidden_found": [],
+    "pages": true,
+    "page_recall": 1.0,
+    "n_citations": 1,
+    "off_doc_citations": 0,
+    "filler": false,
+    "refusal": null,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 8.63,
+   "split": "dev"
+  },
+  {
+   "id": "q09",
+   "request_id": "11961d35c3ef",
+   "question": "What was the loosening torque on bolt RC-1, and what is the specified installation torque?",
+   "kind": "lookup",
+   "expected": "RC-1 < 5.0 ft-lbf; specified 30 to 32.5 ft-lbf.",
+   "answer": {
+    "answer": "The loosening torque on bolt RC-1 was less than 5.0 pound-force feet. The specified installation torque for the upper spar cap bolt heads and the lower spar cap nuts is 30 pound-force feet to 32.5 pound-force feet (360 pound-force inches to 390 pound-force inches).",
+    "diagnosis": null,
+    "recommended_actions": [],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 6,
+      "chunk_id": "ntsb_18-061:p6:t0",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 6,
+      "chunk_id": "ntsb_18-061:p6:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 22,
+      "chunk_id": "ntsb_18-061:p22:fig15",
+      "figure_no": 15
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 7,
+      "chunk_id": "ntsb_16-006:p7:fig2",
+      "figure_no": 2
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 27,
+      "chunk_id": "ntsb_18-061:p27:fig21",
+      "figure_no": 21
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 23,
+      "chunk_id": "ntsb_18-061:p23:fig16",
+      "figure_no": 16
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "facts": true,
+    "missing": [],
+    "forbidden_found": [],
+    "pages": true,
+    "page_recall": 1.0,
+    "n_citations": 2,
+    "off_doc_citations": 0,
+    "filler": false,
+    "refusal": null,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 14.75,
+   "split": "dev"
+  },
+  {
+   "id": "q10",
+   "request_id": "78b22e49dc95",
+   "question": "What hardness and conductivity were measured on the N106ER left spar lower cap?",
+   "kind": "lookup",
+   "expected": "81.0 HRBW and 29.3% IACS (typical 2024-T351: 76 HRB, 30% IACS).",
+   "answer": {
+    "answer": "The hardness and conductivity measurements on the N106ER left spar lower cap are as follows:\n\n- Hardness: The average hardness measured was 81.0 HRBW, based on 5 measurements from the middle of the spar cap cross-section.\n- Conductivity: The conductivity measured was 29.3% IACS.",
+    "diagnosis": null,
+    "recommended_actions": [],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t1",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 9,
+      "chunk_id": "ntsb_18-061:p9:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 6,
+      "chunk_id": "ntsb_18-061:p6:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 6,
+      "chunk_id": "ntsb_18-061:p6:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 20,
+      "chunk_id": "ntsb_18-061:p20:fig13",
+      "figure_no": 13
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 31,
+      "chunk_id": "ntsb_18-061:p31:fig27",
+      "figure_no": 27
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 33,
+      "chunk_id": "ntsb_18-061:p33:fig29",
+      "figure_no": 29
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 32,
+      "chunk_id": "ntsb_18-061:p32:fig28",
+      "figure_no": 28
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "facts": true,
+    "missing": [],
+    "forbidden_found": [],
+    "pages": true,
+    "page_recall": 1.0,
+    "n_citations": 1,
+    "off_doc_citations": 0,
+    "filler": false,
+    "refusal": null,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 13.03,
+   "split": "dev"
+  },
+  {
+   "id": "q11",
+   "request_id": "a34c8b862cc8",
+   "question": "Where were the fatigue origins on the N106ER left spar lower cap?",
+   "kind": "lookup",
+   "expected": "Lower surface forward and aft of hole LC-1, and aft side of hole LD-1.",
+   "answer": {
+    "answer": "Fatigue origins were located at the lower surface both forward and aft of hole LC-1 and at the aft side of hole LD-1 on the N106ER left spar lower cap. Specifically, fatigue features extended to the forward edge of the lower spar cap forward of hole LC-1, and fatigue features extended aft through the spar cap, intersecting the lower side of hole LD-1, and upward into the web to the boundary located approximately 0.75 inch above the spar cap. Additionally, fatigue origins were noted on the lower sides of the doublers both forward and aft of the attachment holes.",
+    "diagnosis": null,
+    "recommended_actions": [],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t2",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 20,
+      "chunk_id": "ntsb_18-061:p20:fig13",
+      "figure_no": 13
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 21,
+      "chunk_id": "ntsb_18-061:p21:fig14",
+      "figure_no": 14
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 23,
+      "chunk_id": "ntsb_18-061:p23:fig16",
+      "figure_no": 16
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 13,
+      "chunk_id": "ntsb_18-061:p13:fig5",
+      "figure_no": 5
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 14,
+      "chunk_id": "ntsb_18-061:p14:fig6",
+      "figure_no": 6
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 16,
+      "chunk_id": "ntsb_18-061:p16:fig8",
+      "figure_no": 8
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 17,
+      "chunk_id": "ntsb_18-061:p17:fig9",
+      "figure_no": 9
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "facts": true,
+    "missing": [],
+    "forbidden_found": [],
+    "pages": true,
+    "page_recall": 1.0,
+    "n_citations": 1,
+    "off_doc_citations": 0,
+    "filler": false,
+    "refusal": null,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 17.62,
+   "split": "dev"
+  },
+  {
+   "id": "q12",
+   "request_id": "5af2eb49bf30",
+   "question": "Was a crack found on N104ER, and where?",
+   "kind": "lookup",
+   "expected": "Yes: eddy current found a crack at the forward side of left spar hole LC-1; fatigue up to 0.126 in.",
+   "answer": {
+    "answer": "Yes, a crack was found on N104ER. The crack extends from the forward side of hole LC-1 on the lower surface of the left wing main spar.",
+    "diagnosis": null,
+    "recommended_actions": [],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig19",
+      "figure_no": 19
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig18",
+      "figure_no": 18
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 26,
+      "chunk_id": "ntsb_18-061:p26:fig20",
+      "figure_no": 20
+     }
+    ],
+    "grounded": true,
+    "image_observations": [],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig19",
+      "figure_no": 19
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig18",
+      "figure_no": 18
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 26,
+      "chunk_id": "ntsb_18-061:p26:fig20",
+      "figure_no": 20
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 28,
+      "chunk_id": "ntsb_18-061:p28:fig22",
+      "figure_no": 22
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "facts": true,
+    "missing": [],
+    "forbidden_found": [],
+    "pages": true,
+    "page_recall": 1.0,
+    "n_citations": 3,
+    "off_doc_citations": 0,
+    "filler": false,
+    "refusal": null,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 13.8,
+   "split": "dev"
+  },
+  {
+   "id": "q13",
+   "request_id": "3c57b3866697",
+   "question": "Were any cracks found on the N3986M spar?",
+   "kind": "lookup",
+   "expected": "No: eddy current and optical inspection found no crack indications.",
+   "answer": {
+    "answer": "No cracks were detected on the lower surface around the attachment holes RC-1 and RD-1 during the examination of the N3986M right wing main spar.",
+    "diagnosis": null,
+    "recommended_actions": [],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 29,
+      "chunk_id": "ntsb_18-061:p29:fig23",
+      "figure_no": 23
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 30,
+      "chunk_id": "ntsb_18-061:p30:fig25",
+      "figure_no": 25
+     }
+    ],
+    "grounded": true,
+    "image_observations": [],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 29,
+      "chunk_id": "ntsb_18-061:p29:fig23",
+      "figure_no": 23
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 30,
+      "chunk_id": "ntsb_18-061:p30:fig25",
+      "figure_no": 25
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 29,
+      "chunk_id": "ntsb_18-061:p29:fig24",
+      "figure_no": 24
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 27,
+      "chunk_id": "ntsb_18-061:p27:fig21",
+      "figure_no": 21
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 31,
+      "chunk_id": "ntsb_18-061:p31:fig26",
+      "figure_no": 26
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "facts": true,
+    "missing": [],
+    "forbidden_found": [],
+    "pages": true,
+    "page_recall": 1.0,
+    "n_citations": 3,
+    "off_doc_citations": 0,
+    "filler": false,
+    "refusal": null,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 8.32,
+   "split": "dev"
+  },
+  {
+   "id": "q14",
+   "request_id": "3b3a79d6b27a",
+   "question": "How did the right main spar of N106ER fracture?",
+   "kind": "lookup",
+   "expected": "Mostly ductile overstress initiating near hole RD-1; small fatigue crack (0.026 in at surface) at hole RC-1.",
+   "answer": {
+    "answer": "The right main spar of N106ER fractured due to a combination of fatigue and overstress. Fatigue features were observed at the aft side of hole RC-1, indicating that fatigue crack propagation occurred there. Additionally, the fracture emanated forward from hole RD-1, which is consistent with ductile overstress fracture. The fatigue region at the aft side of hole RC-1 is indicated in Figure 15, and the fatigue features extend up to 0.047 inches aft of the hole and 0.038 inches upward from the lower surface. The fatigue crack length at this point was 0.026 inches. The fracture surface had mostly rough matte-gray features consistent with ductile overstress fracture, and river patterns associated with the fracture emanated from hole RD-1.",
+    "diagnosis": null,
+    "recommended_actions": [],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 22,
+      "chunk_id": "ntsb_18-061:p22:fig15",
+      "figure_no": 15
+     }
+    ],
+    "grounded": true,
+    "image_observations": [],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 22,
+      "chunk_id": "ntsb_18-061:p22:fig15",
+      "figure_no": 15
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 12,
+      "chunk_id": "ntsb_18-061:p12:fig3",
+      "figure_no": 3
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 11,
+      "chunk_id": "ntsb_18-061:p11:fig2",
+      "figure_no": 2
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 21,
+      "chunk_id": "ntsb_18-061:p21:fig14",
+      "figure_no": 14
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 23,
+      "chunk_id": "ntsb_18-061:p23:fig16",
+      "figure_no": 16
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "facts": true,
+    "missing": [],
+    "forbidden_found": [],
+    "pages": true,
+    "page_recall": 1.0,
+    "n_citations": 2,
+    "off_doc_citations": 0,
+    "filler": false,
+    "refusal": null,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 18.77,
+   "split": "dev"
+  },
+  {
+   "id": "q15",
+   "request_id": "ea6698d115cf",
+   "question": "How many hours and landing cycles did N106ER have, vs N104ER?",
+   "kind": "lookup",
+   "expected": "N106ER 7,690.6 h / 33,276 cycles; N104ER 7,660.7 h / 32,288 cycles.",
+   "answer": {
+    "answer": "Airplane N106ER had 7,690.6 hours time in service (TIS) and 33,276 landing cycles at the time of the accident. Airplane N104ER had 7,660.7 hours TIS and 32,288 landing cycles.",
+    "diagnosis": null,
+    "recommended_actions": [],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t4",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t1",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t4",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig18",
+      "figure_no": 18
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig19",
+      "figure_no": 19
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 26,
+      "chunk_id": "ntsb_18-061:p26:fig20",
+      "figure_no": 20
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "facts": true,
+    "missing": [],
+    "forbidden_found": [],
+    "pages": true,
+    "page_recall": 1.0,
+    "n_citations": 2,
+    "off_doc_citations": 0,
+    "filler": false,
+    "refusal": null,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 12.44,
+   "split": "dev"
+  },
+  {
+   "id": "q16",
+   "request_id": "f5a7f967d361",
+   "question": "Why might the mixture control's release rod not move?",
+   "kind": "diagnosis",
+   "expected": "Release rod slightly bent (0.015 in); corrosion where the rod contacted the control tube; roll groove reduced inside diameter to ~0.194 in vs 0.187 in rod.",
+   "answer": {
+    "answer": "The mixture control's release rod may not have moved due to a deformation lip associated with the longitudinal cut that penetrated the control tube, which interfered with the movement of the release rod. Additionally, there was a gap between the release rod and the control tube, which could have restricted movement. The release rod was slightly bent, consistent with observations from the radiographs, indicating possible overstress or fatigue. Furthermore, corrosion was observed on the side opposite from the lock ball hole, which could have contributed to the lack of movement.",
+    "diagnosis": null,
+    "recommended_actions": [],
+    "citations": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 4,
+      "chunk_id": "ntsb_16-006:p4:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 5,
+      "chunk_id": "ntsb_16-006:p5:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 13,
+      "chunk_id": "ntsb_16-006:p13:fig10",
+      "figure_no": 10
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 12,
+      "chunk_id": "ntsb_16-006:p12:fig9",
+      "figure_no": 9
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 14,
+      "chunk_id": "ntsb_16-006:p14:fig12",
+      "figure_no": 12
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 11,
+      "chunk_id": "ntsb_16-006:p11:fig8",
+      "figure_no": 8
+     }
+    ],
+    "grounded": true,
+    "image_observations": [],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 4,
+      "chunk_id": "ntsb_16-006:p4:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 4,
+      "chunk_id": "ntsb_16-006:p4:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 5,
+      "chunk_id": "ntsb_16-006:p5:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 13,
+      "chunk_id": "ntsb_16-006:p13:fig10",
+      "figure_no": 10
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 12,
+      "chunk_id": "ntsb_16-006:p12:fig9",
+      "figure_no": 9
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 14,
+      "chunk_id": "ntsb_16-006:p14:fig12",
+      "figure_no": 12
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 11,
+      "chunk_id": "ntsb_16-006:p11:fig8",
+      "figure_no": 8
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "facts": false,
+    "missing": [
+     "roll groove"
+    ],
+    "forbidden_found": [],
+    "pages": true,
+    "page_recall": 1.0,
+    "n_citations": 6,
+    "off_doc_citations": 0,
+    "filler": false,
+    "refusal": null,
+    "pass": false
+   },
+   "pass": false,
+   "latency_s": 15.93,
+   "split": "dev"
+  },
+  {
+   "id": "q17",
+   "request_id": "4c715bed3fb2",
+   "question": "Was there evidence the throttle cable buckled in compression?",
+   "kind": "lookup",
+   "expected": "No: tight wound strands, no birdcage deformation.",
+   "answer": {
+    "answer": "No, there was no evidence of compression buckling of the throttle cable. The report states that the exposed segment of the cable had tight wound strands and showed no evidence of 'birdcage' deformation, which would indicate compression buckling.",
+    "diagnosis": null,
+    "recommended_actions": [],
+    "citations": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t0",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 3,
+      "chunk_id": "ntsb_16-006:p3:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 3,
+      "chunk_id": "ntsb_16-006:p3:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 3,
+      "chunk_id": "ntsb_16-006:p3:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 3,
+      "chunk_id": "ntsb_24-013:p3:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 7,
+      "chunk_id": "ntsb_16-006:p7:fig2",
+      "figure_no": 2
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 9,
+      "chunk_id": "ntsb_16-006:p9:fig5",
+      "figure_no": 5
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 6,
+      "chunk_id": "ntsb_24-013:p6:fig5",
+      "figure_no": 5
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 6,
+      "chunk_id": "ntsb_24-013:p6:fig4",
+      "figure_no": 4
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 9,
+      "chunk_id": "ntsb_16-006:p9:fig4",
+      "figure_no": 4
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 8,
+      "chunk_id": "ntsb_16-006:p8:fig3",
+      "figure_no": 3
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "facts": true,
+    "missing": [],
+    "forbidden_found": [],
+    "pages": true,
+    "page_recall": 1.0,
+    "n_citations": 1,
+    "off_doc_citations": 0,
+    "filler": false,
+    "refusal": null,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 8.95,
+   "split": "dev"
+  },
+  {
+   "id": "q18",
+   "request_id": "64efff34ad09",
+   "question": "What heat damage was found on the throttle control assembly?",
+   "kind": "lookup",
+   "expected": "Discolored and oxidized; aluminum components melted; charred material 13-21 in from end fitting; conduit liner melted 33-38 in.",
+   "answer": {
+    "answer": "The throttle control assembly exhibited signs of heat damage, including discoloration, oxidation, and melting of aluminum alloy components. Specifically, remnants of aluminum alloy components were distorted, oxidized, flowed, and missing, indicating exposure to high heat. Additionally, the conduit liner was melted and adhered to the cable, and debris consistent with the conduit liner was observed near the output end of the conduit.",
+    "diagnosis": null,
+    "recommended_actions": [],
+    "citations": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 1,
+      "chunk_id": "ntsb_16-006:p1:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 3,
+      "chunk_id": "ntsb_16-006:p3:t1",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 1,
+      "chunk_id": "ntsb_16-006:p1:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 3,
+      "chunk_id": "ntsb_16-006:p3:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 3,
+      "chunk_id": "ntsb_16-006:p3:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 1,
+      "chunk_id": "ntsb_16-006:p1:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 6,
+      "chunk_id": "ntsb_16-006:p6:fig1",
+      "figure_no": 1
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 7,
+      "chunk_id": "ntsb_16-006:p7:fig2",
+      "figure_no": 2
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 9,
+      "chunk_id": "ntsb_16-006:p9:fig5",
+      "figure_no": 5
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 6,
+      "chunk_id": "ntsb_24-013:p6:fig4",
+      "figure_no": 4
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 9,
+      "chunk_id": "ntsb_16-006:p9:fig4",
+      "figure_no": 4
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 8,
+      "chunk_id": "ntsb_16-006:p8:fig3",
+      "figure_no": 3
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "facts": false,
+    "missing": [
+     "charred"
+    ],
+    "forbidden_found": [],
+    "pages": true,
+    "page_recall": 1.0,
+    "n_citations": 2,
+    "off_doc_citations": 0,
+    "filler": false,
+    "refusal": null,
+    "pass": false
+   },
+   "pass": false,
+   "latency_s": 12.5,
+   "split": "dev"
+  },
+  {
+   "id": "q19",
+   "request_id": "c478b9e79970",
+   "question": "What was the probable cause of the Lake Placid accident?",
+   "kind": "refusal",
+   "expected": "Not stated: the report only covers the throttle arm (bending overstress), no accident cause.",
+   "answer": {
+    "answer": "The reports do not state the cause of the accident. The examination found that the threaded section of the throttle arm was fractured due to bending overstress. There was no evidence of preexisting cracks on the fracture surfaces.",
+    "diagnosis": null,
+    "recommended_actions": [],
+    "citations": [
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 3,
+      "chunk_id": "ntsb_24-013:p3:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 6,
+      "chunk_id": "ntsb_24-013:p6:fig4",
+      "figure_no": 4
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 6,
+      "chunk_id": "ntsb_24-013:p6:fig5",
+      "figure_no": 5
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 5,
+      "chunk_id": "ntsb_24-013:p5:fig3",
+      "figure_no": 3
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 4,
+      "chunk_id": "ntsb_24-013:p4:fig2",
+      "figure_no": 2
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 4,
+      "chunk_id": "ntsb_24-013:p4:fig1",
+      "figure_no": 1
+     }
+    ],
+    "grounded": true,
+    "image_observations": [],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 3,
+      "chunk_id": "ntsb_24-013:p3:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 6,
+      "chunk_id": "ntsb_24-013:p6:fig4",
+      "figure_no": 4
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 6,
+      "chunk_id": "ntsb_24-013:p6:fig5",
+      "figure_no": 5
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 5,
+      "chunk_id": "ntsb_24-013:p5:fig3",
+      "figure_no": 3
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 4,
+      "chunk_id": "ntsb_24-013:p4:fig2",
+      "figure_no": 2
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 4,
+      "chunk_id": "ntsb_24-013:p4:fig1",
+      "figure_no": 1
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "facts": true,
+    "missing": [],
+    "forbidden_found": [],
+    "pages": true,
+    "page_recall": 1.0,
+    "n_citations": 4,
+    "off_doc_citations": 0,
+    "filler": false,
+    "refusal": true,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 8.63,
+   "split": "dev"
+  },
+  {
+   "id": "q20",
+   "request_id": "02a6c98e1b2d",
+   "question": "What is the fatigue life of a 2024-T3 spar in cycles?",
+   "kind": "refusal",
+   "expected": "Not in the reports.",
+   "answer": {
+    "answer": "The provided sources do not contain information about the fatigue life of a 2024-T3 spar in cycles. The reports focus on the examination of the fatigue regions in the spar caps from the accident airplane, detailing the presence of fatigue cracks and the origin areas. They do not provide data on the fatigue life of the material in terms of cycles.",
+    "diagnosis": null,
+    "recommended_actions": [],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t4",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 23,
+      "chunk_id": "ntsb_18-061:p23:fig16",
+      "figure_no": 16
+     }
+    ],
+    "grounded": false,
+    "image_observations": [],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t4",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 26,
+      "chunk_id": "ntsb_18-061:p26:fig20",
+      "figure_no": 20
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 23,
+      "chunk_id": "ntsb_18-061:p23:fig16",
+      "figure_no": 16
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 15,
+      "chunk_id": "ntsb_18-061:p15:fig7",
+      "figure_no": 7
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 18,
+      "chunk_id": "ntsb_18-061:p18:fig10",
+      "figure_no": 10
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "facts": true,
+    "missing": [],
+    "forbidden_found": [],
+    "pages": null,
+    "page_recall": null,
+    "n_citations": 4,
+    "off_doc_citations": 0,
+    "filler": false,
+    "refusal": true,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 11.35,
+   "split": "dev"
+  },
+  {
+   "id": "t01",
+   "request_id": "6b54c337b1a5",
+   "question": "Who made the throttle control assembly installed on the Mooney, and what was its part number?",
+   "kind": "lookup",
+   "expected": "Orscheln Products, part number 660226-027 (per Mooney manufacturing records; no identifying marks found on the part).",
+   "answer": {
+    "answer": "The throttle control assembly installed on the Mooney was made by Orscheln Products, L.L.C., and its part number was 660226-027.",
+    "diagnosis": null,
+    "recommended_actions": [],
+    "citations": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 1,
+      "chunk_id": "ntsb_16-006:p1:t2",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 1,
+      "chunk_id": "ntsb_16-006:p1:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 1,
+      "chunk_id": "ntsb_16-006:p1:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 1,
+      "chunk_id": "ntsb_16-006:p1:t4",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 6,
+      "chunk_id": "ntsb_16-006:p6:fig1",
+      "figure_no": 1
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 7,
+      "chunk_id": "ntsb_16-006:p7:fig2",
+      "figure_no": 2
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 10,
+      "chunk_id": "ntsb_16-006:p10:fig6",
+      "figure_no": 6
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 9,
+      "chunk_id": "ntsb_16-006:p9:fig5",
+      "figure_no": 5
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "facts": true,
+    "missing": [],
+    "forbidden_found": [],
+    "pages": true,
+    "page_recall": 1.0,
+    "n_citations": 1,
+    "off_doc_citations": 0,
+    "filler": false,
+    "refusal": null,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 5.28,
+   "split": "test"
+  },
+  {
+   "id": "t02",
+   "request_id": "8d0cd6349ec4",
+   "question": "How far did the throttle release rod extend from the nut when locked, just unlocked, and fully depressed?",
+   "kind": "lookup",
+   "expected": "0.733 inch locked, 0.605 inch with the pawl just disengaged, 0.425 inch fully depressed.",
+   "answer": {
+    "answer": "The throttle release rod extended as follows from the nut:\n- In the lock position (upper image in figure 3): 0.733 inch aft.\n- Just unlocked (lower image in figure 3): 0.605 inch from the nut.\n- Fully depressed (figure 4 position): 0.425 inch from the nut.",
+    "diagnosis": null,
+    "recommended_actions": [],
+    "citations": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t1",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 4,
+      "chunk_id": "ntsb_16-006:p4:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 5,
+      "chunk_id": "ntsb_16-006:p5:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 3,
+      "chunk_id": "ntsb_16-006:p3:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 9,
+      "chunk_id": "ntsb_16-006:p9:fig4",
+      "figure_no": 4
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 8,
+      "chunk_id": "ntsb_16-006:p8:fig3",
+      "figure_no": 3
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 10,
+      "chunk_id": "ntsb_16-006:p10:fig7",
+      "figure_no": 7
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 9,
+      "chunk_id": "ntsb_16-006:p9:fig5",
+      "figure_no": 5
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 14,
+      "chunk_id": "ntsb_16-006:p14:fig12",
+      "figure_no": 12
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "facts": true,
+    "missing": [],
+    "forbidden_found": [],
+    "pages": true,
+    "page_recall": 1.0,
+    "n_citations": 1,
+    "off_doc_citations": 0,
+    "filler": false,
+    "refusal": null,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 12.45,
+   "split": "test"
+  },
+  {
+   "id": "t03",
+   "request_id": "18198347d1a7",
+   "question": "What force was needed to move the throttle cable within its conduit?",
+   "kind": "lookup",
+   "expected": "About 23 lb pulling the output end (0.30 in displacement), 25 lb pulling the control tube (0.33 in); after cutting, 23 lb rising to 43 lb.",
+   "answer": {
+    "answer": "The force required to move the throttle cable within its conduit varied. Initially, the force to move the cable through the conduit was approximately 23 pounds when pulling the output end fitting. This force increased to approximately 43 pounds after the conduit was straightened. The exact force needed to move the cable within the conduit could not be measured consistently due to the limitations of the force gauge.",
+    "diagnosis": null,
+    "recommended_actions": [],
+    "citations": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 3,
+      "chunk_id": "ntsb_16-006:p3:t0",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 3,
+      "chunk_id": "ntsb_16-006:p3:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 3,
+      "chunk_id": "ntsb_16-006:p3:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 3,
+      "chunk_id": "ntsb_16-006:p3:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 7,
+      "chunk_id": "ntsb_16-006:p7:fig2",
+      "figure_no": 2
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 9,
+      "chunk_id": "ntsb_16-006:p9:fig5",
+      "figure_no": 5
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 6,
+      "chunk_id": "ntsb_16-006:p6:fig1",
+      "figure_no": 1
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 10,
+      "chunk_id": "ntsb_16-006:p10:fig7",
+      "figure_no": 7
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 11,
+      "chunk_id": "ntsb_16-006:p11:fig8",
+      "figure_no": 8
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "facts": false,
+    "missing": [
+     "25"
+    ],
+    "forbidden_found": [],
+    "pages": true,
+    "page_recall": 1.0,
+    "n_citations": 1,
+    "off_doc_citations": 0,
+    "filler": false,
+    "refusal": null,
+    "pass": false
+   },
+   "pass": false,
+   "latency_s": 13.62,
+   "split": "test"
+  },
+  {
+   "id": "t04",
+   "request_id": "e1e647a69881",
+   "question": "What was the inside diameter of the mixture control tube at the roll groove, compared with the release rod diameter?",
+   "kind": "lookup",
+   "expected": "About 0.194 inch at the roll groove (0.210 inch elsewhere); the release rod outside diameter was 0.187 inch.",
+   "answer": {
+    "answer": "The inside diameter of the control tube at the roll groove was approximately 0.194 inch, while the outside diameter of the release rod was 0.187 inch.",
+    "diagnosis": null,
+    "recommended_actions": [],
+    "citations": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 5,
+      "chunk_id": "ntsb_16-006:p5:t0",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 5,
+      "chunk_id": "ntsb_16-006:p5:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 4,
+      "chunk_id": "ntsb_16-006:p4:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 4,
+      "chunk_id": "ntsb_16-006:p4:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 14,
+      "chunk_id": "ntsb_16-006:p14:fig12",
+      "figure_no": 12
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 13,
+      "chunk_id": "ntsb_16-006:p13:fig11",
+      "figure_no": 11
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 12,
+      "chunk_id": "ntsb_16-006:p12:fig9",
+      "figure_no": 9
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 13,
+      "chunk_id": "ntsb_16-006:p13:fig10",
+      "figure_no": 10
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "facts": true,
+    "missing": [],
+    "forbidden_found": [],
+    "pages": true,
+    "page_recall": 1.0,
+    "n_citations": 1,
+    "off_doc_citations": 0,
+    "filler": false,
+    "refusal": null,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 10.56,
+   "split": "test"
+  },
+  {
+   "id": "t05",
+   "request_id": "c57055d42e97",
+   "question": "What hardness was measured on the N104ER left spar lower cap?",
+   "kind": "lookup",
+   "expected": "80.8 HRBW average of 5 measurements (N106ER was 81.0, N3986M 79.9).",
+   "answer": {
+    "answer": "The hardness measured on the lower spar cap of the left main wing spar from airplane N104ER was 80.8 HRBW.",
+    "diagnosis": null,
+    "recommended_actions": [],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t1",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 9,
+      "chunk_id": "ntsb_18-061:p9:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 28,
+      "chunk_id": "ntsb_18-061:p28:fig22",
+      "figure_no": 22
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig18",
+      "figure_no": 18
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig19",
+      "figure_no": 19
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 26,
+      "chunk_id": "ntsb_18-061:p26:fig20",
+      "figure_no": 20
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 31,
+      "chunk_id": "ntsb_18-061:p31:fig27",
+      "figure_no": 27
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 32,
+      "chunk_id": "ntsb_18-061:p32:fig28",
+      "figure_no": 28
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "facts": true,
+    "missing": [],
+    "forbidden_found": [],
+    "pages": true,
+    "page_recall": 1.0,
+    "n_citations": 2,
+    "off_doc_citations": 0,
+    "filler": false,
+    "refusal": null,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 8.78,
+   "split": "test"
+  },
+  {
+   "id": "t06",
+   "request_id": "2615a2631178",
+   "question": "What electrical conductivity was measured on the spar from N3986M?",
+   "kind": "lookup",
+   "expected": "29.7% IACS.",
+   "answer": {
+    "answer": "The electrical conductivity measured on the lower surface of the spar from airplane N3986M was 29.7% IACS.",
+    "diagnosis": null,
+    "recommended_actions": [],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t1",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 9,
+      "chunk_id": "ntsb_18-061:p9:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 30,
+      "chunk_id": "ntsb_18-061:p30:fig25",
+      "figure_no": 25
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 29,
+      "chunk_id": "ntsb_18-061:p29:fig23",
+      "figure_no": 23
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 29,
+      "chunk_id": "ntsb_18-061:p29:fig24",
+      "figure_no": 24
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 27,
+      "chunk_id": "ntsb_18-061:p27:fig21",
+      "figure_no": 21
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 31,
+      "chunk_id": "ntsb_18-061:p31:fig27",
+      "figure_no": 27
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 32,
+      "chunk_id": "ntsb_18-061:p32:fig28",
+      "figure_no": 28
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 31,
+      "chunk_id": "ntsb_18-061:p31:fig26",
+      "figure_no": 26
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "facts": true,
+    "missing": [],
+    "forbidden_found": [],
+    "pages": true,
+    "page_recall": 1.0,
+    "n_citations": 1,
+    "off_doc_citations": 0,
+    "filler": false,
+    "refusal": null,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 9.14,
+   "split": "test"
+  },
+  {
+   "id": "t07",
+   "request_id": "d328d2464cc3",
+   "question": "How many hours did the retired airplane N3986M have, and when was it built?",
+   "kind": "lookup",
+   "expected": "9,841.3 hours TIS; manufactured in 1978.",
+   "answer": {
+    "answer": "The retired airplane N3986M had 9,841.3 hours Time in Service (TIS) and was manufactured in 1978.",
+    "diagnosis": null,
+    "recommended_actions": [],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t1",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 1,
+      "chunk_id": "ntsb_16-006:p1:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 1,
+      "chunk_id": "ntsb_16-006:p1:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 29,
+      "chunk_id": "ntsb_18-061:p29:fig23",
+      "figure_no": 23
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 30,
+      "chunk_id": "ntsb_18-061:p30:fig25",
+      "figure_no": 25
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 29,
+      "chunk_id": "ntsb_18-061:p29:fig24",
+      "figure_no": 24
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 27,
+      "chunk_id": "ntsb_18-061:p27:fig21",
+      "figure_no": 21
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 31,
+      "chunk_id": "ntsb_18-061:p31:fig26",
+      "figure_no": 26
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 6,
+      "chunk_id": "ntsb_16-006:p6:fig1",
+      "figure_no": 1
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "facts": true,
+    "missing": [],
+    "forbidden_found": [],
+    "pages": true,
+    "page_recall": 1.0,
+    "n_citations": 1,
+    "off_doc_citations": 0,
+    "filler": false,
+    "refusal": null,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 7.75,
+   "split": "test"
+  },
+  {
+   "id": "t08",
+   "request_id": "d96342a7af11",
+   "question": "How large was the fatigue crack at hole RC-1 on the right spar of N106ER?",
+   "kind": "lookup",
+   "expected": "Fatigue region up to 0.047 inch aft of the hole and 0.038 inch up from the lower surface; 0.026 inch long at the lower surface.",
+   "answer": {
+    "answer": "The fatigue crack at hole RC-1 on the right spar of N106ER was 0.026 inches long, according to the examination results reported in the NTSB Materials Laboratory Factual Report.",
+    "diagnosis": null,
+    "recommended_actions": [],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t2",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 22,
+      "chunk_id": "ntsb_18-061:p22:fig15",
+      "figure_no": 15
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 23,
+      "chunk_id": "ntsb_18-061:p23:fig16",
+      "figure_no": 16
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 24,
+      "chunk_id": "ntsb_18-061:p24:fig17",
+      "figure_no": 17
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 14,
+      "chunk_id": "ntsb_18-061:p14:fig6",
+      "figure_no": 6
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 13,
+      "chunk_id": "ntsb_18-061:p13:fig5",
+      "figure_no": 5
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "facts": false,
+    "missing": [
+     "0.047",
+     "0.038"
+    ],
+    "forbidden_found": [],
+    "pages": true,
+    "page_recall": 1.0,
+    "n_citations": 1,
+    "off_doc_citations": 0,
+    "filler": false,
+    "refusal": null,
+    "pass": false
+   },
+   "pass": false,
+   "latency_s": 11.31,
+   "split": "test"
+  },
+  {
+   "id": "t09",
+   "request_id": "3817def0010a",
+   "question": "How far did the fatigue crack on the N104ER spar extend?",
+   "kind": "lookup",
+   "expected": "Up to 0.126 inch forward from the hole surface and 0.115 inch up from the lower surface (0.119 inch at the lower surface), at hole LC-1.",
+   "answer": {
+    "answer": "The fatigue crack on the N104ER spar extended up to 0.126 inches forward from the hole surface and up to 0.115 inches upward from the lower surface. The length from the hole surface to the fatigue boundary where it intersected the lower surface was 0.119 inches.",
+    "diagnosis": null,
+    "recommended_actions": [],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t2",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 26,
+      "chunk_id": "ntsb_18-061:p26:fig20",
+      "figure_no": 20
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig19",
+      "figure_no": 19
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig18",
+      "figure_no": 18
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 28,
+      "chunk_id": "ntsb_18-061:p28:fig22",
+      "figure_no": 22
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "facts": true,
+    "missing": [],
+    "forbidden_found": [],
+    "pages": true,
+    "page_recall": 1.0,
+    "n_citations": 1,
+    "off_doc_citations": 0,
+    "filler": false,
+    "refusal": null,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 11.63,
+   "split": "test"
+  },
+  {
+   "id": "t10",
+   "request_id": "9245e3b3b551",
+   "question": "What hardness did the new spar extrusion pieces from Piper have?",
+   "kind": "lookup",
+   "expected": "80.0, 80.4 and 80.0 HRBW (pieces 1, 2, 3); conductivity 29.8% IACS each.",
+   "answer": {
+    "answer": "The hardness values for the new spar extrusion pieces from Piper were 80.0 HRBW, 80.4 HRBW, and 80.0 HRBW for new spar pieces 1, 2, and 3, respectively.",
+    "diagnosis": null,
+    "recommended_actions": [],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 9,
+      "chunk_id": "ntsb_18-061:p9:t0",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 9,
+      "chunk_id": "ntsb_18-061:p9:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 33,
+      "chunk_id": "ntsb_18-061:p33:fig29",
+      "figure_no": 29
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 31,
+      "chunk_id": "ntsb_18-061:p31:fig26",
+      "figure_no": 26
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 31,
+      "chunk_id": "ntsb_18-061:p31:fig27",
+      "figure_no": 27
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 32,
+      "chunk_id": "ntsb_18-061:p32:fig28",
+      "figure_no": 28
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "facts": true,
+    "missing": [],
+    "forbidden_found": [],
+    "pages": true,
+    "page_recall": 1.0,
+    "n_citations": 1,
+    "off_doc_citations": 0,
+    "filler": false,
+    "refusal": null,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 11.81,
+   "split": "test"
+  },
+  {
+   "id": "t11",
+   "request_id": "a870f0f93b6f",
+   "question": "How did the upper spar cap of the N106ER left spar fail?",
+   "kind": "lookup",
+   "expected": "Ductile overstress (rough matte-gray features), deformation consistent with an upward bending load.",
+   "answer": {
+    "answer": "The upper spar cap of the N106ER left spar failed due to ductile overstress fracture. The features on the fracture surface were consistent with ductile overstress fracture, and deformation associated with the fracture in the upper spar cap was consistent with an upward bending load.",
+    "diagnosis": null,
+    "recommended_actions": [],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t4",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 21,
+      "chunk_id": "ntsb_18-061:p21:fig14",
+      "figure_no": 14
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 11,
+      "chunk_id": "ntsb_18-061:p11:fig2",
+      "figure_no": 2
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 12,
+      "chunk_id": "ntsb_18-061:p12:fig4",
+      "figure_no": 4
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 12,
+      "chunk_id": "ntsb_18-061:p12:fig3",
+      "figure_no": 3
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 13,
+      "chunk_id": "ntsb_18-061:p13:fig5",
+      "figure_no": 5
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 14,
+      "chunk_id": "ntsb_18-061:p14:fig6",
+      "figure_no": 6
+     }
+    ],
+    "grounded": true,
+    "image_observations": [],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t4",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 21,
+      "chunk_id": "ntsb_18-061:p21:fig14",
+      "figure_no": 14
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 11,
+      "chunk_id": "ntsb_18-061:p11:fig2",
+      "figure_no": 2
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 12,
+      "chunk_id": "ntsb_18-061:p12:fig4",
+      "figure_no": 4
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 12,
+      "chunk_id": "ntsb_18-061:p12:fig3",
+      "figure_no": 3
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 13,
+      "chunk_id": "ntsb_18-061:p13:fig5",
+      "figure_no": 5
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 14,
+      "chunk_id": "ntsb_18-061:p14:fig6",
+      "figure_no": 6
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "facts": true,
+    "missing": [],
+    "forbidden_found": [],
+    "pages": true,
+    "page_recall": 1.0,
+    "n_citations": 8,
+    "off_doc_citations": 0,
+    "filler": false,
+    "refusal": null,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 13.31,
+   "split": "test"
+  },
+  {
+   "id": "t12",
+   "request_id": "aa747fff0e79",
+   "question": "Where did the fracture of the N106ER right spar lower cap start, and was there a pre-existing crack there?",
+   "kind": "diagnosis",
+   "expected": "Overstress initiated near hole RD-1 (river patterns); no pre-existing crack at RD-1; a small fatigue crack was found at hole RC-1.",
+   "answer": {
+    "answer": "The fracture of the N106ER right spar lower cap started at the aft side of hole RC-1, as indicated by the fatigue region shown in Figure 15. No evidence of a pre-existing crack was observed at hole RD-1, where the overstress fracture of the spar cap initiated.",
+    "diagnosis": null,
+    "recommended_actions": [],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 22,
+      "chunk_id": "ntsb_18-061:p22:fig15",
+      "figure_no": 15
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t2",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 22,
+      "chunk_id": "ntsb_18-061:p22:fig15",
+      "figure_no": 15
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 11,
+      "chunk_id": "ntsb_18-061:p11:fig2",
+      "figure_no": 2
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 20,
+      "chunk_id": "ntsb_18-061:p20:fig13",
+      "figure_no": 13
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 12,
+      "chunk_id": "ntsb_18-061:p12:fig4",
+      "figure_no": 4
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 18,
+      "chunk_id": "ntsb_18-061:p18:fig11",
+      "figure_no": 11
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 19,
+      "chunk_id": "ntsb_18-061:p19:fig12",
+      "figure_no": 12
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 16,
+      "chunk_id": "ntsb_18-061:p16:fig8",
+      "figure_no": 8
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 17,
+      "chunk_id": "ntsb_18-061:p17:fig9",
+      "figure_no": 9
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 12,
+      "chunk_id": "ntsb_18-061:p12:fig3",
+      "figure_no": 3
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "facts": true,
+    "missing": [],
+    "forbidden_found": [],
+    "pages": true,
+    "page_recall": 1.0,
+    "n_citations": 2,
+    "off_doc_citations": 0,
+    "filler": false,
+    "refusal": null,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 12.22,
+   "split": "test"
+  },
+  {
+   "id": "t13",
+   "request_id": "4c5aa6a8899d",
+   "question": "Was anything blocking the throttle cable inside the conduit?",
+   "kind": "lookup",
+   "expected": "No obstructions once the melted liner debris was removed; the liner showed heat damage.",
+   "answer": {
+    "answer": "No obstructions were observed once the liner debris was removed.",
+    "diagnosis": null,
+    "recommended_actions": [],
+    "citations": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 3,
+      "chunk_id": "ntsb_16-006:p3:t1",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 3,
+      "chunk_id": "ntsb_16-006:p3:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 3,
+      "chunk_id": "ntsb_16-006:p3:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 3,
+      "chunk_id": "ntsb_16-006:p3:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 7,
+      "chunk_id": "ntsb_16-006:p7:fig2",
+      "figure_no": 2
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 4,
+      "chunk_id": "ntsb_24-013:p4:fig1",
+      "figure_no": 1
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 9,
+      "chunk_id": "ntsb_16-006:p9:fig5",
+      "figure_no": 5
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 6,
+      "chunk_id": "ntsb_16-006:p6:fig1",
+      "figure_no": 1
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 11,
+      "chunk_id": "ntsb_16-006:p11:fig8",
+      "figure_no": 8
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "facts": true,
+    "missing": [],
+    "forbidden_found": [],
+    "pages": true,
+    "page_recall": 1.0,
+    "n_citations": 1,
+    "off_doc_citations": 0,
+    "filler": false,
+    "refusal": null,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 8.04,
+   "split": "test"
+  },
+  {
+   "id": "t14",
+   "request_id": "9a6c5a0691da",
+   "question": "How many flight hours did the pilot of N106ER have?",
+   "kind": "refusal",
+   "expected": "Not stated: the report gives the airplane's hours (7,690.6 TIS), not the pilot's experience.",
+   "answer": {
+    "answer": "The pilot of N106ER had 7,690.6 hours time in service (TIS) at the time of the accident.",
+    "diagnosis": null,
+    "recommended_actions": [],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t4",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t4",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 23,
+      "chunk_id": "ntsb_18-061:p23:fig16",
+      "figure_no": 16
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "facts": true,
+    "missing": [],
+    "forbidden_found": [],
+    "pages": null,
+    "page_recall": null,
+    "n_citations": 1,
+    "off_doc_citations": 0,
+    "filler": false,
+    "refusal": false,
+    "pass": false
+   },
+   "pass": false,
+   "latency_s": 7.72,
+   "split": "test"
+  },
+  {
+   "id": "t15",
+   "request_id": "4c93747a23bc",
+   "question": "What inspection interval does the report recommend for the spar attachment holes?",
+   "kind": "refusal",
+   "expected": "Not stated: the lab report documents findings and makes no inspection-interval recommendation.",
+   "answer": {
+    "answer": "The report does not provide specific inspection intervals for the spar attachment holes. It focuses on the examination of the spar itself and the detection of cracks, but does not mention any routine inspection schedules.",
+    "diagnosis": null,
+    "recommended_actions": [],
+    "citations": [],
+    "grounded": false,
+    "image_observations": [],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t4",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig18",
+      "figure_no": 18
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 29,
+      "chunk_id": "ntsb_18-061:p29:fig23",
+      "figure_no": 23
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig19",
+      "figure_no": 19
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 30,
+      "chunk_id": "ntsb_18-061:p30:fig25",
+      "figure_no": 25
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 27,
+      "chunk_id": "ntsb_18-061:p27:fig21",
+      "figure_no": 21
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 31,
+      "chunk_id": "ntsb_18-061:p31:fig26",
+      "figure_no": 26
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "facts": true,
+    "missing": [],
+    "forbidden_found": [],
+    "pages": null,
+    "page_recall": null,
+    "n_citations": 0,
+    "off_doc_citations": 0,
+    "filler": false,
+    "refusal": true,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 9.78,
+   "split": "test"
+  }
+ ]
+}
