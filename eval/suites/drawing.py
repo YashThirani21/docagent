@@ -1,14 +1,16 @@
 """drawing: values read from a technical drawing (the extractor called directly - router bypassed).
 
 Two scores, reported side by side (NOTES.md section 10):
-- accuracy vs hand labels (eval/datasets/drawings/*.json): recall, precision, numbers, type, gdt_symbol, datums,
-  belongs_to, belongs_primary, title block, notes, units. Headline = verified sheets only (CTC-01, FTC-07 dev;
-  CTC-03 / FTC-11 test count once `verified: true` - until then shown separately as draft labels).
+- accuracy vs AI-drafted labels (eval/datasets/drawings/*.json; no drawing is hand-annotated): recall, precision,
+  numbers, type, gdt_symbol, datums, belongs_to, belongs_primary, title block, notes, units. Headline = verified
+  sheets only (CTC-01, FTC-07 dev; CTC-03 / FTC-11 test count once `verified: true` - until then shown separately
+  as draft labels).
 - agreement with a reference run (default eval/datasets/drawings/reference/geo-l4-fix4: model outputs, not labels)
   on all 11 drawings: agree_recall, agree_precision, numbers_agree, type_agree, gdt_agree, datums_agree,
   belongs_to_agree, with per-value diffs (dropped vs reference / new vs reference / changed reading). It measures
-  CHANGE relative to the reference, not correctness: fixing a reference mistake lowers agreement.
-`--compare` flips: per ground-truth value (found / not found) and per reference value (reproduced / dropped).
+  CHANGE relative to the reference, not correctness: lower agreement can be a regression, an improvement
+  (fixing a reference mistake lowers agreement) or an equally valid reading.
+`--compare` flips: per label value (found / not found) and per reference value (reproduced / dropped).
 Options: --as-images (each sheet as a 200-dpi JPG: picture route; compared with the reference's jpg/ outputs where
 they exist, else its PDF outputs), --method geometry|tiles (= --set drawing.method=...), --pred-dir DIR (score
 existing <drawing_id>.json files, run nothing), --reference DIR, --no-reference.
@@ -29,7 +31,7 @@ DEFAULT_SPLIT = "all"                    # agreement covers every drawing; the G
 REFERENCE = GT_DIR / "reference" / "geo-l4-fix4"
 DATASET = sorted(GT_DIR.glob("*.json")) + sorted(REFERENCE.glob("*.json"))
 NOTE = ("agreement = change relative to the reference run (model outputs, not labels), not correctness; "
-        "accuracy on the verified sheets is the correctness measure")
+        "lower agreement can be better, worse or equal; accuracy on the labelled sheets is the correctness estimate")
 _args = None
 
 
@@ -126,7 +128,7 @@ def run_case(ctx, case: dict) -> dict:
 
 
 def outcomes(row: dict) -> dict[str, bool]:
-    out = dict(row.get("found") or row.get("gt", {}).get("found", {}))   # hand-label values: found
+    out = dict(row.get("found") or row.get("gt", {}).get("found", {}))   # label values: found
     out.update(row.get("reference", {}).get("reproduced", {}))           # reference values: reproduced
     return out
 
@@ -139,7 +141,7 @@ def summarize(rows: list[dict]) -> dict:
     s["accuracy_drawings"] = [r["id"] for r in rows if r.get("gt") and r.get("verified")]
     if draft:
         s["draft_labels"] = aggregate(draft) | {"drawings": [r["id"] for r in rows if r.get("gt") and not r.get("verified")],
-                                                "note": "unverified hand labels - not in the headline"}
+                                                "note": "unverified AI-drafted labels - not in the headline"}
     if agree:
         s.update(aggregate_agreement(agree))
         s["reference"] = str(Path(_args.reference).name) if _args else None
@@ -154,7 +156,7 @@ def print_rows(rows: list[dict], args) -> None:
             "title_block", "notes", "units"]
     gt_rows = [r for r in rows if r.get("gt")]
     if gt_rows:
-        print(f"\nACCURACY vs hand labels\n{'drawing':24} {'split':5} {'pred':>4} {'gt':>3} "
+        print(f"\nACCURACY vs AI-drafted labels\n{'drawing':24} {'split':5} {'pred':>4} {'gt':>3} "
               + " ".join(f"{c[:9]:>9}" for c in cols))
         for r in gt_rows:
             d = r["gt"]

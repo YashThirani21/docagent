@@ -232,8 +232,11 @@ checked this in the traces; the four `request_id`s are in the rows. Without thos
   models: GD&T symbol ~0.6, and the strict `belongs_primary` 0.38–0.51.
 - On the 2 test sheets with draft labels the models are nearly equal (see section 3).
 - **Agreement with fix4** across all 11 drawings: BF16 0.981 / 0.982, AWQ 0.872 / 0.902 (66 values dropped, 49 new).
-  fix4 is itself a BF16 run, so this metric favours BF16 by construction. Read it as "AWQ changes ~13% of the
-  outputs", not as "AWQ is 13% worse".
+  fix4 is itself a BF16 run, so this metric favours BF16 by construction. Read it as "AWQ's outputs differ from
+  fix4 on ~13% of values", not as "AWQ is 13% worse". Each of the 66 dropped / 49 new values may be a regression,
+  an improvement where fix4 was wrong, or an equally valid reading. On the 9 drawings without labels there is no way
+  to tell which. On the labelled sheets, accuracy does tell: AWQ is lower on the 2 dev sheets and within ~2 pts on the
+  2 test sheets (above).
 
 **Picture route** (each sheet rendered as a 200-dpi JPG): recall 0.643 (BF16) and 0.557 (AWQ), against 0.93 / 0.84
 on the PDF. Without the vector paths and the text layer, the model has to read everything from pixels. The **title

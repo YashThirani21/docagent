@@ -1,10 +1,10 @@
 """e2e: the whole agent - Agent.handle on a request as a user sends it; nothing is fed in that the user wouldn't send.
 
 Dataset eval/datasets/e2e/cases.jsonl: text only, photo only, photo + question, drawing PDF / picture, several
-drawings, text + drawing, photo + drawing, a report PDF with a question. Expected answers and drawing ground truth
+drawings, text + drawing, photo + drawing, a report PDF with a question. Expected answers and drawing labels
 are referenced from the other suites (one label, used twice), each output scored with that suite's scorer.
 A case succeeds when every attachment is routed as expected, every output passes, and nothing errored:
-  drawing with ground truth: recall >= DRAWING_OK and precision >= DRAWING_OK; without: agreement with the fix4
+  drawing with labels: recall >= DRAWING_OK and precision >= DRAWING_OK; without: agreement with the fix4
     reference run >= AGREE_OK (agree_recall and agree_precision) - change relative to fix4, not correctness
   answer: the qa_text / qa_image pass criterion; `answer: null` = no report answer expected (text + drawing:
   current behaviour is drawing JSON only - the row records that the question went unanswered)
@@ -23,7 +23,7 @@ ROOT = PROJECT_ROOT / "eval" / "datasets"
 DATASET = [ROOT / "e2e" / "cases.jsonl", ROOT / "qa_text.jsonl", ROOT / "qa_image" / "cases.jsonl",
            *sorted((ROOT / "drawings").glob("*.json")), *sorted((ROOT / "drawings" / "reference" / "geo-l4-fix4").glob("*.json"))]
 DRAWING_OK = 0.7
-AGREE_OK = 0.7          # drawings without hand labels: agreement with the reference run (geo-l4-fix4)
+AGREE_OK = 0.7          # drawings without labels: agreement with the reference run (geo-l4-fix4)
 
 
 def load_cases() -> list[dict]:
@@ -67,7 +67,7 @@ def score_drawings(case: dict, resp, refs, atts) -> list[dict]:
             out.append({"file": att.name, "gt": gid, "ok": False, "problem": "no drawing JSON for this file"})
             continue
         pred = d.model_dump(mode="json")
-        if gid is None:                  # no hand labels: agreement with the reference run (change, not correctness)
+        if gid is None:                  # no labels: agreement with the reference run (change, not correctness)
             spec = next(ref_specs, None)
             ref_file = REFERENCE / f"{spec['drawing_id']}.json" if spec else None
             if ref_file is None or not ref_file.exists():

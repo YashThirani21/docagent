@@ -253,7 +253,7 @@ Latency: ~40-60 s per answer on the M4 (generation over ~4.5-6k prompt tokens wi
 - datum letters read by OCR
 - "belongs to" from a crop at the leader's end
 - confidence from the checks that pass
-- Ground truth for 2 drawings (CTC-01 and FTC-07, 70 values), drafted by the AI assistant before the geometry method was built, not taken from extractor output. FTC-07 was checked against its text layer. The scorer reports per-value missed and extra lists, so every later fix could be diagnosed precisely.
+- Reference labels (not hand-annotated) for 2 drawings (CTC-01 and FTC-07, 70 values), drafted by the AI assistant before the geometry method was built, not taken from extractor output. FTC-07 was checked against its text layer. The scorer reports per-value missed and extra lists, so every later fix could be diagnosed precisely.
 
 ## Fixes to run on Colab/L4 (each diagnosed from the output files and the cached model replies)
 
@@ -345,7 +345,7 @@ Checked: the chat replies right away with a batch id, and its results match the 
 **Goal.** Req: code that measures each important part and the whole system, incrementally - plug in a
 new version of the agent or of one part, run it on a chosen number of cases, see better or worse. No interface.
 
-**Reality** Creating a golden dataset by ourselves is not practical especially with drawings. We are just going to have to get AI to generate QA sets, routing decisions, and use imperfect drawings as ground truth to compare with. Some are already there for refining. This is not at all good practice for production but only for demo purposes - because especially for drawings we would ideally manually annotate them but I simply do not have the skill for it under these constraints.
+**Reality** Creating a golden dataset by ourselves is not practical especially with drawings. We are just going to have to get AI to generate QA sets, routing decisions, and use imperfect stand-ins for drawing ground truth: a frozen best run (fix4) as the regression baseline, and AI-drafted labels on 4 sheets as the correctness estimate. Some are already there for refining. This is not at all good practice for production but only for demo purposes - because especially for drawings we would ideally manually annotate them but I simply do not have the skill for it under these constraints.
 
 | brief says | mechanism |
 |---|---|
@@ -390,7 +390,7 @@ eval case is a traced request under batch `eval-<suite>-<label>-<ts>`): p50/p95 
 - **accuracy** against the label files in `eval/datasets/drawings/` (the drafted test ones shown separately until verified)
 - **agreement** with the reference on all 11: which values were dropped, which are new, which readings changed
 
-Agreement only says what changed, not whether it's right. The reference has mistakes, and fixing one lowers agreement, so I never look at it without accuracy next to it. End-to-end drawings without labels pass if agreement is at least 0.7. Sanity checks: the reference scored against itself gives 1.0, a copy with 2 values removed and 1 changed shows exactly those 3 differences, and its accuracy matches its original results.
+Agreement only says what changed, not whether it's right: a drop in agreement can be a regression, an improvement or an equally valid reading. The reference has mistakes, and fixing one lowers agreement, so I never look at it without accuracy next to it. End-to-end drawings without labels pass if agreement is at least 0.7. Sanity checks: the reference scored against itself gives 1.0, a copy with 2 values removed and 1 changed shows exactly those 3 differences, and its accuracy matches its original results.
 
 **Sizes.** Router 80 cases (mostly test), report QA 35 text + 30 picture, 4 labelled drawings plus the reference on all 11, end-to-end 21.
 

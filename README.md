@@ -261,8 +261,10 @@ python -m eval drawing --set drawing.method=tiles --label tiles \
 
 **Drawings: the comparison basis is the fix4 run, not manual annotation.** `geo-l4-fix4` is an L4 run
 (Qwen2.5-VL-7B in BF16, geometry method), and its 11 drawing JSONs are model outputs with their mistakes.
-Agreement with fix4 measures how much a version changed, not whether it is correct. fix4's own score
-(0.900 / 0.892 recall / precision) covers only the 2 verified label files, CTC-01 and FTC-07. To compare a
+Agreement with fix4 measures how much a version changed, not whether it is correct: a lower agreement means
+different outputs, which can be worse, better (fixing a fix4 mistake) or equally valid. `DrawingJSONs/` holds the fix4
+outputs themselves. Correctness is estimated only against the 4 AI-drafted label files (no drawing is hand-annotated).
+fix4's own score (0.900 / 0.892 recall / precision) covers only the 2 dev label files, CTC-01 and FTC-07. To compare a
 new version with fix4:
 
 ```bash

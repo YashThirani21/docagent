@@ -8,13 +8,13 @@
 
 The scorer lives here; the runner is eval/suites/drawing.py + eval/core.py (NOTES.md section 10).
 
-Matching: per sheet, every predicted value is paired one-to-one with the most similar ground-truth value
+Matching: per sheet, every predicted value is paired one-to-one with the most similar label value
 (similarity of the printed text after normalising symbols, or identical numbers). Title-block and note
 entries are scored separately.
 
 Metrics
-  recall        required ground-truth values found
-  precision     predicted values that match a ground-truth value (incl. optional ones)
+  recall        required label values found
+  precision     predicted values that match a label value (incl. optional ones)
   numbers       matched values whose nominal/limits/tolerances/quantity agree (where labelled)
   type          matched values with the right coarse type (dimension-like / frame / datum / other)
   gdt_symbol    matched frames with the right geometric characteristic
@@ -148,7 +148,7 @@ def score_drawing(pred: dict, gt: dict) -> dict:
         "title_block": rate(tb_ok), "notes": len(pred.get("notes", [])) == gt.get("n_notes"),
         "units": pred.get("units") == gt.get("units"),
         "missed": missed, "extra": extra, "pairs": rows,
-        # per required ground-truth value: found or not - what `--compare` flips are computed over
+        # per required label value: found or not - what `--compare` flips are computed over
         "found": {f"{gt['drawing_id']}#{j + 1} {gts[j]['raw_text']} (p{gts[j]['page']})": j in matched_g for j in req},
     }
 

@@ -3,7 +3,8 @@
 Baseline that every new drawing extractor version is compared to (user decision, 2026-10-18: "even if not perfect").
 These are the extractor's own outputs - they contain its mistakes. Agreement with them measures **change relative to
 fix4, not correctness**: a new version that fixes a fix4 mistake shows *lower* agreement. That is why
-`python -m eval drawing` reports accuracy on the verified ground-truth sheets next to agreement.
+`python -m eval drawing` reports accuracy against the AI-drafted label files next to agreement.
+A lower agreement means the outputs **differ** from fix4, not that they are worse. Each difference can be a regression, an **improvement** (fix4 got that value wrong), or a different but equally valid reading. Agreement alone can't tell these apart; only accuracy against the label files can, and only on the 4 sheets that have them.
 
 - source run: `experiments/20261018-121642_geo-l4-fix4/` (gitignored, so copied here)
 - PDF route (this folder, all 11 drawings): `bulk/drawings/*.json` - `docagent bulk data/drawings` on Colab L4
