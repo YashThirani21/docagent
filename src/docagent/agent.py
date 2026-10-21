@@ -130,13 +130,20 @@ class Agent:
 
         # answer from the reports when there is a question or a non-drawing picture
         if qa_images or (req.text and not resp.drawings):
-            with span("report_qa", has_text=bool(req.text), n_images=len(qa_images)):
-                resp.report_answer = self.qa.run(req.text, qa_images)
-            # one joint answer for the question + all pictures: never reused, its tasks just point at it
-            path = write_json_atomic(out_dir / "answer.json", resp.report_answer.model_dump(mode="json"))
-            resp.outputs.append(str(path))
-            for t in qa_tasks:
-                t.set(output_path=str(path))
+            # isolated like the attachments above: a failed answer must not take the drawings with it
+            try:
+                with span("report_qa", has_text=bool(req.text), n_images=len(qa_images)):
+                    resp.report_answer = self.qa.run(req.text, qa_images)
+                # one joint answer for the question + all pictures: never reused, its tasks just point at it
+                path = write_json_atomic(out_dir / "answer.json", resp.report_answer.model_dump(mode="json"))
+                resp.outputs.append(str(path))
+                for t in qa_tasks:
+                    t.set(output_path=str(path))
+            except Exception as e:
+                log.exception("report answer failed (request %s)", req.request_id)
+                resp.errors.append(f"report answer: {type(e).__name__}: {e}")
+                for t in qa_tasks:          # closed already; fail() is an update by task id
+                    t.fail(e)
         return resp
 
     # ------------------------------------------------------------ retry

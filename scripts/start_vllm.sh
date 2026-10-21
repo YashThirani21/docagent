@@ -8,11 +8,13 @@
 # With CONFIG=<yaml> (or DOCAGENT_CONFIG) the served name is the config's llm.model, so the two always match;
 # a name ending in -awq also selects the AWQ weights:
 #   DOCAGENT_CONFIG=configs/colab_vllm_awq.yaml bash scripts/start_vllm.sh
+# The image limit per prompt is the config's llm.max_images (default 4), the same budget the agent keeps to.
 set -euo pipefail
 CONFIG="${CONFIG:-${DOCAGENT_CONFIG:-}}"
+MAX_IMAGES=4                                                     # = LLMCfg.max_images default
 if [ -n "$CONFIG" ]; then
   [ -f "$CONFIG" ] || CONFIG="$(dirname "$0")/../$CONFIG"      # relative to the project, like the CLI
-  read -r CFG_BACKEND CFG_MODEL < <(python -c 'import sys, yaml; l = yaml.safe_load(open(sys.argv[1]))["llm"]; print(l.get("backend", "ollama"), l["model"])' "$CONFIG")
+  read -r CFG_BACKEND CFG_MODEL MAX_IMAGES < <(python -c 'import sys, yaml; l = yaml.safe_load(open(sys.argv[1]))["llm"]; print(l.get("backend", "ollama"), l["model"], l.get("max_images", 4))' "$CONFIG")
   if [ "$CFG_BACKEND" != "vllm" ]; then
     echo "$CONFIG uses backend '$CFG_BACKEND', not vllm: nothing to start here (Ollama: scripts/setup_ollama.sh)"; exit 1
   fi
@@ -34,7 +36,7 @@ MODEL="${MODEL:-$DEF_MODEL}"; QUANT="${QUANT:-$DEF_QUANT}"; DTYPE="${DTYPE:-$DEF
 GPU_UTIL="${GPU_UTIL:-$DEF_UTIL}"; MAX_LEN="${MAX_LEN:-16384}"; LOG="${LOG:-vllm.log}"
 SERVED="${SERVED:-qwen2.5-vl-7b}"
 QUANT_ARGS=(); [ "$QUANT" != "none" ] && QUANT_ARGS=(--quantization "$QUANT")
-echo "GPU ${MEM_MB} MB, compute ${CC}: serving $MODEL as $SERVED (quant=$QUANT dtype=$DTYPE util=$GPU_UTIL)"
+echo "GPU ${MEM_MB} MB, compute ${CC}: serving $MODEL as $SERVED (quant=$QUANT dtype=$DTYPE util=$GPU_UTIL images=$MAX_IMAGES)"
 
 nohup python -m vllm.entrypoints.openai.api_server \
   --model "$MODEL" "${QUANT_ARGS[@]}" \
@@ -42,7 +44,7 @@ nohup python -m vllm.entrypoints.openai.api_server \
   --dtype "$DTYPE" \
   --max-model-len "$MAX_LEN" \
   --gpu-memory-utilization "$GPU_UTIL" \
-  --limit-mm-per-prompt '{"image": 4}' \
+  --limit-mm-per-prompt "{\"image\": $MAX_IMAGES}" \
   --max-num-seqs 8 \
   --host 127.0.0.1 --port 8000 \
   > "$LOG" 2>&1 &

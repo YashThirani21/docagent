@@ -51,14 +51,16 @@ def cmd_ask(args, cfg):
     resp = Agent(cfg).ask(args.text, args.files, force=args.force)
     if args.json:
         print(resp.model_dump_json(indent=2))
-        return
-    from .render import render_markdown
-    print(render_markdown(resp))
-    for p in resp.outputs:
-        print(f"written: {p}")
-    if args.out:
-        for p in save_drawing_json(resp, args.out):
-            print(f"drawing JSON copied: {p}")
+    else:
+        from .render import render_markdown
+        print(render_markdown(resp))
+        for p in resp.outputs:
+            print(f"written: {p}")
+        if args.out:
+            for p in save_drawing_json(resp, args.out):
+                print(f"drawing JSON copied: {p}")
+    if resp.errors and not (resp.drawings or resp.report_answer):
+        sys.exit(1)                     # nothing came out: fail the command, as when the error used to raise
 
 
 def cmd_bulk(args, cfg):

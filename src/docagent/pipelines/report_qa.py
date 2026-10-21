@@ -92,7 +92,7 @@ def _format_sources(items: list[RetrievedItem]) -> str:
 
 
 class ReportQA:
-    version = "report-qa-v3"
+    version = "report-qa-v4"
 
     def __init__(self, cfg: Config, retriever: HybridRetriever | None = None, vlm: VLM | None = None):
         self.cfg = cfg
@@ -115,16 +115,25 @@ class ReportQA:
 
     def generate(self, question: str | None, items: list[RetrievedItem], user_images: list[Image.Image],
                  observations: list[ImageObservation]) -> ReportAnswer:
+        # Image budget: the server rejects a call with more than llm.max_images images (e2e e18: a report PDF
+        # rendered as 3 pages + 2 figure crops = 5). The user's pictures come first, figures fill what is left.
+        # Within the budget nothing changes (same images, same prompt); a dropped picture is still described
+        # by its observation, which every picture gets.
+        limit = self.cfg.llm.max_images
+        shown = user_images[:limit]
+        dropped = len(user_images) - len(shown)
         figs = [it for it in items if it.chunk.kind == "figure" and it.chunk.image_path]
-        figs = figs[: self.cfg.retrieval.max_context_figures]
-        images = [fit_image(im, 896) for im in user_images]
+        figs = figs[: max(0, min(self.cfg.retrieval.max_context_figures, limit - len(shown)))]
+        images = [fit_image(im, 896) for im in shown]
         fig_note = ""
         for k, it in enumerate(figs, start=len(images) + 1):
             images.append(fit_image(Image.open(self.cfg.path(it.chunk.image_path)), 784))
             fig_note += f"\nImage {k} is source [{items.index(it) + 1}]."
 
-        user_note = (f"The first {len(user_images)} image(s) are the user's picture(s). "
+        user_note = (f"The first {len(shown)} image(s) are the user's picture(s). "
                      f"Observations of them: " + " | ".join(o.model_dump_json() for o in observations)
+                     + (f" ({dropped} more picture(s) were sent but are not shown; only their observations "
+                        f"above describe them.)" if dropped else "")
                      if user_images else "The user sent no picture.")
         scope = ""
         if question and CAUSE_RE.search(question):          # lab reports never state accident causes
@@ -135,7 +144,7 @@ class ReportQA:
         prompt = (f"SOURCES:\n{_format_sources(items)}\n\n{user_note}{fig_note}{scope}\n\n"
                   f"USER REQUEST: {question or '(no text - the user only sent the picture)'}")
         with span("qa.generate", n_sources=len(items), n_images=len(images), n_user_images=len(user_images),
-                  cause_question=bool(scope)) as sp:
+                  images_dropped=dropped, cause_question=bool(scope)) as sp:
             out = self.vlm.structured(prompt, _Generated, images=images, system=SYSTEM)
             sp.set(model_cited=out.cited_sources, grounded=out.grounded, user_reports_problem=out.user_reports_problem)
 

@@ -25,6 +25,7 @@ class LLMCfg(BaseModel):
     timeout_s: int = 600
     cache_dir: str | None = "store/cache/vlm"   # disk cache for temperature-0 calls; null disables
     max_retries: int = 2                        # transient errors (connection, 5xx, timeout) retried with backoff
+    max_images: int = 4                         # images per call; = vLLM --limit-mm-per-prompt (start_vllm.sh reads it)
 
 
 class EmbeddingCfg(BaseModel):

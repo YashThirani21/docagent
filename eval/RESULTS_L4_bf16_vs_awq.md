@@ -258,8 +258,12 @@ worst case (e16 below).
     failed.
   - e17: **photo + drawing in one message**. The drawing part passes (~0.9 agreement) but the photo answer fails.
   - e18: **crash in both models**. vLLM returns `400: At most 4 image(s) may be provided in one prompt`. This is a
-    deterministic bug: a request with more than 4 images must be split, or the server started with a higher
-    `--limit-mm-per-prompt`.
+    deterministic bug: the report PDF is rendered as 3 page images and retrieval adds 2 figure crops, so the call
+    carries 5 images against the server's limit of 4. The exception also escaped `Agent.handle`, so the request
+    raised instead of returning its error. **Fixed after these runs (report-qa-v4):** the answer call now keeps to
+    an image budget (`llm.max_images`, the same number `start_vllm.sh` passes to vLLM), and a failed answer is
+    recorded in `resp.errors` like any failed attachment. Every request that stayed within 4 images sends exactly
+    the same prompt as before, so only e18 needs a re-run; the other 20 cases cannot change.
 - e08 passes but records that a question sent with a drawing goes unanswered (`unanswered_text_with_drawing` = 1).
   That is the current design, not a scored failure.
 
@@ -267,8 +271,8 @@ worst case (e16 below).
 
 ## 5. Next investigations and steps with more time
 
-1. **Fix e18**: split images into batches of ≤ 4 per VLM call, or raise vLLM's per-prompt image limit. This is a
-   guaranteed e2e failure today.
+1. **Re-run e18** on both models (`--ids e18`) now that the image budget is in (report-qa-v4); success is 14/21
+   plus e18's result. A further step: send a born-digital report PDF as its text, not as page images.
 2. **Investigate the BF16 ~460 s qa_image cases**: probably runaway generation; cap `max_tokens` per call and add a
    repetition guard.
 3. **Picture-only image QA**: after finding the figure, also retrieve the page that states the report's conclusion.
