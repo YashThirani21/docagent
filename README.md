@@ -91,8 +91,10 @@ scripts/setup_ollama.sh                       # Qwen2.5-VL 7B + a 16k-context va
 .venv/bin/docagent status                     # check what is in the index
 ```
 
-The first ingest takes about 15 minutes on a laptop, mostly because the VLM writes a description of
-each of the ~50 figures in the reports. Later runs skip files that have not changed.
+The repo already contains the Mac index and the figure descriptions, so this skips the three reports, and a
+rebuild takes under a minute. Writing the ~50 figure descriptions from scratch takes about 15 minutes on a laptop.
+That happens only for a new model name or description prompt, or with other package versions: a description is
+matched by its rendered figure image, and another PDF library version renders it differently.
 
 From here on the system runs offline: the config sets `HF_HUB_OFFLINE` and `TRANSFORMERS_OFFLINE`,
 and every model is served from this machine.
@@ -129,7 +131,9 @@ Type a question, attach files, or both. You never have to tell it what you want.
   a batch id and its progress, and offers a zip of all results when the batch is done. Closing the tab
   does not stop the batch. Send `status <batch_id>` to check on it again.
 
-Every reply ends with its **request id**, which you need to look the request up later (section 4).
+Every reply ends with its **request id**, which you need to look the request up later (section 4). If the
+report answer fails, the reply shows the error and still returns any drawing results; `docagent ask` exits
+with code 1 only when nothing came out.
 
 The same thing works without the UI:
 
@@ -302,12 +306,29 @@ drawing labels, `python -m eval.review_drawing_gt` draws the unverified label fi
 it has been checked.
 
 **On Colab,** notebook step 17 runs any suite against the model vLLM is serving, with `--split all --fresh`,
-and compares it with the latest saved run of the same model in `eval/results/`.
+and compares it with the latest saved run of the same model in `eval/results/`. That is whatever ran last, so
+pass `compare=` for a deliberate comparison, e.g. `run_eval("qa_text", compare="20261021-194454_qa_text_bf16-l4.json")`.
+
+**Current baselines** (final setup; results in `eval/RESULTS_L4_bf16_vs_awq.md`):
+
+| Suite | BF16 (`colab_vllm.yaml`) | AWQ (`colab_vllm_awq.yaml`) |
+|---|---|---|
+| `qa_text` | `20261021-194454_qa_text_bf16-l4.json` | `20261021-201258_qa_text_awq-l4.json` |
+| `qa_image` | `20261021-190321_qa_image_bf16-l4.json` | `20261021-200001_qa_image_awq-l4.json` |
+| `e2e` | `20261021-192144_e2e_bf16-l4.json` | `20261021-200238_e2e_awq-l4.json` |
+| `router` | `20261019-104259_router_baseline-l4.json` | `20261019-132044_router_awq-l4.json` |
+| `drawing` | `20261019-120306_drawing_baseline-l4.json`, or fix4 (above) | `20261019-133240_drawing_awq-l4.json` |
 
 > **Caching:** model replies are cached on disk for each prompt, so re-running an accuracy comparison
 > is fast and free. If you compare latency or tokens, use `--fresh` on both runs. If you put a new model
 > behind the same `llm.model` name, the old cached replies would be replayed, so change the name or use
 > `--fresh`.
+>
+> **Figure descriptions are a second cache, and they change results.** The model writes one per report figure
+> at ingest; they decide what picture questions retrieve. They are stored in git per model
+> (`store/cache/figure_descriptions.json`), so every session builds the same index. A new model or description
+> prompt writes new ones, which builds a different index and moves picture-QA results by several cases. Compare
+> runs only on the same index.
 
 ---
 
@@ -335,6 +356,14 @@ server isn't up yet, it only logs a warning, because replies already in the cach
 notebook reads the served name from the config as well. If you start vLLM
 again with a different config, stop the old server first (`pkill -f vllm.entrypoints`): it keeps port
 8000. In production, the same vLLM server would run on-premises with no outbound network.
+
+- **Each GPU config has its own report index** (`reports_bge-m3_v1_bf16desc`, `reports_bge-m3_v1_awqdesc`), built
+  from that model's stored figure descriptions. After switching config, run `docagent ingest data/reports` (about
+  30 s, no model calls); otherwise report answers stop with "report index … is empty".
+- **Keep `--max-model-len` at 16384** (the default in `start_vllm.sh` and the notebook). A report answer reserves
+  1,024 tokens on a prompt of up to ~7k, which an 8k context can't fit.
+- **The image limit per request comes from the config** (`llm.max_images`, default 4): `start_vllm.sh` passes it
+  to vLLM, and the agent keeps every call within it.
 
 ---
 
