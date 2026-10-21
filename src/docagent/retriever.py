@@ -41,6 +41,9 @@ class HybridRetriever:
         self.cfg = cfg
         self.embedder = get_embedder(cfg.embedding)
         self.store = VectorStore(cfg, dim=self.embedder.dim)
+        if self.store.count() == 0:       # a missing collection is created empty: answers would have no sources
+            raise RuntimeError(f"report index '{cfg.store.collection}' is empty: run `docagent ingest data/reports` "
+                               "with this config first")
 
     def _search(self, q, k: int, flt: qm.Filter | None = None) -> list[RetrievedItem]:
         rc = self.cfg.retrieval

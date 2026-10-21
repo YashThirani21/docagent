@@ -22,7 +22,7 @@ embedding:
 store:
   qdrant_path: store/qdrant
   qdrant_url: null
-  collection: reports_bge-m3_v1_bf16desc
+  collection: reports_bge-m3_v1_bf16desc   # embedder + who wrote the figure descriptions (bf16): never mix indexes
   image_dir: store/images
   cache_dir: store/cache
   output_dir: outputs/requests       # <request_id>/<drawing_id>.json, answer.json - referenced by tasks.output_path

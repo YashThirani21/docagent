@@ -2,7 +2,8 @@
 # quantisation trade-off (speed vs accuracy) with the eval suites. Only the llm section differs.
 # Start the server with:
 #   MODEL=Qwen/Qwen2.5-VL-7B-Instruct-AWQ QUANT=awq DTYPE=half SERVED=qwen2.5-vl-7b-awq bash scripts/start_vllm.sh
-# The report index (figure descriptions) is the one built with bf16: only the answering model changes.
+# The report index is its own: figure descriptions written by AWQ (pinned in store/cache/figure_descriptions.json),
+# in its own collection, so an AWQ run never picks up the bf16 index left in the same store, or the reverse.
 privacy:
   offline: true
 
@@ -25,7 +26,7 @@ embedding:
 store:
   qdrant_path: store/qdrant
   qdrant_url: null
-  collection: reports_bge-m3_v1_bf16desc
+  collection: reports_bge-m3_v1_awqdesc    # embedder + who wrote the figure descriptions: never mix indexes
   image_dir: store/images
   cache_dir: store/cache
   output_dir: outputs/requests

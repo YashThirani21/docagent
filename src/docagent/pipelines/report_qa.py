@@ -40,9 +40,11 @@ class _Generated(BaseModel):
 
 # Observations run 102 tokens (median) to 347 (max) in the traces. Uncapped, one looped until the context was full
 # (7,584 tokens, 150 s on AWQ; the BF16 qa_image cases at ~460 s): the cap ends a loop early and the retry in
-# VLM.structured takes over, as it did after the full-context run. The answer call stays uncapped: it never looped,
-# and with 4 images its prompt is close enough to an 8k context that a cap could get the request rejected.
+# VLM.structured takes over, as it did after the full-context run.
+# Answers run up to ~413 tokens; one looped to the 16k context (AWQ qa_text q04, 279 s, 2026-10-21). Their prompts
+# reach ~7.1k tokens with 4 images, so the cap needs the 16k --max-model-len: at 8k it could get the call rejected.
 OBSERVE_MAX_TOKENS = 512
+ANSWER_MAX_TOKENS = 1024
 
 OBSERVE_PROMPT = """You are a failure-analysis engineer. Look at this picture of an aircraft/mechanical
 component (it may be a photo, radiograph, micrograph or fracture surface).
@@ -98,7 +100,7 @@ def _format_sources(items: list[RetrievedItem]) -> str:
 
 
 class ReportQA:
-    version = "report-qa-v5"
+    version = "report-qa-v6"
 
     def __init__(self, cfg: Config, retriever: HybridRetriever | None = None, vlm: VLM | None = None):
         self.cfg = cfg
@@ -152,7 +154,8 @@ class ReportQA:
                   f"USER REQUEST: {question or '(no text - the user only sent the picture)'}")
         with span("qa.generate", n_sources=len(items), n_images=len(images), n_user_images=len(user_images),
                   images_dropped=dropped, cause_question=bool(scope)) as sp:
-            out = self.vlm.structured(prompt, _Generated, images=images, system=SYSTEM)
+            out = self.vlm.structured(prompt, _Generated, images=images, system=SYSTEM,
+                                      max_tokens=ANSWER_MAX_TOKENS)
             sp.set(model_cited=out.cited_sources, grounded=out.grounded, user_reports_problem=out.user_reports_problem)
 
         valid = [n for n in out.cited_sources if 1 <= n <= len(items)]   # drop hallucinated source ids

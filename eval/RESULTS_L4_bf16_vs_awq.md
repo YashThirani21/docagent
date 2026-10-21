@@ -112,8 +112,9 @@ was cut off (`finish=length`), and the retry with a "compact JSON" prompt answer
 the same pattern: 64 calls for 30 requests (60 + one retry for each slow case) and ~32k of its 42.6k completion
 tokens in those four cases. Normal observations are 102 tokens (median), 347 at most. **Fix (report-qa-v5):** the
 observation call is capped at 512 tokens, so a loop ends after ~512 tokens and the same retry takes over. Normal
-observations, and therefore the answers built from them, are unchanged. The answer call stays uncapped (it never
-looped, and with 4 images its prompt could get close to the 8k context). The notebook now starts vLLM with
+observations, and therefore the answers built from them, are unchanged. The answer call was left uncapped at first;
+on 2026-10-21 it looped once (AWQ qa_text q04, 279 s, to the 16k context), so report-qa-v6 caps it at 1,024 tokens
+(answers run to ~413; prompts to ~7.1k, which fits a 16k context with the cap, not an 8k one). The notebook now starts vLLM with
 `--max-model-len 16384` as in the configs; runs after this change differ from these in both, so label them.
 
 ---
