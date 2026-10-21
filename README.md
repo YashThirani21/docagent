@@ -358,7 +358,7 @@ scripts/                 model download, Ollama setup, vLLM start
 data/                    11 NIST drawings, 3 NTSB reports
 outputs/                 results per request
 DrawingJSONs/            the JSON output for the 11 drawings (deliverable)
-store/                   index, uploads, cache, traces (not in git)
+store/                   index, uploads, cache, traces
 ```
 
 ## More detail
