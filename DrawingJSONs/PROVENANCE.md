@@ -33,7 +33,7 @@ The other 9 drawings were never scored. I only checked them by eye on the annota
 
 ## How to read a comparison against it
 
-The drawing eval reports two numbers. **Agreement** says how much a new version changed compared with fix4. It doesn't say whether the change is right. Fix4 has mistakes, so a version that fixes one shows *lower* agreement. That's why `python -m eval drawing` always reports accuracy on the labelled sheets next to it.
+The drawing eval reports two numbers. **Agreement** says how much a new version changed compared with fix4. It doesn't say whether the change is right. Fix4 has mistakes, so a version that fixes one shows *lower* agreement. That's why `python -m eval drawing` always reports accuracy on the labelled sheets next to it. Those labels (`eval/datasets/drawings/*.json`) are separate files drafted by the AI assistant, not taken from fix4 or any other extractor output.
 
 ## What's here
 

@@ -36,7 +36,7 @@ all`, so every row carries its split and both numbers come from the same run (se
 | **router** | 80 (17 / 63) | `eval/build_router_set.py` builds every case from the source files: the 11 drawing PDFs, single sheets as 1-page PDFs, sheets rendered as pictures (rotation, blur, JPEG artefacts, perspective, crop, "photo of a printout"), the 3 report PDFs, report text and figure pages as PDFs and pictures, figure crops **without caption** (stand-ins for part photos), load charts, and 6 text-only questions | the 14 original PDFs (the routing rules were written against them) and 3 text questions are dev. Everything generated is test | each label follows from how the case was made, so nothing is hand-labelled and there is no label noise. All synthetic, and `real/` (phone photos) is empty |
 | **qa_text** | 35 (20 / 15) | q01–q20 were hand-written early and used for the section 6 fix rounds. t01–t15 were drafted later by the AI assistant from the report text | q* = dev, t* = test | `must` / `must_not` facts plus the gold page(s). Every fact is checked programmatically against the PDF text. **The test split has not been reviewed by a human**, so a wrong expectation counts against the agent |
 | **qa_image** | 30 (15 / 15) | `eval/build_qa_image_set.py`: 20 report figures cropped without caption and lightly augmented (17 picture-only, 3 with a question), plus 10 picture + question cases (3 diagnosis, 3 lookup, 2 refusal, 2 wrong_aircraft) | alternating dev / test in build order | expected report, figure and page, plus `must` / `must_not`. Agent-drafted, checked against the text, not human-reviewed. **In-distribution**: the pictures are the corpus's own figures, and printed labels such as "Corrosion" can stay visible. Some facts are single vague words ("heat", "grain") |
-| **drawing** | 11 NIST PMI drawings | 4 sheets are hand-labelled. CTC-01 and FTC-07 (**dev**, verified) were used to build the geometry method. CTC-03 and FTC-11 (**test**) were drafted from the rendered sheets, not from extractor output, and are still `verified: false` | the split lives in the GT file. Unlabelled drawings count as dev | two scores. **Accuracy** against hand labels: the headline uses only the 2 verified dev sheets, and the 2 test sheets are reported separately as `draft_labels`. **Agreement** with the reference run `geo-l4-fix4` (an earlier BF16 run) on all 11: this measures *change*, not correctness |
+| **drawing** | 11 NIST PMI drawings | 4 sheets have labels drafted by the AI assistant, not taken from extractor output. CTC-01 and FTC-07 (**dev**, verified) were used to build the geometry method. CTC-03 and FTC-11 (**test**) were drafted from the rendered sheets, not from extractor output, and are still `verified: false` | the split lives in the GT file. Unlabelled drawings count as dev | two scores. **Accuracy** against these labels: the headline uses only the 2 verified dev sheets, and the 2 test sheets are reported separately as `draft_labels`. **Agreement** with the reference run `geo-l4-fix4` (an earlier BF16 run) on all 11: this measures *change*, not correctness |
 | **e2e** | 21 (9 / 12) | hand-composed realistic requests: text only, photo only, photo + question, drawing PDF or picture, several drawings, text + drawing, photo + drawing, report PDF + question | per case | the expected outputs reuse the other suites' labels and scorers. A case passes when routing is right, every component passes (drawing recall and precision ≥ 0.7, or agreement ≥ 0.7 when there are no labels) and nothing errors |
 
 ### The drawing comparison basis is fix4, a model run, not manual annotation
@@ -59,8 +59,9 @@ them by hand.**
 - **Agreement** (`agree_*`, dropped / new / changed vs reference) measures how much a run *differs from fix4*. It
   does not measure correctness. A run that fixes one of fix4's mistakes scores lower agreement. Correctness is only
   measured by **accuracy** against the label files in `eval/datasets/drawings/*.json`, and those labels have their own
-  provenance caveats: CTC-03 and FTC-11 are AI-drafted and unverified, and the label files do not record who made or
-  checked CTC-01 and FTC-07.
+  provenance caveats: all four were drafted by the AI assistant before the geometry method was built. FTC-07 was
+  checked against its text layer; CTC-01 is marked verified, but no separate check of it is recorded. CTC-03 and
+  FTC-11 are unverified.
 
 ```bash
 python -m eval drawing --config <new>.yaml --label <new> \
@@ -82,7 +83,7 @@ reference values, so it is the only suite where a few points are statistically m
 
 ---
 
-## 2. Speed: AWQ is 2.4–2.9× faster across the board
+## 2. Speed: AWQ is 2–3× faster across the board
 
 | suite | p50 latency BF16 → AWQ | p95 latency BF16 → AWQ | wall-clock BF16 → AWQ |
 |---|---|---|---|
@@ -242,7 +243,8 @@ worst case (e16 below).
 ### End to end: routing is perfect; losses come from components and one crash
 
 - Success 0.667 for both models. Route accuracy is 1.0, component pass given correct routing is 0.70, and
-  route × component = 0.70. **Every e2e loss comes from the components, none from routing.**
+  route × component = 0.70. **Every e2e loss comes from the components, none from routing**, plus one crash (e18,
+  `error_rate` 0.048), which is why success is 0.667 rather than 0.70.
 - Dev 0.89 / test 0.50 (BF16): the largest dev–test gap of any suite.
 - The flips are e06 (drawing as a picture), lost by AWQ because CTC-01 picture recall 0.588 falls below the 0.7
   bar, and e12 (photo + question), gained by AWQ.

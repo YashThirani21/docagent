@@ -11,7 +11,7 @@ fix4, not correctness**: a new version that fixes a fix4 mistake shows *lower* a
   `eval/drawing_runs/20261018-122437_geo-l4-fix4-jpg_jpg/*.json` (each sheet as a 200-dpi JPG)
 - config `configs/colab_vllm.yaml`, model `qwen2.5-vl-7b` (vLLM, bf16 on the L4), drawing method `geometry`,
   extractor_version `drawing-geometry-v1`, Python 3.13, run started 2026-10-18 12:16
-- its scores against the hand labels (CTC-01 + FTC-07) are in `eval/results/20261018-122437_drawings_geo-l4-fix4-pdf.json`
+- its scores against the label files (CTC-01 + FTC-07, AI-drafted, not taken from extractor output) are in `eval/results/20261018-122437_drawings_geo-l4-fix4-pdf.json`
   and `...-jpg.json` (copied from the run's `eval/` folder, original names): usable as `--compare` baselines
 
 PDF route

@@ -213,7 +213,7 @@ to test, and run the evaluation suites on both versions.
 | `router` | Is each attachment sent to the right pipeline? |
 | `qa_text` | Answers to text questions about the reports |
 | `qa_image` | Answers to a photo, with or without a question |
-| `drawing` | Values read from drawings: accuracy against inferred labels from best performing approach NOT human-annotated |
+| `drawing` | Values read from drawings: accuracy against 4 AI-drafted label files (2 verified dev, 2 unverified test), plus agreement with the fix4 baseline run (measures change, not correctness) |
 | `e2e` | The whole agent on mixed requests |
 
 Each suite has a **dev** and a **test** split. The datasets are in `eval/datasets/`.
@@ -246,7 +246,7 @@ python -m eval drawing --set drawing.method=tiles --label tiles \
 **Drawings: the comparison basis is the fix4 run, not manual annotation.** `geo-l4-fix4` is an L4 run
 (Qwen2.5-VL-7B in BF16, geometry method), and its 11 drawing JSONs are model outputs with their mistakes.
 Agreement with fix4 measures how much a version changed, not whether it is correct. fix4's own score
-(0.900 / 0.892 recall / precision) covers only the 2 labelled drawings, CTC-01 and FTC-07. To compare a
+(0.900 / 0.892 recall / precision) covers only the 2 verified label files, CTC-01 and FTC-07. To compare a
 new version with fix4:
 
 ```bash
