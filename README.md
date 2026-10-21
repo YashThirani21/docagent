@@ -52,9 +52,10 @@ trace lookup, evaluation) from top to bottom on a Google Colab GPU runtime:
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/YashThirani21/docagent/blob/main/notebooks/colab_notebook_git.ipynb)
 
 It clones the project from GitHub, starts vLLM, and runs with no setup or tokens. By default nothing is
-kept between sessions and the run's results download as a zip; set `PERSIST` to keep `store/` and results
-in your Google Drive (`"drive"`) or a private Hugging Face dataset (`"hf"`, needs an `HF_TOKEN` Colab
-secret). On a local machine, use the commands below instead.
+kept between sessions and the run's results download as a zip; set `PERSIST` to save them to your Google Drive
+(`"drive"`) or a private Hugging Face dataset (`"hf"`, needs an `HF_TOKEN` Colab secret) instead. The report index
+is never saved: ingest rebuilds the same one in ~30 s from the figure descriptions in the repo. On a local machine,
+use the commands below instead.
 
 ---
 
@@ -305,7 +306,7 @@ drawing labels, `python -m eval.review_drawing_gt` draws the unverified label fi
 (`eval/datasets/drawings/review/`, checklist in `CHECKLIST.md`); set `"verified": true` in a label file once
 it has been checked.
 
-**On Colab,** notebook step 17 runs any suite against the model vLLM is serving, with `--split all --fresh`,
+**On Colab,** notebook step 15 runs any suite against the model vLLM is serving, with `--split all --fresh`,
 and compares it with the latest saved run of the same model in `eval/results/`. That is whatever ran last, so
 pass `compare=` for a deliberate comparison, e.g. `run_eval("qa_text", compare="20261021-194454_qa_text_bf16-l4.json")`.
 
