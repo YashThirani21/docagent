@@ -11,7 +11,7 @@ Covers the twelve results files in `eval/results/` dated 2026-10-19, six per mod
 | drawing, picture route (`--as-images`, 2 sheets) | `20261019-113530_drawing_baseline-l4.json` | `20261019-134729_drawing_awq-l4.json` |
 | e2e | `20261019-113957_e2e_baseline-l4.json` | `20261019-134926_e2e_awq-l4.json` |
 
-Each pair runs on the same hardware (Colab L4, vLLM), with `--split all` and `--fresh` (empty VLM cache, so latency
+Each pair runs on the same hardware (Colab L4, vLLM with `--max-model-len 8192` from the notebook), with `--split all` and `--fresh` (empty VLM cache, so latency
 and tokens are real), and on the same dataset hash. Only the `llm` section of the config differs. The AWQ config
 reuses the report index that BF16 built, including the figure descriptions, so on the QA side only the
 answering and observing model changes.
@@ -102,9 +102,19 @@ fresh calls, 408k vs 359k prompt tokens) and was still 2.2× faster.
 **The BF16 qa_image p95 is an anomaly.** Four cases took ~440–480 s each (`img-16-006-f7`, `img-18-061-f2`,
 `img-18-061-f13`, `iq02-18-061-f2`) against ~26 s for the rest. BF16 also produced 42.6k completion tokens on this
 suite against AWQ's 17.8k, while the final answers are short (~300–500 chars). Together that suggests a runaway
-or repeating generation in an intermediate call (image observation?) that runs until the token cap. I haven't
-checked this in the traces; the four `request_id`s are in the rows. Without those four, BF16 qa_image is still
-~2.7× slower than AWQ.
+or repeating generation in an intermediate call (image observation?) that runs until the token cap. Without those
+four, BF16 qa_image is still ~2.7× slower than AWQ.
+
+**Confirmed later from the traces** (`store/traces.db`, AWQ request `a25e8710df02`, case `img-18-061-f19`, 158 s):
+the image observation call has no `max_tokens`, looped, and stopped only when the context was full: 608 prompt +
+7,584 completion = 8,192 tokens, the notebook's `--max-model-len` for these runs (not the 16k in the configs). It
+was cut off (`finish=length`), and the retry with a "compact JSON" prompt answered in 94 tokens and 1.8 s. BF16 fits
+the same pattern: 64 calls for 30 requests (60 + one retry for each slow case) and ~32k of its 42.6k completion
+tokens in those four cases. Normal observations are 102 tokens (median), 347 at most. **Fix (report-qa-v5):** the
+observation call is capped at 512 tokens, so a loop ends after ~512 tokens and the same retry takes over. Normal
+observations, and therefore the answers built from them, are unchanged. The answer call stays uncapped (it never
+looped, and with 4 images its prompt could get close to the 8k context). The notebook now starts vLLM with
+`--max-model-len 16384` as in the configs; runs after this change differ from these in both, so label them.
 
 ---
 
@@ -273,8 +283,9 @@ worst case (e16 below).
 
 1. **Re-run e18** on both models (`--ids e18`) now that the image budget is in (report-qa-v4); success is 14/21
    plus e18's result. A further step: send a born-digital report PDF as its text, not as page images.
-2. **Investigate the BF16 ~460 s qa_image cases**: probably runaway generation; cap `max_tokens` per call and add a
-   repetition guard.
+2. **Re-run qa_image and e2e on both models** with report-qa-v5 (observation cap) and `--max-model-len 16384`.
+   Expected: pass rates within noise, BF16 qa_image p95 from 473 s to ~30 s. qa_text, router and drawing make no
+   observation calls and need no re-run.
 3. **Picture-only image QA**: after finding the figure, also retrieve the page that states the report's conclusion.
    Then tell the model to use that conclusion rather than its own reading of the picture, and to commit to one
    failure mode (no hedged lists). It is the largest source of e2e losses (e03, e11, e17).

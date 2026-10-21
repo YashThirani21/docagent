@@ -38,6 +38,12 @@ class _Generated(BaseModel):
     grounded: bool = Field(description="true only if the sources actually support the answer")
 
 
+# Observations run 102 tokens (median) to 347 (max) in the traces. Uncapped, one looped until the context was full
+# (7,584 tokens, 150 s on AWQ; the BF16 qa_image cases at ~460 s): the cap ends a loop early and the retry in
+# VLM.structured takes over, as it did after the full-context run. The answer call stays uncapped: it never looped,
+# and with 4 images its prompt is close enough to an 8k context that a cap could get the request rejected.
+OBSERVE_MAX_TOKENS = 512
+
 OBSERVE_PROMPT = """You are a failure-analysis engineer. Look at this picture of an aircraft/mechanical
 component (it may be a photo, radiograph, micrograph or fracture surface).
 Report only what is visible, precisely and factually. Use metallurgical terms only for features you can
@@ -92,7 +98,7 @@ def _format_sources(items: list[RetrievedItem]) -> str:
 
 
 class ReportQA:
-    version = "report-qa-v4"
+    version = "report-qa-v5"
 
     def __init__(self, cfg: Config, retriever: HybridRetriever | None = None, vlm: VLM | None = None):
         self.cfg = cfg
@@ -101,7 +107,8 @@ class ReportQA:
 
     # ------------------------------------------------------------ steps (public for notebooks/eval)
     def observe(self, image: Image.Image) -> ImageObservation:
-        return self.vlm.structured(OBSERVE_PROMPT, ImageObservation, images=[fit_image(image, 1036)])
+        return self.vlm.structured(OBSERVE_PROMPT, ImageObservation, images=[fit_image(image, 1036)],
+                                   max_tokens=OBSERVE_MAX_TOKENS)
 
     def build_query(self, text: str | None, observations: list[ImageObservation]) -> str:
         parts = [text.strip()] if text and text.strip() else []
