@@ -1,6 +1,6 @@
 # Eval results: Qwen2.5-VL-7B BF16 vs AWQ 4-bit on an L4 (2026-10-19)
 
-Covers the twelve results files in `eval/results/` dated 2026-10-19, six per model:
+Covers the twelve results files in `eval/results/HarnessJSONs/` dated 2026-10-19, six per model:
 
 | suite | BF16 (`configs/colab_vllm.yaml`, label `baseline-l4`) | AWQ (`configs/colab_vllm_awq.yaml`, label `awq-l4`) |
 |---|---|---|
@@ -36,7 +36,7 @@ all`, so every row carries its split and both numbers come from the same run (se
 | **router** | 80 (17 / 63) | `eval/build_router_set.py` builds every case from the source files: the 11 drawing PDFs, single sheets as 1-page PDFs, sheets rendered as pictures (rotation, blur, JPEG artefacts, perspective, crop, "photo of a printout"), the 3 report PDFs, report text and figure pages as PDFs and pictures, figure crops **without caption** (stand-ins for part photos), load charts, and 6 text-only questions | the 14 original PDFs (the routing rules were written against them) and 3 text questions are dev. Everything generated is test | each label follows from how the case was made, so nothing is hand-labelled and there is no label noise. All synthetic, and `real/` (phone photos) is empty |
 | **qa_text** | 35 (20 / 15) | q01–q20 were hand-written early and used for the section 6 fix rounds. t01–t15 were drafted later by the AI assistant from the report text | q* = dev, t* = test | `must` / `must_not` facts plus the gold page(s). Every fact is checked programmatically against the PDF text. **The test split has not been reviewed by a human**, so a wrong expectation counts against the agent |
 | **qa_image** | 30 (15 / 15) | `eval/build_qa_image_set.py`: 20 report figures cropped without caption and lightly augmented (17 picture-only, 3 with a question), plus 10 picture + question cases (3 diagnosis, 3 lookup, 2 refusal, 2 wrong_aircraft) | alternating dev / test in build order | expected report, figure and page, plus `must` / `must_not`. Agent-drafted, checked against the text, not human-reviewed. **In-distribution**: the pictures are the corpus's own figures, and printed labels such as "Corrosion" can stay visible. Some facts are single vague words ("heat", "grain") |
-| **drawing** | 11 NIST PMI drawings | 4 sheets are hand-labelled. CTC-01 and FTC-07 (**dev**, verified) were used to build the geometry method. CTC-03 and FTC-11 (**test**) were drafted from the rendered sheets, not from extractor output, and are still `verified: false` | the split lives in the GT file. Unlabelled drawings count as dev | two scores. **Accuracy** against hand labels: the headline uses only the 2 verified dev sheets, and the 2 test sheets are reported separately as `draft_labels`. **Agreement** with the reference run `geo-l4-fix4` (an earlier BF16 run) on all 11: this measures *change*, not correctness |
+| **drawing** | 11 NIST PMI drawings | The ground truths used here are based on the `geo-l4-fix4` run of all 11 files. **Accuracy** against hand labels: the headline uses only the 2 verified dev sheets, and the 2 test sheets are reported separately as `draft_labels`. **Agreement** with the reference run `geo-l4-fix4` (an earlier BF16 run) on all 11: this measures *change*, not correctness |
 | **e2e** | 21 (9 / 12) | hand-composed realistic requests: text only, photo only, photo + question, drawing PDF or picture, several drawings, text + drawing, photo + drawing, report PDF + question | per case | the expected outputs reuse the other suites' labels and scorers. A case passes when routing is right, every component passes (drawing recall and precision ≥ 0.7, or agreement ≥ 0.7 when there are no labels) and nothing errors |
 
 ### The drawing comparison basis is fix4, a model run, not manual annotation
@@ -47,7 +47,7 @@ them by hand.**
 
 - **Reference outputs:** `eval/datasets/drawings/reference/geo-l4-fix4/`, with all 11 drawings on the PDF route and
   CTC-01 and FTC-07 in `jpg/` for the picture route. `PROVENANCE.md` there records the source run.
-- **Baseline score files** for `--compare`, in `eval/results/`:
+- **Baseline score files** for `--compare`, in `eval/results/HarnessJSONs/`:
   - `20261020-032010_drawing_geo-l4-fix4-pdf.json` (PDF route) and `20261020-032011_drawing_geo-l4-fix4-jpg.json`
     (picture route): **use these.** They are the fix4 JSONs rescored with today's harness (`--pred-dir`, no model
     calls), in the current results format, and they give per-value flips. They reproduce fix4's original scores
@@ -64,10 +64,10 @@ them by hand.**
 
 ```bash
 python -m eval drawing --config <new>.yaml --label <new> \
-    --compare eval/results/20261020-032010_drawing_geo-l4-fix4-pdf.json
+    --compare eval/results/HarnessJSONs/20261020-032010_drawing_geo-l4-fix4-pdf.json
 python -m eval drawing --config <new>.yaml --label <new>-jpg --as-images \
     --ids nist_ctc_01_asme1_rd nist_ftc_07_asme1_rd \
-    --compare eval/results/20261020-032011_drawing_geo-l4-fix4-jpg.json
+    --compare eval/results/HarnessJSONs/20261020-032011_drawing_geo-l4-fix4-jpg.json
 ```
 
 The **part suites isolate one component with gold inputs**: the drawing suite calls the extractor directly, the QA

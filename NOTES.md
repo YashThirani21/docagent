@@ -386,7 +386,7 @@ eval case is a traced request under batch `eval-<suite>-<label>-<ts>`): p50/p95 
 - **`belongs_to` is lenient:** "hole" passes for any hole. I added a stricter version that needs the main feature word. Checking that the leader line points at the right feature isn't possible, because the output only stores where the annotation is.
 - The datasets are frozen and every run records their hash, so an edit to one shows up in `--compare`.
 
-**Drawings: compare against a reference run, not just hand labels.** Only 2 drawings have verified labels, which isn't enough to judge a change. So I took my best full run so far (`geo-l4-fix4`, all 11 drawings) as a reference, and the drawing suite reports two things:
+**Drawings: compare against a reference run, not just baseline labels.** Only 2 drawings have detectable labels, which isn't enough to judge a change. So I took my best full run so far (`geo-l4-fix4`) as a reference, and the drawing suite reports two things:
 - **accuracy** against the hand labels (the drafted ones shown separately until verified)
 - **agreement** with the reference on all 11: which values were dropped, which are new, which readings changed
 
