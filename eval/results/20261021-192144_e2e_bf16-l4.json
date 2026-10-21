@@ -1,0 +1,1473 @@
+{
+ "run": {
+  "suite": "e2e",
+  "label": "bf16-l4",
+  "timestamp": "20261021-192144",
+  "config": "configs/colab_vllm.yaml",
+  "overrides": [],
+  "config_hash": "8e5ad2f26db8",
+  "versions": {
+   "router": "rules+vlm-v1",
+   "drawing": "drawing-geometry-v1",
+   "report_qa": "report-qa-v6",
+   "llm": "qwen2.5-vl-7b"
+  },
+  "model": "qwen2.5-vl-7b",
+  "dataset": [
+   "eval/datasets/e2e/cases.jsonl",
+   "eval/datasets/qa_text.jsonl",
+   "eval/datasets/qa_image/cases.jsonl",
+   "eval/datasets/drawings/nist_ctc_01_asme1_rd.json",
+   "eval/datasets/drawings/nist_ctc_03_asme1_rc.json",
+   "eval/datasets/drawings/nist_ftc_07_asme1_rd.json",
+   "eval/datasets/drawings/nist_ftc_11_asme1_rb.json",
+   "eval/datasets/drawings/reference/geo-l4-fix4/nist_ctc_01_asme1_rd.json",
+   "eval/datasets/drawings/reference/geo-l4-fix4/nist_ctc_02_asme1_rc.json",
+   "eval/datasets/drawings/reference/geo-l4-fix4/nist_ctc_03_asme1_rc.json",
+   "eval/datasets/drawings/reference/geo-l4-fix4/nist_ctc_04_asme1_rd.json",
+   "eval/datasets/drawings/reference/geo-l4-fix4/nist_ctc_05_asme1_rd.json",
+   "eval/datasets/drawings/reference/geo-l4-fix4/nist_ftc_06_asme1_rd.json",
+   "eval/datasets/drawings/reference/geo-l4-fix4/nist_ftc_07_asme1_rd.json",
+   "eval/datasets/drawings/reference/geo-l4-fix4/nist_ftc_08_asme1_rc.json",
+   "eval/datasets/drawings/reference/geo-l4-fix4/nist_ftc_09_asme1_rd.json",
+   "eval/datasets/drawings/reference/geo-l4-fix4/nist_ftc_10_asme1_rb.json",
+   "eval/datasets/drawings/reference/geo-l4-fix4/nist_ftc_11_asme1_rb.json"
+  ],
+  "dataset_hash": "41b1aca2c7d8",
+  "split": "all",
+  "seed": 0,
+  "n": 21,
+  "case_ids": [
+   "e01",
+   "e02",
+   "e03",
+   "e04",
+   "e05",
+   "e06",
+   "e07",
+   "e08",
+   "e09",
+   "e10",
+   "e11",
+   "e12",
+   "e13",
+   "e14",
+   "e15",
+   "e16",
+   "e17",
+   "e18",
+   "e19",
+   "e20",
+   "e21"
+  ],
+  "fresh": true,
+  "batch_id": "eval-e2e-bf16-l4-20261021-192144",
+  "wall_s": 1390.4,
+  "env": {
+   "python": "3.13.15",
+   "platform": "Linux-x86_64",
+   "pymupdf": "2.0",
+   "torch": "2.13.0",
+   "transformers": "5.17.0",
+   "FlagEmbedding": "1.4.2",
+   "numpy": "2.1.3",
+   "pillow": "11.3.0",
+   "opencv-python-headless": "5.0.0.93",
+   "openai": "2.54.0",
+   "vllm": "0.31.0"
+  }
+ },
+ "summary": {
+  "n": 21,
+  "success": 0.714,
+  "route_accuracy": 1.0,
+  "component_pass_given_route": 0.714,
+  "expected_success_if_independent": 0.714,
+  "error_rate": 0.0,
+  "unanswered_text_with_drawing": 1,
+  "errors": 0
+ },
+ "cost": {
+  "requests": 21,
+  "latency_p50_s": 29.42,
+  "latency_p95_s": 219.42,
+  "fresh_llm_calls": 337,
+  "cached_calls": 51,
+  "prompt_tokens": 266195,
+  "completion_tokens": 33933,
+  "failed_requests": 0
+ },
+ "rows": [
+  {
+   "id": "e01",
+   "what": "text only",
+   "request_id": "af47f60b991a",
+   "routes": [
+    "report_qa"
+   ],
+   "expected_routes": [
+    "report_qa"
+   ],
+   "route_ok": true,
+   "drawings": [],
+   "answer": {
+    "expected": {
+     "from": "qa_text",
+     "id": "q03"
+    },
+    "ok": true,
+    "checks": {
+     "facts": true,
+     "missing": [],
+     "forbidden_found": [],
+     "pages": true,
+     "page_recall": 1.0,
+     "n_citations": 2,
+     "off_doc_citations": 0,
+     "filler": false,
+     "refusal": null,
+     "pass": true
+    }
+   },
+   "errors": [],
+   "component_ok": true,
+   "pass": true,
+   "latency_s": 7.08,
+   "split": "dev"
+  },
+  {
+   "id": "e02",
+   "what": "text only, multi-aircraft",
+   "request_id": "fa23c202ab7e",
+   "routes": [
+    "report_qa"
+   ],
+   "expected_routes": [
+    "report_qa"
+   ],
+   "route_ok": true,
+   "drawings": [],
+   "answer": {
+    "expected": {
+     "from": "qa_text",
+     "id": "q10"
+    },
+    "ok": true,
+    "checks": {
+     "facts": true,
+     "missing": [],
+     "forbidden_found": [],
+     "pages": true,
+     "page_recall": 1.0,
+     "n_citations": 1,
+     "off_doc_citations": 0,
+     "filler": false,
+     "refusal": null,
+     "pass": true
+    }
+   },
+   "errors": [],
+   "component_ok": true,
+   "pass": true,
+   "latency_s": 10.57,
+   "split": "dev"
+  },
+  {
+   "id": "e03",
+   "what": "photo only",
+   "request_id": "e06397d6d6dd",
+   "routes": [
+    "report_qa"
+   ],
+   "expected_routes": [
+    "report_qa"
+   ],
+   "route_ok": true,
+   "drawings": [],
+   "answer": {
+    "expected": {
+     "from": "qa_image",
+     "id": "img-24-013-f2"
+    },
+    "ok": false,
+    "checks": {
+     "missing": [
+      "overstress"
+     ],
+     "forbidden_found": [],
+     "facts": false,
+     "n_citations": 1,
+     "filler": null,
+     "doc_hit": false,
+     "wrong_doc_citations": 1,
+     "fig_in_context": true,
+     "page_cited": false,
+     "actions": true,
+     "pass": false
+    }
+   },
+   "errors": [],
+   "component_ok": false,
+   "pass": false,
+   "latency_s": 26.78,
+   "split": "dev"
+  },
+  {
+   "id": "e04",
+   "what": "photo + question",
+   "request_id": "625d97fb1e74",
+   "routes": [
+    "report_qa"
+   ],
+   "expected_routes": [
+    "report_qa"
+   ],
+   "route_ok": true,
+   "drawings": [],
+   "answer": {
+    "expected": {
+     "from": "qa_image",
+     "id": "img-16-006-f12"
+    },
+    "ok": true,
+    "checks": {
+     "missing": [],
+     "forbidden_found": [],
+     "facts": true,
+     "n_citations": 6,
+     "filler": null,
+     "doc_hit": true,
+     "wrong_doc_citations": 0,
+     "fig_in_context": true,
+     "page_cited": true,
+     "actions": true,
+     "pass": true
+    }
+   },
+   "errors": [],
+   "component_ok": true,
+   "pass": true,
+   "latency_s": 28.24,
+   "split": "dev"
+  },
+  {
+   "id": "e05",
+   "what": "drawing PDF",
+   "request_id": "9bde52bdccd3",
+   "routes": [
+    "drawing"
+   ],
+   "expected_routes": [
+    "drawing"
+   ],
+   "route_ok": true,
+   "drawings": [
+    {
+     "file": "nist_ctc_01_asme1_rd.pdf",
+     "gt": "nist_ctc_01_asme1_rd",
+     "verified": true,
+     "ok": true,
+     "recall": 0.882,
+     "precision": 0.762,
+     "numbers": 1.0,
+     "gdt_symbol": 1.0,
+     "belongs_to": 0.267,
+     "missed": [
+      "Ø35.2 Ø34.8 (p1)",
+      "B (p1)"
+     ]
+    }
+   ],
+   "answer": null,
+   "errors": [],
+   "component_ok": true,
+   "pass": true,
+   "latency_s": 80.14,
+   "split": "dev"
+  },
+  {
+   "id": "e06",
+   "what": "drawing as a picture",
+   "request_id": "4ba778112ca0",
+   "routes": [
+    "drawing"
+   ],
+   "expected_routes": [
+    "drawing"
+   ],
+   "route_ok": true,
+   "drawings": [
+    {
+     "file": "ctc_01_sheet1_200dpi.jpg",
+     "gt": "nist_ctc_01_asme1_rd",
+     "verified": true,
+     "ok": true,
+     "recall": 0.706,
+     "precision": 0.867,
+     "numbers": 0.909,
+     "gdt_symbol": 0.6,
+     "belongs_to": 0.667,
+     "missed": [
+      "A (p1)",
+      "⌖ 0.75 A B C (p1)",
+      "B (p1)",
+      "Ø34.8 - 35.2 (p1)",
+      "Ø35 0 -0.2 (p1)"
+     ]
+    }
+   ],
+   "answer": null,
+   "errors": [],
+   "component_ok": true,
+   "pass": true,
+   "latency_s": 59.76,
+   "split": "dev"
+  },
+  {
+   "id": "e07",
+   "what": "several drawings",
+   "request_id": "54ea97a75231",
+   "routes": [
+    "drawing",
+    "drawing"
+   ],
+   "expected_routes": [
+    "drawing",
+    "drawing"
+   ],
+   "route_ok": true,
+   "drawings": [
+    {
+     "file": "nist_ctc_01_asme1_rd.pdf",
+     "gt": "nist_ctc_01_asme1_rd",
+     "verified": true,
+     "ok": true,
+     "recall": 0.882,
+     "precision": 0.762,
+     "numbers": 1.0,
+     "gdt_symbol": 1.0,
+     "belongs_to": 0.267,
+     "missed": [
+      "Ø35.2 Ø34.8 (p1)",
+      "B (p1)"
+     ]
+    },
+    {
+     "file": "nist_ftc_07_asme1_rd.pdf",
+     "gt": "nist_ftc_07_asme1_rd",
+     "verified": true,
+     "ok": true,
+     "recall": 0.943,
+     "precision": 0.929,
+     "numbers": 0.9,
+     "gdt_symbol": 0.458,
+     "belongs_to": 0.84,
+     "missed": [
+      "↧.30 ±.02 (p1)",
+      "C (p1)",
+      "B (p1)"
+     ]
+    }
+   ],
+   "answer": null,
+   "errors": [],
+   "component_ok": true,
+   "pass": true,
+   "latency_s": 340.78,
+   "split": "dev"
+  },
+  {
+   "id": "e08",
+   "what": "text + drawing: current behaviour = drawing JSON only, the question is not answered",
+   "request_id": "bfc78d3142fe",
+   "routes": [
+    "drawing"
+   ],
+   "expected_routes": [
+    "drawing"
+   ],
+   "route_ok": true,
+   "drawings": [
+    {
+     "file": "nist_ctc_01_asme1_rd.pdf",
+     "gt": "nist_ctc_01_asme1_rd",
+     "verified": true,
+     "ok": true,
+     "recall": 0.882,
+     "precision": 0.762,
+     "numbers": 1.0,
+     "gdt_symbol": 1.0,
+     "belongs_to": 0.267,
+     "missed": [
+      "Ø35.2 Ø34.8 (p1)",
+      "B (p1)"
+     ]
+    }
+   ],
+   "answer": {
+    "expected": null,
+    "ok": true,
+    "text_answered": false
+   },
+   "errors": [],
+   "component_ok": true,
+   "pass": true,
+   "latency_s": 18.91,
+   "split": "dev"
+  },
+  {
+   "id": "e09",
+   "what": "text only, multi-aircraft",
+   "request_id": "a7f3432be65d",
+   "routes": [
+    "report_qa"
+   ],
+   "expected_routes": [
+    "report_qa"
+   ],
+   "route_ok": true,
+   "drawings": [],
+   "answer": {
+    "expected": {
+     "from": "qa_text",
+     "id": "t05"
+    },
+    "ok": true,
+    "checks": {
+     "facts": true,
+     "missing": [],
+     "forbidden_found": [],
+     "pages": true,
+     "page_recall": 1.0,
+     "n_citations": 2,
+     "off_doc_citations": 0,
+     "filler": false,
+     "refusal": null,
+     "pass": true
+    }
+   },
+   "errors": [],
+   "component_ok": true,
+   "pass": true,
+   "latency_s": 8.78,
+   "split": "test"
+  },
+  {
+   "id": "e10",
+   "what": "text only, must refuse",
+   "request_id": "f1bd9dde67cb",
+   "routes": [
+    "report_qa"
+   ],
+   "expected_routes": [
+    "report_qa"
+   ],
+   "route_ok": true,
+   "drawings": [],
+   "answer": {
+    "expected": {
+     "from": "qa_text",
+     "id": "t14"
+    },
+    "ok": false,
+    "checks": {
+     "facts": true,
+     "missing": [],
+     "forbidden_found": [],
+     "pages": null,
+     "page_recall": null,
+     "n_citations": 1,
+     "off_doc_citations": 0,
+     "filler": false,
+     "refusal": false,
+     "pass": false
+    }
+   },
+   "errors": [],
+   "component_ok": false,
+   "pass": false,
+   "latency_s": 10.05,
+   "split": "test"
+  },
+  {
+   "id": "e11",
+   "what": "photo only",
+   "request_id": "b972b0d47bd4",
+   "routes": [
+    "report_qa"
+   ],
+   "expected_routes": [
+    "report_qa"
+   ],
+   "route_ok": true,
+   "drawings": [],
+   "answer": {
+    "expected": {
+     "from": "qa_image",
+     "id": "img-18-061-f5"
+    },
+    "ok": false,
+    "checks": {
+     "missing": [],
+     "forbidden_found": [
+      "corrosion"
+     ],
+     "facts": false,
+     "n_citations": 4,
+     "filler": null,
+     "doc_hit": true,
+     "wrong_doc_citations": 0,
+     "fig_in_context": true,
+     "page_cited": false,
+     "actions": true,
+     "pass": false
+    }
+   },
+   "errors": [],
+   "component_ok": false,
+   "pass": false,
+   "latency_s": 29.42,
+   "split": "test"
+  },
+  {
+   "id": "e12",
+   "what": "photo + question",
+   "request_id": "406c7e61cc6f",
+   "routes": [
+    "report_qa"
+   ],
+   "expected_routes": [
+    "report_qa"
+   ],
+   "route_ok": true,
+   "drawings": [],
+   "answer": {
+    "expected": {
+     "from": "qa_image",
+     "id": "img-18-061-f15"
+    },
+    "ok": false,
+    "checks": {
+     "missing": [
+      "overstress"
+     ],
+     "forbidden_found": [],
+     "facts": false,
+     "n_citations": 5,
+     "filler": null,
+     "doc_hit": true,
+     "wrong_doc_citations": 0,
+     "fig_in_context": true,
+     "page_cited": false,
+     "actions": true,
+     "pass": false
+    }
+   },
+   "errors": [],
+   "component_ok": false,
+   "pass": false,
+   "latency_s": 29.67,
+   "split": "test"
+  },
+  {
+   "id": "e13",
+   "what": "drawing PDF (unverified GT)",
+   "request_id": "02e9f5ee7125",
+   "routes": [
+    "drawing"
+   ],
+   "expected_routes": [
+    "drawing"
+   ],
+   "route_ok": true,
+   "drawings": [
+    {
+     "file": "nist_ctc_03_asme1_rc.pdf",
+     "gt": "nist_ctc_03_asme1_rc",
+     "verified": false,
+     "ok": true,
+     "recall": 0.8,
+     "precision": 0.828,
+     "numbers": 0.952,
+     "gdt_symbol": 0.917,
+     "belongs_to": 0.667,
+     "missed": [
+      "SWITCH MOUNTING LOCATIONS (p1)",
+      "A (p1)",
+      "2 COPLANAR SURFACES (p1)",
+      "⊥ Ø.01 E (p1)",
+      "F (p1)",
+      "B (p1)"
+     ]
+    }
+   ],
+   "answer": null,
+   "errors": [],
+   "component_ok": true,
+   "pass": true,
+   "latency_s": 113.25,
+   "split": "test"
+  },
+  {
+   "id": "e14",
+   "what": "drawing PDF, 2 sheets (unverified GT)",
+   "request_id": "c77da90af224",
+   "routes": [
+    "drawing"
+   ],
+   "expected_routes": [
+    "drawing"
+   ],
+   "route_ok": true,
+   "drawings": [
+    {
+     "file": "nist_ftc_11_asme1_rb.pdf",
+     "gt": "nist_ftc_11_asme1_rb",
+     "verified": false,
+     "ok": true,
+     "recall": 0.917,
+     "precision": 0.923,
+     "numbers": 1.0,
+     "gdt_symbol": 0.75,
+     "belongs_to": 0.545,
+     "missed": [
+      "B (p1)"
+     ]
+    }
+   ],
+   "answer": null,
+   "errors": [],
+   "component_ok": true,
+   "pass": true,
+   "latency_s": 68.05,
+   "split": "test"
+  },
+  {
+   "id": "e15",
+   "what": "drawing PDF without hand labels: agreement with the fix4 reference",
+   "request_id": "b3badfb96193",
+   "routes": [
+    "drawing"
+   ],
+   "expected_routes": [
+    "drawing"
+   ],
+   "route_ok": true,
+   "drawings": [
+    {
+     "file": "nist_ctc_02_asme1_rc.pdf",
+     "gt": null,
+     "reference": "geo-l4-fix4/nist_ctc_02_asme1_rc.json",
+     "ok": true,
+     "agree_recall": 0.966,
+     "agree_precision": 1.0,
+     "numbers_agree": 0.914,
+     "n_ref": 58,
+     "n_pred": 56,
+     "dropped_vs_reference": [
+      "0.05 (p3)",
+      "D (p3)"
+     ],
+     "new_vs_reference": [],
+     "changed_reading": [
+      {
+       "ref": "J",
+       "new": "J",
+       "page": 3,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "right side hole (fillet)",
+       "new_belongs_to": "front face (face)"
+      },
+      {
+       "ref": "0.8 G H J G H",
+       "new": "0.8 G H J G H",
+       "page": 3,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "top face (fillet)",
+       "new_belongs_to": "front face (face)"
+      },
+      {
+       "ref": "0.8 G H J",
+       "new": "0.8 G H J",
+       "page": 3,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "top face (fillet)",
+       "new_belongs_to": "front face (face)"
+      },
+      {
+       "ref": "0.1",
+       "new": "0.1",
+       "page": 3,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "top face (hole)",
+       "new_belongs_to": "front face (hole)"
+      },
+      {
+       "ref": "0.8 G H J",
+       "new": "0.8 G H J",
+       "page": 3,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "top face (hole)",
+       "new_belongs_to": "front face (hole)"
+      },
+      {
+       "ref": "J",
+       "new": "J",
+       "page": 3,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "right side hole (hole)",
+       "new_belongs_to": "front face (hole)"
+      },
+      {
+       "ref": "Ø0.15L G H",
+       "new": "Ø0.15L G H",
+       "page": 3,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "top face (hole)",
+       "new_belongs_to": "front face (hole)"
+      },
+      {
+       "ref": "G",
+       "new": "G",
+       "page": 3,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "top face (slot)",
+       "new_belongs_to": "front face (slot)"
+      },
+      {
+       "ref": "0.1",
+       "new": "0.1",
+       "page": 3,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "top face (slot)",
+       "new_belongs_to": "front face (slot)"
+      },
+      {
+       "ref": "0.8",
+       "new": "0.8",
+       "page": 3,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "top face (hole)",
+       "new_belongs_to": "front face (hole)"
+      },
+      {
+       "ref": "0.8 G H L",
+       "new": "0.8 G H L",
+       "page": 3,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "top face (hole)",
+       "new_belongs_to": "front face (hole)"
+      },
+      {
+       "ref": "Ø0.1L G H",
+       "new": "Ø0.1L G H",
+       "page": 3,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "top face (face)",
+       "new_belongs_to": "front face (face)"
+      },
+      {
+       "ref": "0.5",
+       "new": "0.5",
+       "page": 3,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "left side hole (hole)",
+       "new_belongs_to": "hole (hole)"
+      },
+      {
+       "ref": "0.5 DEF",
+       "new": "0.5 DEF",
+       "page": 3,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "left side hole (hole)",
+       "new_belongs_to": "front face (hole)"
+      },
+      {
+       "ref": "0.5",
+       "new": "0.5",
+       "page": 3,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "left side hole (hole)",
+       "new_belongs_to": "front face (hole)"
+      },
+      {
+       "ref": "F",
+       "new": "F",
+       "page": 3,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "left side hole (hole)",
+       "new_belongs_to": "left side face (hole)"
+      },
+      {
+       "ref": "C1",
+       "new": "C1",
+       "page": 2,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "large circular boss on right",
+       "new_belongs_to": "hole on back"
+      },
+      {
+       "ref": "A1",
+       "new": "A1",
+       "page": 2,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "large circular boss on right",
+       "new_belongs_to": "hole on front"
+      },
+      {
+       "ref": "A3",
+       "new": "A3",
+       "page": 2,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "large circular boss on right",
+       "new_belongs_to": "hole on front"
+      },
+      {
+       "ref": "B2",
+       "new": "B2",
+       "page": 2,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "large circular boss on right",
+       "new_belongs_to": "hole on right side"
+      },
+      {
+       "ref": "B1",
+       "new": "B1",
+       "page": 2,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "large circular boss on right",
+       "new_belongs_to": "hole on right side"
+      },
+      {
+       "ref": "B4",
+       "new": "B4",
+       "page": 2,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "large circular boss on right",
+       "new_belongs_to": "hole on left side"
+      },
+      {
+       "ref": "B3",
+       "new": "B3",
+       "page": 2,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "large circular boss on right",
+       "new_belongs_to": "hole on left side"
+      },
+      {
+       "ref": "-0.125-0.063",
+       "new": "-0.125-0.063",
+       "page": 2,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "large circular boss on right (hole)",
+       "new_belongs_to": "slot depth (hole)"
+      },
+      {
+       "ref": "Ø85",
+       "new": "Ø85",
+       "page": 2,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "large circular boss on right (hole)",
+       "new_belongs_to": "large circular boss on bottom (hole)"
+      },
+      {
+       "ref": "Ø0.25",
+       "new": "Ø0.25",
+       "page": 2,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "small circular boss on left (hole)",
+       "new_belongs_to": "small circular hole on top (hole)"
+      },
+      {
+       "ref": "Ø40 ±0.15 L",
+       "new": "Ø40 ±0.15 L",
+       "page": 2,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "large circular boss on right (hole)",
+       "new_belongs_to": "large circular hole on top (hole)"
+      },
+      {
+       "ref": "10±0.2",
+       "new": "Ø10±0.02",
+       "page": 2,
+       "what": [
+        "text",
+        "numbers",
+        "type",
+        "belongs_to"
+       ],
+       "ref_belongs_to": "large circular boss on right (hole)",
+       "new_belongs_to": "small circular boss on bottom (hole)"
+      },
+      {
+       "ref": "0.05",
+       "new": "0.05 D",
+       "page": 3,
+       "what": [
+        "text",
+        "type",
+        "characteristic",
+        "datums",
+        "belongs_to"
+       ],
+       "ref_belongs_to": "left side hole (hole)",
+       "new_belongs_to": "front face (hole)"
+      },
+      {
+       "ref": "R1.5",
+       "new": "R15",
+       "page": 2,
+       "what": [
+        "text",
+        "numbers",
+        "type",
+        "belongs_to"
+       ],
+       "ref_belongs_to": "large circular boss on right (hole)",
+       "new_belongs_to": "radius 15 (hole)"
+      },
+      {
+       "ref": "0.5 DEF M",
+       "new": "0.5 DEF M 0.5 DEF",
+       "page": 3,
+       "what": [
+        "text",
+        "numbers",
+        "belongs_to"
+       ],
+       "ref_belongs_to": "left side hole (hole)",
+       "new_belongs_to": "front face (hole)"
+      }
+     ]
+    }
+   ],
+   "answer": null,
+   "errors": [],
+   "component_ok": true,
+   "pass": true,
+   "latency_s": 219.45,
+   "split": "test"
+  },
+  {
+   "id": "e16",
+   "what": "photo of printed sheet 1, no hand labels: agreement with fix4 sheet 1",
+   "request_id": "2307da2d9260",
+   "routes": [
+    "drawing"
+   ],
+   "expected_routes": [
+    "drawing"
+   ],
+   "route_ok": true,
+   "drawings": [
+    {
+     "file": "drw_ftc_09_s1_photo.jpg",
+     "gt": null,
+     "reference": "geo-l4-fix4/nist_ftc_09_asme1_rd.json",
+     "ok": false,
+     "agree_recall": 0.1,
+     "agree_precision": 0.118,
+     "numbers_agree": 0.0,
+     "n_ref": 20,
+     "n_pred": 17,
+     "dropped_vs_reference": [
+      "Ø.234 ±.008 - (p1)",
+      "L Ø.016 A (p1)",
+      "Ø.234 ±.008 - (p1)",
+      "Ø.016 A B (p1)",
+      "C (p1)",
+      "2X Ø.234 ±.008 (p1)",
+      "Ø.016M A B C (p1)",
+      "4X .03 ±.01 X .03 ±.01 (p1)",
+      ".05 (p1)",
+      ".250+.003-.000 (p1)",
+      ".050P.260 (p1)",
+      ".010P.260 A B C A (p1)",
+      "Φ.250 +.003 - .000 (p1)",
+      "Φ.010 P .260 A B C (p1)",
+      "-3XΦ.250+.003-.000 (p1)",
+      "Φ.050P 10 (p1)",
+      "3XΦ.250+.003-.000 (p1)",
+      "250P.26 P (p1)"
+     ],
+     "new_vs_reference": [
+      "80-0.01 (p1)",
+      "40-50 ±0.08 (p1)",
+      "4X 0.25 (p1)",
+      "F12.5 R12.5 (p1)",
+      "R12.5 (p1)",
+      "G6 (p1)",
+      "-2X0234T (p1)",
+      "@016 (p1)",
+      "-0.125-0.063 (p1)",
+      "10±0.25 (p1)",
+      "ABC (p1)",
+      "100-105/-0.025 (p1)",
+      "8 (p1)",
+      "B (p1)",
+      "10-0.025 (p1)"
+     ],
+     "changed_reading": [
+      {
+       "ref": "A",
+       "new": "A",
+       "page": 1,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "top left corner hole (hole)",
+       "new_belongs_to": "left edge (slot)"
+      },
+      {
+       "ref": ".01 A",
+       "new": "4.01",
+       "page": 1,
+       "what": [
+        "text",
+        "numbers",
+        "type",
+        "characteristic",
+        "datums",
+        "belongs_to"
+       ],
+       "ref_belongs_to": "left edge (hole)",
+       "new_belongs_to": "center hole (slot)"
+      }
+     ]
+    }
+   ],
+   "answer": null,
+   "errors": [],
+   "component_ok": false,
+   "pass": false,
+   "latency_s": 88.01,
+   "split": "test"
+  },
+  {
+   "id": "e17",
+   "what": "photo + drawing in one message (drawing: agreement with fix4)",
+   "request_id": "2ca936196946",
+   "routes": [
+    "report_qa",
+    "drawing"
+   ],
+   "expected_routes": [
+    "report_qa",
+    "drawing"
+   ],
+   "route_ok": true,
+   "drawings": [
+    {
+     "file": "nist_ctc_05_asme1_rd.pdf",
+     "gt": null,
+     "reference": "geo-l4-fix4/nist_ctc_05_asme1_rd.json",
+     "ok": true,
+     "agree_recall": 0.962,
+     "agree_precision": 1.0,
+     "numbers_agree": 1.0,
+     "n_ref": 26,
+     "n_pred": 25,
+     "dropped_vs_reference": [
+      ".005 (p1)"
+     ],
+     "new_vs_reference": [],
+     "changed_reading": [
+      {
+       "ref": "5.000 ±.008 ST",
+       "new": "5.000 ±.008 ST",
+       "page": 1,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "large slot near center (hole)",
+       "new_belongs_to": "left side of the cylindrical body (hole)"
+      },
+      {
+       "ref": "C1",
+       "new": "C1",
+       "page": 1,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "hexagonal boss",
+       "new_belongs_to": "left side of the cylindrical body"
+      },
+      {
+       "ref": "710",
+       "new": "710",
+       "page": 1,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "large slot near center (fillet)",
+       "new_belongs_to": "left side of the cylindrical body (fillet)"
+      },
+      {
+       "ref": ".025 A-B",
+       "new": ".025 A-B",
+       "page": 1,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "large slot near center (fillet)",
+       "new_belongs_to": "left side of the cylindrical body (fillet)"
+      },
+      {
+       "ref": ".025 A-B",
+       "new": ".025 A-B",
+       "page": 1,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "large slot near center (face)",
+       "new_belongs_to": "left side of the cylindrical body (face)"
+      },
+      {
+       "ref": "A",
+       "new": "A",
+       "page": 1,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "hexagonal boss",
+       "new_belongs_to": "left side of the cylindrical body"
+      },
+      {
+       "ref": ".010 D",
+       "new": ".010 D",
+       "page": 1,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "right side hole (hole)",
+       "new_belongs_to": "left side of the cylindrical body (hole)"
+      },
+      {
+       "ref": ".010 L",
+       "new": ".010 L",
+       "page": 1,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "left side hole (hole)",
+       "new_belongs_to": "left side of the cylindrical body (hole)"
+      },
+      {
+       "ref": ".035 A-B",
+       "new": ".035 A-B",
+       "page": 1,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "large slot near center (fillet)",
+       "new_belongs_to": "left side of the cylindrical body (fillet)"
+      },
+      {
+       "ref": "φ.030 A",
+       "new": "φ.030 A",
+       "page": 1,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "hexagonal boss (hole)",
+       "new_belongs_to": "left side of the cylindrical body (hole)"
+      },
+      {
+       "ref": "-1.250",
+       "new": "-1.250",
+       "page": 1,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "small slot near center (face)",
+       "new_belongs_to": "left side of the cylindrical body (face)"
+      },
+      {
+       "ref": "2.000",
+       "new": "2.000",
+       "page": 1,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "large slot near center (slot)",
+       "new_belongs_to": "right side of the cylindrical body (slot)"
+      },
+      {
+       "ref": ".002",
+       "new": ".002",
+       "page": 1,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "top face (face)",
+       "new_belongs_to": "left side of the cylindrical body (face)"
+      },
+      {
+       "ref": "0.002",
+       "new": "0.002",
+       "page": 1,
+       "what": [
+        "belongs_to"
+       ],
+       "ref_belongs_to": "bottom face (face)",
+       "new_belongs_to": "left side of the cylindrical body (face)"
+      },
+      {
+       "ref": ".005",
+       "new": ".005",
+       "page": 1,
+       "what": [
+        "type",
+        "characteristic",
+        "belongs_to"
+       ],
+       "ref_belongs_to": "right side hole (hole)",
+       "new_belongs_to": "left side of the cylindrical body (hole)"
+      }
+     ]
+    }
+   ],
+   "answer": {
+    "expected": {
+     "from": "qa_image",
+     "id": "img-24-013-f4"
+    },
+    "ok": false,
+    "checks": {
+     "missing": [],
+     "forbidden_found": [
+      "corrosion"
+     ],
+     "facts": false,
+     "n_citations": 12,
+     "filler": null,
+     "doc_hit": false,
+     "wrong_doc_citations": 12,
+     "fig_in_context": false,
+     "page_cited": false,
+     "actions": true,
+     "pass": false
+    }
+   },
+   "errors": [],
+   "component_ok": false,
+   "pass": false,
+   "latency_s": 142.64,
+   "split": "test"
+  },
+  {
+   "id": "e18",
+   "what": "a report PDF uploaded with a question",
+   "request_id": "280d585caeac",
+   "routes": [
+    "report_qa"
+   ],
+   "expected_routes": [
+    "report_qa"
+   ],
+   "route_ok": true,
+   "drawings": [],
+   "answer": {
+    "expected": {
+     "inline": {
+      "kind": "lookup",
+      "must": [
+       "overstress"
+      ],
+      "must_not": [],
+      "pages": [
+       [
+        "ntsb_24-013",
+        3
+       ]
+      ]
+     }
+    },
+    "ok": true,
+    "checks": {
+     "facts": true,
+     "missing": [],
+     "forbidden_found": [],
+     "pages": true,
+     "page_recall": 1.0,
+     "n_citations": 1,
+     "off_doc_citations": 0,
+     "filler": true,
+     "refusal": null,
+     "pass": true
+    }
+   },
+   "errors": [],
+   "component_ok": true,
+   "pass": true,
+   "latency_s": 32.45,
+   "split": "test"
+  },
+  {
+   "id": "e19",
+   "what": "photo + lookup question (no diagnosis expected)",
+   "request_id": "3e6503d5d88e",
+   "routes": [
+    "report_qa"
+   ],
+   "expected_routes": [
+    "report_qa"
+   ],
+   "route_ok": true,
+   "drawings": [],
+   "answer": {
+    "expected": {
+     "from": "qa_image",
+     "id": "iq05-18-061-f6"
+    },
+    "ok": true,
+    "checks": {
+     "missing": [],
+     "forbidden_found": [],
+     "facts": true,
+     "n_citations": 2,
+     "filler": true,
+     "doc_hit": true,
+     "wrong_doc_citations": 0,
+     "fig_in_context": false,
+     "page_cited": false,
+     "fact_page_cited": false,
+     "actions": null,
+     "pass": true
+    }
+   },
+   "errors": [],
+   "component_ok": true,
+   "pass": true,
+   "latency_s": 29.4,
+   "split": "dev"
+  },
+  {
+   "id": "e20",
+   "what": "photo + question naming a different aircraft",
+   "request_id": "018b8025fca1",
+   "routes": [
+    "report_qa"
+   ],
+   "expected_routes": [
+    "report_qa"
+   ],
+   "route_ok": true,
+   "drawings": [],
+   "answer": {
+    "expected": {
+     "from": "qa_image",
+     "id": "iq10-18-061-f19"
+    },
+    "ok": true,
+    "checks": {
+     "missing": [],
+     "forbidden_found": [],
+     "facts": true,
+     "n_citations": 1,
+     "filler": true,
+     "doc_hit": true,
+     "wrong_doc_citations": 0,
+     "fig_in_context": false,
+     "page_cited": false,
+     "fact_page_cited": true,
+     "actions": null,
+     "pass": true
+    }
+   },
+   "errors": [],
+   "component_ok": true,
+   "pass": true,
+   "latency_s": 23.39,
+   "split": "test"
+  },
+  {
+   "id": "e21",
+   "what": "photo + question the reports can't answer",
+   "request_id": "22f2d5dbefbe",
+   "routes": [
+    "report_qa"
+   ],
+   "expected_routes": [
+    "report_qa"
+   ],
+   "route_ok": true,
+   "drawings": [],
+   "answer": {
+    "expected": {
+     "from": "qa_image",
+     "id": "iq08-18-061-f15"
+    },
+    "ok": true,
+    "checks": {
+     "missing": [],
+     "forbidden_found": [],
+     "facts": true,
+     "n_citations": 0,
+     "filler": null,
+     "refusal": true,
+     "pass": true
+    }
+   },
+   "errors": [],
+   "component_ok": true,
+   "pass": true,
+   "latency_s": 23.55,
+   "split": "test"
+  }
+ ]
+}

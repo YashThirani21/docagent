@@ -1,0 +1,4489 @@
+{
+ "run": {
+  "suite": "qa_image",
+  "label": "bf16-l4",
+  "timestamp": "20261021-190321",
+  "config": "configs/colab_vllm.yaml",
+  "overrides": [],
+  "config_hash": "8e5ad2f26db8",
+  "versions": {
+   "router": "rules+vlm-v1",
+   "drawing": "drawing-geometry-v1",
+   "report_qa": "report-qa-v6",
+   "llm": "qwen2.5-vl-7b",
+   "retriever": "hybrid-rrf-v3-textfirst-reg-focus-next"
+  },
+  "model": "qwen2.5-vl-7b",
+  "dataset": [
+   "eval/datasets/qa_image/cases.jsonl"
+  ],
+  "dataset_hash": "1fda89c8d252",
+  "split": "all",
+  "seed": 0,
+  "n": 30,
+  "case_ids": [
+   "img-24-013-f2",
+   "img-24-013-f3",
+   "img-24-013-f4",
+   "img-16-006-f1",
+   "img-16-006-f3",
+   "img-16-006-f7",
+   "img-16-006-f9",
+   "img-16-006-f12",
+   "img-18-061-f2",
+   "img-18-061-f5",
+   "img-18-061-f6",
+   "img-18-061-f8",
+   "img-18-061-f10",
+   "img-18-061-f13",
+   "img-18-061-f15",
+   "img-18-061-f16",
+   "img-18-061-f17",
+   "img-18-061-f19",
+   "img-18-061-f20",
+   "img-18-061-f23",
+   "iq01-24-013-f4",
+   "iq02-18-061-f2",
+   "iq03-16-006-f12",
+   "iq04-18-061-f13",
+   "iq05-18-061-f6",
+   "iq06-16-006-f3",
+   "iq07-24-013-f2",
+   "iq08-18-061-f15",
+   "iq09-18-061-f5",
+   "iq10-18-061-f19"
+  ],
+  "fresh": true,
+  "batch_id": "eval-qa_image-bf16-l4-20261021-190321",
+  "wall_s": 871.4,
+  "env": {
+   "python": "3.13.15",
+   "platform": "Linux-x86_64",
+   "pymupdf": "2.0",
+   "torch": "2.13.0",
+   "transformers": "5.17.0",
+   "FlagEmbedding": "1.4.2",
+   "numpy": "2.1.3",
+   "pillow": "11.3.0",
+   "opencv-python-headless": "5.0.0.93",
+   "openai": "2.54.0",
+   "vllm": "0.31.0"
+  }
+ },
+ "summary": {
+  "n": 30,
+  "pass": 0.767,
+  "doc_hit": 0.964,
+  "fig_in_context": 0.714,
+  "page_cited": 0.357,
+  "fact_page_cited": 0.875,
+  "facts": 0.767,
+  "forbidden_claims": 2,
+  "actions_when_problem": 1.0,
+  "filler_on_lookups": 1.0,
+  "refusal": 1.0,
+  "avg_wrong_doc_citations": 0.46,
+  "by_input": {
+   "image": {
+    "n": 17,
+    "pass": 0.706,
+    "doc_hit": 0.941,
+    "fig_in_context": 0.706,
+    "page_cited": 0.353,
+    "facts": 0.706,
+    "forbidden_claims": 2,
+    "actions_when_problem": 1.0,
+    "avg_wrong_doc_citations": 0.29
+   },
+   "image+text": {
+    "n": 13,
+    "pass": 0.846,
+    "doc_hit": 1.0,
+    "fig_in_context": 0.727,
+    "page_cited": 0.364,
+    "fact_page_cited": 0.875,
+    "facts": 0.846,
+    "forbidden_claims": 0,
+    "actions_when_problem": 1.0,
+    "filler_on_lookups": 1.0,
+    "refusal": 1.0,
+    "avg_wrong_doc_citations": 0.73
+   }
+  },
+  "by_kind": {
+   "diagnosis": {
+    "n": 3,
+    "pass": 1.0,
+    "doc_hit": 1.0,
+    "fig_in_context": 1.0,
+    "page_cited": 0.667,
+    "fact_page_cited": 1.0,
+    "facts": 1.0,
+    "forbidden_claims": 0,
+    "actions_when_problem": 1.0,
+    "avg_wrong_doc_citations": 0.0
+   },
+   "figure": {
+    "n": 20,
+    "pass": 0.7,
+    "doc_hit": 0.95,
+    "fig_in_context": 0.75,
+    "page_cited": 0.4,
+    "facts": 0.7,
+    "forbidden_claims": 2,
+    "actions_when_problem": 1.0,
+    "avg_wrong_doc_citations": 0.65
+   },
+   "lookup": {
+    "n": 3,
+    "pass": 0.667,
+    "doc_hit": 1.0,
+    "fig_in_context": 0.667,
+    "page_cited": 0.0,
+    "fact_page_cited": 0.667,
+    "facts": 0.667,
+    "forbidden_claims": 0,
+    "filler_on_lookups": 1.0,
+    "avg_wrong_doc_citations": 0.0
+   },
+   "refusal": {
+    "n": 2,
+    "pass": 1.0,
+    "facts": 1.0,
+    "forbidden_claims": 0,
+    "refusal": 1.0,
+    "avg_wrong_doc_citations": 0.0
+   },
+   "wrong_aircraft": {
+    "n": 2,
+    "pass": 1.0,
+    "doc_hit": 1.0,
+    "fig_in_context": 0.0,
+    "page_cited": 0.0,
+    "fact_page_cited": 1.0,
+    "facts": 1.0,
+    "forbidden_claims": 0,
+    "filler_on_lookups": 1.0,
+    "avg_wrong_doc_citations": 0.0
+   }
+  },
+  "errors": 0
+ },
+ "cost": {
+  "requests": 30,
+  "latency_p50_s": 26.37,
+  "latency_p95_s": 52.79,
+  "fresh_llm_calls": 64,
+  "cached_calls": 0,
+  "prompt_tokens": 166691,
+  "completion_tokens": 13867,
+  "failed_requests": 0
+ },
+ "rows": [
+  {
+   "id": "img-24-013-f2",
+   "request_id": "03d470257413",
+   "kind": "figure",
+   "input": "image+text",
+   "question": "This part broke in flight. Why?",
+   "expected": {
+    "doc_id": "ntsb_24-013",
+    "figure_no": 2,
+    "page": 4
+   },
+   "answer": {
+    "answer": "The part broke due to fatigue fracture. The presence of smooth fracture features with curving crack arrest lines, along with ratchet marks, indicates fatigue fracture. The threaded section of the throttle arm exhibited plastic deformation, which could have contributed to the fatigue process. The component was part of the fuel servo throttle arm, and its failure was consistent with bending overstress, as indicated by the findings in the report.",
+    "diagnosis": "Fatigue fracture and bending overstress.",
+    "recommended_actions": [
+     "Inspect similar components for signs of fatigue cracking, especially at the threaded sections and areas near the circular hole.",
+     "Perform non-destructive testing (NDT) such as eddy current testing to detect any hidden cracks or damage.",
+     "Review the operational history and usage patterns of the component to ensure compliance with maintenance schedules and operating conditions."
+    ],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 24,
+      "chunk_id": "ntsb_18-061:p24:fig17",
+      "figure_no": 17
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 4,
+      "chunk_id": "ntsb_24-013:p4:fig2",
+      "figure_no": 2
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 5,
+      "chunk_id": "ntsb_24-013:p5:fig3",
+      "figure_no": 3
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 6,
+      "chunk_id": "ntsb_18-061:p6:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t4",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 4,
+      "chunk_id": "ntsb_24-013:p4:fig1",
+      "figure_no": 1
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig18",
+      "figure_no": 18
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 10,
+      "chunk_id": "ntsb_18-061:p10:fig1",
+      "figure_no": 1
+     }
+    ],
+    "grounded": true,
+    "image_observations": [
+     "{\"component\":\"Aircraft/mechanical component\",\"observations\":[\"The component appears to be made of metal.\",\"There is a threaded section with a hexagonal head on one end.\",\"The other end has a rectangular shape with a circular hole.\",\"The component is marked with 'R' and '2520876'.\",\"The component is shown alongside a ruler for scale.\"],\"visible_text\":\"R\\n2520876\"}"
+    ],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 6,
+      "chunk_id": "ntsb_18-061:p6:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t4",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 4,
+      "chunk_id": "ntsb_24-013:p4:fig2",
+      "figure_no": 2
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 4,
+      "chunk_id": "ntsb_24-013:p4:fig1",
+      "figure_no": 1
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig18",
+      "figure_no": 18
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 5,
+      "chunk_id": "ntsb_24-013:p5:fig3",
+      "figure_no": 3
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 24,
+      "chunk_id": "ntsb_18-061:p24:fig17",
+      "figure_no": 17
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 10,
+      "chunk_id": "ntsb_18-061:p10:fig1",
+      "figure_no": 1
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "missing": [],
+    "forbidden_found": [],
+    "facts": true,
+    "n_citations": 11,
+    "filler": null,
+    "doc_hit": true,
+    "wrong_doc_citations": 8,
+    "fig_in_context": true,
+    "page_cited": true,
+    "actions": true,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 21.84,
+   "split": "dev"
+  },
+  {
+   "id": "img-24-013-f3",
+   "request_id": "9c819400cd21",
+   "kind": "figure",
+   "input": "image",
+   "question": null,
+   "expected": {
+    "doc_id": "ntsb_24-013",
+    "figure_no": 3,
+    "page": 5
+   },
+   "answer": {
+    "answer": "The observations indicate that the threaded section of the throttle arm has experienced wear or damage, characterized by a roughened surface texture and localized corrosion or oxidation. The threads appear to be uniform in pitch and depth, but the wear is concentrated in the upper part of the thread. The fracture surface does not exhibit any evidence of preexisting cracks, and the failure is consistent with bending overstress.",
+    "diagnosis": "The throttle arm has failed due to bending overstress, with localized wear and corrosion on the threaded section.",
+    "recommended_actions": [
+     "Inspect similar throttle arms for signs of wear or corrosion, particularly focusing on the threaded sections.",
+     "Ensure proper maintenance and inspection procedures are followed to prevent future failures."
+    ],
+    "citations": [
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 3,
+      "chunk_id": "ntsb_24-013:p3:t0",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [
+     "{\"component\":\"Aircraft/mechanical component\",\"observations\":[\"The component appears to be metallic with a threaded section.\",\"There is a visible wear or damage on the threaded portion, characterized by a roughened surface texture.\",\"A reference line indicates a measurement of approximately 0.100 inches along the axis of the thread.\",\"The material shows signs of corrosion or oxidation, evidenced by the dark discoloration on the threads and the surrounding area.\",\"The threads exhibit a uniform pitch and depth, but the wear is localized to the upper part of the thread.\"],\"visible_text\":\"0.100in\"}"
+    ],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 3,
+      "chunk_id": "ntsb_16-006:p3:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 3,
+      "chunk_id": "ntsb_16-006:p3:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 3,
+      "chunk_id": "ntsb_24-013:p3:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 6,
+      "chunk_id": "ntsb_24-013:p6:fig5",
+      "figure_no": 5
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 4,
+      "chunk_id": "ntsb_24-013:p4:fig2",
+      "figure_no": 2
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 5,
+      "chunk_id": "ntsb_24-013:p5:fig3",
+      "figure_no": 3
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 6,
+      "chunk_id": "ntsb_24-013:p6:fig4",
+      "figure_no": 4
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "missing": [],
+    "forbidden_found": [
+     "corrosion"
+    ],
+    "facts": false,
+    "n_citations": 1,
+    "filler": null,
+    "doc_hit": true,
+    "wrong_doc_citations": 0,
+    "fig_in_context": true,
+    "page_cited": false,
+    "actions": true,
+    "pass": false
+   },
+   "pass": false,
+   "latency_s": 21.65,
+   "split": "test"
+  },
+  {
+   "id": "img-24-013-f4",
+   "request_id": "2c2a22f52238",
+   "kind": "figure",
+   "input": "image",
+   "question": null,
+   "expected": {
+    "doc_id": "ntsb_24-013",
+    "figure_no": 4,
+    "page": 6
+   },
+   "answer": {
+    "answer": "The cross-section of the metallic part shows evidence of fatigue cracks, as indicated by the presence of ratchet marks and consistent crack propagation directions. The polished surface and visible inclusions suggest potential areas of stress concentration, which could contribute to fatigue initiation. The layered structure might indicate a forging or casting process, but this alone does not determine the failure mode. The smooth transition around the circular opening implies that the part was likely designed to withstand certain loads, but the presence of fatigue features suggests that the part may have experienced cyclic loading beyond its design limits.",
+    "diagnosis": "Fatigue cracks are present, characterized by ratchet marks and consistent crack propagation directions.",
+    "recommended_actions": [
+     "Inspect similar parts for similar fatigue features, especially around circular openings.",
+     "Perform a detailed inspection of the part's history for cyclic loading events.",
+     "Consider conducting a finite element analysis to assess the part's structural integrity under cyclic loads."
+    ],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t3",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [
+     "{\"component\":\"Aircraft/mechanical component\",\"observations\":[\"The image shows a cross-section of a metallic part with a circular opening.\",\"The surface appears to have a polished finish with some areas showing signs of wear or corrosion.\",\"There are visible inclusions or particles embedded within the material near the edge of the circular opening.\",\"The material exhibits a layered structure, possibly indicative of a forging or casting process.\",\"The edges of the circular opening show a smooth transition without any abrupt changes in thickness.\",\"The overall condition suggests that the part has been subjected to mechanical stress or environmental exposure.\"],\"visible_text\":\"0.050in\"}"
+    ],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 6,
+      "chunk_id": "ntsb_18-061:p6:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 14,
+      "chunk_id": "ntsb_16-006:p14:fig12",
+      "figure_no": 12
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 20,
+      "chunk_id": "ntsb_18-061:p20:fig13",
+      "figure_no": 13
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 18,
+      "chunk_id": "ntsb_18-061:p18:fig10",
+      "figure_no": 10
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 10,
+      "chunk_id": "ntsb_18-061:p10:fig1",
+      "figure_no": 1
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 24,
+      "chunk_id": "ntsb_18-061:p24:fig17",
+      "figure_no": 17
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 19,
+      "chunk_id": "ntsb_18-061:p19:fig12",
+      "figure_no": 12
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 12,
+      "chunk_id": "ntsb_18-061:p12:fig4",
+      "figure_no": 4
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "missing": [
+     "overstress"
+    ],
+    "forbidden_found": [],
+    "facts": false,
+    "n_citations": 2,
+    "filler": null,
+    "doc_hit": false,
+    "wrong_doc_citations": 2,
+    "fig_in_context": false,
+    "page_cited": false,
+    "actions": true,
+    "pass": false
+   },
+   "pass": false,
+   "latency_s": 24.55,
+   "split": "dev"
+  },
+  {
+   "id": "img-16-006-f1",
+   "request_id": "109be6915612",
+   "kind": "figure",
+   "input": "image",
+   "question": null,
+   "expected": {
+    "doc_id": "ntsb_16-006",
+    "figure_no": 1,
+    "page": 6
+   },
+   "answer": {
+    "answer": "The flexible cable exhibits signs of wear and possible fatigue damage, including slight discoloration and minor surface irregularities. The cable is bent in a U-shape, which could contribute to stress concentrations and further degradation. The joints or connectors at both ends may be potential points of failure due to repeated flexing and stress. The presence of heat damage to the conduit liner suggests that the cable may have experienced overheating, possibly due to friction or other environmental factors. It is important to inspect the cable for any cracks or breaks, especially at the joints and bends, to ensure its integrity.",
+    "diagnosis": "The flexible cable shows signs of wear, fatigue, and potential heat damage. The bends and joints are areas of concern.",
+    "recommended_actions": [
+     "Inspect the cable for any cracks or breaks, particularly at the joints and bends.",
+     "Check the cable for any signs of overheating or excessive friction.",
+     "Ensure that the cable is properly routed and secured to avoid additional stress or damage.",
+     "Consider replacing the cable if it shows significant signs of wear or fatigue."
+    ],
+    "citations": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 3,
+      "chunk_id": "ntsb_16-006:p3:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 13,
+      "chunk_id": "ntsb_16-006:p13:fig11",
+      "figure_no": 11
+     }
+    ],
+    "grounded": true,
+    "image_observations": [
+     "{\"component\":\"Flexible cable\",\"observations\":[\"The component has two ends labeled as 'Input end' and 'Output end'.\",\"The cable appears to have a metallic sheath with a braided outer layer.\",\"There are visible joints or connectors at both ends of the cable.\",\"The cable shows signs of wear and possible fatigue damage, indicated by slight discoloration and minor surface irregularities.\",\"A ruler is placed next to the cable in one image, indicating the length of the cable.\",\"The cable is bent in a U-shape in both images.\"],\"visible_text\":\"Input end\\nOutput end\"}"
+    ],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 3,
+      "chunk_id": "ntsb_16-006:p3:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 3,
+      "chunk_id": "ntsb_16-006:p3:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 3,
+      "chunk_id": "ntsb_16-006:p3:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 13,
+      "chunk_id": "ntsb_16-006:p13:fig11",
+      "figure_no": 11
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 10,
+      "chunk_id": "ntsb_18-061:p10:fig1",
+      "figure_no": 1
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 6,
+      "chunk_id": "ntsb_16-006:p6:fig1",
+      "figure_no": 1
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 11,
+      "chunk_id": "ntsb_16-006:p11:fig8",
+      "figure_no": 8
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "missing": [],
+    "forbidden_found": [],
+    "facts": true,
+    "n_citations": 2,
+    "filler": null,
+    "doc_hit": true,
+    "wrong_doc_citations": 0,
+    "fig_in_context": true,
+    "page_cited": false,
+    "actions": true,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 27.15,
+   "split": "test"
+  },
+  {
+   "id": "img-16-006-f3",
+   "request_id": "002d548fc8c5",
+   "kind": "figure",
+   "input": "image",
+   "question": null,
+   "expected": {
+    "doc_id": "ntsb_16-006",
+    "figure_no": 3,
+    "page": 8
+   },
+   "answer": {
+    "answer": "The provided images show the throttle control assembly with various components labeled. The assembly includes a release rod, a control tube, a lock coil, and a pawl. The images depict the assembly in different operational states, indicating the movement of the release rod and the engagement/disengagement of the pawl with the lock coil. There are no visible signs of damage or wear in these images. However, the report does mention that the release rod was slightly bent consistent with observations from the radiographs, and there is a gap in the control tube near the release rod. These findings suggest potential issues related to bending overstress and possible corrosion at the interface between the release rod and the control tube.",
+    "diagnosis": "The throttle control assembly exhibits signs of bending overstress on the release rod and a gap in the control tube near the release rod, which could be indicative of corrosion. The pawl's movement suggests normal operation, but the structural integrity of the release rod and the control tube should be further evaluated.",
+    "recommended_actions": [
+     "Inspect the release rod for any signs of permanent deformation or cracking.",
+     "Examine the control tube for any signs of corrosion or wear, particularly around the release rod.",
+     "Ensure that the pawl operates freely and engages the lock coil without obstruction.",
+     "Perform a thorough visual inspection of the entire throttle control assembly for any other potential issues."
+    ],
+    "citations": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 4,
+      "chunk_id": "ntsb_16-006:p4:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 5,
+      "chunk_id": "ntsb_16-006:p5:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 13,
+      "chunk_id": "ntsb_16-006:p13:fig10",
+      "figure_no": 10
+     }
+    ],
+    "grounded": true,
+    "image_observations": [
+     "{\"component\":\"Aircraft/mechanical component\",\"observations\":[\"The component appears to have a cylindrical structure with a series of protrusions along its length.\",\"There is a release rod located at one end of the component.\",\"A control tube is present near the center of the component.\",\"A lock coil is situated towards the opposite end from the release rod.\",\"A pawl is visible in the middle section of the component.\",\"Two arrows labeled 'FWD' indicate forward direction.\"],\"visible_text\":\"Release rod, Control tube, Lock coil, Pawl, FWD\"}"
+    ],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 3,
+      "chunk_id": "ntsb_16-006:p3:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 4,
+      "chunk_id": "ntsb_16-006:p4:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 5,
+      "chunk_id": "ntsb_16-006:p5:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 10,
+      "chunk_id": "ntsb_16-006:p10:fig7",
+      "figure_no": 7
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 13,
+      "chunk_id": "ntsb_16-006:p13:fig10",
+      "figure_no": 10
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 10,
+      "chunk_id": "ntsb_16-006:p10:fig6",
+      "figure_no": 6
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 13,
+      "chunk_id": "ntsb_16-006:p13:fig11",
+      "figure_no": 11
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 9,
+      "chunk_id": "ntsb_16-006:p9:fig4",
+      "figure_no": 4
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 8,
+      "chunk_id": "ntsb_16-006:p8:fig3",
+      "figure_no": 3
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 9,
+      "chunk_id": "ntsb_16-006:p9:fig5",
+      "figure_no": 5
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "missing": [],
+    "forbidden_found": [],
+    "facts": true,
+    "n_citations": 4,
+    "filler": null,
+    "doc_hit": true,
+    "wrong_doc_citations": 0,
+    "fig_in_context": true,
+    "page_cited": false,
+    "actions": null,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 29.58,
+   "split": "dev"
+  },
+  {
+   "id": "img-16-006-f7",
+   "request_id": "224cbbe87c0f",
+   "kind": "figure",
+   "input": "image",
+   "question": null,
+   "expected": {
+    "doc_id": "ntsb_16-006",
+    "figure_no": 7,
+    "page": 10
+   },
+   "answer": {
+    "answer": "The output rod exhibits signs of wear and tear, including a blackened surface with wear marks and a metallic sheen on one end. There is a threaded hole at one end, and a straight pin is inserted through this hole. The rod shows wear and tear along its length. These observations suggest potential issues related to fatigue or corrosion, which could lead to structural integrity concerns.",
+    "diagnosis": "The output rod shows signs of wear and tear, including a blackened surface with wear marks and a metallic sheen on one end. The threaded hole and the presence of a straight pin indicate that the rod may be subject to cyclic loading or stress, which could contribute to fatigue cracking. Additionally, the wear and tear along the length of the rod suggests potential corrosion or other forms of degradation.",
+    "recommended_actions": [
+     "Inspect the threaded hole and the area around the straight pin for any signs of fatigue cracking or corrosion.",
+     "Perform a detailed inspection of the rod's length to assess the extent of wear and tear and determine if there are any hidden cracks or damage.",
+     "Consider replacing the output rod if the wear and tear is severe enough to compromise the structural integrity of the throttle control assembly."
+    ],
+    "citations": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 3,
+      "chunk_id": "ntsb_16-006:p3:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 10,
+      "chunk_id": "ntsb_16-006:p10:fig7",
+      "figure_no": 7
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 14,
+      "chunk_id": "ntsb_16-006:p14:fig12",
+      "figure_no": 12
+     }
+    ],
+    "grounded": true,
+    "image_observations": [
+     "{\"component\":\"output rod\",\"observations\":[\"blackened surface with wear marks\",\"metallic sheen on one end\",\"threaded hole at one end\",\"straight pin inserted through hole\",\"wear and tear visible along length\",\"yellow ruler for scale\"],\"visible_text\":\"Output rod\"}"
+    ],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 3,
+      "chunk_id": "ntsb_16-006:p3:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 4,
+      "chunk_id": "ntsb_16-006:p4:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 5,
+      "chunk_id": "ntsb_16-006:p5:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 3,
+      "chunk_id": "ntsb_16-006:p3:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 3,
+      "chunk_id": "ntsb_16-006:p3:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 1,
+      "chunk_id": "ntsb_16-006:p1:t4",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 10,
+      "chunk_id": "ntsb_16-006:p10:fig7",
+      "figure_no": 7
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 14,
+      "chunk_id": "ntsb_16-006:p14:fig12",
+      "figure_no": 12
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 11,
+      "chunk_id": "ntsb_16-006:p11:fig8",
+      "figure_no": 8
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 10,
+      "chunk_id": "ntsb_16-006:p10:fig6",
+      "figure_no": 6
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "missing": [
+     "inspection hole"
+    ],
+    "forbidden_found": [],
+    "facts": false,
+    "n_citations": 3,
+    "filler": null,
+    "doc_hit": true,
+    "wrong_doc_citations": 0,
+    "fig_in_context": true,
+    "page_cited": true,
+    "actions": null,
+    "pass": false
+   },
+   "pass": false,
+   "latency_s": 52.79,
+   "split": "test"
+  },
+  {
+   "id": "img-16-006-f9",
+   "request_id": "b101fc9b29a8",
+   "kind": "figure",
+   "input": "image",
+   "question": null,
+   "expected": {
+    "doc_id": "ntsb_16-006",
+    "figure_no": 9,
+    "page": 12
+   },
+   "answer": {
+    "answer": "The observations indicate that there is a gap present between the release rod and the control tube, but no gap is observed in the control tube and lock tube interface. The material appears to be metallic with a polished finish. The presence of a gap between the release rod and the control tube could suggest a misalignment or wear in the mechanism, which may have contributed to the malfunction of the mixture control assembly. Further inspection and maintenance of this area are recommended.",
+    "diagnosis": "There is a gap between the release rod and the control tube, which may indicate misalignment or wear in the mechanism.",
+    "recommended_actions": [
+     "Inspect the release rod and control tube for any signs of wear or damage.",
+     "Check the alignment of the release rod within the control tube.",
+     "Consider replacing the release rod or control tube if necessary.",
+     "Perform regular maintenance checks on the mixture control assembly."
+    ],
+    "citations": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 4,
+      "chunk_id": "ntsb_16-006:p4:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 5,
+      "chunk_id": "ntsb_16-006:p5:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 13,
+      "chunk_id": "ntsb_16-006:p13:fig11",
+      "figure_no": 11
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 13,
+      "chunk_id": "ntsb_16-006:p13:fig10",
+      "figure_no": 10
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 12,
+      "chunk_id": "ntsb_16-006:p12:fig9",
+      "figure_no": 9
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 14,
+      "chunk_id": "ntsb_16-006:p14:fig12",
+      "figure_no": 12
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 7,
+      "chunk_id": "ntsb_16-006:p7:fig2",
+      "figure_no": 2
+     }
+    ],
+    "grounded": true,
+    "image_observations": [
+     "{\"component\":\"Aircraft/mechanical\",\"observations\":[\"Control tube\",\"Lock ball\",\"Release rod\",\"Lock tube\",\"FWD (Forward) arrows indicating direction of travel\",\"No gap observed in the control tube and lock tube interface\",\"Gap present between the release rod and the control tube\",\"Material appears to be metallic with a polished finish\"],\"visible_text\":\"Control tube, Lock ball, Release rod, Lock tube, FWD, No gap, Gap\"}"
+    ],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 4,
+      "chunk_id": "ntsb_16-006:p4:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 4,
+      "chunk_id": "ntsb_16-006:p4:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 5,
+      "chunk_id": "ntsb_16-006:p5:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 13,
+      "chunk_id": "ntsb_16-006:p13:fig11",
+      "figure_no": 11
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 13,
+      "chunk_id": "ntsb_16-006:p13:fig10",
+      "figure_no": 10
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 12,
+      "chunk_id": "ntsb_16-006:p12:fig9",
+      "figure_no": 9
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 14,
+      "chunk_id": "ntsb_16-006:p14:fig12",
+      "figure_no": 12
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 7,
+      "chunk_id": "ntsb_16-006:p7:fig2",
+      "figure_no": 2
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "missing": [],
+    "forbidden_found": [],
+    "facts": true,
+    "n_citations": 8,
+    "filler": null,
+    "doc_hit": true,
+    "wrong_doc_citations": 0,
+    "fig_in_context": true,
+    "page_cited": true,
+    "actions": null,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 23.86,
+   "split": "dev"
+  },
+  {
+   "id": "img-16-006-f12",
+   "request_id": "b9e8d47ed529",
+   "kind": "figure",
+   "input": "image+text",
+   "question": "The release rod on this control will not move. What is wrong and what should we check?",
+   "expected": {
+    "doc_id": "ntsb_16-006",
+    "figure_no": 12,
+    "page": 14
+   },
+   "answer": {
+    "answer": "The release rod on the mixture control assembly does not move because there is a deformation lip associated with the longitudinal cut that interferes with its movement. Additionally, there is corrosion on the exterior surfaces of the lock tube, control tube, and release rod, which could have contributed to the issue. To address this, you should check the following areas:\n\n1. Inspect the deformation lip around the longitudinal cut in the control tube to ensure it is not obstructing the release rod.\n\n2. Check for any additional corrosion or wear on the release rod, lock tube, and control tube that might be preventing smooth movement.\n\n3. Verify that the release rod is properly aligned within the control tube and that there is sufficient clearance for movement.\n\n4. Ensure that the lock ball is correctly positioned and not interfering with the release rod's movement.\n\n5. If the release rod is bent, consider straightening it to restore its functionality.\n\n6. Perform a thorough visual inspection of the entire mixture control assembly to identify any other potential issues that may affect the release rod's operation.",
+    "diagnosis": "The release rod is not moving due to a deformation lip caused by a longitudinal cut in the control tube and corrosion on the exterior surfaces of the lock tube, control tube, and release rod.",
+    "recommended_actions": [
+     "Inspect the deformation lip around the longitudinal cut in the control tube.",
+     "Check for corrosion on the release rod, lock tube, and control tube.",
+     "Verify proper alignment and clearance of the release rod within the control tube.",
+     "Ensure correct positioning of the lock ball.",
+     "Straighten the release rod if it is bent.",
+     "Perform a thorough visual inspection of the entire mixture control assembly."
+    ],
+    "citations": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 4,
+      "chunk_id": "ntsb_16-006:p4:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 5,
+      "chunk_id": "ntsb_16-006:p5:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 14,
+      "chunk_id": "ntsb_16-006:p14:fig12",
+      "figure_no": 12
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 13,
+      "chunk_id": "ntsb_16-006:p13:fig11",
+      "figure_no": 11
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 13,
+      "chunk_id": "ntsb_16-006:p13:fig10",
+      "figure_no": 10
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 12,
+      "chunk_id": "ntsb_16-006:p12:fig9",
+      "figure_no": 9
+     }
+    ],
+    "grounded": true,
+    "image_observations": [
+     "{\"component\":\"Lock tube assembly\",\"observations\":[\"Lock tube: Corrosion is visible on the exterior surface.\",\"Roll groove: Present on the control tube.\",\"Lock ball: Visible in the center of the control tube.\",\"Control tube: Corrosion is visible on the exterior surface.\",\"Release rod: Corrosion is visible on the exterior surface.\",\"FWD: Forward direction indicated by an arrow.\"],\"visible_text\":\"Lock tube, Roll groove, Lock ball, Control tube, Roll groove, Corrosion, Release rod\"}"
+    ],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 4,
+      "chunk_id": "ntsb_16-006:p4:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 5,
+      "chunk_id": "ntsb_16-006:p5:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 4,
+      "chunk_id": "ntsb_16-006:p4:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 14,
+      "chunk_id": "ntsb_16-006:p14:fig12",
+      "figure_no": 12
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 13,
+      "chunk_id": "ntsb_16-006:p13:fig11",
+      "figure_no": 11
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 13,
+      "chunk_id": "ntsb_16-006:p13:fig10",
+      "figure_no": 10
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 12,
+      "chunk_id": "ntsb_16-006:p12:fig9",
+      "figure_no": 9
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "missing": [],
+    "forbidden_found": [],
+    "facts": true,
+    "n_citations": 7,
+    "filler": null,
+    "doc_hit": true,
+    "wrong_doc_citations": 0,
+    "fig_in_context": true,
+    "page_cited": true,
+    "actions": true,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 32.85,
+   "split": "test"
+  },
+  {
+   "id": "img-18-061-f2",
+   "request_id": "30f6faac1851",
+   "kind": "figure",
+   "input": "image",
+   "question": null,
+   "expected": {
+    "doc_id": "ntsb_18-061",
+    "figure_no": 2,
+    "page": 11
+   },
+   "answer": {
+    "answer": "The upper spar cap exhibits signs of wear or damage, including possible cracks or fractures. The material appears to be metallic and has a rough texture. The presence of cracks or fractures is consistent with fatigue fracture, as indicated by the visible fatigue origins and crack arrest lines on the fracture surfaces. The rough texture could be due to deformation associated with the fracture, which was consistent with an upward bending load.",
+    "diagnosis": "Fatigue fracture with possible ductile overstress fracture.",
+    "recommended_actions": [
+     "Inspect the upper spar cap and its attachment points for any other signs of fatigue or overstress.",
+     "Perform a detailed inspection of the spar cap and its surrounding areas for any additional cracks or fractures.",
+     "Consider conducting a non-destructive testing (NDT) inspection to assess the integrity of the spar cap and its connections."
+    ],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t1",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [
+     "{\"component\":\"Upper spar cap\",\"observations\":[\"Material appears to be metallic\",\"Markings indicate measurement scale in millimeters\",\"Component shows signs of wear or damage\",\"Possible presence of cracks or fractures\",\"Material has a rough texture\"],\"visible_text\":\"Upper\\nspar\\ncap\"}"
+    ],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 9,
+      "chunk_id": "ntsb_18-061:p9:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 11,
+      "chunk_id": "ntsb_18-061:p11:fig2",
+      "figure_no": 2
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 21,
+      "chunk_id": "ntsb_18-061:p21:fig14",
+      "figure_no": 14
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig18",
+      "figure_no": 18
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 31,
+      "chunk_id": "ntsb_18-061:p31:fig26",
+      "figure_no": 26
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 13,
+      "chunk_id": "ntsb_18-061:p13:fig5",
+      "figure_no": 5
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 14,
+      "chunk_id": "ntsb_18-061:p14:fig6",
+      "figure_no": 6
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 16,
+      "chunk_id": "ntsb_18-061:p16:fig8",
+      "figure_no": 8
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 17,
+      "chunk_id": "ntsb_18-061:p17:fig9",
+      "figure_no": 9
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 12,
+      "chunk_id": "ntsb_18-061:p12:fig3",
+      "figure_no": 3
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "missing": [],
+    "forbidden_found": [],
+    "facts": true,
+    "n_citations": 1,
+    "filler": null,
+    "doc_hit": true,
+    "wrong_doc_citations": 0,
+    "fig_in_context": true,
+    "page_cited": false,
+    "actions": true,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 47.44,
+   "split": "dev"
+  },
+  {
+   "id": "img-18-061-f5",
+   "request_id": "66a3cfdde0f0",
+   "kind": "figure",
+   "input": "image",
+   "question": null,
+   "expected": {
+    "doc_id": "ntsb_18-061",
+    "figure_no": 5,
+    "page": 13
+   },
+   "answer": {
+    "answer": "The component appears to have undergone a bending deformation, and there are visible cracks or fractures along the bend, indicating potential fatigue or overload. The material shows signs of wear or corrosion on the surface. The component has markings labeled 'LD-1' and 'LC-1', which could indicate specific locations or measurements. A ruler is present in two images, providing scale for the component's dimensions.",
+    "diagnosis": "The component exhibits signs of fatigue or overload, possibly due to bending stress, and there is evidence of cracking. The presence of wear or corrosion suggests that the material may have been subjected to environmental factors that contributed to its degradation.",
+    "recommended_actions": [
+     "Inspect the component for any other signs of fatigue or corrosion, especially around the marked areas 'LD-1' and 'LC-1'.",
+     "Perform a detailed structural analysis to determine the extent of the damage and the root cause of the failure.",
+     "Consider replacing the component if the damage is extensive or if the material properties cannot be restored to acceptable levels."
+    ],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 17,
+      "chunk_id": "ntsb_18-061:p17:fig9",
+      "figure_no": 9
+     }
+    ],
+    "grounded": true,
+    "image_observations": [
+     "{\"component\":\"Aircraft/mechanical component\",\"observations\":[\"The component appears to have undergone a bending deformation.\",\"There are visible cracks or fractures along the bend, indicating potential fatigue or overload.\",\"The material shows signs of wear or corrosion on the surface.\",\"The component has markings labeled 'LD-1' and 'LC-1', which could indicate specific locations or measurements.\",\"A ruler is present in two images, providing scale for the component's dimensions.\"],\"visible_text\":\"UP FWD\"}"
+    ],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 17,
+      "chunk_id": "ntsb_18-061:p17:fig9",
+      "figure_no": 9
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 22,
+      "chunk_id": "ntsb_18-061:p22:fig15",
+      "figure_no": 15
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 12,
+      "chunk_id": "ntsb_18-061:p12:fig4",
+      "figure_no": 4
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 16,
+      "chunk_id": "ntsb_18-061:p16:fig8",
+      "figure_no": 8
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 18,
+      "chunk_id": "ntsb_18-061:p18:fig11",
+      "figure_no": 11
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 19,
+      "chunk_id": "ntsb_18-061:p19:fig12",
+      "figure_no": 12
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 13,
+      "chunk_id": "ntsb_18-061:p13:fig5",
+      "figure_no": 5
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 14,
+      "chunk_id": "ntsb_18-061:p14:fig6",
+      "figure_no": 6
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "missing": [],
+    "forbidden_found": [
+     "corrosion"
+    ],
+    "facts": false,
+    "n_citations": 4,
+    "filler": null,
+    "doc_hit": true,
+    "wrong_doc_citations": 0,
+    "fig_in_context": true,
+    "page_cited": false,
+    "actions": true,
+    "pass": false
+   },
+   "pass": false,
+   "latency_s": 25.9,
+   "split": "test"
+  },
+  {
+   "id": "img-18-061-f6",
+   "request_id": "236035905730",
+   "kind": "figure",
+   "input": "image",
+   "question": null,
+   "expected": {
+    "doc_id": "ntsb_18-061",
+    "figure_no": 6,
+    "page": 14
+   },
+   "answer": {
+    "answer": "The provided images show a fractured aircraft component with visible cracks and a rough texture. The fracture surface exhibits a mix of ductile and brittle characteristics, indicating potential fatigue and overstress. The crack propagation direction is indicated by the arrow pointing towards the fracture surface. The magnified view reveals a layered structure within the material, possibly indicative of a weld or joint. The presence of cracks and the rough texture suggest that the component may have experienced fatigue and/or overstress leading to its failure.",
+    "diagnosis": "The component has experienced fatigue and/or overstress leading to cracking and material loss.",
+    "recommended_actions": [
+     "Inspect similar components for cracks and signs of fatigue.",
+     "Perform a detailed structural assessment to identify any potential sources of overstress.",
+     "Consider conducting a fatigue life analysis to determine the remaining service life of the component."
+    ],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 6,
+      "chunk_id": "ntsb_18-061:p6:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 17,
+      "chunk_id": "ntsb_18-061:p17:fig9",
+      "figure_no": 9
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 16,
+      "chunk_id": "ntsb_18-061:p16:fig8",
+      "figure_no": 8
+     }
+    ],
+    "grounded": true,
+    "image_observations": [
+     "{\"component\":\"Aircraft/mechanical component\",\"observations\":[\"The component appears to have a fractured surface with visible cracks.\",\"There is a significant amount of material loss at the fracture site.\",\"The fracture surface shows a rough texture with some areas appearing more polished than others.\",\"There are no visible signs of fatigue striations on the fracture surface.\",\"The fracture surface exhibits a mix of ductile and brittle characteristics.\",\"The crack propagation direction is indicated by the arrow pointing towards the fracture surface.\",\"The magnified view reveals a layered structure within the material, possibly indicative of a weld or joint.\",\"The scale bar indicates that the magnified area is 0.100 inches in size.\"],\"visible_text\":\"UP\\nFWD\\nLC-1\\n0.100in\\n0.050in\"}"
+    ],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 6,
+      "chunk_id": "ntsb_18-061:p6:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 17,
+      "chunk_id": "ntsb_18-061:p17:fig9",
+      "figure_no": 9
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 16,
+      "chunk_id": "ntsb_18-061:p16:fig8",
+      "figure_no": 8
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 10,
+      "chunk_id": "ntsb_18-061:p10:fig1",
+      "figure_no": 1
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 6,
+      "chunk_id": "ntsb_24-013:p6:fig4",
+      "figure_no": 4
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 19,
+      "chunk_id": "ntsb_18-061:p19:fig12",
+      "figure_no": 12
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 20,
+      "chunk_id": "ntsb_18-061:p20:fig13",
+      "figure_no": 13
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 12,
+      "chunk_id": "ntsb_18-061:p12:fig4",
+      "figure_no": 4
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "missing": [],
+    "forbidden_found": [],
+    "facts": true,
+    "n_citations": 6,
+    "filler": null,
+    "doc_hit": true,
+    "wrong_doc_citations": 0,
+    "fig_in_context": false,
+    "page_cited": false,
+    "actions": true,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 27.78,
+   "split": "dev"
+  },
+  {
+   "id": "img-18-061-f8",
+   "request_id": "f8595317b8dd",
+   "kind": "figure",
+   "input": "image",
+   "question": null,
+   "expected": {
+    "doc_id": "ntsb_18-061",
+    "figure_no": 8,
+    "page": 16
+   },
+   "answer": {
+    "answer": "The provided images show a fracture surface of a throttle arm. The fracture surface has a mix of smooth and rough regions, indicating a combination of fatigue and plastic deformation. There are no distinct cleavage planes or sharp edges, ruling out brittle fracture. The presence of plastic deformation suggests that the throttle arm experienced bending overstress before fracturing. The absence of pre-existing cracks and the smooth features in the plane perpendicular to the longitudinal axis are consistent with fatigue fracture. The magnification level of 24X and the reference scale help in understanding the extent of the damage.",
+    "diagnosis": "The throttle arm experienced bending overstress leading to fatigue fracture, followed by plastic deformation.",
+    "recommended_actions": [
+     "Inspect similar throttle arms for signs of fatigue cracks and plastic deformation.",
+     "Ensure proper torque application during assembly to prevent overstress.",
+     "Perform regular inspections and maintenance on the throttle arm to detect early signs of wear and tear."
+    ],
+    "citations": [
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 3,
+      "chunk_id": "ntsb_24-013:p3:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 6,
+      "chunk_id": "ntsb_24-013:p6:fig4",
+      "figure_no": 4
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 5,
+      "chunk_id": "ntsb_24-013:p5:fig3",
+      "figure_no": 3
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t1",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [
+     "{\"component\":\"Aircraft/mechanical\",\"observations\":[\"The image shows a fracture surface with a rough, uneven texture.\",\"There are areas of porosity and voids visible in the material.\",\"The fracture surface exhibits a mix of smooth and rough regions.\",\"There are no distinct cleavage planes or sharp edges indicative of brittle fracture.\",\"The material appears to have undergone some form of plastic deformation before fracturing.\",\"The presence of a reference scale indicates the magnification level used in the image is 24X.\",\"The image includes a magnified inset showing a more detailed view of the fracture surface.\"],\"visible_text\":\"LC-1, EHT = 10.00 kV, Mag = 24 X, Det. = SESI, Mode = SEM, Ref. No. = 3374, WD = 9.5 mm, Ref. Std. = Polaroid 545, Aperture = 30.00 µm, NTSB Materials Laboratory\"}"
+    ],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 6,
+      "chunk_id": "ntsb_18-061:p6:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 3,
+      "chunk_id": "ntsb_24-013:p3:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 6,
+      "chunk_id": "ntsb_24-013:p6:fig4",
+      "figure_no": 4
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 5,
+      "chunk_id": "ntsb_24-013:p5:fig3",
+      "figure_no": 3
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 6,
+      "chunk_id": "ntsb_24-013:p6:fig5",
+      "figure_no": 5
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 4,
+      "chunk_id": "ntsb_24-013:p4:fig2",
+      "figure_no": 2
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 24,
+      "chunk_id": "ntsb_18-061:p24:fig17",
+      "figure_no": 17
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 11,
+      "chunk_id": "ntsb_18-061:p11:fig2",
+      "figure_no": 2
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 12,
+      "chunk_id": "ntsb_18-061:p12:fig3",
+      "figure_no": 3
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "missing": [],
+    "forbidden_found": [],
+    "facts": true,
+    "n_citations": 4,
+    "filler": null,
+    "doc_hit": true,
+    "wrong_doc_citations": 3,
+    "fig_in_context": false,
+    "page_cited": false,
+    "actions": true,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 29.45,
+   "split": "test"
+  },
+  {
+   "id": "img-18-061-f10",
+   "request_id": "4c5e44c8018a",
+   "kind": "figure",
+   "input": "image",
+   "question": null,
+   "expected": {
+    "doc_id": "ntsb_18-061",
+    "figure_no": 10,
+    "page": 18
+   },
+   "answer": {
+    "answer": "The provided images show a metallic structure with a T-shaped cross-section, specifically the lower spar cap of an aircraft wing. The component exhibits signs of wear and possible fatigue cracks in the regions labeled 'LD-1' and 'LC-1'. The dashed lines suggest potential crack propagation paths. The orientation arrows indicate that the 'UP' direction is upwards and the 'FWD' direction is forward.",
+    "diagnosis": "Fatigue cracks are observed in the regions labeled 'LD-1' and 'LC-1', indicating potential structural integrity issues.",
+    "recommended_actions": [
+     "Inspect the regions labeled 'LD-1' and 'LC-1' on similar parts for similar fatigue cracks.",
+     "Perform a detailed inspection of the spar cap for any other signs of fatigue or overstress.",
+     "Consider conducting a stress analysis to evaluate the structural integrity of the spar cap."
+    ],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 17,
+      "chunk_id": "ntsb_18-061:p17:fig9",
+      "figure_no": 9
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 16,
+      "chunk_id": "ntsb_18-061:p16:fig8",
+      "figure_no": 8
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 14,
+      "chunk_id": "ntsb_18-061:p14:fig6",
+      "figure_no": 6
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 18,
+      "chunk_id": "ntsb_18-061:p18:fig11",
+      "figure_no": 11
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 19,
+      "chunk_id": "ntsb_18-061:p19:fig12",
+      "figure_no": 12
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 13,
+      "chunk_id": "ntsb_18-061:p13:fig5",
+      "figure_no": 5
+     }
+    ],
+    "grounded": true,
+    "image_observations": [
+     "{\"component\":\"Aircraft/mechanical component\",\"observations\":[\"The component appears to be a metallic structure with a T-shaped cross-section.\",\"There are two distinct regions labeled as 'LD-1' and 'LC-1'.\",\"The surface shows signs of wear and possible fatigue cracks in both regions.\",\"The dashed lines indicate potential crack propagation paths.\",\"The component has a flat bottom section with a slight taper towards the top.\",\"The orientation arrows indicate that the 'UP' direction is upwards and the 'FWD' direction is forward.\"],\"visible_text\":\"LD-1, LC-1\"}"
+    ],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 17,
+      "chunk_id": "ntsb_18-061:p17:fig9",
+      "figure_no": 9
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 16,
+      "chunk_id": "ntsb_18-061:p16:fig8",
+      "figure_no": 8
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 14,
+      "chunk_id": "ntsb_18-061:p14:fig6",
+      "figure_no": 6
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 18,
+      "chunk_id": "ntsb_18-061:p18:fig11",
+      "figure_no": 11
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 19,
+      "chunk_id": "ntsb_18-061:p19:fig12",
+      "figure_no": 12
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 13,
+      "chunk_id": "ntsb_18-061:p13:fig5",
+      "figure_no": 5
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "missing": [],
+    "forbidden_found": [],
+    "facts": true,
+    "n_citations": 9,
+    "filler": null,
+    "doc_hit": true,
+    "wrong_doc_citations": 0,
+    "fig_in_context": false,
+    "page_cited": true,
+    "actions": true,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 24.54,
+   "split": "dev"
+  },
+  {
+   "id": "img-18-061-f13",
+   "request_id": "72a0f26c6647",
+   "kind": "figure",
+   "input": "image",
+   "question": null,
+   "expected": {
+    "doc_id": "ntsb_18-061",
+    "figure_no": 13,
+    "page": 20
+   },
+   "answer": {
+    "answer": "The component appears to be a part of the aircraft's main wing spar, specifically the lower spar cap. Based on the observations, the component has a polished metallic surface with a vertical tab having a rectangular cross-section and a slight taper towards the top. The bottom part of the component has a curved shape, and there are some small debris or particles scattered on the surface. The yellow ruler at the bottom provides a scale for the component's dimensions.",
+    "diagnosis": "The component exhibits signs of fatigue fracture, as indicated by the presence of fatigue origin areas and crack arrest lines on the fracture surfaces. The lower spar cap displays features consistent with fatigue fracture, including relatively smooth features in a plane perpendicular to the longitudinal axis and visible crack arrest lines.",
+    "recommended_actions": [
+     "Inspect the area around the holes for attachment bolts LC-1 and LD-1 for any signs of fatigue cracking.",
+     "Perform a detailed inspection of the spar cap for any other potential fatigue origins.",
+     "Consider conducting a non-destructive testing (NDT) inspection to assess the integrity of the spar cap and surrounding areas.",
+     "Review the history of the aircraft for any known issues or maintenance records related to the spar caps."
+    ],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 13,
+      "chunk_id": "ntsb_18-061:p13:fig5",
+      "figure_no": 5
+     }
+    ],
+    "grounded": true,
+    "image_observations": [
+     "{\"component\":\"aircraft/mechanical\",\"observations\":[\"Material appears to be metallic with a polished surface.\",\"There is a vertical tab with a rectangular cross-section.\",\"The tab has a slight taper towards the top.\",\"The bottom part of the component has a curved shape.\",\"There are some small debris or particles scattered on the surface.\",\"A yellow ruler is placed at the bottom for scale.\"],\"visible_text\":\"UP\"}"
+    ],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 3,
+      "chunk_id": "ntsb_16-006:p3:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 3,
+      "chunk_id": "ntsb_16-006:p3:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 31,
+      "chunk_id": "ntsb_18-061:p31:fig26",
+      "figure_no": 26
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 20,
+      "chunk_id": "ntsb_18-061:p20:fig13",
+      "figure_no": 13
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 10,
+      "chunk_id": "ntsb_18-061:p10:fig1",
+      "figure_no": 1
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 28,
+      "chunk_id": "ntsb_18-061:p28:fig22",
+      "figure_no": 22
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 11,
+      "chunk_id": "ntsb_18-061:p11:fig2",
+      "figure_no": 2
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 13,
+      "chunk_id": "ntsb_18-061:p13:fig5",
+      "figure_no": 5
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 14,
+      "chunk_id": "ntsb_18-061:p14:fig6",
+      "figure_no": 6
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 12,
+      "chunk_id": "ntsb_18-061:p12:fig3",
+      "figure_no": 3
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "missing": [
+     "grain"
+    ],
+    "forbidden_found": [],
+    "facts": false,
+    "n_citations": 3,
+    "filler": null,
+    "doc_hit": true,
+    "wrong_doc_citations": 0,
+    "fig_in_context": true,
+    "page_cited": false,
+    "actions": null,
+    "pass": false
+   },
+   "pass": false,
+   "latency_s": 55.83,
+   "split": "test"
+  },
+  {
+   "id": "img-18-061-f15",
+   "request_id": "0272893280af",
+   "kind": "figure",
+   "input": "image+text",
+   "question": "What happened to this spar cap?",
+   "expected": {
+    "doc_id": "ntsb_18-061",
+    "figure_no": 15,
+    "page": 22
+   },
+   "answer": {
+    "answer": "The spar cap experienced fatigue failure. Fatigue striations are visible on the fracture surface, and the presence of a lab cut suggests a controlled sectioning for analysis. The orientation arrows indicate 'UP' and 'FWD', which may help in understanding the direction of loading during the failure. The fatigue features extend through the spar cap, intersecting the lower side of hole LD-1 and upward into the web, consistent with fatigue failure patterns.",
+    "diagnosis": "Fatigue failure occurred in the spar cap.",
+    "recommended_actions": [
+     "Inspect the spar caps on similar aircraft for signs of fatigue, focusing on the areas around the holes and doubler attachments.",
+     "Perform a detailed inspection of the spar caps for any signs of cracking or damage, especially at the locations of the holes and doubler attachments.",
+     "Consider conducting additional non-destructive testing (NDT) such as ultrasonic testing or magnetic particle inspection (MPI) to assess the integrity of the spar caps."
+    ],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 18,
+      "chunk_id": "ntsb_18-061:p18:fig10",
+      "figure_no": 10
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 13,
+      "chunk_id": "ntsb_18-061:p13:fig5",
+      "figure_no": 5
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 12,
+      "chunk_id": "ntsb_18-061:p12:fig4",
+      "figure_no": 4
+     }
+    ],
+    "grounded": true,
+    "image_observations": [
+     "{\"component\":\"Aircraft/mechanical component\",\"observations\":[\"Fatigue striations are visible on the fracture surface.\",\"The fracture surface shows a lab cut, indicating a controlled sectioning for analysis.\",\"The component appears to have undergone a fatigue failure.\",\"The orientation arrows indicate 'UP' and 'FWD', suggesting the direction of loading.\"],\"visible_text\":\"Fatigue\\nLab cut\\nRD-1\\nRC-1\"}"
+    ],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 22,
+      "chunk_id": "ntsb_18-061:p22:fig15",
+      "figure_no": 15
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 18,
+      "chunk_id": "ntsb_18-061:p18:fig10",
+      "figure_no": 10
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 16,
+      "chunk_id": "ntsb_18-061:p16:fig8",
+      "figure_no": 8
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 13,
+      "chunk_id": "ntsb_18-061:p13:fig5",
+      "figure_no": 5
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 19,
+      "chunk_id": "ntsb_18-061:p19:fig12",
+      "figure_no": 12
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 20,
+      "chunk_id": "ntsb_18-061:p20:fig13",
+      "figure_no": 13
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 12,
+      "chunk_id": "ntsb_18-061:p12:fig4",
+      "figure_no": 4
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 14,
+      "chunk_id": "ntsb_18-061:p14:fig6",
+      "figure_no": 6
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "missing": [
+     "overstress"
+    ],
+    "forbidden_found": [],
+    "facts": false,
+    "n_citations": 5,
+    "filler": null,
+    "doc_hit": true,
+    "wrong_doc_citations": 0,
+    "fig_in_context": true,
+    "page_cited": false,
+    "actions": true,
+    "pass": false
+   },
+   "pass": false,
+   "latency_s": 25.02,
+   "split": "dev"
+  },
+  {
+   "id": "img-18-061-f16",
+   "request_id": "485ba1e89dab",
+   "kind": "figure",
+   "input": "image",
+   "question": null,
+   "expected": {
+    "doc_id": "ntsb_18-061",
+    "figure_no": 16,
+    "page": 23
+   },
+   "answer": {
+    "answer": "The fracture surface exhibits features consistent with fatigue, including a mix of smooth and rough areas, indicative of crack propagation from the lower surface adjacent to the hole LC-1. The presence of ratchet marks suggests multiple fatigue origins within the corner radius between the hole LC-1 bore and the main spar lower surface. The polished appearance of the fracture surface confirms it was prepared for examination using a scanning electron microscope (SEM).",
+    "diagnosis": "Fatigue",
+    "recommended_actions": [
+     "Inspect the area around hole LC-1 on similar parts for signs of fatigue cracking.",
+     "Perform a detailed inspection of the lower surface adjacent to the hole LC-1 for any signs of damage or wear."
+    ],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 18,
+      "chunk_id": "ntsb_18-061:p18:fig11",
+      "figure_no": 11
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 17,
+      "chunk_id": "ntsb_18-061:p17:fig9",
+      "figure_no": 9
+     }
+    ],
+    "grounded": true,
+    "image_observations": [
+     "{\"component\":\"Aircraft/mechanical\",\"observations\":[\"The image shows a fracture surface with a distinct cleavage pattern.\",\"There is a large, irregularly shaped void or cavity in the center of the fracture surface.\",\"The fracture surface exhibits a mix of smooth and rough areas, indicating different modes of crack propagation.\",\"The fracture surface has a polished appearance, suggesting it was prepared for examination using a scanning electron microscope (SEM).\",\"The magnification is 65X, as indicated by the label.\",\"The electron beam accelerating voltage (EHT) is 10.00 kV.\",\"The working distance (WD) is 9.6 mm.\",\"The aperture size is 30.00 μm.\",\"The reference standard is Polariod 545.\",\"The mode of analysis is SEM (Scanning Electron Microscopy).\",\"The reference number is 3379.\",\"The laboratory conducting the analysis is NTSB Materials Laboratory.\"],\"visible_text\":\"RC-1, UP, FWD, 200 μm, EHT = 10.00 kV, Mag = 65 X, Det. = SESI, Mode = SEM, Ref. No. = 3379, WD = 9.6 mm, Ref. Std. = Polariod 545, Aperture = 30.00 μm, NTSB Materials Laboratory\"}"
+    ],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 18,
+      "chunk_id": "ntsb_18-061:p18:fig11",
+      "figure_no": 11
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 17,
+      "chunk_id": "ntsb_18-061:p17:fig9",
+      "figure_no": 9
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 16,
+      "chunk_id": "ntsb_18-061:p16:fig8",
+      "figure_no": 8
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 19,
+      "chunk_id": "ntsb_18-061:p19:fig12",
+      "figure_no": 12
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 27,
+      "chunk_id": "ntsb_18-061:p27:fig21",
+      "figure_no": 21
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig18",
+      "figure_no": 18
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 26,
+      "chunk_id": "ntsb_18-061:p26:fig20",
+      "figure_no": 20
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 12,
+      "chunk_id": "ntsb_18-061:p12:fig4",
+      "figure_no": 4
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "missing": [],
+    "forbidden_found": [],
+    "facts": true,
+    "n_citations": 3,
+    "filler": null,
+    "doc_hit": true,
+    "wrong_doc_citations": 0,
+    "fig_in_context": false,
+    "page_cited": false,
+    "actions": true,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 32.0,
+   "split": "test"
+  },
+  {
+   "id": "img-18-061-f17",
+   "request_id": "094abfcc8875",
+   "kind": "figure",
+   "input": "image",
+   "question": null,
+   "expected": {
+    "doc_id": "ntsb_18-061",
+    "figure_no": 17,
+    "page": 24
+   },
+   "answer": {
+    "answer": "The component exhibits signs of overstress and fatigue cracking. The presence of a crack near the center of the component, as well as the observation of fatigue features at the lower surface adjacent to the hole, suggests that the failure is due to fatigue. The overstress is evident on the left side of the component, indicating potential localized stress concentrations.",
+    "diagnosis": "The component has experienced fatigue cracking and overstress. The fatigue features are located at the lower surface adjacent to the hole, and the overstress is evident on the left side of the component.",
+    "recommended_actions": [
+     "Inspect the area around hole RC-1 for any signs of fatigue or overstress.",
+     "Perform a detailed inspection of the lower surface of the component to ensure there are no other fatigue cracks.",
+     "Review the torque values applied during assembly to ensure they meet the specified requirements.",
+     "Consider conducting a fatigue life assessment to determine the remaining service life of similar components."
+    ],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 6,
+      "chunk_id": "ntsb_18-061:p6:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 24,
+      "chunk_id": "ntsb_18-061:p24:fig17",
+      "figure_no": 17
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t2",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [
+     "{\"component\":\"Aircraft/mechanical\",\"observations\":[\"Overstress is evident on the left side of the component.\",\"RC-1 is marked on the left side of the component.\",\"A crack is visible near the center of the component.\",\"The lower surface is labeled on the right side of the component.\",\"FWD is indicated by arrows pointing forward on both images.\",\"The magnification in the first image is 19X, and in the second image it is 872X.\",\"The electron beam energy (EHT) is 10.00 kV in both images.\",\"The working distance (WD) is 15.8 mm in both images.\",\"The aperture size is 30.00 μm in both images.\",\"The detector used is SESI in both images.\",\"The mode is SEM in both images.\",\"The reference number is 3385 for the first image and 3387 for the second image.\",\"The NTSB Materials Laboratory is credited for the analysis.\"],\"visible_text\":\"Overstress, RC-1, Crack, Lower surface, FWD, EHT = 10.00 kV, Mag = 19 X, Det. = SESI, Mode = SEM, Ref. No. = 3385, WD = 15.8 mm, Aperture = 30.00 μm, NTSB Materials Laboratory\"}"
+    ],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 6,
+      "chunk_id": "ntsb_18-061:p6:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 24,
+      "chunk_id": "ntsb_18-061:p24:fig17",
+      "figure_no": 17
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 16,
+      "chunk_id": "ntsb_18-061:p16:fig8",
+      "figure_no": 8
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 22,
+      "chunk_id": "ntsb_18-061:p22:fig15",
+      "figure_no": 15
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 17,
+      "chunk_id": "ntsb_18-061:p17:fig9",
+      "figure_no": 9
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 23,
+      "chunk_id": "ntsb_18-061:p23:fig16",
+      "figure_no": 16
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "missing": [],
+    "forbidden_found": [],
+    "facts": true,
+    "n_citations": 4,
+    "filler": null,
+    "doc_hit": true,
+    "wrong_doc_citations": 0,
+    "fig_in_context": true,
+    "page_cited": true,
+    "actions": true,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 36.81,
+   "split": "dev"
+  },
+  {
+   "id": "img-18-061-f19",
+   "request_id": "950f567337d8",
+   "kind": "figure",
+   "input": "image",
+   "question": null,
+   "expected": {
+    "doc_id": "ntsb_18-061",
+    "figure_no": 19,
+    "page": 25
+   },
+   "answer": {
+    "answer": "The image shows a cross-section of a metallic component, likely a part of an aircraft wing spar. The material has a layered structure with alternating light and dark bands, suggesting a material with a specific grain structure. There is a central area with a more complex texture compared to the surrounding regions, which could indicate a region of interest for further analysis. The dimensions indicated in the image suggest a measurement of 0.620 inches, which corresponds to the width of the cross-section. The orientation arrows indicate 'INBD' (Inboard) and 'FWD' (Forward), providing context for the orientation of the component. The label 'LC-1' is present on the left side of the image, which corresponds to the identification of a specific bolt hole in the aircraft wing spar.",
+    "diagnosis": "The cross-section reveals a metallic component with a layered structure, possibly indicating a fatigue crack or other form of structural damage. The central area with a more complex texture may be a region of concern, potentially related to the fatigue origin area identified in the report. The presence of the 'LC-1' label suggests this is a specific bolt hole in the aircraft wing spar.",
+    "recommended_actions": [
+     "Inspect the area around the 'LC-1' bolt hole for any signs of fatigue cracking or other structural damage.",
+     "Perform a detailed metallographic examination of the central area with the more complex texture to determine the nature of the damage.",
+     "Review the hardness and conductivity measurements to ensure they align with the expected values for the material.",
+     "Consider conducting a finite element analysis to assess the stress distribution in the vicinity of the 'LC-1' bolt hole."
+    ],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig19",
+      "figure_no": 19
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 14,
+      "chunk_id": "ntsb_18-061:p14:fig6",
+      "figure_no": 6
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 18,
+      "chunk_id": "ntsb_18-061:p18:fig11",
+      "figure_no": 11
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 19,
+      "chunk_id": "ntsb_18-061:p19:fig12",
+      "figure_no": 12
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 12,
+      "chunk_id": "ntsb_18-061:p12:fig4",
+      "figure_no": 4
+     }
+    ],
+    "grounded": true,
+    "image_observations": [
+     "{\"component\":\"Aircraft/mechanical\",\"observations\":[\"The image shows a cross-section of a metallic component.\",\"The material appears to have a layered structure with alternating light and dark bands.\",\"There is a central area with a more complex texture compared to the surrounding regions.\",\"The dimensions indicated in the image suggest a measurement of 0.620 inches.\",\"The orientation arrows indicate 'INBD' (Inboard) and 'FWD' (Forward).\",\"The label 'LC-1' is present on the left side of the image.\"],\"visible_text\":\"LC-1\"}"
+    ],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig19",
+      "figure_no": 19
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 20,
+      "chunk_id": "ntsb_18-061:p20:fig13",
+      "figure_no": 13
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig18",
+      "figure_no": 18
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 14,
+      "chunk_id": "ntsb_18-061:p14:fig6",
+      "figure_no": 6
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 18,
+      "chunk_id": "ntsb_18-061:p18:fig11",
+      "figure_no": 11
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 19,
+      "chunk_id": "ntsb_18-061:p19:fig12",
+      "figure_no": 12
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 12,
+      "chunk_id": "ntsb_18-061:p12:fig4",
+      "figure_no": 4
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "missing": [],
+    "forbidden_found": [],
+    "facts": true,
+    "n_citations": 8,
+    "filler": null,
+    "doc_hit": true,
+    "wrong_doc_citations": 0,
+    "fig_in_context": true,
+    "page_cited": true,
+    "actions": true,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 34.81,
+   "split": "test"
+  },
+  {
+   "id": "img-18-061-f20",
+   "request_id": "b6416092dda7",
+   "kind": "figure",
+   "input": "image",
+   "question": null,
+   "expected": {
+    "doc_id": "ntsb_18-061",
+    "figure_no": 20,
+    "page": 26
+   },
+   "answer": {
+    "answer": "The provided images show a fracture surface with characteristics consistent with fatigue. The central area of significant damage and the presence of striations suggest fatigue crack propagation. The origin area appears to be located at the lower surface adjacent to the hole, as indicated by the unlabeled arrows in the images. The findings are consistent with fatigue, and no evidence of a preexisting crack was observed at the hole. The recommended actions would involve inspecting similar components for similar fatigue features and ensuring proper maintenance practices to prevent such failures.",
+    "diagnosis": "Fatigue",
+    "recommended_actions": [
+     "Inspect similar components for fatigue features.",
+     "Ensure proper maintenance practices to prevent such failures."
+    ],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 16,
+      "chunk_id": "ntsb_18-061:p16:fig8",
+      "figure_no": 8
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 24,
+      "chunk_id": "ntsb_18-061:p24:fig17",
+      "figure_no": 17
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t2",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [
+     "{\"component\":\"Aircraft/mechanical component\",\"observations\":[\"The image shows a fracture surface with a central area of significant damage.\",\"There is a distinct circular region with a rough, irregular texture, indicating a possible fatigue crack origin.\",\"Surrounding the central damage, there are areas with a more uniform, smoother texture.\",\"The fracture surface exhibits a mix of features including striations, which suggest a fatigue process.\",\"The top portion of the image includes a scale bar indicating 200 μm, and the bottom portion indicates 10 μm.\",\"The magnification levels are 22X and 891X respectively, as indicated in the image.\",\"The reference number is 3857 for the top image and 3858 for the bottom image.\"],\"visible_text\":\"UP\\nFWD\\nLC-1\\nEHT = 10.00 kV Mag = 22 X Det. + SESI Mode = SEM Ref. No. = 3857\\nWD = 12.2 mm Ref. Std. = Polaroid 545 Aperture = 30.00 μm NTSB Materials Laboratory\\nEHT = 10.00 kV Mag = 891 X Det. = SESI Mode = SEM Ref. No. = 3858\\nWD = 13.3 mm Ref. Std. = Polaroid 545 Aperture = 30.00 μm NTSB Materials Laboratory\"}"
+    ],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 6,
+      "chunk_id": "ntsb_18-061:p6:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 16,
+      "chunk_id": "ntsb_18-061:p16:fig8",
+      "figure_no": 8
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 24,
+      "chunk_id": "ntsb_18-061:p24:fig17",
+      "figure_no": 17
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 18,
+      "chunk_id": "ntsb_18-061:p18:fig11",
+      "figure_no": 11
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 15,
+      "chunk_id": "ntsb_18-061:p15:fig7",
+      "figure_no": 7
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 27,
+      "chunk_id": "ntsb_18-061:p27:fig21",
+      "figure_no": 21
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig18",
+      "figure_no": 18
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 23,
+      "chunk_id": "ntsb_18-061:p23:fig16",
+      "figure_no": 16
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 22,
+      "chunk_id": "ntsb_18-061:p22:fig15",
+      "figure_no": 15
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 26,
+      "chunk_id": "ntsb_18-061:p26:fig20",
+      "figure_no": 20
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "missing": [],
+    "forbidden_found": [],
+    "facts": true,
+    "n_citations": 4,
+    "filler": null,
+    "doc_hit": true,
+    "wrong_doc_citations": 0,
+    "fig_in_context": true,
+    "page_cited": false,
+    "actions": true,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 33.56,
+   "split": "dev"
+  },
+  {
+   "id": "img-18-061-f23",
+   "request_id": "5288972fbc61",
+   "kind": "figure",
+   "input": "image",
+   "question": null,
+   "expected": {
+    "doc_id": "ntsb_18-061",
+    "figure_no": 23,
+    "page": 29
+   },
+   "answer": {
+    "answer": "The provided images show the inboard end of the right wing main spar from retired airplane N3986M and the overall view of the left wing main spar from airplane N104ER. Both spars exhibit signs of damage, with the right spar showing a crack at the inboard attachment location and the left spar displaying a fracture at the same location. The presence of rivets and the red tag with 'UP' suggest these are components from the main wing spar assembly. The 'INBD' label indicates the inboard end of the spar.",
+    "diagnosis": "The main wing spars have experienced fractures at the inboard attachment location, which could be due to fatigue or overstress. Fatigue features such as crack arrest lines and origins are visible on the fracture surfaces, indicating that fatigue may be a contributing factor. Overstress features, like ductile fracture, are also observed in the upper spar cap, suggesting bending overstress might have played a role.",
+    "recommended_actions": [
+     "Inspect the inboard attachment locations of similar main wing spars for any signs of fatigue or overstress.",
+     "Perform non-destructive testing (NDT) on the inboard attachment locations of all main wing spars to ensure they meet the required standards.",
+     "Review and update the maintenance records to ensure proper inspection intervals and procedures are followed."
+    ],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig18",
+      "figure_no": 18
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 29,
+      "chunk_id": "ntsb_18-061:p29:fig23",
+      "figure_no": 23
+     }
+    ],
+    "grounded": true,
+    "image_observations": [
+     "{\"component\":\"Aircraft/mechanical component\",\"observations\":[\"The component appears to be made of metal with a riveted structure.\",\"There are multiple rivets visible on the surface.\",\"A red tag with 'UP' written on it is attached to the component.\",\"A label with 'INBD' is present in the lower left corner.\",\"A ruler is placed next to the component, indicating a scale for measurement.\"],\"visible_text\":\"INBD\"}"
+    ],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 3,
+      "chunk_id": "ntsb_16-006:p3:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 4,
+      "chunk_id": "ntsb_16-006:p4:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 29,
+      "chunk_id": "ntsb_18-061:p29:fig23",
+      "figure_no": 23
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig18",
+      "figure_no": 18
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 31,
+      "chunk_id": "ntsb_18-061:p31:fig26",
+      "figure_no": 26
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 14,
+      "chunk_id": "ntsb_16-006:p14:fig12",
+      "figure_no": 12
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 11,
+      "chunk_id": "ntsb_16-006:p11:fig8",
+      "figure_no": 8
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 13,
+      "chunk_id": "ntsb_16-006:p13:fig10",
+      "figure_no": 10
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 12,
+      "chunk_id": "ntsb_16-006:p12:fig9",
+      "figure_no": 9
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "missing": [],
+    "forbidden_found": [],
+    "facts": true,
+    "n_citations": 2,
+    "filler": null,
+    "doc_hit": true,
+    "wrong_doc_citations": 0,
+    "fig_in_context": true,
+    "page_cited": true,
+    "actions": null,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 26.83,
+   "split": "test"
+  },
+  {
+   "id": "iq01-24-013-f4",
+   "request_id": "dabeb3806e18",
+   "kind": "diagnosis",
+   "input": "image+text",
+   "question": "Why did this throttle arm break?",
+   "expected": {
+    "doc_id": "ntsb_24-013",
+    "figure_no": 4,
+    "page": 6
+   },
+   "answer": {
+    "answer": "The throttle arm broke due to bending overstress, as indicated by the plastic deformation observed in the threaded section (Figure 3). There was no evidence of preexisting cracks on the fracture surface (Figures 4 and 5). The break is consistent with bending overstress.",
+    "diagnosis": "The throttle arm broke due to bending overstress.",
+    "recommended_actions": [
+     "Inspect similar throttle arms for signs of plastic deformation or bending overstress.",
+     "Ensure proper maintenance and inspection schedules are followed to prevent similar failures."
+    ],
+    "citations": [
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 3,
+      "chunk_id": "ntsb_24-013:p3:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 4,
+      "chunk_id": "ntsb_24-013:p4:fig2",
+      "figure_no": 2
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 6,
+      "chunk_id": "ntsb_24-013:p6:fig4",
+      "figure_no": 4
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 5,
+      "chunk_id": "ntsb_24-013:p5:fig3",
+      "figure_no": 3
+     }
+    ],
+    "grounded": true,
+    "image_observations": [
+     "{\"component\":\"Aircraft/mechanical component\",\"observations\":[\"The surface exhibits a rough texture with various inclusions and discolorations.\",\"There are areas with a metallic sheen, indicating possible material variations or heat treatment effects.\",\"The surface shows signs of wear or corrosion, evidenced by the presence of pitting and discoloration.\",\"There are no visible cracks or fractures on the surface.\"],\"visible_text\":\"QUANTUM\"}"
+    ],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 3,
+      "chunk_id": "ntsb_24-013:p3:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 1,
+      "chunk_id": "ntsb_16-006:p1:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 1,
+      "chunk_id": "ntsb_16-006:p1:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 4,
+      "chunk_id": "ntsb_24-013:p4:fig2",
+      "figure_no": 2
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 6,
+      "chunk_id": "ntsb_24-013:p6:fig4",
+      "figure_no": 4
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 6,
+      "chunk_id": "ntsb_24-013:p6:fig5",
+      "figure_no": 5
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 5,
+      "chunk_id": "ntsb_24-013:p5:fig3",
+      "figure_no": 3
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 4,
+      "chunk_id": "ntsb_24-013:p4:fig1",
+      "figure_no": 1
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 6,
+      "chunk_id": "ntsb_16-006:p6:fig1",
+      "figure_no": 1
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "missing": [],
+    "forbidden_found": [],
+    "facts": true,
+    "n_citations": 4,
+    "filler": null,
+    "doc_hit": true,
+    "wrong_doc_citations": 0,
+    "fig_in_context": true,
+    "page_cited": true,
+    "fact_page_cited": true,
+    "actions": true,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 16.09,
+   "split": "dev"
+  },
+  {
+   "id": "iq02-18-061-f2",
+   "request_id": "b66f1ac0c93b",
+   "kind": "diagnosis",
+   "input": "image+text",
+   "question": "What went wrong with this wing spar?",
+   "expected": {
+    "doc_id": "ntsb_18-061",
+    "figure_no": 2,
+    "page": 11
+   },
+   "answer": {
+    "answer": "The upper spar cap of the left wing main spar experienced ductile overstress fracture, consistent with an upward bending load. The fracture features included relatively smooth features in a plane perpendicular to the longitudinal axis, consistent with fatigue fracture. The presence of crack arrest lines on the fracture surfaces of the lower spar cap and the forward and aft doublers also supports fatigue fracture. The lower spar cap displayed features consistent with fatigue fracture, with origins located at the lower surface both forward and aft of hole LC-1 and at the aft side of hole LD-1.",
+    "diagnosis": "Fatigue and ductile overstress occurred in the upper and lower spar caps of the left wing main spar.",
+    "recommended_actions": [
+     "Inspect the spar caps and doublers on similar aircraft for similar fatigue and overstress features.",
+     "Perform non-destructive testing (NDT) such as eddy current inspection to detect any hidden cracks.",
+     "Review and update maintenance records to ensure proper inspection intervals and procedures are followed.",
+     "Consider implementing structural modifications or inspections based on the findings to prevent future occurrences."
+    ],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t1",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [
+     "{\"component\":\"Upper spar cap\",\"observations\":[\"Material appears to be metallic\",\"Surface shows signs of wear or damage\",\"Markings indicate measurement scale\",\"Text 'Upper spar cap' is visible\"],\"visible_text\":\"Upper spar cap\"}"
+    ],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 11,
+      "chunk_id": "ntsb_18-061:p11:fig2",
+      "figure_no": 2
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 33,
+      "chunk_id": "ntsb_18-061:p33:fig29",
+      "figure_no": 29
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig18",
+      "figure_no": 18
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 29,
+      "chunk_id": "ntsb_18-061:p29:fig23",
+      "figure_no": 23
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 27,
+      "chunk_id": "ntsb_18-061:p27:fig21",
+      "figure_no": 21
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 31,
+      "chunk_id": "ntsb_18-061:p31:fig26",
+      "figure_no": 26
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 12,
+      "chunk_id": "ntsb_18-061:p12:fig3",
+      "figure_no": 3
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "missing": [],
+    "forbidden_found": [],
+    "facts": true,
+    "n_citations": 1,
+    "filler": null,
+    "doc_hit": true,
+    "wrong_doc_citations": 0,
+    "fig_in_context": true,
+    "page_cited": false,
+    "fact_page_cited": true,
+    "actions": true,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 51.08,
+   "split": "test"
+  },
+  {
+   "id": "iq03-16-006-f12",
+   "request_id": "cf5a9a655745",
+   "kind": "diagnosis",
+   "input": "image+text",
+   "question": "Why would this control be stuck?",
+   "expected": {
+    "doc_id": "ntsb_16-006",
+    "figure_no": 12,
+    "page": 14
+   },
+   "answer": {
+    "answer": "The control appears to be stuck due to a combination of factors including corrosion and potential misalignment of the release rod within the control tube. Specifically, the corrosion on the exterior surfaces of the lock tube and control tube could have weakened the structural integrity, leading to potential binding or interference with the release rod. Additionally, the release rod may have been positioned incorrectly relative to the control tube, causing it to be stuck in a locked position. The presence of a deformation lip in the control tube, as noted in the report, could also contribute to the inability to move the release rod inward. These factors collectively suggest that the control mechanism may have experienced a combination of wear and misalignment issues, leading to its malfunction.",
+    "diagnosis": "The control is likely stuck due to corrosion on the exterior surfaces of the lock tube and control tube, which may have weakened the structural integrity. Additionally, the release rod may have been positioned incorrectly, causing it to be stuck in a locked position. There is also a deformation lip in the control tube that could interfere with the movement of the release rod.",
+    "recommended_actions": [
+     "Inspect the exterior surfaces of the lock tube and control tube for any signs of corrosion and replace or repair as necessary.",
+     "Ensure the release rod is correctly aligned within the control tube to prevent misalignment and binding.",
+     "Check for any deformation lips or other obstructions in the control tube that could impede the movement of the release rod and address them accordingly."
+    ],
+    "citations": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 4,
+      "chunk_id": "ntsb_16-006:p4:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 5,
+      "chunk_id": "ntsb_16-006:p5:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 14,
+      "chunk_id": "ntsb_16-006:p14:fig12",
+      "figure_no": 12
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 13,
+      "chunk_id": "ntsb_16-006:p13:fig11",
+      "figure_no": 11
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 13,
+      "chunk_id": "ntsb_16-006:p13:fig10",
+      "figure_no": 10
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 12,
+      "chunk_id": "ntsb_16-006:p12:fig9",
+      "figure_no": 9
+     }
+    ],
+    "grounded": true,
+    "image_observations": [
+     "{\"component\":\"Lock tube assembly\",\"observations\":[\"Lock tube: Corrosion is visible on the exterior surface.\",\"Roll groove: Present on the control tube.\",\"Lock ball: A spherical component is present.\",\"Control tube: Corrosion is visible on the exterior surface.\",\"Release rod: No visible defects.\",\"FWD: Directional indicator pointing forward.\"],\"visible_text\":\"Lock tube, Roll groove, Lock ball, Control tube, Roll groove, Corrosion, Release rod, FWD\"}"
+    ],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 4,
+      "chunk_id": "ntsb_16-006:p4:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 4,
+      "chunk_id": "ntsb_16-006:p4:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 5,
+      "chunk_id": "ntsb_16-006:p5:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 14,
+      "chunk_id": "ntsb_16-006:p14:fig12",
+      "figure_no": 12
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 13,
+      "chunk_id": "ntsb_16-006:p13:fig11",
+      "figure_no": 11
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 13,
+      "chunk_id": "ntsb_16-006:p13:fig10",
+      "figure_no": 10
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 12,
+      "chunk_id": "ntsb_16-006:p12:fig9",
+      "figure_no": 9
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "missing": [],
+    "forbidden_found": [],
+    "facts": true,
+    "n_citations": 7,
+    "filler": null,
+    "doc_hit": true,
+    "wrong_doc_citations": 0,
+    "fig_in_context": true,
+    "page_cited": true,
+    "fact_page_cited": true,
+    "actions": true,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 29.89,
+   "split": "dev"
+  },
+  {
+   "id": "iq04-18-061-f13",
+   "request_id": "5d72f416d438",
+   "kind": "lookup",
+   "input": "image+text",
+   "question": "What alloy is this spar made of?",
+   "expected": {
+    "doc_id": "ntsb_18-061",
+    "figure_no": 13,
+    "page": 20
+   },
+   "answer": {
+    "answer": "The spar is made of aluminum alloy 2024-T351.",
+    "diagnosis": "The spar is made of aluminum alloy 2024-T351, as stated in the report (source [4]).",
+    "recommended_actions": [
+     "Inspect similar parts for any signs of fatigue or overstress fractures.",
+     "Ensure that the spar is being used within its specified thickness range and that the bolts are properly installed according to the engineering drawings."
+    ],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t4",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t1",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [
+     "{\"component\":\"Aircraft/mechanical component\",\"observations\":[\"The component appears to be metallic with a cross-sectional view.\",\"There is a central vertical section with a rectangular cross-section.\",\"The horizontal section has a rectangular cross-section as well.\",\"The material shows signs of wear or corrosion on the surface.\",\"There is a small circular feature near the top center of the vertical section, possibly a hole or indentation.\",\"The surface of the component is uneven, with some areas showing discoloration or pitting.\",\"A yellow ruler is present in the foreground, indicating the scale of the component.\"],\"visible_text\":\"UP\"}"
+    ],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t4",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig18",
+      "figure_no": 18
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 20,
+      "chunk_id": "ntsb_18-061:p20:fig13",
+      "figure_no": 13
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 10,
+      "chunk_id": "ntsb_18-061:p10:fig1",
+      "figure_no": 1
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 31,
+      "chunk_id": "ntsb_18-061:p31:fig26",
+      "figure_no": 26
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 19,
+      "chunk_id": "ntsb_18-061:p19:fig12",
+      "figure_no": 12
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 12,
+      "chunk_id": "ntsb_18-061:p12:fig4",
+      "figure_no": 4
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "missing": [
+     "2024-T3511"
+    ],
+    "forbidden_found": [],
+    "facts": false,
+    "n_citations": 2,
+    "filler": true,
+    "doc_hit": true,
+    "wrong_doc_citations": 0,
+    "fig_in_context": true,
+    "page_cited": false,
+    "fact_page_cited": true,
+    "actions": null,
+    "pass": false
+   },
+   "pass": false,
+   "latency_s": 18.57,
+   "split": "test"
+  },
+  {
+   "id": "iq05-18-061-f6",
+   "request_id": "dcec33444e1f",
+   "kind": "lookup",
+   "input": "image+text",
+   "question": "At which bolt hole did this fatigue crack start?",
+   "expected": {
+    "doc_id": "ntsb_18-061",
+    "figure_no": 6,
+    "page": 14
+   },
+   "answer": {
+    "answer": "The fatigue crack started at hole LC-1. This can be inferred from the detailed examination of the fracture surfaces and the presence of fatigue features emanating from the lower surface adjacent to the hole LC-1, as shown in Figures 8 and 9. The report indicates that fatigue features appeared to emanate from an origin area at the lower surface adjacent to the hole LC-1, consistent with the findings presented in the NTSB Materials Laboratory Factual Report.",
+    "diagnosis": "Fatigue cracks originated at hole LC-1.",
+    "recommended_actions": [
+     "Inspect the area around hole LC-1 for any signs of fatigue or overstress.",
+     "Perform a thorough inspection of similar components on the aircraft to ensure no other fatigue cracks exist.",
+     "Consider implementing maintenance procedures to monitor and prevent future fatigue failures."
+    ],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 16,
+      "chunk_id": "ntsb_18-061:p16:fig8",
+      "figure_no": 8
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 18,
+      "chunk_id": "ntsb_18-061:p18:fig11",
+      "figure_no": 11
+     }
+    ],
+    "grounded": true,
+    "image_observations": [
+     "{\"component\":\"Aircraft/mechanical component\",\"observations\":[\"The component appears to have a fractured surface with visible cracks.\",\"The fracture surface shows a rough texture with some areas exhibiting a metallic luster.\",\"There is a clear indication of a crack propagation path, suggesting a fatigue or stress-corrosion cracking mechanism.\",\"The magnified view reveals a layered structure within the material, which could indicate a weld or a joint.\",\"The scale markers indicate that the magnified area is approximately 0.100 inches in size.\"],\"visible_text\":\"UP\\nFWD\\nLC-1\\n0.100in\\n0.050in\"}"
+    ],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 6,
+      "chunk_id": "ntsb_18-061:p6:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 16,
+      "chunk_id": "ntsb_18-061:p16:fig8",
+      "figure_no": 8
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 24,
+      "chunk_id": "ntsb_18-061:p24:fig17",
+      "figure_no": 17
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 17,
+      "chunk_id": "ntsb_18-061:p17:fig9",
+      "figure_no": 9
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 18,
+      "chunk_id": "ntsb_18-061:p18:fig11",
+      "figure_no": 11
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 19,
+      "chunk_id": "ntsb_18-061:p19:fig12",
+      "figure_no": 12
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 12,
+      "chunk_id": "ntsb_18-061:p12:fig4",
+      "figure_no": 4
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "missing": [],
+    "forbidden_found": [],
+    "facts": true,
+    "n_citations": 2,
+    "filler": true,
+    "doc_hit": true,
+    "wrong_doc_citations": 0,
+    "fig_in_context": false,
+    "page_cited": false,
+    "fact_page_cited": false,
+    "actions": null,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 23.45,
+   "split": "dev"
+  },
+  {
+   "id": "iq06-16-006-f3",
+   "request_id": "8ec14e857f13",
+   "kind": "lookup",
+   "input": "image+text",
+   "question": "How far did the release rod extend from the nut in the locked position?",
+   "expected": {
+    "doc_id": "ntsb_16-006",
+    "figure_no": 3,
+    "page": 8
+   },
+   "answer": {
+    "answer": "In the locked position, the release rod extended 0.733 inch aft of the aft face of the nut on the aft end of the control tube.",
+    "diagnosis": "The release rod extended 0.733 inch aft of the aft face of the nut in the locked position.",
+    "recommended_actions": [
+     "Inspect the release rod and control tube for any signs of wear or damage.",
+     "Ensure the release rod moves freely without interference from the control tube or other components.",
+     "Check the clearance between the release rod and the control tube to ensure proper operation."
+    ],
+    "citations": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t1",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [
+     "{\"component\":\"Mechanical\",\"observations\":[\"The component appears to be a gear or a similar mechanism.\",\"There is a release rod located at the top left.\",\"A control tube is present in the center-left area.\",\"A lock coil is visible on the right side.\",\"A pawl is shown in the middle-right section.\",\"The direction of rotation is indicated by 'FWD' arrows pointing to the right.\"],\"visible_text\":\"Release rod\\nControl tube\\nLock coil\\nPawl\\nFWD\"}"
+    ],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 4,
+      "chunk_id": "ntsb_16-006:p4:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 5,
+      "chunk_id": "ntsb_16-006:p5:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 4,
+      "chunk_id": "ntsb_16-006:p4:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 8,
+      "chunk_id": "ntsb_16-006:p8:fig3",
+      "figure_no": 3
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 9,
+      "chunk_id": "ntsb_16-006:p9:fig4",
+      "figure_no": 4
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 13,
+      "chunk_id": "ntsb_16-006:p13:fig10",
+      "figure_no": 10
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 13,
+      "chunk_id": "ntsb_16-006:p13:fig11",
+      "figure_no": 11
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 14,
+      "chunk_id": "ntsb_16-006:p14:fig12",
+      "figure_no": 12
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "missing": [],
+    "forbidden_found": [],
+    "facts": true,
+    "n_citations": 1,
+    "filler": true,
+    "doc_hit": true,
+    "wrong_doc_citations": 0,
+    "fig_in_context": true,
+    "page_cited": false,
+    "fact_page_cited": true,
+    "actions": null,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 18.38,
+   "split": "test"
+  },
+  {
+   "id": "iq07-24-013-f2",
+   "request_id": "b7b910c5ef90",
+   "kind": "refusal",
+   "input": "image+text",
+   "question": "What torque was this throttle arm's nut installed with?",
+   "expected": {
+    "doc_id": "ntsb_24-013",
+    "figure_no": 2,
+    "page": 4
+   },
+   "answer": {
+    "answer": "The torque required to install the nut on the throttle arm's threaded section is not provided in the given sources. The report focuses on the examination of the throttle arm and its fractured threaded section, but does not mention the installation torque of the nut. Therefore, the torque cannot be determined from the information available.",
+    "diagnosis": "Insufficient information is provided to determine the torque with which the nut was installed on the throttle arm's threaded section.",
+    "recommended_actions": [
+     "Examine the installation records or maintenance logs for the throttle arm to find the torque used for installing the nut.",
+     "If installation records are unavailable, consider consulting the manufacturer's specifications or guidelines for the correct torque values."
+    ],
+    "citations": [
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 3,
+      "chunk_id": "ntsb_24-013:p3:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 3,
+      "chunk_id": "ntsb_16-006:p3:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 4,
+      "chunk_id": "ntsb_24-013:p4:fig1",
+      "figure_no": 1
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 4,
+      "chunk_id": "ntsb_24-013:p4:fig2",
+      "figure_no": 2
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 6,
+      "chunk_id": "ntsb_24-013:p6:fig4",
+      "figure_no": 4
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 5,
+      "chunk_id": "ntsb_24-013:p5:fig3",
+      "figure_no": 3
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 8,
+      "chunk_id": "ntsb_16-006:p8:fig3",
+      "figure_no": 3
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 9,
+      "chunk_id": "ntsb_16-006:p9:fig5",
+      "figure_no": 5
+     }
+    ],
+    "grounded": false,
+    "image_observations": [
+     "{\"component\":\"Two metallic blocks with threaded holes\",\"observations\":[\"The left block has a single threaded hole.\",\"The right block has two threaded holes.\",\"Both blocks have a central threaded section.\",\"The blocks appear to be made of a metallic material.\",\"There are no visible cracks or fractures on the surfaces shown.\",\"The threads on both blocks appear to be in good condition.\",\"The blocks are positioned side by side on a blue background.\"],\"visible_text\":\"R\"}"
+    ],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 3,
+      "chunk_id": "ntsb_24-013:p3:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 3,
+      "chunk_id": "ntsb_16-006:p3:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 2,
+      "chunk_id": "ntsb_16-006:p2:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 4,
+      "chunk_id": "ntsb_24-013:p4:fig1",
+      "figure_no": 1
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 4,
+      "chunk_id": "ntsb_24-013:p4:fig2",
+      "figure_no": 2
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 6,
+      "chunk_id": "ntsb_24-013:p6:fig4",
+      "figure_no": 4
+     },
+     {
+      "doc_id": "ntsb_24-013",
+      "page": 5,
+      "chunk_id": "ntsb_24-013:p5:fig3",
+      "figure_no": 3
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 8,
+      "chunk_id": "ntsb_16-006:p8:fig3",
+      "figure_no": 3
+     },
+     {
+      "doc_id": "ntsb_16-006",
+      "page": 9,
+      "chunk_id": "ntsb_16-006:p9:fig5",
+      "figure_no": 5
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "missing": [],
+    "forbidden_found": [],
+    "facts": true,
+    "n_citations": 10,
+    "filler": null,
+    "refusal": true,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 21.1,
+   "split": "dev"
+  },
+  {
+   "id": "iq08-18-061-f15",
+   "request_id": "023d6c7790ad",
+   "kind": "refusal",
+   "input": "image+text",
+   "question": "How many flight hours did the pilot of this airplane have?",
+   "expected": {
+    "doc_id": "ntsb_18-061",
+    "figure_no": 15,
+    "page": 22
+   },
+   "answer": {
+    "answer": "The reports do not provide information about the pilot's flight hours.",
+    "diagnosis": "The reports focus on the examination of the aircraft's main wing spars and do not contain any data related to the pilot's flight hours.",
+    "recommended_actions": [
+     "For safety assessments involving aircraft components, it is important to refer to the pilot's flight hour records, but these are not provided in the given reports.",
+     "Further investigation into the pilot's flight hours would require accessing external aviation records or databases."
+    ],
+    "citations": [],
+    "grounded": false,
+    "image_observations": [
+     "{\"component\":\"Aircraft/mechanical component\",\"observations\":[\"Fatigue striations are visible on the fracture surface.\",\"The fracture surface shows a lab cut, indicating a controlled sectioning for analysis.\",\"The component appears to have undergone a fatigue failure.\",\"The component has markings: 'RD-1', 'RC-1', 'FWD', and 'UP'.\",\"The component is metallic and has a polished surface.\"],\"visible_text\":\"'Fatigue', 'Lab cut', 'RD-1', 'RC-1', 'FWD', 'UP'\"}"
+    ],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 5,
+      "chunk_id": "ntsb_18-061:p5:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 3,
+      "chunk_id": "ntsb_18-061:p3:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 22,
+      "chunk_id": "ntsb_18-061:p22:fig15",
+      "figure_no": 15
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 16,
+      "chunk_id": "ntsb_18-061:p16:fig8",
+      "figure_no": 8
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 18,
+      "chunk_id": "ntsb_18-061:p18:fig11",
+      "figure_no": 11
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 13,
+      "chunk_id": "ntsb_18-061:p13:fig5",
+      "figure_no": 5
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 24,
+      "chunk_id": "ntsb_18-061:p24:fig17",
+      "figure_no": 17
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 23,
+      "chunk_id": "ntsb_18-061:p23:fig16",
+      "figure_no": 16
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 26,
+      "chunk_id": "ntsb_18-061:p26:fig20",
+      "figure_no": 20
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "missing": [],
+    "forbidden_found": [],
+    "facts": true,
+    "n_citations": 0,
+    "filler": null,
+    "refusal": true,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 18.63,
+   "split": "test"
+  },
+  {
+   "id": "iq09-18-061-f5",
+   "request_id": "3f2e2e4410b2",
+   "kind": "wrong_aircraft",
+   "input": "image+text",
+   "question": "What hardness was measured on this N104ER spar cap?",
+   "expected": {
+    "doc_id": "ntsb_18-061",
+    "figure_no": 5,
+    "page": 13
+   },
+   "answer": {
+    "answer": "The hardness measured on the lower spar cap of the left main wing spar of airplane N104ER was 80.8 HRBW, averaged from 5 measurements at the middle of the spar cap cross-section.",
+    "diagnosis": "The spar cap experienced fatigue cracking originating from the forward side of hole LC-1, as indicated by the presence of ratchet marks and a fatigue region extending up to 0.126 inch forward from the hole surface.",
+    "recommended_actions": [
+     "Inspect the spar caps on similar aircraft for any signs of fatigue cracking, especially around the attachment holes.",
+     "Perform non-destructive testing such as eddy current inspection to detect potential cracks before they become critical.",
+     "Ensure that the aircraft's maintenance records are up-to-date and that inspections are conducted according to the manufacturer's guidelines."
+    ],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t2",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [
+     "{\"component\":\"Aircraft/mechanical component\",\"observations\":[\"The component appears to have undergone some form of deformation or damage.\",\"There are visible cracks or fractures in the material, particularly near the bend area.\",\"The material shows signs of wear or corrosion, indicated by discoloration and pitting.\",\"The component has markings indicating 'UP' and 'FWD', suggesting orientation.\",\"Measurements are provided with a ruler, showing dimensions of 2-3 inches and 3-5 inches.\",\"Labels 'LD-1' and 'LC-1' are present, possibly indicating locations of interest or measurements.\"],\"visible_text\":\"UP FWD\"}"
+    ],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 8,
+      "chunk_id": "ntsb_18-061:p8:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 7,
+      "chunk_id": "ntsb_18-061:p7:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 1,
+      "chunk_id": "ntsb_18-061:p1:t3",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig18",
+      "figure_no": 18
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 25,
+      "chunk_id": "ntsb_18-061:p25:fig19",
+      "figure_no": 19
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 28,
+      "chunk_id": "ntsb_18-061:p28:fig22",
+      "figure_no": 22
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 33,
+      "chunk_id": "ntsb_18-061:p33:fig29",
+      "figure_no": 29
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 26,
+      "chunk_id": "ntsb_18-061:p26:fig20",
+      "figure_no": 20
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "missing": [],
+    "forbidden_found": [],
+    "facts": true,
+    "n_citations": 2,
+    "filler": true,
+    "doc_hit": true,
+    "wrong_doc_citations": 0,
+    "fig_in_context": false,
+    "page_cited": false,
+    "fact_page_cited": true,
+    "actions": null,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 22.86,
+   "split": "dev"
+  },
+  {
+   "id": "iq10-18-061-f19",
+   "request_id": "1aa0734443f3",
+   "kind": "wrong_aircraft",
+   "input": "image+text",
+   "question": "What conductivity was measured on the N106ER spar shown here?",
+   "expected": {
+    "doc_id": "ntsb_18-061",
+    "figure_no": 19,
+    "page": 25
+   },
+   "answer": {
+    "answer": "The conductivity measured on the N106ER spar was 29.3% IACS. This value was obtained by removing paint from an area of the spar cap to facilitate a conductivity measurement on the surface of the spar cap.",
+    "diagnosis": "The conductivity measured on the N106ER spar was 29.3% IACS.",
+    "recommended_actions": [
+     "Inspect the conductivity of similar spars to ensure consistency.",
+     "Verify the accuracy of the conductivity measurement by repeating the test on another spar."
+    ],
+    "citations": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t1",
+      "figure_no": null
+     }
+    ],
+    "grounded": true,
+    "image_observations": [
+     "{\"component\":\"Aircraft/mechanical component\",\"observations\":[\"The image shows a micrograph of a metallic material.\",\"There are distinct grain boundaries visible within the material.\",\"The grains appear elongated in the direction of the FWD (forward) arrow.\",\"The LC-1 marking is present on the left side of the image.\",\"A scale bar indicates a length of 0.020 inches.\"],\"visible_text\":\"LC-1\"}"
+    ],
+    "retrieved": [
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 9,
+      "chunk_id": "ntsb_18-061:p9:t0",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t1",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 4,
+      "chunk_id": "ntsb_18-061:p4:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 2,
+      "chunk_id": "ntsb_18-061:p2:t2",
+      "figure_no": null
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 33,
+      "chunk_id": "ntsb_18-061:p33:fig29",
+      "figure_no": 29
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 21,
+      "chunk_id": "ntsb_18-061:p21:fig14",
+      "figure_no": 14
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 20,
+      "chunk_id": "ntsb_18-061:p20:fig13",
+      "figure_no": 13
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 17,
+      "chunk_id": "ntsb_18-061:p17:fig9",
+      "figure_no": 9
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 19,
+      "chunk_id": "ntsb_18-061:p19:fig12",
+      "figure_no": 12
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 31,
+      "chunk_id": "ntsb_18-061:p31:fig27",
+      "figure_no": 27
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 32,
+      "chunk_id": "ntsb_18-061:p32:fig28",
+      "figure_no": 28
+     },
+     {
+      "doc_id": "ntsb_18-061",
+      "page": 12,
+      "chunk_id": "ntsb_18-061:p12:fig4",
+      "figure_no": 4
+     }
+    ]
+   },
+   "error": null,
+   "checks": {
+    "missing": [],
+    "forbidden_found": [],
+    "facts": true,
+    "n_citations": 1,
+    "filler": true,
+    "doc_hit": true,
+    "wrong_doc_citations": 0,
+    "fig_in_context": false,
+    "page_cited": false,
+    "fact_page_cited": true,
+    "actions": null,
+    "pass": true
+   },
+   "pass": true,
+   "latency_s": 17.14,
+   "split": "test"
+  }
+ ]
+}
